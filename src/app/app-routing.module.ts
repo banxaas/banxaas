@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { RegisterComponent } from './components/register/register.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 
 const routes: Routes = [
@@ -9,10 +10,10 @@ const routes: Routes = [
   {
     path: '', redirectTo: '/accueil', pathMatch: 'full'
   },
-  // {
+  {
     
-  //   path: 'register', component: RegisterComponent
-  // }
+    path: 'register', component: RegisterComponent
+  }
 ];
 
 @NgModule({

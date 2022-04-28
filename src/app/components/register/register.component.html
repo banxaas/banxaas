@@ -1,0 +1,55 @@
+<div class="flex relative flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div class="w-1/6 absolute top-10">
+        <button routerLink="/accueil">
+            <img src="../../../assets/logo_banxass_vert.png" />
+        </button>
+    </div>
+    <div class="px-10 py-12 mx-4 mt-4 text-left bg-white md:w-1/2 lg:w-1/3 sm:w-1/3 rounded-md">
+        <div class="flex justify-center">
+            <h1 class="text-title font-bold uppercase">créer ton compte</h1>
+        </div>
+        <form action="">
+            <div class="mt-4">
+                <div>
+                    <label class="block font-bold" for="email">Email</label>
+                    <input type="text" placeholder="aissatoudiakhate26@gmail.com" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" required>
+                </div>
+                <div class="mt-4">
+                    <label class="block font-bold" for="name">Nom d'utilisateur</label>
+                    <input type="text" placeholder="di_aissatu" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" required>
+                </div>
+                <div class="mt-4 relative">
+                    <label class="block font-bold" for="password">Password:</label>
+                    <input [type]="fieldTextType ? 'text' : 'password'" name="password" placeholder="*******" id="password" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" required>
+                    <a class="absolute top-10 right-5 z-20" (click)="toggleFieldTextType()">
+                        <svg class="h-8 w-8 text-green-600 z-10"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />  <circle cx="12" cy="12" r="3" />
+                        </svg>
+                        
+                    </a>
+                    <svg class="h-8 w-8 text-green-600 absolute top-10 right-5 z-10" *ngIf="!fieldTextType"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />  <circle cx="12" cy="12" r="3" />
+                    </svg>
+                    <svg class="h-8 w-8 text-green-500 absolute top-10 right-5 z-10" *ngIf="fieldTextType" viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />  <line x1="1" y1="1" x2="23" y2="23" /></svg>
+                </div>
+                <div class="mt-6 inline-flex w-full">
+                    
+                    <input type="checkbox" required class="w-5 h-5 border-0 rounded-md" />
+                    <span class="ml-2 text-petit">En cochant cette case, j'accepte les conditions d'utilisation et les régles de confidentialité</span>
+                </div>
+                <div class="flex justify-center">
+                    <button type="submit" class="w-1/3 px-6 py-2 mt-4 text-white bg-green-design rounded-3xl font-bold hover:bg-green-800">
+                        Créer le compte
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <div class="mt-6 text-link">
+        Vous avez déjà un compte?
+        <a class="text-green-design font-bold underline decoration-green-design hover:text-green-800" href="#">
+            Se connecter
+        </a>
+    </div>
+</div>
