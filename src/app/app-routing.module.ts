@@ -1,7 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: 'accueil', component: WelcomeComponent
+  },
+  {
+    path: '', redirectTo: '/accueil', pathMatch: 'full'
+  },
+  // {
+    
+  //   path: 'register', component: RegisterComponent
+  // }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
