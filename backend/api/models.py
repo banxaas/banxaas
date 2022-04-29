@@ -4,14 +4,14 @@ from pprint import pprint
 
 # Create your models here.
 class User(models.Model):
-	pseudo = models.CharField(max_length=30)
-	password = models.CharField(max_length=32)
-	email = models.EmailField(max_length=50)
-	phone = models.CharField(max_length=15)
+	pseudo = models.CharField(max_length=30, unique=True)
+	password = models.CharField(max_length=256)
+	email = models.EmailField(max_length=50, unique=True)
+	phone = models.CharField(max_length=14, unique=True)
 	creationDate = models.DateTimeField(auto_now_add=True)
-	lastLogin = models.DateTimeField()
-	isAuthenticated = models.BooleanField(default=True)
-	isActive = models.BooleanField(default=True)
+	lastLogin = models.DateTimeField(blank=True, null=True)
+	isAuthenticated = models.BooleanField(default=False) #readOnly
+	isActive = models.BooleanField(default=False) #readOnly
 
 	def __str__(self):
 		return self.pseudo
@@ -22,7 +22,6 @@ class User(models.Model):
 
 	def disconnect(self):
 		self.isAuthenticated = false
-		return isAuthenticated
 
 	def getSeniority(self):
 		seniority = datetime.now(timezone.utc) - self.creationDate

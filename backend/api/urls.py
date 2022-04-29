@@ -8,6 +8,7 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('connexion/', connexion),
+    path('connexion/', Connexion),
+    path('createAccount/', CreateAccountViewset.as_view()),
+    path('validateCode/', ValidateCodeViewset.as_view())
 ]
-

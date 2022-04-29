@@ -3,6 +3,7 @@ from pprint import pprint
 import jwt
 import os
 
+
 def isRequestDataConnexionValid(data):
 	if len(data) != 2:
 		return False
@@ -12,6 +13,7 @@ def isRequestDataConnexionValid(data):
 		return [login, password]
 	except KeyError:
 		return False
+
 
 def getUserByLogin(login):
 	if User.objects.filter(pseudo=login):
@@ -26,6 +28,6 @@ def getUserByLogin(login):
 
 def createToken(payload):
 	key = os.environ.get('JWT_SECRET')
-	token = jwt.encode({"id": payload}, key, algorithm="HS256")
+	token = jwt.encode(payload, key, algorithm="HS256")
 	return token
 	#jwt.decode(encoded, key, algorithms="HS256")
