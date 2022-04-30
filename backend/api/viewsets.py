@@ -38,7 +38,7 @@ def Connexion(request):
 	return Response({
 		'status': "SUCCESSFUL",
 		'isActive': user.isActive,
-		'tokenId': createToken(idHash)
+		'tokenId': createToken({'tokenId':idHash})
 	})
 
 
