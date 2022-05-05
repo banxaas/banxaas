@@ -1,0 +1,168 @@
+@font-face {
+    font-family: 'Celias';
+    src: url('Celias-BlackItalic.eot');
+    src: local('Celias Black Italic'), local('Celias-BlackItalic'),
+        url('Celias-BlackItalic.eot?#iefix') format('embedded-opentype'),
+        url('Celias-BlackItalic.woff2') format('woff2'),
+        url('Celias-BlackItalic.woff') format('woff'),
+        url('Celias-BlackItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Celias';
+    src: url('Celias-Italic.eot');
+    src: local('Celias Italic'), local('Celias-Italic'),
+        url('Celias-Italic.eot?#iefix') format('embedded-opentype'),
+        url('Celias-Italic.woff2') format('woff2'),
+        url('Celias-Italic.woff') format('woff'),
+        url('Celias-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Celias';
+    src: url('Celias-Hairline.eot');
+    src: local('Celias Hairline'), local('Celias-Hairline'),
+        url('Celias-Hairline.eot?#iefix') format('embedded-opentype'),
+        url('Celias-Hairline.woff2') format('woff2'),
+        url('Celias-Hairline.woff') format('woff'),
+        url('Celias-Hairline.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Celias';
+    src: url('Celias-HairlineItalic.eot');
+    src: local('Celias Hairline Italic'), local('Celias-HairlineItalic'),
+        url('Celias-HairlineItalic.eot?#iefix') format('embedded-opentype'),
+        url('Celias-HairlineItalic.woff2') format('woff2'),
+        url('Celias-HairlineItalic.woff') format('woff'),
+        url('Celias-HairlineItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Celias';
+    src: url('Celias-LightItalic.eot');
+    src: local('Celias Light Italic'), local('Celias-LightItalic'),
+        url('Celias-LightItalic.eot?#iefix') format('embedded-opentype'),
+        url('Celias-LightItalic.woff2') format('woff2'),
+        url('Celias-LightItalic.woff') format('woff'),
+        url('Celias-LightItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Celias';
+    src: url('Celias-Thin.eot');
+    src: local('Celias Thin'), local('Celias-Thin'),
+        url('Celias-Thin.eot?#iefix') format('embedded-opentype'),
+        url('Celias-Thin.woff2') format('woff2'),
+        url('Celias-Thin.woff') format('woff'),
+        url('Celias-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Celias';
+    src: url('Celias-Bold.eot');
+    src: local('Celias Bold'), local('Celias-Bold'),
+        url('Celias-Bold.eot?#iefix') format('embedded-opentype'),
+        url('Celias-Bold.woff2') format('woff2'),
+        url('Celias-Bold.woff') format('woff'),
+        url('Celias-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Celias';
+    src: url('Celias-BoldItalic.eot');
+    src: local('Celias Bold Italic'), local('Celias-BoldItalic'),
+        url('Celias-BoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('Celias-BoldItalic.woff2') format('woff2'),
+        url('Celias-BoldItalic.woff') format('woff'),
+        url('Celias-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Celias';
+    src: url('Celias-Light.eot');
+    src: local('Celias Light'), local('Celias-Light'),
+        url('Celias-Light.eot?#iefix') format('embedded-opentype'),
+        url('Celias-Light.woff2') format('woff2'),
+        url('Celias-Light.woff') format('woff'),
+        url('Celias-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Celias';
+    src: url('Celias-Black.eot');
+    src: local('Celias Black'), local('Celias-Black'),
+        url('Celias-Black.eot?#iefix') format('embedded-opentype'),
+        url('Celias-Black.woff2') format('woff2'),
+        url('Celias-Black.woff') format('woff'),
+        url('Celias-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Celias';
+    src: url('Celias-ThinItalic.eot');
+    src: local('Celias Thin Italic'), local('Celias-ThinItalic'),
+        url('Celias-ThinItalic.eot?#iefix') format('embedded-opentype'),
+        url('Celias-ThinItalic.woff2') format('woff2'),
+        url('Celias-ThinItalic.woff') format('woff'),
+        url('Celias-ThinItalic.ttf') format('truetype');
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Celias';
+    src: url('Celias-MediumItalic.eot');
+    src: local('Celias Medium Italic'), local('Celias-MediumItalic'),
+        url('Celias-MediumItalic.eot?#iefix') format('embedded-opentype'),
+        url('Celias-MediumItalic.woff2') format('woff2'),
+        url('Celias-MediumItalic.woff') format('woff'),
+        url('Celias-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Celias';
+    src: url('Celias.eot');
+    src: local('Celias'),
+        url('Celias.eot?#iefix') format('embedded-opentype'),
+        url('Celias.woff2') format('woff2'),
+        url('Celias.woff') format('woff'),
+        url('Celias.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Celias';
+    src: url('Celias-Medium.eot');
+    src: local('Celias Medium'), local('Celias-Medium'),
+        url('Celias-Medium.eot?#iefix') format('embedded-opentype'),
+        url('Celias-Medium.woff2') format('woff2'),
+        url('Celias-Medium.woff') format('woff'),
+        url('Celias-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+

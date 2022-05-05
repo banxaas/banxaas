@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  database:
+    image: mysql
+    container_name: database
+    volumes:
+      - ./data/database:/var/lib/mysql/
+    ports:
+      - ${DATABASE_MAP_PORT}:${DATABASE_PORT}
+    environment:
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+      MYSQL_TCP_PORT: ${DATABASE_PORT}
+
+  backend:
+    build: .
+    container_name: backend
+    command: python backend/manage.py runserver ${BACKEND_HOST}:${BACKEND_SERVER_PORT}
+    volumes: 
+      - .:/code/
+    ports: 
+      - ${BACKEND_MAP_PORT}:${BACKEND_SERVER_PORT}
+    depends_on:
+      - database
+
+volumes:
+  code:
