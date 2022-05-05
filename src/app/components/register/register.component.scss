@@ -1,0 +1,14 @@
+input[type=checkbox] {
+    cursor: pointer;
+ }
+
+input[type=checkbox]:after {
+ content: " ";
+ background-color: #008137;
+ display: inline-block;
+ visibility: visible;
+}
+
+input[type=checkbox]:checked:after {
+  content: "\2705";
+}
