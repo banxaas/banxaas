@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Context
 
 In an increasingly digitalized and globalized world, the Internet has become the basis of all modern societies, whether it is communication, finance, services, etc. In the digital age, monetary exchanges take place via centralized channels such as banks, telephone operators, money transfer companies, etc.
@@ -9,7 +8,7 @@ In Senegal, they can be counted on one hand. The demand is there, but the Senega
 So we decided to launch «Banxaas» which is a marketplace where Senegalese can buy/sell bitcoin, with local payment methods such as Orange money, Wave, Ria.
 
 This exchange is intended to be peer to peer and aims to be, in the long term, the first solution in Senegal to buy and sell Bitcoin.
-=======
+
 # Frontend
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.3.
@@ -37,4 +36,3 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
->>>>>>> origin/frontend
