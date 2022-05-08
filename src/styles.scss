@@ -2,3 +2,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+    font-family: lato;
+    src: url(assets/font/Celias.eot) format("opentype");
+  }
+
+  @layer base {
+    html {
+      font-family: Celias;
+    }
+  }
