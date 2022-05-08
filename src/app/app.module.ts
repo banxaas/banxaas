@@ -9,13 +9,15 @@ import { ConnexionComponent } from './components/connexion/connexion.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxMaskModule } from 'ngx-mask';
+import { CodeValidationComponent } from './components/register/code-validation/code-validation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     WelcomeComponent,
     RegisterComponent,
-    ConnexionComponent
+    ConnexionComponent,
+    CodeValidationComponent
   ],
   imports: [
     BrowserModule,
