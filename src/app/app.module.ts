@@ -10,6 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxMaskModule } from 'ngx-mask';
 import { CodeValidationComponent } from './components/register/code-validation/code-validation.component';
+import { UserComponent } from './components/user/user.component';
+import { HomeComponent } from './components/user/home/home.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { CodeValidationComponent } from './components/register/code-validation/c
     WelcomeComponent,
     RegisterComponent,
     ConnexionComponent,
-    CodeValidationComponent
+    CodeValidationComponent,
+    UserComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

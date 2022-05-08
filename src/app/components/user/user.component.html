@@ -1,0 +1,85 @@
+<nav class="container-fluid w-full bg-green-design flex-col md:flex-row md:flex justify-around py-5">
+    <div class="flex items-center w-full md:w-[25%] max-h-full justify-center">
+        <img src="../../../assets/logo1.png" class="w-[25%] md:w-[50%] align-items-right max-h-full" >
+    </div>
+    <!-- center header section -->
+    <div class="items-center justify-center mt-5 md:mt-0 flex w-full md:w-[25%] space-x-8 lg:flex">
+      <button class="text-white text-[15px] md:text-link">Echanges en cours</button>
+      <button class="text-white text-[15px] md:text-link" >Aide</button>
+    </div>
+    <!-- right header section -->
+    <div class="flex w-full justify-center mt-5 md:mt-0 md:w-[25%] items-center space-x-2">
+      <button class="px-4 py-2 text-white bg-green-design rounded-3xl border-2 mx-5 font-bold hover:text-green-800 hover:bg-white"  routerLink="">
+        Acheter du BTC
+      </button>
+      <button class="px-4 py-2 text-green-design rounded-3xl bg-white  border-2 font-bold hover:text-white hover:bg-green-800" routerLink="">
+        Vendre du BTC
+      </button>
+    </div>
+    <div class="mt-5 md:mt-0 w-full md:w-[30%] ml-[16%] md:ml-0 flex items-center mr-20">
+        <div class="w-[20%] md:w-[20%] justify-center flex">
+            <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-full w-[50%]" alt="Avatar"/>
+        </div>
+        <div class="w-[30%] flex justify-around">
+            <div class="md:mx-5 ml-12 md:ml-10">
+                <div (click)="isListProfil = !isListProfil " class="p-3 rounded bg-green-design text-link leading-none text-white flex items-center justify-between cursor-pointer" onclick="dropdownHandler()">
+                    di_aissatu
+                    <div class="mx-2">
+                        <div class="hidden" id="close">
+                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.00016 0.666664L9.66683 5.33333L0.333496 5.33333L5.00016 0.666664Z" fill="white" />
+                            </svg>
+                        </div>
+                        <div id="open">
+                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.00016 5.33333L0.333496 0.666664H9.66683L5.00016 5.33333Z" fill="white" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="isListProfil" class="mt-2 p-3 bg-white shadow rounded" id="dropdown">
+                    <ul class="list-none">
+                        <a routerLink="profil" class="text-center"><li class="rounded hover:text-white hover:bg-green-design text-green-design">profil</li></a>
+                    </ul>
+                </div>
+            </div>
+            
+            <div>
+                <div (click)="isListDevise = !isListDevise" class="p-2 rounded bg-white text-green-design eading-none text-white flex items-center justify-between cursor-pointer" onclick="dropdownHandler()">
+                    Devise
+                    <div class="mx-2">
+                        <div class="hidden" id="close">
+                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.00016 0.666664L9.66683 5.33333L0.333496 5.33333L5.00016 0.666664Z" fill="green" />
+                            </svg>
+                        </div>
+                        <div id="open mx-5">
+                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.00016 5.33333L0.333496 0.666664H9.66683L5.00016 5.33333Z" fill="green" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="isListDevise" class="mt-2 p-4 bg-white shadow rounded" id="dropdown">
+                    <ul class="list-none">
+                        <li>mass</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- <select name="" id="" class="">
+              <option value="">di_aissatu</option>
+              <option value=""><a routerLink="profil">profil</a></option>
+              <option value=""></option>
+          </select>
+          <select name="" id="" class="px-4 py-2 text-link bg-white rounded-xl">
+              <option value="">Devise</option>
+              <option value=""></option>
+              <option value=""></option>
+          </select> -->
+    </div>
+  </nav>
+  <div class="bg-gray-100">
+      <router-outlet></router-outlet>
+  </div>
+
