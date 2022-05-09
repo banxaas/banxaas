@@ -18,7 +18,7 @@ class User(models.Model):
 
 	def connect(self):
 		self.isAuthenticated = True
-		self.lastLogin = datetime.now()
+		self.lastLogin = datetime.now(timezone.utc)
 
 	def disconnect(self):
 		self.isAuthenticated = false
