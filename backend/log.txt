@@ -1,0 +1,69 @@
+Performing system checks...
+
+System check identified no issues (0 silenced).
+May 09, 2022 - 22:01:22
+Django version 4.0.4, using settings 'backend.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+<Token: 0d99e677b50c5a85563bbc58e6fdeb5adef002ea>
+'Déconnecté avec succès !'
+Performing system checks...
+
+System check identified no issues (0 silenced).
+May 09, 2022 - 22:21:57
+Django version 4.0.4, using settings 'backend.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+Performing system checks...
+
+Performing system checks...
+
+System check identified no issues (0 silenced).
+May 09, 2022 - 22:23:23
+Django version 4.0.4, using settings 'backend.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+False
+True
+False
+'1a4414e1e90ff5e97155890ca60e0e9d3f50964600c62f43b788e8b635280d5a'
+Performing system checks...
+
+System check identified no issues (0 silenced).
+May 09, 2022 - 22:33:35
+Django version 4.0.4, using settings 'backend.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+May 09, 2022 - 22:33:57
+Django version 4.0.4, using settings 'backend.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+May 09, 2022 - 22:34:05
+Django version 4.0.4, using settings 'backend.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+'Déconnecté avec succès !'
+<Token: 4904fa660eef1216ff3c908e5622737603d12bcc>
+<Token: 4904fa660eef1216ff3c908e5622737603d12bcc>
+'Déconnecté avec succès !'
+<Token: 6f2cf7c0a955c6cc16137daf205defdfe9ea1e63>
+Performing system checks...
+
+System check identified no issues (0 silenced).
+May 09, 2022 - 22:35:54
+Django version 4.0.4, using settings 'backend.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+May 09, 2022 - 22:36:02
+Django version 4.0.4, using settings 'backend.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.

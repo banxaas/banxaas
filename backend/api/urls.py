@@ -10,5 +10,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('connexion/', Connexion),
     path('createAccount/', CreateAccountViewset.as_view()),
-    path('validateCode/', ValidateCodeViewset.as_view())
+    path('validateCode/', ValidateCodeViewset.as_view()),
+    path('isDisconnected/', isDisconnected),
 ]

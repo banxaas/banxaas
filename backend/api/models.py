@@ -40,15 +40,15 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
 	# Personnal Info
 	pseudo = models.CharField(max_length=30, unique=True)
-	email = models.EmailField(_('email address'), unique=True)
-	phone = models.CharField(max_length=14, unique=True)
+	email = models.EmailField(_('email address'), unique=True, blank=True, null=True, default='email@email.email')
+	phone = models.CharField(max_length=14, unique=True, blank=True, null=True, default='000000000')
 
 	# Others Info
 	isAuthenticated = models.BooleanField(default=False) #readOnly
 	is_staff = models.BooleanField(default=False) #readOnly
 	is_active = models.BooleanField(default=False)
 	date_joined = models.DateTimeField(auto_now_add=True)
-	last_login =models.DateTimeField(auto_now_add=True)
+	last_login = models.DateTimeField(null=True, blank=True)
 
 	# Config User
 	USERNAME_FIELD = 'pseudo'
@@ -63,7 +63,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 		self.last_login = datetime.now(timezone.utc)
 
 	def disconnect(self):
-		self.isAuthenticated = false
+		self.isAuthenticated = False
 
 	def getSeniority(self):
 		seniority = datetime.now(timezone.utc) - self.date_joined
