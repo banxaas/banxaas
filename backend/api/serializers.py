@@ -1,7 +1,7 @@
 from pprint import pprint
 from rest_framework import serializers
 from .models import *
-import hashlib
+from django.contrib.auth.hashers import make_password
 
 class CreateAccountSerializer(serializers.ModelSerializer):
 
@@ -16,7 +16,7 @@ class CreateAccountSerializer(serializers.ModelSerializer):
 		pseudo = validated_data['pseudo']
 		email = validated_data['email']
 		phone = validated_data['phone']
-		password = hashlib.sha256(validated_data['password'].encode('utf-8')).hexdigest()
+		password = make_password(validated_data.get('password'))
 		newUser = User(pseudo=pseudo, email=email, phone=phone, password=password)
 		newUser.save()
 		return newUser

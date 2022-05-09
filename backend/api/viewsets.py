@@ -11,6 +11,7 @@ from .models import *
 from api.repository.connexionRepository import *
 from api.repository.createAccountRepository import *
 import hashlib
+from django.contrib.auth.hashers import make_password
 
 
 @api_view(['POST'])
@@ -25,19 +26,17 @@ def Connexion(request):
 	if not user:
 		return Response({'status': "FAILED", 'message': "Identifiants Incorrects"})
 	# Vérification de la conformité du mot de passe
-	password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-
-	if (password != user.password):
+	if not user.check_password(password):
 		return Response({'status': "FAILED", 'message': "Identifiants Incorrects"})
 
-	if not user.isActive:
+	if not user.is_active:
 		return Response({'status': 'INACTIVATED', 'message': 'Votre compte n\'a pas été activé'})
 	user.connect()
 	user.save()
 	idHash = hashlib.sha256(str(user.id).encode('utf-8')).hexdigest()
 	return Response({
 		'status': "SUCCESSFUL",
-		'isActive': user.isActive,
+		'isActive': user.is_active,
 		'tokenId': createToken({'tokenId':idHash})
 	})
 
@@ -72,7 +71,7 @@ class ValidateCodeViewset(mixins.CreateModelMixin, generics.GenericAPIView):
 		if not isValid:
 			return Response({'status': "FAILED", 'message': 'Invalide Code'})
 		user = User.objects.filter(email=email)[0]
-		user.isActive = True
+		user.is_active = True
 		user.save()
 		return Response({'status': "SUCCESSFUL"})
 

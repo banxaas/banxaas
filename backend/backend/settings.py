@@ -83,6 +83,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 # CONFIG DOCKER
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -96,12 +97,12 @@ DATABASES = {
         }
     }
 }
-# CONFIG NORMAL
 """
+# CONFIG NORMAL
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': banxaas,
+        'NAME': 'banxaas',
         'USER': 'root',
         'PASSWORD': "",
         'HOST': 'localhost',
@@ -111,7 +112,6 @@ DATABASES = {
         }
     }
 }
-"""
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -143,6 +143,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Custom Model
+AUTH_USER_MODEL = 'api.User'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
