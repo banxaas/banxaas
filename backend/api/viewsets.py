@@ -57,26 +57,38 @@ def Connexion(request):
 
 class CreateAccountViewset(mixins.CreateModelMixin, generics.GenericAPIView):
 	
-	def post(self, request, format=None):		
-		# Vérification spécification
+	def post(self, request, format=None):
+		data = request.data
+		keys = list(data.keys())
+		if (len(keys) == 3) and ('pseudo' in keys) and ('password' in keys) and (('phone' in keys) or ('email' in keys)):
+			if 'email' in keys:
+				userExist, response = verifyUser(data['pseudo'], data['email'])
+				if userExist:
+					return response
+				serializer = CreateAccountSerializer(data=data)
+				if not serializer.is_valid():
+					return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+				serializer.save()
+				email = request.data['email']
+				code = sendVerificationCode(email)
+				payload = createValidationTokenPayload(code, email)
+			else:
+				userExist, response = verifyUser(data['pseudo'], data['phone'])
+				if userExist:
+					return response
+				return Response({
+					'status': "INDISPONIBLE",
+		 			#'tokenId': createToken(payload),
+				})
+			"""
+			"""
+			return Response({
+				'status': "SUCCESSFUL",
+	 			#'tokenId': createToken(payload),
+			})
 
-		# Vérification spécification
-		userExist, response = verifyUser(request.data['pseudo'], request.data['email'], request.data['phone'])
-		pprint(userExist)
-		if userExist:
-			return response
-		serializer = CreateAccountSerializer(data=request.data)
-		if not serializer.is_valid():
-			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-		serializer.save()
-		email = request.data['email']
-		code = sendVerificationCode(email)
-		payload = createValidationTokenPayload(code, email)
-		return Response({
-			'status': "SUCCESSFUL",
- 			'tokenId': createToken(payload),
-		})
-
+		else:
+			return Response({'status': 'FAILED'})
 
 class ValidateCodeViewset(mixins.CreateModelMixin, generics.GenericAPIView):
 	
@@ -106,5 +118,4 @@ def isDisconnected(request):
 					break
 				time.sleep(10)
 			return Response({'status': True})
-		return Response({'status': 'FAILED'})
 	return Response({'status': 'FAILED'})

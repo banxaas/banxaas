@@ -40,8 +40,8 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
 	# Personnal Info
 	pseudo = models.CharField(max_length=30, unique=True)
-	email = models.EmailField(_('email address'), unique=True, blank=True, null=True, default='email@email.email')
-	phone = models.CharField(max_length=14, unique=True, blank=True, null=True, default='000000000')
+	email = models.EmailField(_('email address'), unique=True, blank=True, null=True)
+	phone = models.CharField(max_length=14, unique=True, blank=True, null=True)
 
 	# Others Info
 	isAuthenticated = models.BooleanField(default=False) #readOnly

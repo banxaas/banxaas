@@ -14,9 +14,12 @@ class CreateAccountSerializer(serializers.ModelSerializer):
 
 	def create(self, validated_data):
 		pseudo = validated_data['pseudo']
-		email = validated_data['email']
-		phone = validated_data['phone']
-		password = make_password(validated_data.get('password'))
-		newUser = User(pseudo=pseudo, email=email, phone=phone, password=password)
+		password = make_password(validated_data['password'])
+		try:
+			email = validated_data['email']
+			newUser = User(pseudo=pseudo, email=email, password=password)
+		except KeyError:
+			phone = validated_data['phone']
+			newUser = User(pseudo=pseudo, phone=phone, password=password)
 		newUser.save()
 		return newUser
