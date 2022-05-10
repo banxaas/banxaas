@@ -18,6 +18,7 @@
                     <input type="text" formControlName="email" placeholder="aissatoudiakhate26@gmail.com" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design"/>
                     <div *ngIf="!submitted && formControls['email']">
                         <div class="mt-2 text-red-600" *ngIf="formControls['email'].errors?.['required']">L'email est obligatoire</div>
+                        <div class="mt-2 text-red-600" *ngIf="formControls['email'].errors?.['pattern']">L'email est invalide</div>
                     </div>
                     <div class="flex"><button class="mt-2 text-right w-full underline text-green-design" (click)="inputHidden()">Utilisez votre numéro de téléphone</button></div>
                     
@@ -27,6 +28,7 @@
                     <input type="text" formControlName="phone" mask="00 000 00 00" placeholder="77 000 00 00" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design"/>
                     
                     <div class="mt-2 text-red-600" *ngIf="formControls['phone'].errors?.['required']">Numéro de téléphone est obligatoire</div>
+                    <div class="mt-2 text-red-600" *ngIf="formControls['phone'].errors?.['pattern']">Le numéro de téléphone est invalide</div>
                     <div class="flex"><button class="mt-2 text-right w-full underline text-green-design" (click)="inputHidden()">Utilisez votre email</button></div>
                     
                 </div>

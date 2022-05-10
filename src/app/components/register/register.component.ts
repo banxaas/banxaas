@@ -22,8 +22,9 @@ export class RegisterComponent implements OnInit {
   register = new FormGroup({
     pseudo: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[.#?!@$%^&*-]).{8,}$')]),
-    email: new FormControl('', [Validators.required]),
-    phone: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
+    // "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"
+    phone: new FormControl('', [Validators.required, Validators.pattern('^(77|78|75|70|76)[0-9]{7}$')]),
     box: new FormControl('', [Validators.required]),
   })
 
@@ -35,11 +36,14 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.formControls['email']);
+    // this.formControls.disable()
+    // this.register.controls['email'].enable()
     
     
   }
 
   get formControls(){
+    
     return this.register.controls;
   }
 

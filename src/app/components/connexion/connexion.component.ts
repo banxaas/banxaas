@@ -40,15 +40,14 @@ export class ConnexionComponent implements OnInit {
 
   connected(){
 
-    const value = this.signin.value;
-
-
-    this.authService.login(value.username, value.password).subscribe(
+    const dataFormSignin = this.signin.value;
+    this.authService.login(dataFormSignin.username, dataFormSignin.password).subscribe(
       response => {
         console.log(response);
         const token = response.tokenId;
         this.localStorage.set('token', token);
         const status = response.status;
+        // const uniq = this.authService.uniqConnexion(tokenId, tokenId)
         if (status === "SUCCESSFUL") {
           this.router.navigate(['home']);
         }

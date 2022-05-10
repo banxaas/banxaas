@@ -30,8 +30,14 @@ export class  AuthService {
     return this.http.post<any>(this.registerUrl, {pseudo, password, email, phone}, this.httpOptions)
   }
 
-    /** POST Valid Account*/
-    validAccount(code: string, tokenId: string): Observable<any>{
-      return this.http.post<any>(this.codeUrl, {code, tokenId}, this.httpOptions)
-    }
+  /** POST Valid Account*/
+  validAccount(code: string, tokenId: string): Observable<any>{
+    return this.http.post<any>(this.codeUrl, {code, tokenId}, this.httpOptions)
+  }
+
+  /** POST Valid Account*/
+  async uniqConnexion(id: string, signature: string) {
+    const response = await this.http.post<any>(this.codeUrl, {id, signature}, this.httpOptions);
+    const data = await response;
+  }
 }
