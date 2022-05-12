@@ -77,16 +77,14 @@ class CreateAccountViewset(mixins.CreateModelMixin, generics.GenericAPIView):
 				if userExist:
 					return response
 				return Response({
-					'status': "INDISPONIBLE",
-		 			#'tokenId': createToken(payload),
+					'status': "INDISPONIBLE"
 				})
-			"""
-			"""
+			
 			return Response({
 				'status': "SUCCESSFUL",
-	 			#'tokenId': createToken(payload),
+	 			'tokenId': createToken(payload)
 			})
-
+		
 		else:
 			return Response({'status': 'FAILED'})
 
