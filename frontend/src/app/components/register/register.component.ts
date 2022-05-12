@@ -38,6 +38,8 @@ export class RegisterComponent implements OnInit {
     console.log(this.formControls['email']);
     // this.formControls.disable()
     // this.register.controls['email'].enable()
+    console.log(this.register.controls['email'].valid);
+    
     
     
   }
