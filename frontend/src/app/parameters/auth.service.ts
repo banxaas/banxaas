@@ -11,9 +11,9 @@ export class  AuthService {
   constructor(private http: HttpClient) { }
 
   // tslint:disable-next-line: member-ordering
-  private authUrl = 'http://127.0.0.1:8000/api/connexion/';
-  private registerUrl = 'http://127.0.0.1:8000/api/createAccount/';
-  private codeUrl = 'http://127.0.0.1:8000/api/validateCode/';
+  private authUrl = 'http://localhost:9000/connexion/';
+  private registerUrl = 'http://localhost:9000/createAccount/';
+  private codeUrl = 'http://localhost:9000/validateCode/';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json', Authorization: 'Bearer ' +localStorage.getItem('token') })
@@ -25,9 +25,9 @@ export class  AuthService {
     return this.http.post<any>(this.authUrl, {login, password}, this.httpOptions)
   }
 
-  /** POST Create Account*/
-  createAccount(pseudo: string, password: string, email: string, phone: string): Observable<any>{
-    return this.http.post<any>(this.registerUrl, {pseudo, password, email, phone}, this.httpOptions)
+  /** POST Create Account via email*/
+  createAccount(pseudo: string, password: string, email: string,): Observable<any>{
+    return this.http.post<any>(this.registerUrl, {pseudo, password, email}, this.httpOptions)
   }
 
   /** POST Valid Account*/

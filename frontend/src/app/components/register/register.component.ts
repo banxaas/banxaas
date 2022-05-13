@@ -34,13 +34,7 @@ export class RegisterComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit(): void {
-    console.log(this.formControls['email']);
-    // this.formControls.disable()
-    // this.register.controls['email'].enable()
-    console.log(this.register.controls['email'].valid);
-    
-    
+  ngOnInit(): void {  
     
   }
 
@@ -54,15 +48,17 @@ export class RegisterComponent implements OnInit {
   }
   
   create(){
-    this.submitted = true;
-    // if (this.register.invalid) {
-    //   return;
-    // }
     const val = this.register.value ;
+    let username
+    if (val.email != "") {
+      username = val.email
+
+    }
+    if (val.phone != "") {
+      username = val.phone    
+    }  
     console.log(val);
-    
-    console.log(this.register.controls);
-    this.authService.createAccount(val.pseudo, val.password, val.email, val.phone).subscribe(
+    this.authService.createAccount(val.pseudo, val.password, username ).subscribe(
       response => {
         const token = response.tokenId;
         this.localStorage.set('tokenId', token);
