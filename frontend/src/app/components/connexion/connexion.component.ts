@@ -40,6 +40,7 @@ export class ConnexionComponent implements OnInit {
 
   connected(){
 
+    this.router.navigate(['user'])
     const dataFormSignin = this.signin.value;
     this.authService.login(dataFormSignin.username, dataFormSignin.password).subscribe(
       response => {
