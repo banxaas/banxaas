@@ -15,15 +15,6 @@ services:
       MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
       MYSQL_TCP_PORT: ${DATABASE_PORT}
 
-  gateway:
-    build: .
-    container_name: gateway
-    command: python gateway/manage.py runserver ${GATEWAY_HOST}:${GATEWAY_SERVER_PORT}
-    volumes: 
-      - ./gateway/:/code/gateway
-    ports: 
-      - ${GATEWAY_MAP_PORT}:${GATEWAY_SERVER_PORT}
-
   backend:
     build: .
     container_name: backend
@@ -34,6 +25,17 @@ services:
       - ${BACKEND_MAP_PORT}:${BACKEND_SERVER_PORT}
     depends_on:
       - database
-      - gateway
+
+  gateway:
+    build: .
+    container_name: gateway
+    command: python gateway/manage.py runserver ${GATEWAY_HOST}:${GATEWAY_SERVER_PORT}
+    volumes: 
+      - ./gateway/:/code/gateway
+    ports: 
+      - ${GATEWAY_MAP_PORT}:${GATEWAY_SERVER_PORT}
+    depends_on:
+      - backend
+  
 volumes:
   code:

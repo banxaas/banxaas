@@ -4,7 +4,6 @@ import time
 import jwt
 from datetime import datetime, timezone, timedelta
 from rest_framework import viewsets, generics, mixins, status
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import *
@@ -14,6 +13,7 @@ from api.repository.createAccountRepository import *
 import hashlib
 from django.contrib.auth.hashers import make_password
 from rest_framework.authtoken.models import Token
+import re
 
 
 @api_view(['POST'])
@@ -59,34 +59,39 @@ class CreateAccountViewset(mixins.CreateModelMixin, generics.GenericAPIView):
 	
 	def post(self, request, format=None):
 		data = request.data
+		pprint(data)
 		keys = list(data.keys())
-		if (len(keys) == 3) and ('pseudo' in keys) and ('password' in keys) and (('phone' in keys) or ('email' in keys)):
-			if 'email' in keys:
-				userExist, response = verifyUser(data['pseudo'], data['email'])
-				if userExist:
-					return response
-				serializer = CreateAccountSerializer(data=data)
-				if not serializer.is_valid():
-					return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-				serializer.save()
-				email = request.data['email']
-				code = sendVerificationCode(email)
-				payload = createValidationTokenPayload(code, email)
-			else:
-				userExist, response = verifyUser(data['pseudo'], data['phone'])
-				if userExist:
-					return response
-				return Response({
-					'status': "INDISPONIBLE"
-				})
-			
+		if (len(keys) != 3) or ('pseudo' not in keys) or ('password' not in keys) or (('phone' not in keys) and ('email' not in keys)):
+			return Response({'status': 'FAILED'})
+		if 'email' in keys:
+			email = data['email']
+			emailRegex = "([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+@([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+\\.([A-Z|a-z]{2,})"
+			if(not re.match(emailRegex, email)):
+				return Response({'status': 'Email Invalide'})
+			userExist, response = verifyUser(data['pseudo'], email)
+		else:
+			phone =  data['phone']
+			phoneRegex = "^(77|78|75|70|76)[0-9]{7}$"
+			if(not re.match(phoneRegex, phone)):
+				return Response({'status': 'Phone Invalide'})
+			userExist, response = verifyUser(data['pseudo'], data['phone'])
+		if userExist:
+			return response
+		serializer = CreateAccountSerializer(data=data)
+		if not serializer.is_valid():
+			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		serializer.save()
+		if 'email' in keys:
+			code = sendVerificationCode(email)
+			payload = createValidationTokenPayload(code, email)
 			return Response({
 				'status': "SUCCESSFUL",
 	 			'tokenId': createToken(payload)
 			})
-		
 		else:
-			return Response({'status': 'FAILED'})
+			return Response({
+				'status': "SUCCESSFUL",
+			})
 
 class ValidateCodeViewset(mixins.CreateModelMixin, generics.GenericAPIView):
 	
