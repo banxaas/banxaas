@@ -41,9 +41,13 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-=======
+
+# Backend
 env
 data
 .env
 __pycache__
->>>>>>> origin/backend
+
+node_modules
+.vscode
+.history
