@@ -14,6 +14,7 @@ export class  AuthService {
   private authUrl = 'http://localhost:9000/connexion/';
   private registerUrl = 'http://localhost:9000/createAccount/';
   private codeUrl = 'http://localhost:9000/validateCode/';
+  private isDeconnectedUrl = 'http://localhost:9000/isDisconnected/';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json', Authorization: 'Bearer ' +localStorage.getItem('token') })
@@ -35,9 +36,8 @@ export class  AuthService {
     return this.http.post<any>(this.codeUrl, {code, tokenId}, this.httpOptions)
   }
 
-  /** POST Valid Account*/
-  async uniqConnexion(id: string, signature: string) {
-    const response = await this.http.post<any>(this.codeUrl, {id, signature}, this.httpOptions);
-    const data = await response;
+  /** POST */
+  uniqConnexion(key: string, signature: string): Observable<any> {
+    return this.http.post<any>(this.isDeconnectedUrl, { key, signature }, this.httpOptions);
   }
 }

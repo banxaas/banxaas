@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
   errorMessage!: string;
   failed!: string;
   
-  register = new FormGroup({
+  registerForm = new FormGroup({
     pseudo: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[.#?!@$%^&*-]).{8,}$')]),
     email: new FormControl('', [Validators.required, Validators.pattern('([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9]+\\.(([A-Za-z0-9]+[.-_])*[A-Za-z0-9]){2,}')]),
@@ -40,7 +40,7 @@ export class RegisterComponent implements OnInit {
 
   get formControls(){
     
-    return this.register.controls;
+    return this.registerForm.controls;
   }
 
   inputHidden(){
@@ -48,7 +48,7 @@ export class RegisterComponent implements OnInit {
   }
   
   create(){
-    const val = this.register.value ;
+    const val = this.registerForm.value ;
     let username
     if (val.email != "") {
       username = val.email
@@ -71,23 +71,6 @@ export class RegisterComponent implements OnInit {
         if (token != null) {
           this.router.navigate(["validation_code"]);
         }
-
-        // switch (status) {
-        //   case 'FAILED_USER':
-        //     this.failed_user = response.message;
-        //     break;
-        //   case 'FAILED_PSEUDO':
-        //     this.failed_pseudo = response.message;
-        //     break;
-        //   case 'FAILED_MAIL':
-        //     this.failed_mail = response.message;
-        //     break;
-        //   case 'FAILED_PHONE':
-        //     this.failed_phone = response.message;
-        //     break;
-        //   default:
-        //     this.router.navigate(["validation_code"]);
-        // }
       }
     )
   }
