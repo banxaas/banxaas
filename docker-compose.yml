@@ -20,11 +20,22 @@ services:
     container_name: backend
     command: python backend/manage.py runserver ${BACKEND_HOST}:${BACKEND_SERVER_PORT}
     volumes: 
-      - .:/code/
+      - ./backend/:/code/backend/
     ports: 
       - ${BACKEND_MAP_PORT}:${BACKEND_SERVER_PORT}
     depends_on:
       - database
 
+  gateway:
+    build: .
+    container_name: gateway
+    command: python gateway/manage.py runserver ${GATEWAY_HOST}:${GATEWAY_SERVER_PORT}
+    volumes: 
+      - ./gateway/:/code/gateway
+    ports: 
+      - ${GATEWAY_MAP_PORT}:${GATEWAY_SERVER_PORT}
+    depends_on:
+      - backend
+  
 volumes:
   code:

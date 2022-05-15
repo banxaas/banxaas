@@ -26,7 +26,7 @@ SECRET_KEY = str(os.environ.get('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get('DEBUG'))
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', 'backend']
 
 
 # Application definition
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'api',
 
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
 ]
 
@@ -96,12 +97,12 @@ DATABASES = {
         }
     }
 }
-# CONFIG NORMAL
 """
+# CONFIG NORMAL
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': banxaas,
+        'NAME': 'banxaas',
         'USER': 'root',
         'PASSWORD': "",
         'HOST': 'localhost',
@@ -143,6 +144,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Custom Model
+AUTH_USER_MODEL = 'api.User'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/

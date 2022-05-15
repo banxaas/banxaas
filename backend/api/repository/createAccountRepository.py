@@ -17,14 +17,12 @@ Votre code de validation est : <b> ValidationCode </b>
 """.encode('utf-8')
 
 
-def verifyUser(pseudo, email, phone):
-	if User.objects.filter(pseudo=pseudo, email=email, phone=phone):
-		return [True, Response({'status': "FAILED", 'message': 'User already exists'})]
+def verifyUser(pseudo, login):
 	if User.objects.filter(pseudo=pseudo):
 		return [True, Response({'status': "FAILED", 'message': 'Pseudo already exists'})]
-	if User.objects.filter(email=email):
+	if User.objects.filter(email=login):
 		return [True, Response({'status': "FAILED", 'message': 'Email already exists'})]
-	if User.objects.filter(email=email):
+	if User.objects.filter(phone=login):
 		return [True, Response({'status': "FAILED", 'message': 'Phone already exists'})]
 	return [False, ""]
 

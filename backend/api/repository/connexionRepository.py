@@ -9,7 +9,7 @@ def isRequestDataConnexionValid(data):
 		return False
 	try:
 		login = data['login']
-		password = data['password']
+		password = data.get('password')
 		return [login, password]
 	except KeyError:
 		return False
