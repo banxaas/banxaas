@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+<<<<<<< HEAD
     "@angular/animations": "~13.3.8",
     "@angular/common": "~13.3.8",
     "@angular/compiler": "~13.3.8",
@@ -18,6 +19,17 @@
     "@angular/platform-browser": "~13.3.8",
     "@angular/platform-browser-dynamic": "~13.3.8",
     "@angular/router": "~13.3.8",
+=======
+    "@angular-devkit/build-angular": "^13.3.5",
+    "@angular/animations": "~13.3.0",
+    "@angular/common": "~13.3.0",
+    "@angular/compiler": "~13.3.0",
+    "@angular/core": "~13.3.0",
+    "@angular/forms": "~13.3.0",
+    "@angular/platform-browser": "~13.3.0",
+    "@angular/platform-browser-dynamic": "~13.3.0",
+    "@angular/router": "~13.3.0",
+>>>>>>> f3de8bf071b8983969c6da47d957f0232e1dbf26
     "@auth0/angular-jwt": "^5.0.2",
     "jwt-decode": "^3.1.2",
     "ngx-mask": "^13.1.12",
@@ -38,7 +50,8 @@
     "karma-coverage": "~2.1.0",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
-    "postcss": "^8.4.12",
+    "postcss": "^8.4.13",
+    "postcss-env-function": "^4.0.6",
     "tailwindcss": "^3.0.24",
     "typescript": "~4.6.2"
   }

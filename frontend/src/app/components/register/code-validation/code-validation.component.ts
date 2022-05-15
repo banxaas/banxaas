@@ -40,6 +40,10 @@ export class CodeValidationComponent implements OnInit {
         this.router.navigate(['connexion'])
 
         
+      },
+      error => {
+        console.log(error);
+        
       }
     )
 

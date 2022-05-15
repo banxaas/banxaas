@@ -19,8 +19,8 @@ export class ConnexionComponent implements OnInit {
 
   tokenCcreation = new EventEmitter<RegisterComponent>();
   signin = new FormGroup({
-    username: new FormControl('mass', [Validators.required]),
-    password: new FormControl('passer', [Validators.required]),
+    username: new FormControl('Mass', [Validators.required]),
+    password: new FormControl('L@coste90', [Validators.required]),
   })
 
   constructor(
@@ -32,6 +32,7 @@ export class ConnexionComponent implements OnInit {
 
 
   ngOnInit(): void {
+    
 
   }
   get formControls(){
@@ -42,22 +43,71 @@ export class ConnexionComponent implements OnInit {
 
     const dataFormSignin = this.signin.value;
     this.authService.login(dataFormSignin.username, dataFormSignin.password).subscribe(
-      response => {
-        console.log(response);
-        const token = response.tokenId;
+      
+      
+      (data) => {
+        const token = data.tokenId;
         this.localStorage.set('token', token);
-        const status = response.status;
-        // const uniq = this.authService.uniqConnexion(tokenId, tokenId)
+        const status = data.status;
+        
+        this.authService.uniqConnexion(data.key, data.signature).subscribe(
+          reponse => {
+            console.log(reponse);
+            if (reponse.status = true) {
+              this.router.navigate(['connexion']);
+            }
+          });
         if (status === "SUCCESSFUL") {
-          this.router.navigate(['home']);
-        }
+          this.router.navigate(['user']); 
+        } 
+          
         if (status === "INACTIVATED") {
-          this.failed_message = response.message
+          this.failed_message = data.message
         }
         if (status === "FAILED") {
-          this.failed_message = response.message
+          this.failed_message = data.message
         }
-      })
+      },
+      erreur => {
+        console.log(erreur);
+
+      }
+        
+      
+      //   const token = response.tokenId;
+      //   this.localStorage.set('token', token);
+      //   const status = response.status;
+        
+      //   // if (status === "SUCCESSFUL") {
+      //   //   // this.router.navigate(['user']); 
+      //   // }
+      //   // if (status === "INACTIVATED") {
+      //   //   this.failed_message = response.message
+      //   // }
+      //   // if (status === "FAILED") {
+      //   //   this.failed_message = response.message
+      //   // }
+      
+      // }
+      // response => {
+      //   console.log(response);
+        
+      //   // this.authService.uniqConnexion(res.key, res.signature).subscribe(
+      //   //   resp => {
+      //   //     console.log(resp);
+            
+      //   //   }
+      //   // )
+      // }
+    )
+    
+    
+    // this.authService.uniqConnexion(stockdata.key, stockdata.signature).subscribe(
+    //   res => {
+    //     console.log(res);
+        
+    //   }
+    // )
 
   }
 
