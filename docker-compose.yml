@@ -1,6 +1,15 @@
 version: "3.9"
 
 services:
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    command: ng serve --host 0.0.0.0 --port 21345
+    ports:
+      - 4200:21345
+    volumes:
+      - ./frontend/:/code/frontend/
+
   database:
     image: mysql
     container_name: database
@@ -14,11 +23,13 @@ services:
       MYSQL_PASSWORD: ${DATABASE_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
       MYSQL_TCP_PORT: ${DATABASE_PORT}
+    depends_on:
+      - frontend
 
   backend:
-    build: .
+    build: ./backend
     container_name: backend
-    command: python backend/manage.py runserver ${BACKEND_HOST}:${BACKEND_SERVER_PORT}
+    command: python manage.py runserver ${BACKEND_HOST}:${BACKEND_SERVER_PORT}
     volumes: 
       - ./backend/:/code/backend/
     ports: 
@@ -27,11 +38,11 @@ services:
       - database
 
   gateway:
-    build: .
+    build: ./gateway
     container_name: gateway
-    command: python gateway/manage.py runserver ${GATEWAY_HOST}:${GATEWAY_SERVER_PORT}
+    command: python manage.py runserver ${GATEWAY_HOST}:${GATEWAY_SERVER_PORT}
     volumes: 
-      - ./gateway/:/code/gateway
+      - ./gateway/:/code/gateway/
     ports: 
       - ${GATEWAY_MAP_PORT}:${GATEWAY_SERVER_PORT}
     depends_on:
