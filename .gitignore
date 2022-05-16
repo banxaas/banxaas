@@ -1,6 +1,5 @@
 env
 data
-.env
 __pycache__
 .history
 .vscode
