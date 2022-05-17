@@ -59,7 +59,6 @@ class CreateAccountViewset(mixins.CreateModelMixin, generics.GenericAPIView):
 	
 	def post(self, request, format=None):
 		data = request.data
-		pprint(data)
 		keys = list(data.keys())
 		if (len(keys) != 3) or ('pseudo' not in keys) or ('password' not in keys) or (('phone' not in keys) and ('email' not in keys)):
 			return Response({'status': 'FAILED'})
@@ -82,24 +81,26 @@ class CreateAccountViewset(mixins.CreateModelMixin, generics.GenericAPIView):
 			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 		serializer.save()
 		if 'email' in keys:
-			code = sendVerificationCode(email)
-			payload = createValidationTokenPayload(code, email)
-			return Response({
-				'status': "SUCCESSFUL",
-	 			'tokenId': createToken(payload)
-			})
+			code = sendVerificationCodeByMail(email)
+			payload = createValidationTokenPayload(code, email, "email")
 		else:
-			return Response({
-				'status': "SUCCESSFUL",
-			})
+			code = sendVerificationCodeBySms(phone)
+			payload = createValidationTokenPayload(code, phone, "phone")
+		return Response({
+			'status': "SUCCESSFUL",
+ 			'tokenId': createToken(payload)
+		})
 
 class ValidateCodeViewset(mixins.CreateModelMixin, generics.GenericAPIView):
 	
 	def post(self, request, format=None):
-		isValid, email = verifyCodeValidation(request.data['code'], request.data['tokenId'])
+		isValid, userId = verifyCodeValidation(request.data['code'], request.data['tokenId'])
 		if not isValid:
 			return Response({'status': "FAILED", 'message': 'Invalide Code'})
-		user = User.objects.filter(email=email)[0]
+		if User.objects.filter(email=userId):
+			user = User.objects.filter(email=userId)[0]
+		if User.objects.filter(phone=userId):
+			user = User.objects.filter(phone=userId)[0]
 		user.is_active = True
 		user.save()
 		return Response({'status': "SUCCESSFUL"})

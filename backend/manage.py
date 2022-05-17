@@ -3,6 +3,8 @@
 import os
 import sys
 import dotenv
+from multiprocessing import Process
+from api.externe import OrangeSmsApiToken
 
 
 def main():
@@ -18,7 +20,8 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
-
+    
 
 if __name__ == '__main__':
+    OrangeSmsApiToken.verifyExistingToken()
     main()

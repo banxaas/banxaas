@@ -5,7 +5,7 @@ services:
     image: mysql
     container_name: database
     volumes:
-      - ./data/database:/var/lib/mysql/
+      - ./data/database:/var/lib/mysql
     ports:
       - ${DATABASE_MAP_PORT}:${DATABASE_PORT}
     environment:
@@ -16,26 +16,23 @@ services:
       MYSQL_TCP_PORT: ${DATABASE_PORT}
 
   backend:
-    build: .
+    build: ./backend
     container_name: backend
-    command: python backend/manage.py runserver ${BACKEND_HOST}:${BACKEND_SERVER_PORT}
+    command: python manage.py runserver ${BACKEND_HOST}:${BACKEND_SERVER_PORT}
     volumes: 
-      - ./backend/:/code/backend/
+      - ./backend:/backend
     ports: 
       - ${BACKEND_MAP_PORT}:${BACKEND_SERVER_PORT}
     depends_on:
       - database
 
   gateway:
-    build: .
+    build: ./gateway
     container_name: gateway
-    command: python gateway/manage.py runserver ${GATEWAY_HOST}:${GATEWAY_SERVER_PORT}
+    command: python manage.py runserver ${GATEWAY_HOST}:${GATEWAY_SERVER_PORT}
     volumes: 
-      - ./gateway/:/code/gateway
+      - ./gateway:/gateway
     ports: 
       - ${GATEWAY_MAP_PORT}:${GATEWAY_SERVER_PORT}
     depends_on:
       - backend
-  
-volumes:
-  code:
