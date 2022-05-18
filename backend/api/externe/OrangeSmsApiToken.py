@@ -33,13 +33,12 @@ def verifyExistingToken():
       print("Generating new Token ...")
       getNewToken()
       print("Token generated with success !")
-    else:
-      print("Token already valid ! No need to refresh the token !")
-    print(token)
+      return verifyExistingToken()
+    print("Token already valid ! No need to refresh the token !")
     return token
 
   except FileNotFoundError:
     print("Token not found")
     getNewToken()
     print("New token generated! ")
-    verifyExistingToken()
+    return verifyExistingToken()

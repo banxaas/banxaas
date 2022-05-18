@@ -3,9 +3,6 @@
 import os
 import sys
 import dotenv
-from multiprocessing import Process
-from api.externe import OrangeSmsApiToken
-
 
 def main():
     dotenv.load_dotenv()
@@ -23,5 +20,4 @@ def main():
     
 
 if __name__ == '__main__':
-    OrangeSmsApiToken.verifyExistingToken()
     main()

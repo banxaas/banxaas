@@ -66,7 +66,6 @@ def sendVerificationCodeByMail(userMail):
 
 def sendVerificationCodeBySms(userPhone):
 	token = verifyExistingToken()
-	print(token)
 	code = createCode()
 	conn = http.client.HTTPSConnection("api.orange.com")
 	payload = json.dumps({
