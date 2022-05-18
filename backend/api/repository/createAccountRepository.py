@@ -84,7 +84,6 @@ def sendVerificationCodeBySms(userPhone):
 	conn.request("POST", "/smsmessaging/v1/outbound/tel%3A%2B221777023861/requests", payload, headers)
 	res = conn.getresponse()
 	data = res.read()
-	print(data.decode("utf-8"))
 	return code
 
 def verifyCodeValidation(code, token):
@@ -96,7 +95,6 @@ def verifyCodeValidation(code, token):
 	creationDate = tokenDecoded['xd']
 	expirationDate = tokenDecoded['yd']
 	userId = tokenDecoded['userId']
-	pprint(tokenDecoded['tokenId'])
 	tokenId = str(creationDate) + str(code) + str(userId) + str(expirationDate)
 	tokenId  = hashlib.sha256(tokenId.encode('utf-8')).hexdigest()
 	if tokenId != tokenDecoded['tokenId']:

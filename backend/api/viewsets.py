@@ -117,7 +117,6 @@ def isDisconnected(request):
 		if key == userKey:
 			while True:
 				signature = Token.objects.filter(user=user)[0]
-				pprint(signature)
 				if request.data['signature'] != signature.key:
 					break
 				time.sleep(10)
