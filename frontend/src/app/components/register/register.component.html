@@ -11,6 +11,9 @@
         <div class="mt-2 flex justify-center font-bold text-red-600" *ngIf="failed">
            {{failed}}
         </div>
+        <div class="mt-2 flex justify-center font-bold text-red-600" *ngIf="errorMessage">
+           {{errorMessage}}
+        </div>
         <form [formGroup]="registerForm" novalidate (ngSubmit)="create()">
             <div class="mt-4">
                 <div *ngIf="!inputVisisble">
