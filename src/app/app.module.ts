@@ -17,6 +17,7 @@ import { CompteComponent } from './components/user/profil/compte/compte.componen
 import { PasswordComponent } from './components/user/profil/password/password.component';
 import { PaymentMethodComponent } from './components/user/profil/payment-method/payment-method.component';
 import { SecurityComponent } from './components/user/profil/security/security.component';
+import { BuyComponent } from './components/user/buy/buy.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { SecurityComponent } from './components/user/profil/security/security.co
     CompteComponent,
     PasswordComponent,
     PaymentMethodComponent,
-    SecurityComponent
+    SecurityComponent,
+    BuyComponent
   ],
   imports: [
     BrowserModule,

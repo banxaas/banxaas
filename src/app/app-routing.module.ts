@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ConnexionComponent } from './components/connexion/connexion.component';
 import { CodeValidationComponent } from './components/register/code-validation/code-validation.component';
 import { RegisterComponent } from './components/register/register.component';
+import { BuyComponent } from './components/user/buy/buy.component';
 import { HomeComponent } from './components/user/home/home.component';
 import { CompteComponent } from './components/user/profil/compte/compte.component';
 import { PasswordComponent } from './components/user/profil/password/password.component';
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'connexion', component: ConnexionComponent },
   { path: 'validation_code', component: CodeValidationComponent },
   { path: 'user', redirectTo:'user/home' },
+  { path: 'acheter', component: BuyComponent },
   { path: 'user', component: UserComponent,
       children: [
         { path: 'home', component: HomeComponent },

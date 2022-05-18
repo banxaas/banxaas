@@ -26,9 +26,9 @@ export class  AuthService {
     return this.http.post<any>(this.authUrl, {login, password}, this.httpOptions)
   }
 
-  /** POST Create Account via email*/
-  createAccount(pseudo: string, password: string, email: string,): Observable<any>{
-    return this.http.post<any>(this.registerUrl, {pseudo, password, email}, this.httpOptions)
+  /** POST Create Account*/
+  createAccount(data:any): Observable<any>{
+    return this.http.post<any>(this.registerUrl, data, this.httpOptions)
   }
 
   /** POST Valid Account*/

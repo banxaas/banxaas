@@ -12,8 +12,10 @@ import { LocalStorageService } from 'src/app/parameters/local-storage.service';
 })
 export class CodeValidationComponent implements OnInit {
 
+  errorMessage!: string;
+
   valide = new FormGroup({
-    code: new FormControl('mass', [Validators.required]),
+    code: new FormControl('', [Validators.required]),
     tokenId: new FormControl('', [Validators.required])
   })
 
@@ -32,17 +34,18 @@ export class CodeValidationComponent implements OnInit {
   }
 
   validerCompte(){
-    const val = this.valide.value;
+    const data = this.valide.value;
     this.valide.value.tokenId = this.localStorgae.get('tokenId');
-    this.authService.validAccount(val.code, this.valide.value.tokenId).subscribe(
+    this.authService.validAccount(data.code, data.tokenId).subscribe(
       response => {
+        if (response.status === "SUCCESSFUL") {
+          this.localStorgae.remove('token');
+          this.router.navigate(['connexion'])
+        }
+        if (response.status === "FAILED") {
+          this.errorMessage = response.message
+        }
 
-        this.router.navigate(['connexion'])
-
-        
-      },
-      error => {
-        console.log(error);
         
       }
     )
