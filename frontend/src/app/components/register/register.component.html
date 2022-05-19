@@ -6,7 +6,7 @@
     </div>
     <div class="px-10 md:py-12 py-2 mx-4 mt-[20%] md:mt-4 text-left shadow-xl bg-white md:w-1/2 lg:w-1/3 sm:w-1/3 rounded-md">
         <div class="flex justify-center">
-            <h1 class="md:text-title font-bold uppercase">créer ton compte</h1>
+            <h1 class="md:text-title font-bold uppercase">crée ton compte</h1>
         </div>
         <div class="mt-2 flex justify-center font-bold text-red-600" *ngIf="failed">
            {{failed}}
@@ -18,30 +18,30 @@
             <div class="mt-4">
                 <div *ngIf="!inputVisisble">
                     <label class="block font-bold" for="email">Email</label>
-                    <input type="text" formControlName="email" placeholder="aissatoudiakhate26@gmail.com" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design"/>
+                    <input type="text" formControlName="email" placeholder="Merci de renseigner votre email" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design"/>
                     <div *ngIf="!submitted && formControls['email']">
                         <div class="mt-2 text-red-600" *ngIf="formControls['email'].errors?.['required'] && formControls['email']?.touched">L'email est obligatoire</div>
                         <div class="mt-2 text-red-600" *ngIf="formControls['email'].errors?.['pattern']">L'email est invalide</div>
                     </div>
-                    <div class="flex"><button class="mt-2 text-right w-full underline text-green-design" (click)="inputHidden()">Utilisez votre numéro de téléphone</button></div>
+                    <div class="flex"><button class="mt-2 text-right w-full underline text-green-design" (click)="inputHidden()">Utiliser un numéro de téléphone</button></div>
                     
                 </div>
                 <div class="mt-4" *ngIf="inputVisisble">
                     <label class="block font-bold" for="name">Numéro de téléphone</label>
-                    <input type="text" formControlName="phone" mask="00 000 00 00" placeholder="77 000 00 00" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design"/>
+                    <input type="text" formControlName="phone" mask="00 000 00 00" placeholder="Merci de renseigner votre numéro de téléphone" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design"/>
                     
-                    <div class="mt-2 text-red-600" *ngIf="formControls['phone'].errors?.['required'] && formControls['phone']?.touched">Numéro de téléphone est obligatoire</div>
+                    <div class="mt-2 text-red-600" *ngIf="formControls['phone'].errors?.['required'] && formControls['phone']?.touched">Le numéro de téléphone est obligatoire</div>
                     <div class="mt-2 text-red-600" *ngIf="formControls['phone'].errors?.['pattern']">Le numéro de téléphone est invalide</div>
-                    <div class="flex"><button class="mt-2 text-right w-full underline text-green-design" (click)="inputHidden()">Utilisez votre email</button></div>
+                    <div class="flex"><button class="mt-2 text-right w-full underline text-green-design" (click)="inputHidden()">Utiliser un email</button></div>
                     
                 </div>
                 <div class="mt-4">
-                    <label class="block font-bold" for="name">Nom d'utilisateur</label>
-                    <input type="text" placeholder="di_aissatu" formControlName="pseudo" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" />
-                    <div class="mt-2 text-red-600" *ngIf="formControls['pseudo'].errors?.['required'] && formControls['pseudo']?.touched">Nom d'utilisateur est obligatoire</div>
+                    <label class="block font-bold" for="name">Pseudo</label>
+                    <input type="text" placeholder="Quel est votre pseudo ?" formControlName="pseudo" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" />
+                    <div class="mt-2 text-red-600" *ngIf="formControls['pseudo'].errors?.['required'] && formControls['pseudo']?.touched">Le pseudo est obligatoire</div>
                 </div>
                 <div class="mt-4 relative">
-                    <label class="block font-bold" for="password">Password:</label>
+                    <label class="block font-bold" for="password">Mot de passe</label>
                     <input [type]="fieldTextType ? 'text' : 'password'" formControlName="password" placeholder="*******" id="password" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" />
                     <a class="absolute top-10 right-5 z-20" (click)="toggleFieldTextType()">
                         <svg class="h-5 w-5 text-green-600 z-10"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">
