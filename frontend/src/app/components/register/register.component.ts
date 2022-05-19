@@ -20,11 +20,11 @@ export class RegisterComponent implements OnInit {
   failed!: string;
   
   registerForm = new FormGroup({
-    pseudo: new FormControl('mass_ndongo', [Validators.required]),
-    password: new FormControl('L@coste90', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[.#?!@$%^&*-]).{8,}$')]),
+    pseudo: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[.#?!@$%^&*-]).{8,}$')]),
     email: new FormControl('', [Validators.required, Validators.pattern('([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9]+\\.(([A-Za-z0-9]+[.-_])*[A-Za-z0-9]){2,}')]),
     // "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"
-    phone: new FormControl('774929193', [Validators.required, Validators.pattern('^(77|78|75|70|76)[0-9]{7}$')]),
+    phone: new FormControl('', [Validators.required, Validators.pattern('^(77|78|75|70|76)[0-9]{7}$')]),
     box: new FormControl('', [Validators.required]),
   })
 
@@ -62,7 +62,7 @@ export class RegisterComponent implements OnInit {
     if (data.phone && data.phone!="" && data.email && data.email!="") {
       this.errorMessage = "Veuillez choisir l'email ou le numéro de téléphone pour l'envoi du code"
     }
-    console.log(data);
+    // console.log(data);
     this.authService.createAccount(data).subscribe(
       response => {
         console.log(response);
