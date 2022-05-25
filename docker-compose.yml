@@ -2,18 +2,17 @@ version: "3.9"
 
 services:
   database:
-    image: mysql
+    image: postgres:latest
     container_name: database
     volumes:
-      - ./data/database:/var/lib/mysql
+      - ./data/postgres/pgdata:/var/lib/postgresql/data/pgdata
     ports:
-      - ${DATABASE_MAP_PORT}:${DATABASE_PORT}
+      - 5432:5432
     environment:
-      MYSQL_DATABASE: ${DATABASE_NAME}
-      MYSQL_USER: ${DATABASE_USER}
-      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
-      MYSQL_TCP_PORT: ${DATABASE_PORT}
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
 
   backend:
     build: ./backend

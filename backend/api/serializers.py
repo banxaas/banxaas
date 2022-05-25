@@ -23,3 +23,10 @@ class CreateAccountSerializer(serializers.ModelSerializer):
 			newUser = User(pseudo=pseudo, phone=phone, password=password)
 		newUser.save()
 		return newUser
+
+class UserDetailSerializer(serializers.ModelSerializer):
+	seniority = serializers.ReadOnlyField(source='getSeniority')
+
+	class Meta:
+		model = User
+		fields = ['pseudo', 'email', 'phone', 'is_active', 'isAuthenticated', 'currency', 'seniority']

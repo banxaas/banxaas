@@ -46,9 +46,10 @@ def Connexion(request):
 	signature = Token.objects.create(user=user)
 	user.connect()
 	user.save()
+	serializer = UserDetailSerializer(user)
 	return Response({
 		'status': "SUCCESSFUL",
-		'isActive': user.is_active,
+		'user': serializer.data,
 		'key': user.pseudo + ':' + key,
 		'token': token,
 		'signature': signature.key

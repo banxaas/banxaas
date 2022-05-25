@@ -49,6 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 	is_active = models.BooleanField(default=False)
 	date_joined = models.DateTimeField(auto_now_add=True)
 	last_login = models.DateTimeField(null=True, blank=True)
+	currency = models.CharField(max_length=50)
 
 	# Config User
 	USERNAME_FIELD = 'pseudo'
@@ -71,5 +72,26 @@ class User(AbstractBaseUser, PermissionsMixin):
 		if (seniority < 60):
 			seniority = "Moins d'une minute"
 		elif (60 < seniority < 3600):
-			seniority = seniority%60 + " minutes"
+			seniority = str(int(seniority//60)) + " minute(s)"
+		elif(3600<seniority<86400):
+			seniority = str(int(seniority//3600)) + " heure(s)"
 		return seniority
+
+
+class Ad(models.Model):
+	provider = models.ForeignKey(User, on_delete=models.CASCADE)
+	counterParty = models.IntegerField()
+	status = models.CharField(max_length=50)
+	sens = models.CharField(max_length=50)
+	quantityType = models.CharField(max_length=50)
+	quantityValue = models.IntegerField()
+	amountType = models.CharField(max_length=40)
+	amountValue = models.IntegerField()
+	publicationDate = models.DateTimeField()
+	margin = models.IntegerField()
+
+class Trade(models.Model):
+	trader = models.ForeignKey(User, on_delete=models.CASCADE)
+	provider = models.ForeignKey(Ad, on_delete=models.CASCADE)
+	startingDate = models.DateTimeField()
+	steps = models.CharField(max_length=40)
