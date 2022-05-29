@@ -18,6 +18,22 @@ import { PasswordComponent } from './components/user/profil/password/password.co
 import { PaymentMethodComponent } from './components/user/profil/payment-method/payment-method.component';
 import { SecurityComponent } from './components/user/profil/security/security.component';
 import { BuyComponent } from './components/user/buy/buy.component';
+import { OfferComponent } from './components/user/offer/offer.component';
+import { AnnounceComponent } from './components/user/announce/announce.component';
+
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {TableModule} from 'primeng/table';
+import { CalendarModule } from 'primeng/calendar';
+import {SliderModule} from 'primeng/slider';
+import {DialogModule} from 'primeng/dialog';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {ContextMenuModule} from 'primeng/contextmenu';
+import {ButtonModule} from 'primeng/button';
+import {ToastModule} from 'primeng/toast';
+import {InputTextModule} from 'primeng/inputtext';
+import {ProgressBarModule} from 'primeng/progressbar';
+import {DropdownModule} from 'primeng/dropdown';
+import { CustomerService } from './parameters/customerservice';
 
 @NgModule({
   declarations: [
@@ -33,17 +49,35 @@ import { BuyComponent } from './components/user/buy/buy.component';
     PasswordComponent,
     PaymentMethodComponent,
     SecurityComponent,
-    BuyComponent
+    BuyComponent,
+    OfferComponent,
+    AnnounceComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+
+    
+    TableModule,
+    CalendarModule,
+    SliderModule,
+    DialogModule,
+		MultiSelectModule,
+		ContextMenuModule,
+		DropdownModule,
+		ButtonModule,
+		ToastModule,
+    InputTextModule,
+    ProgressBarModule,
   ],
-  providers: [],
+  providers: [
+    CustomerService 
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -12,6 +12,7 @@ import { ProfilComponent } from './components/user/profil/profil.component';
 import { SecurityComponent } from './components/user/profil/security/security.component';
 import { UserComponent } from './components/user/user.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { AnnounceComponent } from './components/user/announce/announce.component';
 
 const routes: Routes = [
   { path: 'accueil', component: WelcomeComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'validation_code', component: CodeValidationComponent },
   { path: 'user', redirectTo:'user/home' },
   { path: 'acheter', component: BuyComponent },
+  { path: 'annonce', component: AnnounceComponent },
   { path: 'user', component: UserComponent,
       children: [
         { path: 'home', component: HomeComponent },

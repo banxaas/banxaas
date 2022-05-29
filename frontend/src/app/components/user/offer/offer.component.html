@@ -1,0 +1,269 @@
+<!-- <div class="flex flex-col">
+    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="overflow-x-auto">
+        <div class="">
+            <button>filter</button>
+        </div>
+          <table class="min-w-full shadow-xl">
+            <thead class="border-b">
+              <tr>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4 text-left">
+                  Id user
+                </th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4 text-left">
+                  Quantité(min-max)
+                </th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4 text-left">
+                  Montant(min-max)
+                </th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4 text-left">
+                  Marge
+                </th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4 text-left">
+                  Sens  
+                </th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4 text-left">
+                  Méthode de paiement
+                </th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4 text-left">
+                  Ancienneté
+                </th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4 text-left">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">1</td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  Cell
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  Cell
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  Cell
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  Cell
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  Cell
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  Cell
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  Cell
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  Cell
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="text-title uppercase font-bold text-center mt-10 underline">
+    liste des offres
+</div>
+<div class="flex w-full mt-5 justify-center items-center bg-white-700">
+    <div class="w-[90%] flex flex-col shadow-lg">
+      <div class="grid justify-items-end w-full p-5">
+        <button class="text-white px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold bg-green-600 border-green-600 hover:bg-white hover:text-green-600" routerLink="/annonce">
+          Publier une annonce
+        </button>
+      </div>
+        <p-table #dt [value]="customers" [(selection)]="selectedCustomers" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+            [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [filterDelay]="0" [globalFilterFields]="['name','country.name','representative.name','status']">
+            <!-- <ng-template pTemplate="caption">
+                <div class="table-header">
+                    List of Customers
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event, 'contains')" placeholder="Global Search" />
+                    </span>
+                </div>
+            </ng-template> -->
+              <ng-template pTemplate="header">
+                  <tr>
+                      <!-- <th style="width: 3rem"></th> -->
+                      <th pSortableColumn="id text-center"><b>Id user</b>  <p-sortIcon field="id"></p-sortIcon></th>
+                      <th pSortableColumn="quantite"><b>Quantité(min-max)</b><p-sortIcon field="quantite"></p-sortIcon></th>
+                      <th pSortableColumn="montant"><b>Montant(min-max)</b> <p-sortIcon field="montant"></p-sortIcon></th>
+                      <th pSortableColumn="marge"><b>Marge</b> <p-sortIcon field="marge"></p-sortIcon></th>
+                      <th pSortableColumn="sens"><b>Sens</b> <p-sortIcon field="sens"></p-sortIcon></th>
+                      <th pSortableColumn="paiement"><b>Méthode paiement</b> <p-sortIcon field="paiement"></p-sortIcon></th>
+                      <th pSortableColumn="anciennete"><b>Ancienneté</b> <p-sortIcon field="anciennete"></p-sortIcon></th>
+                      <th pSortableColumn=""><b>Action</b></th>
+                      <!-- <th style="width: 8rem"></th> -->
+                  </tr>
+                  <tr>
+                      <!-- <th>
+                          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                      </th> -->
+                      <th>
+                          <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'id', 'startsWith')" placeholder="Filtrer par Id user" class="p-column-filter w-[90%]">
+                      </th>
+                      <th>
+                          <!-- <input pInputText type="text" (input)="dt.filter($event, 'quantite', 'contains')" placeholder="Search by Quantity" class="p-column-filter"> -->
+                          <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'quantite', 'startsWith')" placeholder="Entrer une quantité" class="p-column-filter  w-[90%]" >
+                      </th>
+                      <th>
+                          <!-- <p-multiSelect placeholder="All" (onChange)="onRepresentativeChange($event)" styleClass="p-column-filter" optionLabel="name">
+                              <ng-template let-option pTemplate="item">
+                                  <div class="p-multiselect-representative-option">
+                                      <span class="p-ml-1">{{option.label}}</span>
+                                  </div>
+                              </ng-template>
+                          </p-multiSelect> -->
+                          <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'montant', 'startsWith')" placeholder="Entrer un montant" class="p-column-filter  w-[90%]" >
+                      </th>
+                      <th>
+                        <!-- <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'marge', 'gte')" placeholder="Marge" class="p-column-filter" > -->
+                          <input pInputText type="text" (input)="onActivityChange($event)" placeholder="Marge au minimum" class="p-column-filter  w-[90%]" >
+                      </th>
+                      <th>
+                          <p-dropdown [options]="statuses" (onChange)="dt.filter($event.value, 'sens', 'equals')" styleClass="p-column-filter  w-[90%]" placeholder="Selectionner un sens" [showClear]="true">
+                              <ng-template let-option pTemplate="item">
+                                  <span [class]="'customer-badge status-' + option.value">&#123;&#123;option.label&#125;&#125;</span>
+                              </ng-template>
+                          </p-dropdown>
+                      </th>
+                      <th>
+                          <!-- <input pInputText type="text" (input)="onActivityChange($event)" placeholder="Minimum" class="p-column-filter" > -->
+                          <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'paiement', 'startsWith')" placeholder="Méthode de paiement" class="p-column-filter  w-[90%]" >
+                      </th>
+                      <th>
+                        <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'anciennete', 'startsWith')" placeholder="Filtrer par Anciennete" class="p-column-filter  w-[90%]">
+                      </th>
+                      <th></th>
+                  </tr>
+              </ng-template>
+
+            <ng-template pTemplate="body" let-customer>
+                <tr class="p-selectable-row">
+                    <!-- <td>
+                        <p-tableCheckbox [value]="customer"></p-tableCheckbox>
+                    </td> -->
+                    <td>
+                        <span class="p-column-title">Id user</span>
+                        {{customer.id}}
+                    </td>
+                    <td>
+                        <span class="p-column-title">quantite</span>
+                        <span class="text-center">{{customer.quantite}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Montant</span>
+                        <span class="image-text">{{customer.montant}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Marge</span>
+                        {{customer.marge}}%
+                    </td>
+                    <td>
+                        <span class="p-column-title">Sens</span>
+                        <span [class]="'customer-badge status-' + customer.sens">{{customer.sens}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Méthode de paiement</span>
+                        <!-- <p-progressBar [value]="customer.activity" [showValue]="false"></p-progressBar> -->
+                        <span [class]="'customer-badge activity-' + customer.paiement">{{customer.paiement}}</span>
+                    </td>
+                    <!-- <td style="text-align: center">
+                        <button pButton type="button" class="p-button-secondary" icon="pi pi-cog"></button>
+                    </td> -->
+                    <td>
+                      <span class="p-column-title">Anciennete</span>
+                      {{customer.anciennete}}
+                  </td>
+                  <td style="text-align: center">
+                      <button type="button" class="text-green-600 px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-600 hover:text-white    hover:bg-green-600">Accepter</button>
+                  </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">No customers found.</td>
+                </tr>
+            </ng-template>
+</p-table>
+        <!-- <div class="table mt-20">
+            <div class="flex flex-col">
+                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                  <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="overflow-x-auto">
+                      <table class="min-w-full shadow-xl text-center">
+                        <thead class="border-b">
+                          <tr>
+                            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">
+                              Id user
+                            </th>
+                            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">
+                              Quantité(min-max)
+                            </th>
+                            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">
+                              Montant(min-max)
+                            </th>
+                            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">
+                              Marge
+                            </th>
+                            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">
+                              Sens  
+                            </th>
+                            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">
+                              Méthode de paiement
+                            </th>
+                            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">
+                              Ancienneté
+                            </th>
+                            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">
+                              Action
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="border-b">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">alice001</td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                              2
+                            </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                              426-4260
+                            </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                              1%
+                            </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                              Vente
+                            </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                              Orange Money, Wave
+                            </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                              29 jours
+                            </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                <button class="text-green-600 px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-600 hover:text-white    hover:bg-green-600">
+                                  Accepter
+                                </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div> -->
+    </div>
+</div>
+
