@@ -104,11 +104,15 @@ class Ad(models.Model):
 	status = models.CharField(max_length=1, choices=STATUS, default="I")
 	sens = models.CharField(max_length=1, choices=SENS)
 	quantityType = models.CharField(max_length=50)
-	quantityValue = models.IntegerField()
-	amountType = models.CharField(max_length=40)
-	amountValue = models.IntegerField()
+	quantityFixe = models.IntegerField(blank=True, null=True)
+	quantityMin = models.IntegerField(blank=True, null=True)
+	quantityMax = models.IntegerField(blank=True, null=True)
+	amountType = models.CharField(max_length=50)
+	amountFixe = models.IntegerField(blank=True, null=True)
+	amountMin = models.IntegerField(blank=True, null=True)
+	amountMax = models.IntegerField(blank=True, null=True)
 	publicationDate = models.DateTimeField(auto_now_add=True)
-	margin = models.IntegerField()
+	marge = models.IntegerField()
 
 class Trade(models.Model):
 	STATUS = [("F", "Finalisée"), ("A","Annulé"), ("C", "En cours")]
