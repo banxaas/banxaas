@@ -38,6 +38,8 @@ class CustomUserManager(BaseUserManager):
 
 # Create your models here.
 class User(AbstractBaseUser, PermissionsMixin):
+	#Enum Variable
+	CURRENCY_VALUE = [("CFA", "CFA"), ("USD", "USD"), ("EUR", "EUR")]
 	# Personnal Info
 	pseudo = models.CharField(max_length=30, unique=True)
 	email = models.EmailField(_('email address'), unique=True, blank=True, null=True)
@@ -49,7 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 	is_active = models.BooleanField(default=False)
 	date_joined = models.DateTimeField(auto_now_add=True)
 	last_login = models.DateTimeField(null=True, blank=True)
-	currency = models.CharField(max_length=50)
+	currency = models.CharField(max_length=50, default="CFA", choices=CURRENCY_VALUE)
 
 	# Config User
 	USERNAME_FIELD = 'pseudo'
@@ -77,6 +79,20 @@ class User(AbstractBaseUser, PermissionsMixin):
 			seniority = str(int(seniority//3600)) + " heure(s)"
 		return seniority
 
+	def getPaymentMethods(self):
+		return [pm for pm in PaymentMethod.objects.filter(user=self)]
+
+
+class PaymentMethod(models.Model):
+	#Enum Payment Method
+	PAYMENT_METHOD = [("WAVE", "Wave"), ("OM", "Orange Money"), ("FREE","Free Money")]
+
+	user = models.ForeignKey(User, related_name="pms", on_delete=models.CASCADE)
+	name = models.CharField(max_length=15, choices=PAYMENT_METHOD)
+	numero = models.IntegerField()
+
+	def __str__(self):
+		return self.name + " | " + str(self.user)
 
 class Ad(models.Model):
 	provider = models.ForeignKey(User, on_delete=models.CASCADE)

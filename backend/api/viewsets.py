@@ -89,13 +89,13 @@ class CreateAccountViewset(mixins.CreateModelMixin, generics.GenericAPIView):
 			payload = createValidationTokenPayload(code, phone, "phone")
 		return Response({
 			'status': "SUCCESSFUL",
- 			'tokenId': createToken(payload)
+ 			'token': createToken(payload)
 		})
 
 class ValidateCodeViewset(mixins.CreateModelMixin, generics.GenericAPIView):
 	
 	def post(self, request, format=None):
-		isValid, userId = verifyCodeValidation(request.data['code'], request.data['tokenId'])
+		isValid, userId = verifyCodeValidation(request.data['code'], request.data['token'])
 		if not isValid:
 			return Response({'status': "FAILED", 'message': 'Invalide Code'})
 		if User.objects.filter(email=userId):

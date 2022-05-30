@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   database:
-    image: postgres:latest
+    image: postgres
     container_name: database
     volumes:
       - ./data/postgres/pgdata:/var/lib/postgresql/data/pgdata

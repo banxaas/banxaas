@@ -26,7 +26,8 @@ class CreateAccountSerializer(serializers.ModelSerializer):
 
 class UserDetailSerializer(serializers.ModelSerializer):
 	seniority = serializers.ReadOnlyField(source='getSeniority')
+	paymentMethods = serializers.ReadOnlyField(source='getPaymentMethods')
 
 	class Meta:
 		model = User
-		fields = ['pseudo', 'email', 'phone', 'is_active', 'isAuthenticated', 'currency', 'seniority']
+		fields = ['pseudo', 'email', 'phone', 'is_active', 'isAuthenticated', 'currency', 'seniority', 'paymentMethods']
