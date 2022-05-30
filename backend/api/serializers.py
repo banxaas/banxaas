@@ -24,10 +24,21 @@ class CreateAccountSerializer(serializers.ModelSerializer):
 		newUser.save()
 		return newUser
 
+
+class PaymentMethodSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = PaymentMethod
+		fields = ['name', 'numero']
+
 class UserDetailSerializer(serializers.ModelSerializer):
 	seniority = serializers.ReadOnlyField(source='getSeniority')
-	paymentMethods = serializers.ReadOnlyField(source='getPaymentMethods')
+	#paymentMethods = serializers.ReadOnlyField(source='getPaymentMethods')
+	paymentMethods = PaymentMethodSerializer(many=True, source='getPaymentMethods')
 
 	class Meta:
 		model = User
 		fields = ['pseudo', 'email', 'phone', 'is_active', 'isAuthenticated', 'currency', 'seniority', 'paymentMethods']
+		depth = 1
+
+	def typeOfPayments(self):
+		return self.data
