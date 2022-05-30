@@ -95,19 +95,26 @@ class PaymentMethod(models.Model):
 		return self.name + " | " + str(self.user)
 
 class Ad(models.Model):
+	#Enum Sens
+	SENS = [("A", "Achat"), ("V", "Vente")]
+	STATUS = [("F", "Finalisée"), ("A","Annulé"), ("C", "En cours"), ("I", "Initial")]
+
 	provider = models.ForeignKey(User, on_delete=models.CASCADE)
 	counterParty = models.IntegerField()
-	status = models.CharField(max_length=50)
-	sens = models.CharField(max_length=50)
+	status = models.CharField(max_length=1, choices=STATUS, default="I")
+	sens = models.CharField(max_length=1, choices=SENS)
 	quantityType = models.CharField(max_length=50)
 	quantityValue = models.IntegerField()
 	amountType = models.CharField(max_length=40)
 	amountValue = models.IntegerField()
-	publicationDate = models.DateTimeField()
+	publicationDate = models.DateTimeField(auto_now_add=True)
 	margin = models.IntegerField()
 
 class Trade(models.Model):
+	STATUS = [("F", "Finalisée"), ("A","Annulé"), ("C", "En cours")]
+
 	trader = models.ForeignKey(User, on_delete=models.CASCADE)
 	provider = models.ForeignKey(Ad, on_delete=models.CASCADE)
-	startingDate = models.DateTimeField()
-	steps = models.CharField(max_length=40)
+	startingDate = models.DateTimeField(auto_now_add=True)
+	status = models.CharField(max_length=1, choices=STATUS, default="C")
+	steps = models.CharField(max_length=2, choices=[(str(i), "step " + str(i)) for i in range(1, 14)])
