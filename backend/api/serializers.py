@@ -58,6 +58,27 @@ class UserDetailSerializer(serializers.ModelSerializer):
 		fields = ['pseudo', 'email', 'phone', 'is_active', 'isAuthenticated', 'currency', 'seniority', 'paymentMethods']
 		depth = 1
 
+class UserForAdSerializer(serializers.ModelSerializer):
+	seniority = serializers.ReadOnlyField(source='getSeniority')
+	class Meta:
+		model = User
+		fields = ['pseudo', 'seniority']
+
+class AdSerializer(serializers.ModelSerializer):
+    quantityFixe = serializers.CharField(allow_blank=True, required=False)
+    quantityMin = serializers.CharField(allow_blank=True, required=False)
+    quantityMax = serializers.CharField(allow_blank=True, required=False)
+    amountFixe = serializers.CharField(allow_blank=True, required=False)
+    amountMin = serializers.CharField(allow_blank=True, required=False)
+    amountMax = serializers.CharField(allow_blank=True, required=False)
+    user = UserForAdSerializer()
+
+    class Meta:
+        model = Ad
+        fields = '__all__'
+        depth = 1
+
+
 """
 class AdsSerializer(serializers.ModelSerializer):
 

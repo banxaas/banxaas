@@ -168,6 +168,35 @@ class SetUserViewset(APIView):
 			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 		except:
 			return Response({"status":"FAILED"})
+
+class AdViewset(APIView):
+
+	
+	def get(self, request):
+		ads = Ad.objects.all()
+		serializer = AdSerializer(ads, many=True)
+		return Response(serializer.data)
+
+	def post(self, request):
+		request.data['user'] = User.objects.get(pseudo=request.data['user']).id
+		serializer = AdSerializer(data=request.data)
+		if serializer.is_valid():
+			try:
+				serializer.save()
+			except Exception as e:
+				return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+			return Response({'status': "SUCCESSFUL"})
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+	
+	def delete(self, request):
+		try:
+			ad = Ad.objects.get(id=int(request.data['id']))
+			ad.delete()
+			return Response({'status': "SUCCESSFUL"})
+		except:
+			return Response({'status': "FAILED"})
+
+
 """
 class Adsviewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
 
