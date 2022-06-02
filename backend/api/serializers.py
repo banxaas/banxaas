@@ -64,13 +64,19 @@ class UserForAdSerializer(serializers.ModelSerializer):
 		model = User
 		fields = ['pseudo', 'seniority']
 
-class AdSerializer(serializers.ModelSerializer):
+class AdPostSerializer(serializers.ModelSerializer):
     quantityFixe = serializers.CharField(allow_blank=True, required=False)
     quantityMin = serializers.CharField(allow_blank=True, required=False)
     quantityMax = serializers.CharField(allow_blank=True, required=False)
     amountFixe = serializers.CharField(allow_blank=True, required=False)
     amountMin = serializers.CharField(allow_blank=True, required=False)
     amountMax = serializers.CharField(allow_blank=True, required=False)
+
+    class Meta:
+        model = Ad
+        fields = '__all__'
+
+class AdGetSerializer(serializers.ModelSerializer):
     user = UserForAdSerializer()
 
     class Meta:

@@ -174,12 +174,13 @@ class AdViewset(APIView):
 	
 	def get(self, request):
 		ads = Ad.objects.all()
-		serializer = AdSerializer(ads, many=True)
+		serializer = AdGetSerializer(ads, many=True)
 		return Response(serializer.data)
 
 	def post(self, request):
-		request.data['user'] = User.objects.get(pseudo=request.data['user']).id
-		serializer = AdSerializer(data=request.data)
+		pprint(User.objects.filter(pseudo=request.data['user'])[0].id)
+		request.data['user'] = User.objects.filter(pseudo=request.data['user'])[0].id
+		serializer = AdPostSerializer(data=request.data)
 		if serializer.is_valid():
 			try:
 				serializer.save()
