@@ -8,6 +8,7 @@ djangorestframework==3.13.1
 idna==3.3
 loguru==0.6.0
 mysqlclient==2.1.0
+psycopg2==2.9.3
 PyJWT==2.3.0
 python-dotenv==0.20.0
 pytz==2022.1
@@ -15,4 +16,3 @@ requests==2.27.1
 sqlparse==0.4.2
 tzdata==2022.1
 urllib3==1.26.9
-psycopg2==2.9.3

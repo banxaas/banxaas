@@ -26,7 +26,7 @@ SECRET_KEY = str(os.environ.get('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get('DEBUG'))
 
-ALLOWED_HOSTS = ['localhost', 'backend']
+ALLOWED_HOSTS = ['localhost', 'backend', '192.168.1.10']
 
 
 # Application definition
@@ -86,33 +86,14 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # CONFIG DOCKER
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('DATABASE_NAME'),
-        'USER': 'root', #os.environ.get('DATABASE_USER'),
-        'PASSWORD': os.environ.get('DATABASE_ROOT_PASSWORD'),
+        'USER': os.environ.get('DATABASE_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
         'HOST': 'database',
         'PORT': os.environ.get('DATABASE_PORT'),
-        'OPTIONS': {
-            'sql_mode': 'traditional',
-        }
     }
 }
-"""
-# CONFIG NORMAL
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'banxaas',
-        'USER': 'root',
-        'PASSWORD': "",
-        'HOST': 'localhost',
-        'PORT': 3306,
-        'OPTIONS': {
-            'sql_mode': 'traditional',
-        }
-    }
-}
-"""
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
