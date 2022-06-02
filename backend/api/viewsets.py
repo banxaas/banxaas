@@ -141,7 +141,7 @@ class SetUserViewset(APIView):
 			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 		except:
 			return Response({"status":"FAILED"})
-
+"""
 class Adsviewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
 
 	queryset = Ad.objects.all()
@@ -161,3 +161,4 @@ class Adsviewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generi
 				return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+"""
