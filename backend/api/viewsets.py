@@ -2,6 +2,7 @@ import loguru
 from pprint import pprint
 import time
 import jwt
+from rest_framework.views import APIView
 from datetime import datetime, timezone, timedelta
 from rest_framework import viewsets, generics, mixins, status
 from rest_framework.response import Response
@@ -56,6 +57,25 @@ def Connexion(request):
 	})
 
 
+@api_view(['POST'])
+def isDisconnected(request):
+	key = str(request.data['key'])
+	pseudo = key.split(':')[0]
+	key = key.split(':')[1]
+	if User.objects.filter(pseudo=pseudo):
+		user = User.objects.filter(pseudo=pseudo)[0]
+		userKey = hashlib.sha256((str(user.id) + str(user.pseudo)).encode('utf-8')).hexdigest()
+		if key == userKey:
+			while True:
+				signature = Token.objects.filter(user=user)[0]
+				pprint(signature)
+				if request.data['signature'] != signature.key:
+					break
+				time.sleep(10)
+			return Response({'status': True})
+	return Response({'status': 'FAILED'})
+
+
 class CreateAccountViewset(mixins.CreateModelMixin, generics.GenericAPIView):
 	
 	def post(self, request, format=None):
@@ -106,21 +126,38 @@ class ValidateCodeViewset(mixins.CreateModelMixin, generics.GenericAPIView):
 		user.save()
 		return Response({'status': "SUCCESSFUL"})
 
+class SetUserViewset(APIView):
 
-@api_view(['POST'])
-def isDisconnected(request):
-	key = str(request.data['key'])
-	pseudo = key.split(':')[0]
-	key = key.split(':')[1]
-	if User.objects.filter(pseudo=pseudo):
-		user = User.objects.filter(pseudo=pseudo)[0]
-		userKey = hashlib.sha256((str(user.id) + str(user.pseudo)).encode('utf-8')).hexdigest()
-		if key == userKey:
-			while True:
-				signature = Token.objects.filter(user=user)[0]
-				pprint(signature)
-				if request.data['signature'] != signature.key:
-					break
-				time.sleep(10)
-			return Response({'status': True})
-	return Response({'status': 'FAILED'})
+	def patch(self, request):
+		try:
+			user = getUserByLogin(request.data['id'])
+			if not user:
+				return Response({'status': "FAILED", 'message':"Vous n'existez pas !"})
+
+			serializer = SetAccountSerializer(user, data=request.data, partial=True)
+			if serializer.is_valid():
+				serializer.save()
+				return Response({'status': "SUCCESSFUL"})
+			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		except:
+			return Response({"status":"FAILED"})
+
+class Adsviewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+
+	queryset = Ad.objects.all()
+	serializer_class = AdsSerializer
+	filterset_fields = ['sens']
+	search_fields = ['quantityType']
+
+	def get(self, request):
+		return self.list(request)
+
+	def post(self, request, format=None):
+		serializer = AdsSerializer(data=request.data)
+		if serializer.is_valid():
+			try:
+				serializer.save()
+			except:
+				return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

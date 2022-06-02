@@ -24,6 +24,20 @@ class CreateAccountSerializer(serializers.ModelSerializer):
 		newUser.save()
 		return newUser
 
+class SetAccountSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = User
+		fields = ['pseudo', 'email', 'phone', 'currency']
+
+	def update(self, instance, validated_data):
+		instance.pseudo = validated_data.get('pseudo', instance.pseudo)
+		instance.phone = validated_data.get('phone', instance.phone)
+		instance.email = validated_data.get('email', instance.email)
+		instance.currency = validated_data.get('currency', instance.currency)
+		instance.save()
+		return instance
+
 
 class PaymentMethodSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -40,5 +54,13 @@ class UserDetailSerializer(serializers.ModelSerializer):
 		fields = ['pseudo', 'email', 'phone', 'is_active', 'isAuthenticated', 'currency', 'seniority', 'paymentMethods']
 		depth = 1
 
-	def typeOfPayments(self):
-		return self.data
+"""
+class AdsSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = Ad
+		fields = '__all__'
+		extra_kwargs = {
+			'publicationDate': {'read_only': True},
+		}
+"""
