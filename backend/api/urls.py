@@ -9,4 +9,7 @@ urlpatterns = [
     path('createAccount/', CreateAccountViewset.as_view()),
     path('validateCode/', ValidateCodeViewset.as_view()),
     path('isDisconnected/', isDisconnected),
+    path('setUser/', SetUserViewset.as_view()),
+    path('PaymentMethod/', PaymentMethodViewset.as_view()),
+    path('ad/', AdViewset.as_view())
 ]

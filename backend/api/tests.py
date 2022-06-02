@@ -1,9 +1,12 @@
 from django.test import TestCase
 from datetime import datetime
-from .models import User
+from .models import *
+from .serializers import *
 
 # Create your tests here.
 class UserTestCase(TestCase):
-    def testSeniority(self):
-        user1 = User.objects.create(pseudo="pobar", email="papamat@gmail.com", phone="+221777023861", lastLogin=datetime.now())
-        print(user1.getSeniority())
+    def testPaymentMethod(self):
+        user = User.objects.create(pseudo="pobar", email="papamatardiop3@gmail.com", password="pobarusama")
+        pm = PaymentMethod.objects.create(user=user, name="WAVE", numero=769001942)
+        serializer = UserDetailSerializer(user)
+        print(serializer.typeOfPayments())
