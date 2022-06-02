@@ -38,16 +38,20 @@ class SetAccountSerializer(serializers.ModelSerializer):
 		instance.save()
 		return instance
 
-
 class PaymentMethodSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = PaymentMethod
-		fields = ['name', 'numero']
+		fields = ['user', 'name', 'phone']
+
+class PaymentMethodForConnSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = PaymentMethod
+		fields = ['id', 'name', 'phone']
 
 class UserDetailSerializer(serializers.ModelSerializer):
 	seniority = serializers.ReadOnlyField(source='getSeniority')
 	#paymentMethods = serializers.ReadOnlyField(source='getPaymentMethods')
-	paymentMethods = PaymentMethodSerializer(many=True, source='getPaymentMethods')
+	paymentMethods = PaymentMethodForConnSerializer(many=True, source='getPaymentMethods')
 
 	class Meta:
 		model = User

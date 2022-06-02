@@ -126,6 +126,33 @@ class ValidateCodeViewset(mixins.CreateModelMixin, generics.GenericAPIView):
 		user.save()
 		return Response({'status': "SUCCESSFUL"})
 
+class PaymentMethodViewset(APIView):
+
+	def post(self, request):
+		try:
+			user = User.objects.get(pseudo=request.data['user']).id
+			data = {'user':user, 'name':request.data['name'], 'phone':request.data['phone']}
+			serializer = PaymentMethodSerializer(data=data)
+			if serializer.is_valid():
+				try:
+					serializer.save()
+				except:
+					return Response({'status': "FAILED"})
+				return Response({'status': "SUCCESSFUL"})
+			return Response({'status': "FAILED"})
+		except:
+			return Response({'status': "FAILED"})
+		
+
+	def delete(self, request):
+		try:
+			pm = PaymentMethod.objects.get(id=int(request.data['id']))
+			pm.delete()
+			return Response({'status': "SUCCESSFUL"})
+		except Exception as e:
+			return Response({'status': "FAILED"})
+
+
 class SetUserViewset(APIView):
 
 	def patch(self, request):

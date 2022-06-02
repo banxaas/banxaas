@@ -89,7 +89,7 @@ class PaymentMethod(models.Model):
 
 	user = models.ForeignKey(User, related_name="pms", on_delete=models.CASCADE)
 	name = models.CharField(max_length=15, choices=PAYMENT_METHOD)
-	numero = models.IntegerField()
+	phone = models.IntegerField()
 
 	def __str__(self):
 		return self.name + " | " + str(self.user)
