@@ -1,120 +1,140 @@
-import loguru
+import os, hashlib, jwt, re, loguru, time
 from pprint import pprint
-import time
-import jwt
-from rest_framework.views import APIView
 from datetime import datetime, timezone, timedelta
+from rest_framework.views import APIView
 from rest_framework import viewsets, generics, mixins, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import *
 from .models import *
-from api.repository.connexionRepository import *
-from api.repository.createAccountRepository import *
-import hashlib
+from api.repository.authRepository import *
 from django.contrib.auth.hashers import make_password
 from rest_framework.authtoken.models import Token
-import re
-
 
 @api_view(['POST'])
 def Connexion(request):
-	# Vérification des données collectées depuis le front-end
+	""" Cette fonction prend en charge de la connexion des utilisateurs.
+	Methode autorisée: POST,
+	JSON à soumettre: {
+		"login": "...",
+		"password": "..."
+	}
+	"""
+	# Vérification de la validité des données collectées
 	try:
 		[login, password] = isRequestDataConnexionValid(request.data)
 	except TypeError:
 		return Response({'status': "FAILED", 'message': "Identifiants Incorrects"})
+
 	# Vérification de l'existence du user (pseudo, email, telephone)
 	user = getUserByLogin(login)
 	if ((not user) or (not user.check_password(password))):
 		return Response({'status': "FAILED", 'message': "Identifiants Incorrects"})
 
+	# Vérification de l'état du compte de l'utilisateur
 	if not user.is_active:
 		return Response({'status': 'INACTIVATED', 'message': 'Votre compte n\'a pas été activé'})
 
+	# Déconnexion de l'utilisateur s'il est connecté autre part
 	if user.isAuthenticated:
 		user.disconnect()
-		pprint("Déconnecté avec succès !")
-
-	key = hashlib.sha256((str(user.id) + str(user.pseudo)).encode('utf-8')).hexdigest()
-	iat = datetime.now(timezone.utc)
-	exp = iat + timedelta(seconds=72000)
-	payload = {'sub':user.pseudo, 'iat': iat, 'exp':exp}
-	token = createToken(payload)
 
 	if Token.objects.filter(user=user):
 		Token.objects.filter(user=user)[0].delete()
-	signature = Token.objects.create(user=user)
+
+	# Création du token JWT
+	iat = datetime.now(timezone.utc)
+	exp = iat + timedelta(seconds=72000)
+	payload = {'sub':user.pseudo, 'iat': iat, 'exp':exp}
+	jwt = createToken(payload) # Créer un nouvel Token JWT
+
+	# Création du Token Signature de Connexion
+	signature = Token.objects.create(user=user) #Permet d'identifier la connexion de l'utilisateur
 	user.connect()
 	user.save()
+
+	# Sérialisation
 	serializer = UserDetailSerializer(user)
+
 	return Response({
 		'status': "SUCCESSFUL",
 		'user': serializer.data,
-		'key': user.pseudo + ':' + key,
-		'token': token,
+		'token': jwt,
 		'signature': signature.key
 	})
 
+@api_view(['POST'])
+def UserHasNewConnection(request):
+	""" Cette fonction permet de vérifier si l'utilisateur s'est connecté à nouveau
+	pour le déconnecter
+	Méthode autorisée: POST,
+	JSON à soumettre: {
+		"token": "...",
+		"signature": "..."
+	}
+	Ces informations sont fournis lors de la connexion
+	"""
+	try:
+		# Récupération de l'utilisateur
+		user = User.objects.get(pseudo=jwt.decode(request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+		# Boucle de vérification ( à voir si c'est performant ou pas)
+		while True:
+			# En attente de changement du token (c'est à dire, une nouvelle connexion)
+			if request.data['signature'] != Token.objects.filter(user=user)[0].key:
+				break
+			time.sleep(10)
+		return Response({'status': True})
+	except:
+		return Response({'status': 'FAILED'})
 
 @api_view(['POST'])
-def isDisconnected(request):
-	key = str(request.data['key'])
-	pseudo = key.split(':')[0]
-	key = key.split(':')[1]
-	if User.objects.filter(pseudo=pseudo):
-		user = User.objects.filter(pseudo=pseudo)[0]
-		userKey = hashlib.sha256((str(user.id) + str(user.pseudo)).encode('utf-8')).hexdigest()
-		if key == userKey:
-			while True:
-				signature = Token.objects.filter(user=user)[0]
-				pprint(signature)
-				if request.data['signature'] != signature.key:
-					break
-				time.sleep(10)
-			return Response({'status': True})
-	return Response({'status': 'FAILED'})
+def CreateAccountViewset(request):
+	""" Cette fonction, permet de creer un compte utilisateur 
+	Méthode autorisée: POST,
+	JSON à soumettre: {'pseudo': '...', 'password': '...', 'email':'...'} ou
+					  {'pseudo': '...', 'password': '...', 'phone':'...'}
+	"""
+	data = request.data
+	keys = list(data.keys())
+	# Vérification de la validité des données collectées
+	if (len(keys) != 3) or ('pseudo' not in keys) or ('password' not in keys) or (('phone' not in keys) and ('email' not in keys)):
+		return Response({'status': 'FAILED'})
 
+	if 'email' in keys:
+		# L'utilisateur a donné son email
+		email = data['email']
+		emailRegex = "([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+@([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+\\.([A-Z|a-z]{2,})"
+		if(not re.match(emailRegex, email)): # Regex Email Vérification
+			return Response({'status': 'Email Invalide'})
+		userExist, response = verifyUser(data['pseudo'], email) # Vérification d'un potentiel utilisateur avec cet email
+	else:
+		#L'utilisateur a donné son phone
+		phone =  data['phone']
+		phoneRegex = "^(77|78|75|70|76)[0-9]{7}$" # Regex Phone Verification
+		if(not re.match(phoneRegex, phone)):
+			return Response({'status': 'Phone Invalide'})
+		userExist, response = verifyUser(data['pseudo'], data['phone']) # Vérification d'un potentiel utilisateur avec ce mail
+	if userExist:
+		return response
+	serializer = CreateAccountSerializer(data=data) # Sérialisation
+	if not serializer.is_valid():
+		return Response({'status': 'FAILED'})
+	serializer.save()
+	# Envoie du code de Vérification et Création du Payload JWT
+	if 'email' in keys:
+		code = sendVerificationCodeByMail(email)
+		payload = createValidationTokenPayload(code, email, "email")
+	else:
+		code = sendVerificationCodeBySms(phone)
+		payload = createValidationTokenPayload(code, phone, "phone")
+	return Response({
+		'status': "SUCCESSFUL",
+		'token': createToken(payload)
+	})
 
-class CreateAccountViewset(mixins.CreateModelMixin, generics.GenericAPIView):
-	
-	def post(self, request, format=None):
-		data = request.data
-		keys = list(data.keys())
-		if (len(keys) != 3) or ('pseudo' not in keys) or ('password' not in keys) or (('phone' not in keys) and ('email' not in keys)):
-			return Response({'status': 'FAILED'})
-		if 'email' in keys:
-			email = data['email']
-			emailRegex = "([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+@([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+\\.([A-Z|a-z]{2,})"
-			if(not re.match(emailRegex, email)):
-				return Response({'status': 'Email Invalide'})
-			userExist, response = verifyUser(data['pseudo'], email)
-		else:
-			phone =  data['phone']
-			phoneRegex = "^(77|78|75|70|76)[0-9]{7}$"
-			if(not re.match(phoneRegex, phone)):
-				return Response({'status': 'Phone Invalide'})
-			userExist, response = verifyUser(data['pseudo'], data['phone'])
-		if userExist:
-			return response
-		serializer = CreateAccountSerializer(data=data)
-		if not serializer.is_valid():
-			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-		serializer.save()
-		if 'email' in keys:
-			code = sendVerificationCodeByMail(email)
-			payload = createValidationTokenPayload(code, email, "email")
-		else:
-			code = sendVerificationCodeBySms(phone)
-			payload = createValidationTokenPayload(code, phone, "phone")
-		return Response({
-			'status': "SUCCESSFUL",
- 			'token': createToken(payload)
-		})
-
-class ValidateCodeViewset(mixins.CreateModelMixin, generics.GenericAPIView):
-	
-	def post(self, request, format=None):
+@api_view(['POST'])
+def ValidateCodeViewset(request):
+	try:
 		isValid, userId = verifyCodeValidation(request.data['code'], request.data['token'])
 		if not isValid:
 			return Response({'status': "FAILED", 'message': 'Invalide Code'})
@@ -125,6 +145,9 @@ class ValidateCodeViewset(mixins.CreateModelMixin, generics.GenericAPIView):
 		user.is_active = True
 		user.save()
 		return Response({'status': "SUCCESSFUL"})
+	except:
+		return Response({'status': "FAILED"})
+	
 
 class PaymentMethodViewset(APIView):
 
