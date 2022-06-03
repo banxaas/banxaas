@@ -10,6 +10,7 @@ from .models import *
 from api.repository.authRepository import *
 from django.contrib.auth.hashers import make_password
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
 
 @api_view(['POST'])
 def Connexion(request):
@@ -134,6 +135,10 @@ def CreateAccountViewset(request):
 
 @api_view(['POST'])
 def ValidateCodeViewset(request):
+	""" Cette fonction, permet de valider le code de l'utilisateur 
+	Méthode autorisée: POST,
+	JSON à soumettre: {'code': '...', 'token': '...'}
+	"""
 	try:
 		isValid, userId = verifyCodeValidation(request.data['code'], request.data['token'])
 		if not isValid:
@@ -151,24 +156,55 @@ def ValidateCodeViewset(request):
 
 class PaymentMethodViewset(APIView):
 
+	def verifyExistingPm(self, name, phone):
+		if PaymentMethod.objects.filter(name=name, phone=phone):
+			return True
+		return False
+
 	def post(self, request):
+		""" Permet d'ajouter une méthode de paiement
+		Méthode: POST,
+		JSON: {'token': '...', 'signature': '...', 'name':'...', 'phone': '...'}
+		"""
 		try:
-			user = User.objects.get(pseudo=request.data['user']).id
+			# Validité des éléments
+			if len(request.data) != 4:
+				return Response({'status': "FAILED"})
+			token = request.data['token']
+
+			# Vérifie si l'utilisateur est connecté
+			if not isAuthenticated(token, request.data['signature']):
+				return Response({"status": "FAILED", "message": "Qui êtes vous ?"})
+			
+			# Verification existence PM
+			if self.verifyExistingPm(request.data['name'], request.data['phone']):
+				return Response({'status': "FAILED", "message": "Payment Method already exists!"})
+
+			user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub']).id # Récupération du User
 			data = {'user':user, 'name':request.data['name'], 'phone':request.data['phone']}
+			# Sérialisation
 			serializer = PaymentMethodSerializer(data=data)
 			if serializer.is_valid():
-				try:
-					serializer.save()
-				except:
-					return Response({'status': "FAILED"})
+				serializer.save()
 				return Response({'status': "SUCCESSFUL"})
-			return Response({'status': "FAILED"})
 		except:
 			return Response({'status': "FAILED"})
+		return Response({'status': "FAILED"})
 		
 
 	def delete(self, request):
+		""" Permet de supprimer une méthode de paiement
+		Méthode: POST,
+		JSON: {'token': '...', 'signature': '...', 'id':'...'}
+		"""
 		try:
+			# Validité des éléments
+			if len(request.data) != 3:
+				return Response({'status': "FAILED"})
+			token = request.data['token']
+			# Vérifie si l'utilisateur est connecté
+			if not isAuthenticated(token, request.data['signature']):
+				return Response({"status": "FAILED", "message": "Qui êtes vous ?"})
 			pm = PaymentMethod.objects.get(id=int(request.data['id']))
 			pm.delete()
 			return Response({'status': "SUCCESSFUL"})

@@ -137,3 +137,8 @@ def verifyCodeValidation(code, token):
 	if tokenId != tokenDecoded['token']:
 		return [False, ""]
 	return [True, userId]
+
+def isAuthenticated(token, signature):
+	if User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub']).isAuthenticated or (signature == Token.objects.filter(user=user)[0].key):
+		return True
+	return False
