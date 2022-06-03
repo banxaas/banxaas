@@ -62,20 +62,18 @@ export class RegisterComponent implements OnInit {
     if (data.phone && data.phone!="" && data.email && data.email!="") {
       this.errorMessage = "Veuillez choisir l'email ou le numéro de téléphone pour l'envoi du code"
     }
-    // console.log(data);
     this.authService.createAccount(data).subscribe(
       response => {
-        console.log(response);
-        
-        const token = response.tokenId;
-        this.localStorage.set('tokenId', token);
+        const token = response.token;
+        this.localStorage.set('token', token);
         const status = response.status;
-        console.log(status);
+        console.log("test");
+        
         
         if (status === 'FAILED') {
           this.failed = response.message;
         }
-        if (token != null) {
+        if (status === 'SUCCESSFUL') {
           this.router.navigate(["validation_code"]);
         }
       }

@@ -16,7 +16,7 @@ export class CodeValidationComponent implements OnInit {
 
   valide = new FormGroup({
     code: new FormControl('', [Validators.required]),
-    tokenId: new FormControl('', [Validators.required])
+    token: new FormControl('', [Validators.required])
   })
 
   constructor(
@@ -35,8 +35,8 @@ export class CodeValidationComponent implements OnInit {
 
   validerCompte(){
     const data = this.valide.value;
-    this.valide.value.tokenId = this.localStorgae.get('tokenId');
-    this.authService.validAccount(data.code, data.tokenId).subscribe(
+    this.valide.value.token = this.localStorgae.get('token');
+    this.authService.validAccount(data.code, data.token).subscribe(
       response => {
         if (response.status === "SUCCESSFUL") {
           this.localStorgae.remove('token');
@@ -47,6 +47,9 @@ export class CodeValidationComponent implements OnInit {
         }
 
         
+      },
+      error => {
+        this.errorMessage = "Erreur Serveur"
       }
     )
 

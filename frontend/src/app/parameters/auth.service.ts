@@ -32,8 +32,8 @@ export class  AuthService {
   }
 
   /** POST Valid Account*/
-  validAccount(code: string, tokenId: string): Observable<any>{
-    return this.http.post<any>(this.codeUrl, {code, tokenId}, this.httpOptions)
+  validAccount(code: string, token: string): Observable<any>{
+    return this.http.post<any>(this.codeUrl, {code, token}, this.httpOptions)
   }
 
   /** POST */

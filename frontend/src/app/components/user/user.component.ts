@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from 'src/app/parameters/local-storage.service';
 
 @Component({
   selector: 'app-user',
@@ -7,12 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserComponent implements OnInit {
 
+  pseudo!: string | null;
+
   isListProfil:any;
   isListDevise:any;
 
-  constructor() { }
+  constructor(
+    private localStorage: LocalStorageService
+  ) { }
 
   ngOnInit(): void {
+    
+    const datauser:any = this.localStorage.get('data');
+    const data = JSON.parse(datauser);
+    this.pseudo = data.user.pseudo;
   }
 
 }

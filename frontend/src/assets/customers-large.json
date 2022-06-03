@@ -2,30 +2,39 @@
   "data":[
     {
       "id":"alice001",
-      "quantite": "0.5-0.9",
-      "montant": "426-4260",
+      "quantite_type": "range",
+      "quantite_min": 0.5,
+      "quantite_max": 0.9,
+      "montant_type": "range",
+      "montant_min": 426,
+      "montant_max": 4268,
       "marge": 1,
       "sens": "Vente",
       "paiement": "Orange Money, Wave",
-      "anciennete": "29 jours"
+      "anciennete": 29
     },
     {
       "id":"bob221",
-      "quantite": "0.5-0.8",
-      "montant": "21280",
+      "quantite_type": "range",
+      "quantite_min": 0.5,
+      "quantite_max": 0.8,
+      "montant_type": "fixe",
+      "montant_fixe": 21280,
       "marge": -2,
       "sens": "Achat",
       "paiement": "Orange Money, Wave",
-      "anciennete": "150 jours"
+      "anciennete": 150
     },
     {
       "id":"alice714",
-      "quantite": "2",
-      "montant": "85210",
+      "quantite_type": "fixe",
+      "quantite_fixe": 2,
+      "montant_type": "fixe",
+      "montant_fixe": 85210,
       "marge": 10,
       "sens": "Achat",
       "paiement": "Wave, Free Money",
-      "anciennete": "89 jours"
+      "anciennete": 89 
     }
   ]
 }

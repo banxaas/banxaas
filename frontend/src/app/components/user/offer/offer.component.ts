@@ -19,6 +19,8 @@ export class OfferComponent implements OnInit {
 
   statuses!: any[];
   paiementMethode!: any[];
+  range_quantity: any[] = [];
+  range_amount: any[] = [];
 
   loading: boolean = true;
 
@@ -26,11 +28,29 @@ export class OfferComponent implements OnInit {
   constructor(private customerService: CustomerService, private primengConfig: PrimeNGConfig) { }
 
   ngOnInit(): void {
-    this.customerService.getCustomersLarge().then(customers => {
+    this.range_quantity = [];
+    this.range_amount = [];
+
+    this.customerService.getCustomersLarge().then((customers: Customer[]) => {
         this.customers = customers;
+        this.customers.forEach(element => {
+        if (element.quantite_type==="range") {
+            this.range_quantity.push([element.quantite_min,element.quantite_max])
+        }else {
+            this.range_quantity.push([element.quantite_fixe])
+        } 
+        if (element.montant_type==="range") {
+            this.range_amount.push([element.montant_min,element.montant_max])
+        }else {
+            this.range_amount.push([element.montant_fixe])
+        } 
+        
+    });
+        
         this.loading = false;
     });
-
+    console.log(this.range_quantity);
+    
     this.paiementMethode = [
         {name: "Orange", value: 'orange'},
         {name: "Wave", value: 'wave'},
@@ -44,6 +64,54 @@ export class OfferComponent implements OnInit {
     this.primengConfig.ripple = true;
   }
 
+  filtrequantite(event: { target: any; }){
+
+    const quantite = event.target.value;    
+    this.range_quantity.forEach(element => {
+
+        if (element.length===2) {
+            if (element[0]<=quantite && quantite<=element[1]) {
+                this.table.filter(quantite, 'quantite_min', 'lte');
+                this.table.filter(quantite, 'quantite_max', 'gte');
+            }
+        }
+        else {
+            if (element[0]==quantite) {
+                
+                this.table.filter(quantite, 'quantite_fixe', 'equals')
+            }
+        }
+
+    });
+  }
+
+  filtremontant(event: { target: any; }){
+      
+
+    let amount = event.target.value;
+    console.log(amount);
+    
+    this.range_amount.forEach(element => {
+        
+
+        if (element.length===2) {
+            if (element[0]<=amount && amount<=element[1]) {
+                
+                console.log(amount);
+                amount = parseInt(amount)
+                this.table.filter(amount, 'montant_min', 'lte');
+                this.table.filter(amount, 'montant_max', 'gte');
+            }
+        }
+        if (element.length===1) {
+            if (element[0]==amount) {
+                amount = parseInt(amount)
+                this.table.filter(amount, 'montant_fixe', 'equals')
+            }
+        }
+
+    });
+  }
   
   onActivityChange(event: { target: any; }) {
     const value = event.target.value;

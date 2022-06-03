@@ -113,8 +113,9 @@
                           <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'id', 'startsWith')" placeholder="Filtrer par Id user" class="p-column-filter w-[90%]">
                       </th>
                       <th>
-                          <!-- <input pInputText type="text" (input)="dt.filter($event, 'quantite', 'contains')" placeholder="Search by Quantity" class="p-column-filter"> -->
-                          <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'quantite', 'startsWith')" placeholder="Entrer une quantité" class="p-column-filter  w-[90%]" >
+                          <!-- <input pInputText type="text" (input)="dt.filter($event, 'quantite_min', 'lte')" placeholder="Search by Quantity" class="p-column-filter"> -->
+                          <input pInputText type="number" (input)="filtrequantite($event)" placeholder="Entrer une quantité" class="p-column-filter  w-[90%]" >
+                          <button onclick="filtrequantite()" >click</button>
                       </th>
                       <th>
                           <!-- <p-multiSelect placeholder="All" (onChange)="onRepresentativeChange($event)" styleClass="p-column-filter" optionLabel="name">
@@ -124,7 +125,7 @@
                                   </div>
                               </ng-template>
                           </p-multiSelect> -->
-                          <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'montant', 'startsWith')" placeholder="Entrer un montant" class="p-column-filter  w-[90%]" >
+                          <input pInputText type="number" onclick="filtrequantite($event)"  placeholder="Entrer un montant" class="p-column-filter  w-[90%]" >
                       </th>
                       <th>
                         <!-- <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'marge', 'gte')" placeholder="Marge" class="p-column-filter" > -->
@@ -159,11 +160,13 @@
                     </td>
                     <td>
                         <span class="p-column-title">quantite</span>
-                        <span class="text-center">{{customer.quantite}}</span>
+                        <span *ngIf="customer.quantite_type=='range'" class="text-center">{{customer.quantite_min}}-{{customer.quantite_max}}</span>
+                        <span *ngIf="customer.quantite_type=='fixe'" class="text-center">{{customer.quantite_fixe}}</span>
                     </td>
                     <td>
                         <span class="p-column-title">Montant</span>
-                        <span class="image-text">{{customer.montant}}</span>
+                        <span  *ngIf="customer.montant_type=='range'" class="image-text">{{customer.montant_min}}-{{customer.montant_max}}</span>
+                        <span *ngIf="customer.montant_type=='fixe'" class="image-text">{{customer.montant_fixe}}</span>
                     </td>
                     <td>
                         <span class="p-column-title">Marge</span>
@@ -183,7 +186,7 @@
                     </td> -->
                     <td>
                       <span class="p-column-title">Anciennete</span>
-                      {{customer.anciennete}}
+                      {{customer.anciennete}} jours
                   </td>
                   <td style="text-align: center">
                       <button type="button" class="text-green-600 px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-600 hover:text-white    hover:bg-green-600">Accepter</button>

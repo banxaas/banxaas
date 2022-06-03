@@ -19,7 +19,7 @@ export class ConnexionComponent implements OnInit {
 
   tokenCcreation = new EventEmitter<RegisterComponent>();
   signin = new FormGroup({
-    username: new FormControl('Mass', [Validators.required]),
+    login: new FormControl('Mass', [Validators.required]),
     password: new FormControl('L@coste90', [Validators.required]),
   })
 
@@ -42,12 +42,19 @@ export class ConnexionComponent implements OnInit {
   connected(){
 
     const dataFormSignin = this.signin.value;
-    this.authService.login(dataFormSignin.username, dataFormSignin.password).subscribe(
+    this.authService.login(dataFormSignin.login, dataFormSignin.password).subscribe(
       
       
       (data) => {
-        const token = data.tokenId;
-        this.localStorage.set('token', token);
+        
+        this.localStorage.set('status', data.status);
+        this.localStorage.set('user', data.user.pseudo);
+        this.localStorage.set('key', data.key);
+        this.localStorage.set('token', data.token);
+        this.localStorage.set('signature', data.signature);
+        this.localStorage.set('data', JSON.stringify(data));
+        console.log(this.localStorage.get('user'));
+        
         const status = data.status;
         
         this.authService.uniqConnexion(data.key, data.signature).subscribe(
@@ -58,7 +65,9 @@ export class ConnexionComponent implements OnInit {
             }
           });
         if (status === "SUCCESSFUL") {
-          this.router.navigate(['user']); 
+          this.localStorage.set('token', data);
+          this.router.navigate(['user']);
+          
         } 
           
         if (status === "INACTIVATED") {
