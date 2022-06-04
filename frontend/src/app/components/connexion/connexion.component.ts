@@ -19,8 +19,8 @@ export class ConnexionComponent implements OnInit {
 
   tokenCcreation = new EventEmitter<RegisterComponent>();
   signin = new FormGroup({
-    login: new FormControl('Mass', [Validators.required]),
-    password: new FormControl('L@coste90', [Validators.required]),
+    login: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required]),
   })
 
   constructor(
