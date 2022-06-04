@@ -8,8 +8,8 @@ urlpatterns = [
     path('connexion/', Connexion),
     path('createAccount/', CreateAccountViewset),
     path('validateCode/', ValidateCodeViewset),
-    path('userHasNewConnection/', UserHasNewConnection),
-    path('setUser/', SetUserViewset.as_view()),
+    path('isDisconnected/', isDisconnected),
+    path('setUser/', SetUserViewset),
     path('PaymentMethod/', PaymentMethodViewset.as_view()),
     path('ad/', AdViewset.as_view())
 ]

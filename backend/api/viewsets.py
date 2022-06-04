@@ -65,7 +65,7 @@ def Connexion(request):
 	})
 
 @api_view(['POST'])
-def UserHasNewConnection(request):
+def isDisconnected(request):
 	""" Cette fonction permet de vérifier si l'utilisateur s'est connecté à nouveau
 	pour le déconnecter
 	Méthode autorisée: POST,
@@ -107,14 +107,14 @@ def CreateAccountViewset(request):
 		emailRegex = "([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+@([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+\\.([A-Z|a-z]{2,})"
 		if(not re.match(emailRegex, email)): # Regex Email Vérification
 			return Response({'status': 'Email Invalide'})
-		userExist, response = verifyUser(data['pseudo'], email) # Vérification d'un potentiel utilisateur avec cet email
+		userExist, response = verifyUser(email) # Vérification d'un potentiel utilisateur avec cet email
 	else:
 		#L'utilisateur a donné son phone
 		phone =  data['phone']
 		phoneRegex = "^(77|78|75|70|76)[0-9]{7}$" # Regex Phone Verification
 		if(not re.match(phoneRegex, phone)):
 			return Response({'status': 'Phone Invalide'})
-		userExist, response = verifyUser(data['pseudo'], data['phone']) # Vérification d'un potentiel utilisateur avec ce mail
+		userExist, response = verifyUser(data['phone']) # Vérification d'un potentiel utilisateur avec ce mail
 	if userExist:
 		return response
 	serializer = CreateAccountSerializer(data=data) # Sérialisation
@@ -157,6 +157,7 @@ def ValidateCodeViewset(request):
 class PaymentMethodViewset(APIView):
 
 	def verifyExistingPm(self, name, phone):
+		""" Permet de vérifier si le PM existe déja """
 		if PaymentMethod.objects.filter(name=name, phone=phone):
 			return True
 		return False
@@ -174,7 +175,7 @@ class PaymentMethodViewset(APIView):
 
 			# Vérifie si l'utilisateur est connecté
 			if not isAuthenticated(token, request.data['signature']):
-				return Response({"status": "FAILED", "message": "Qui êtes vous ?"})
+				return Response({"status": "FAILED"})
 			
 			# Verification existence PM
 			if self.verifyExistingPm(request.data['name'], request.data['phone']):
@@ -204,33 +205,112 @@ class PaymentMethodViewset(APIView):
 			token = request.data['token']
 			# Vérifie si l'utilisateur est connecté
 			if not isAuthenticated(token, request.data['signature']):
-				return Response({"status": "FAILED", "message": "Qui êtes vous ?"})
+				return Response({"status": "FAILED"})
 			pm = PaymentMethod.objects.get(id=int(request.data['id']))
 			pm.delete()
 			return Response({'status': "SUCCESSFUL"})
 		except Exception as e:
 			return Response({'status': "FAILED"})
 
+@api_view(['PATCH'])
+def SetUserViewset(request):
+	"""
+	Permet de modifier les informations de l'utilisateurs
+	Méthode: PATCH,
+	JSON: {
+		'token': '...', 
+		'signature':'...', 
+		'pseudo':'...', 
+		'email':'...', 
+		'password': '...', 
+		'newPassword': '...', 
+		'currency': '...'
+	}
+	"""
+	try:
+		data = request.data
+		keys = list(data.keys())
 
-class SetUserViewset(APIView):
+		# Validité des éléments
+		if len(data) > 7:
+			return Response({'status': "FAILED"})
 
-	def patch(self, request):
-		try:
-			user = getUserByLogin(request.data['id'])
-			if not user:
-				return Response({'status': "FAILED", 'message':"Vous n'existez pas !"})
+		token = data['token'] # Récupération du Token
 
-			serializer = SetAccountSerializer(user, data=request.data, partial=True)
-			if serializer.is_valid():
-				serializer.save()
-				return Response({'status': "SUCCESSFUL"})
-			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-		except:
+		# Vérifie si l'utilisateur est connecté
+		if not isAuthenticated(token, data['signature']):
+			return Response({"status": "FAILED"})
+
+		user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+		
+		# Vérifie si les nouvelles informations existent ou pas
+		if ('pseudo' in keys) and (user.pseudo != data['pseudo']):
+			pseudoExist, response = verifyUser(data['pseudo'])
+			if pseudoExist:
+				return response
+		
+		if ('email' in keys) and (user.email != data['email']):
+			emailExist, response = verifyUser(data['email'])
+			if emailExist:
+				return response
+			emailRegex = "([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+@([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+\\.([A-Z|a-z]{2,})"
+			if not re.match(emailRegex, data['email']): # Regex Email Vérification
+				return Response({'status': 'Email Invalide'})
+
+		if ('phone' in keys) and (user.phone != str(data['phone'])):
+			phoneExist, response = verifyUser(data['phone'])
+			if phoneExist:
+				return response
+			phoneRegex = "^(77|78|75|70|76)[0-9]{7}$"
+			if not re.match(phoneRegex, str(data['phone'])):
+				return Response({'status': 'Phone Invalide'})
+
+		if (('password' in keys) and ('newPassword' not in keys)) or (('newPassword' in keys) and ('password' not in keys)):
 			return Response({"status":"FAILED"})
+		
+		if ('password' in keys) and ('newPassword' in keys):
+			if user.check_password(data['password']):
+				data['password'] = make_password(data['newPassword'])
+				data.pop('newPassword')
+			else:
+				return Response({'status':"FAILED", 'message': "Mot de passe incorrect !"})
+
+		# Nettoyage de data
+		data.pop('token')
+		data.pop('signature')
+
+		#sérialisation
+		serializer = SetAccountSerializer(user, data=data, partial=True)
+		if serializer.is_valid():
+			user.disconnect()
+			Token.objects.filter(user=user)[0].delete()
+			Token.objects.create(user=user)
+			# Préparation des payload et envoie du code
+			if ('email' in keys) or ('phone' in keys):
+				if 'email' in keys:
+					code = sendVerificationCodeByMail(data['email'])
+					payload = createValidationTokenPayload(code, data['email'], "email")
+				else:
+					code = sendVerificationCodeBySms(date['phone'])
+					payload = createValidationTokenPayload(code, date['phone'], "phone")
+				serializer.save()
+				return Response({
+					'status': "SUCCESSFUL",
+					'token': createToken(payload)
+				})
+			else:
+				serializer.save()
+				return Response({
+					'status': "SUCCESSFUL"
+				})
+	except:
+		return Response({"status":"FAILED"})
+	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class AdViewset(APIView):
 
-	
 	def get(self, request):
 		ads = Ad.objects.all()
 		serializer = AdGetSerializer(ads, many=True)

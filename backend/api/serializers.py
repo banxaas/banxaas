@@ -28,13 +28,17 @@ class SetAccountSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = User
-		fields = ['pseudo', 'email', 'phone', 'currency']
+		fields = ['pseudo', 'email', 'phone', 'currency', 'password']
+		extra_kwargs = {
+			'password': {'write_only': True},
+		}
 
 	def update(self, instance, validated_data):
 		instance.pseudo = validated_data.get('pseudo', instance.pseudo)
 		instance.phone = validated_data.get('phone', instance.phone)
 		instance.email = validated_data.get('email', instance.email)
 		instance.currency = validated_data.get('currency', instance.currency)
+		instance.password = validated_data.get('password', instance.password)
 		instance.save()
 		return instance
 

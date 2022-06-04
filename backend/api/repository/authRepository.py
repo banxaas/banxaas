@@ -1,4 +1,5 @@
 from api.models import *
+from rest_framework.authtoken.models import Token
 import smtplib
 import random
 import os, hashlib, jwt
@@ -33,9 +34,9 @@ def getUserByLogin(login):
 	else:
 		return None # La foncton retourne None si l'utilisateur n'existe pas !
 
-def verifyUser(pseudo, login):
+def verifyUser(login):
 	""" Cette fonction permet de vérifier si le pseudo ou le phone ou l'email existe """
-	if User.objects.filter(pseudo=pseudo):
+	if User.objects.filter(pseudo=login):
 		return [True, Response({'status': "FAILED", 'message': 'Pseudo already exists'})]
 	if User.objects.filter(email=login):
 		return [True, Response({'status': "FAILED", 'message': 'Email already exists'})]
@@ -139,6 +140,7 @@ def verifyCodeValidation(code, token):
 	return [True, userId]
 
 def isAuthenticated(token, signature):
-	if User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub']).isAuthenticated or (signature == Token.objects.filter(user=user)[0].key):
+	user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+	if user.isAuthenticated and (signature == Token.objects.filter(user=user)[0].key):
 		return True
 	return False
