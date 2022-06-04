@@ -19,3 +19,20 @@ def ValidateCode(request):
 @api_view(['POST'])
 def isDisconnected(request):
 	return Response(requests.post('http://backend:27543/api/isDisconnected/', data=request.data).json())
+
+@api_view(['PATCH'])
+def SetUser(request):
+	return Response(requests.post('http://backend:27543/api/setUser/', data=request.data).json())
+
+@api_view(['POST', 'DELETE'])
+def PaymentMethod(request):
+	return Response(requests.post('http://backend:27543/api/paymentMethod/', data=request.data).json())
+
+@api_view(['POST', 'DELETE'])
+def Ad(request):
+	pprint(request.METHOD)
+	return Response(requests.post('http://backend:27543/api/ad/', data=request.data).json())
+
+@api_view(['GET'])
+def Ads(request, page):
+	return Response(requests.get(f'http://backend:27543/api/ads/{page}/', data=request.data).json())

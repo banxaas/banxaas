@@ -92,8 +92,8 @@ def isDisconnected(request):
 def CreateAccountViewset(request):
 	""" Cette fonction, permet de creer un compte utilisateur 
 	Méthode autorisée: POST,
-	JSON à soumettre: {'pseudo': '...', 'password': '...', 'email':'...'} ou
-					  {'pseudo': '...', 'password': '...', 'phone':'...'}
+	JSON à soumettre: {"pseudo": "...", "password": "...", "email":"..."} ou
+					  {"pseudo": "...", "password": "...", "phone":"..."}
 	"""
 	data = request.data
 	keys = list(data.keys())
@@ -137,7 +137,7 @@ def CreateAccountViewset(request):
 def ValidateCodeViewset(request):
 	""" Cette fonction, permet de valider le code de l'utilisateur 
 	Méthode autorisée: POST,
-	JSON à soumettre: {'code': '...', 'token': '...'}
+	JSON à soumettre: {"code": "...", "token": "..."}
 	"""
 	try:
 		isValid, userId = verifyCodeValidation(request.data['code'], request.data['token'])
@@ -218,13 +218,13 @@ def SetUserViewset(request):
 	Permet de modifier les informations de l'utilisateurs
 	Méthode: PATCH,
 	JSON: {
-		'token': '...', 
-		'signature':'...', 
-		'pseudo':'...', 
-		'email':'...', 
-		'password': '...', 
-		'newPassword': '...', 
-		'currency': '...'
+		"token": "...", 
+		"signature":"...", 
+		"pseudo":"...", 
+		"email":"...", 
+		"password": "...", 
+		"newPassword": "...", 
+		"currency": "..."
 	}
 	"""
 	try:
@@ -318,13 +318,13 @@ class AdViewset(APIView):
 		Méthode: PATCH,
 		JSON: {
 			// Obligatoire
-			'token': '...', 
-			'signature':'...', 
-			'sens':'...', 
-			'quantityType':'...', 
-			'amountType': '...', 
-			'marge': '...',
-			'provider': '...'
+			"token": "...", 
+			"signature":"...", 
+			"sens":"...", 
+			"quantityType":"...", 
+			"amountType": "...", 
+			"marge": "...", //Number, Int
+			"provider": "..."
 			// Optionnel selon le Type
 			'quantityFixe': '...',
 			'quantityMin': '...',
@@ -420,8 +420,16 @@ class AdsViewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generi
 	queryset = Ad.objects.all()
 	serializer_class = AdsSerializer
 
-	def get(self, request, page):
-		if page < 1:
-			return Response({"status":"FAILED"})
-		self.queryset = Ad.objects.order_by('-publicationDate')[ (page-1)*10:10*page]
-		return self.list(request)
+	def post(self, request, page):
+		try:
+			if page < 1:
+				return Response({"status":"FAILED"})
+			token = request.data['token'] # Récupération du Token
+			# Vérifie si l'utilisateur est connecté
+			if not isAuthenticated(token, request.data['signature']):
+				return Response({"status": "FAILED"})
+			self.queryset = Ad.objects.order_by('-publicationDate')[ (page-1)*10:10*page]
+			return self.list(request)
+		except:
+			return Response({"status": "FAILED"})
+		

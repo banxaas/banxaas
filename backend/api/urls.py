@@ -10,7 +10,7 @@ urlpatterns = [
     path('validateCode/', ValidateCodeViewset),
     path('isDisconnected/', isDisconnected),
     path('setUser/', SetUserViewset),
-    path('PaymentMethod/', PaymentMethodViewset.as_view()),
+    path('paymentMethod/', PaymentMethodViewset.as_view()),
     path('ad/', AdViewset.as_view()),
     path('ads/<int:page>/', AdsViewset.as_view())
 ]
