@@ -11,5 +11,6 @@ urlpatterns = [
     path('isDisconnected/', isDisconnected),
     path('setUser/', SetUserViewset),
     path('PaymentMethod/', PaymentMethodViewset.as_view()),
-    path('ad/', AdViewset.as_view())
+    path('ad/', AdViewset.as_view()),
+    path('ads/<int:pk>/', AdsViewset.as_view())
 ]

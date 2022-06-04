@@ -267,7 +267,7 @@ def SetUserViewset(request):
 
 		if (('password' in keys) and ('newPassword' not in keys)) or (('newPassword' in keys) and ('password' not in keys)):
 			return Response({"status":"FAILED"})
-		
+
 		if ('password' in keys) and ('newPassword' in keys):
 			if user.check_password(data['password']):
 				data['password'] = make_password(data['newPassword'])
@@ -281,64 +281,141 @@ def SetUserViewset(request):
 
 		#sérialisation
 		serializer = SetAccountSerializer(user, data=data, partial=True)
-		if serializer.is_valid():
+		if not serializer.is_valid():
+			#return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"status":"FAILED"})
+
+		# Préparation des payload et envoie du code
+		if (('email' in keys) and (user.email != data['email'])) or (('phone' in keys) and (user.phone != str(data['phone']))):
+			if 'email' in keys:
+				code = sendVerificationCodeByMail(data['email'])
+				payload = createValidationTokenPayload(code, data['email'], "email")
+			else:
+				code = sendVerificationCodeBySms(date['phone'])
+				payload = createValidationTokenPayload(code, date['phone'], "phone")
+			serializer.save()
 			user.disconnect()
 			Token.objects.filter(user=user)[0].delete()
 			Token.objects.create(user=user)
-			# Préparation des payload et envoie du code
-			if ('email' in keys) or ('phone' in keys):
-				if 'email' in keys:
-					code = sendVerificationCodeByMail(data['email'])
-					payload = createValidationTokenPayload(code, data['email'], "email")
-				else:
-					code = sendVerificationCodeBySms(date['phone'])
-					payload = createValidationTokenPayload(code, date['phone'], "phone")
-				serializer.save()
-				return Response({
-					'status': "SUCCESSFUL",
-					'token': createToken(payload)
-				})
-			else:
-				serializer.save()
-				return Response({
-					'status': "SUCCESSFUL"
-				})
+			return Response({
+				'status': "SUCCESSFUL",
+				'token': createToken(payload)
+			})
+		serializer.save()
+		return Response({
+			'status': "SUCCESSFUL"
+		})
 	except:
 		return Response({"status":"FAILED"})
-	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
 class AdViewset(APIView):
 
-	def get(self, request):
-		ads = Ad.objects.all()
-		serializer = AdGetSerializer(ads, many=True)
-		return Response(serializer.data)
-
 	def post(self, request):
-		pprint(User.objects.filter(pseudo=request.data['user'])[0].id)
-		request.data['user'] = User.objects.filter(pseudo=request.data['user'])[0].id
-		serializer = AdPostSerializer(data=request.data)
-		if serializer.is_valid():
-			try:
+		"""
+		Permet de modifier les informations de l'utilisateurs
+		Méthode: PATCH,
+		JSON: {
+			// Obligatoire
+			'token': '...', 
+			'signature':'...', 
+			'sens':'...', 
+			'quantityType':'...', 
+			'amountType': '...', 
+			'marge': '...',
+			'provider': '...'
+			// Optionnel selon le Type
+			'quantityFixe': '...',
+			'quantityMin': '...',
+			'quantityMax': '...',
+			'amountFixe': '...',
+			'amountMin': '...',
+			'amountMax': '...'
+		}
+		"""
+		try:
+			data = request.data
+			token = data['token'] # Récupération du Token
+			
+			# Vérifie si l'utilisateur est connecté
+			if not isAuthenticated(token, data['signature']):
+				return Response({"status": "FAILED"})
+			
+			# Nettoyage de data
+			data.pop('token')
+			data.pop('signature')
+
+			keys = list(data.keys())
+			fields = ['sens', 'quantityType', 'quantityFixe', 'quantityMin', 'quantityMax', 'amountType', 'amountFixe', 'amountMin', 'amountMax', 'marge', 'provider']
+			
+			# Donnée en plus
+			for key in keys:
+				if key not in fields:
+					pprint(key)
+					pprint('Not in keys')
+					return Response({"status": "FAILED"})
+
+			# Vérification de la conformité des données
+			if data['quantityType'] != data['amountType']:
+				return Response({"status": "FAILED"})
+			pprint('not same')
+			if (data['quantityType'] == 'F') and (('quantityFixe' not in keys) or ('quantityFixe' not in keys)):
+				return Response({"status": "FAILED"})
+			if (data['quantityType'] == 'F') and (('quantityMin' in keys) or ('quantityMax' in keys) or ('amountMin' in keys) or ('amountMax' in keys)):
+				return Response({"status": "FAILED"})
+			if (data['quantityType'] == 'R') and (('quantityMin' not in keys) or ('quantityMax' not in keys) or ('amountMin' not in keys) or ('amountMax' not in keys)):
+				return Response({"status": 'FAILED'})
+			if (data['quantityType'] == 'R') and (('quantityFixe' in keys) or ('quantityFixe' in keys)):
+				return Response({"status": 'FAILED'})
+			if (data['quantityType'] == 'R') and ((data['quantityMin'] >= data['quantityMax']) or (data['amountMin'] >= data['amountMax'])):
+				return Response({"status": 'FAILED'})
+
+			# Récupération de user
+			user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+			data['user'] = user.id # ajout de user dans data
+			pprint(data)
+			serializer = AdPostSerializer(data=data)
+			if serializer.is_valid():
 				serializer.save()
-			except Exception as e:
-				return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-			return Response({'status': "SUCCESSFUL"})
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+				return Response({'status': "SUCCESSFUL"})	
+			return Response({"status": "FAILED"})
+		except:
+			return Response({"status": "FAILED"})
+		
 	
 	def delete(self, request):
+		"""
+		Permet de supprimer une annonce
+		Méthode: DELETE,
+		JSON: {
+			'token': '...', 
+			'signature':'...', 
+			'id':'...' // Il s'agit de l'id de l'annonce
+		}
+		"""
 		try:
-			ad = Ad.objects.get(id=int(request.data['id']))
+			data = request.data
+			if len(data) != 3:
+				return Response({"status": "FAILED"})
+
+			token = data['token'] # Récupération du Token
+			# Vérifie si l'utilisateur est connecté
+			if not isAuthenticated(token, data['signature']):
+				return Response({"status": "FAILED"})
+			
+			# Nettoyage de data
+			data.pop('token')
+			data.pop('signature')
+			user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+			ad = Ad.objects.get(id=int(request.data['id']), user=user.id)
 			ad.delete()
 			return Response({'status': "SUCCESSFUL"})
 		except:
 			return Response({'status': "FAILED"})
 
 
-"""
-class Adsviewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+class AdsViewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
 
 	queryset = Ad.objects.all()
 	serializer_class = AdsSerializer
@@ -357,4 +434,3 @@ class Adsviewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generi
 				return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-"""

@@ -89,7 +89,7 @@ class AdGetSerializer(serializers.ModelSerializer):
         depth = 1
 
 
-"""
+
 class AdsSerializer(serializers.ModelSerializer):
 
 	class Meta:
@@ -98,4 +98,3 @@ class AdsSerializer(serializers.ModelSerializer):
 		extra_kwargs = {
 			'publicationDate': {'read_only': True},
 		}
-"""
