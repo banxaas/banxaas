@@ -68,7 +68,7 @@ class UserForAdSerializer(serializers.ModelSerializer):
 		model = User
 		fields = ['pseudo', 'seniority']
 
-class AdPostSerializer(serializers.ModelSerializer):
+class AdSerializer(serializers.ModelSerializer):
     quantityFixe = serializers.CharField(allow_blank=True, required=False)
     quantityMin = serializers.CharField(allow_blank=True, required=False)
     quantityMax = serializers.CharField(allow_blank=True, required=False)
@@ -80,21 +80,10 @@ class AdPostSerializer(serializers.ModelSerializer):
         model = Ad
         fields = '__all__'
 
-class AdGetSerializer(serializers.ModelSerializer):
+class AdsSerializer(serializers.ModelSerializer):
     user = UserForAdSerializer()
 
     class Meta:
         model = Ad
         fields = '__all__'
         depth = 1
-
-
-
-class AdsSerializer(serializers.ModelSerializer):
-
-	class Meta:
-		model = Ad
-		fields = '__all__'
-		extra_kwargs = {
-			'publicationDate': {'read_only': True},
-		}

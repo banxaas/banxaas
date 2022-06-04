@@ -375,7 +375,7 @@ class AdViewset(APIView):
 			user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
 			data['user'] = user.id # ajout de user dans data
 			pprint(data)
-			serializer = AdPostSerializer(data=data)
+			serializer = AdSerializer(data=data)
 			if serializer.is_valid():
 				serializer.save()
 				return Response({'status': "SUCCESSFUL"})	
@@ -419,18 +419,9 @@ class AdsViewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generi
 
 	queryset = Ad.objects.all()
 	serializer_class = AdsSerializer
-	filterset_fields = ['sens']
-	search_fields = ['quantityType']
 
-	def get(self, request):
+	def get(self, request, page):
+		if page < 1:
+			return Response({"status":"FAILED"})
+		self.queryset = Ad.objects.order_by('-publicationDate')[ (page-1)*10:10*page]
 		return self.list(request)
-
-	def post(self, request, format=None):
-		serializer = AdsSerializer(data=request.data)
-		if serializer.is_valid():
-			try:
-				serializer.save()
-			except:
-				return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-			return Response(serializer.data, status=status.HTTP_201_CREATED)
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
