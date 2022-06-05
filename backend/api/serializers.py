@@ -28,13 +28,17 @@ class SetAccountSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = User
-		fields = ['pseudo', 'email', 'phone', 'currency']
+		fields = ['pseudo', 'email', 'phone', 'currency', 'password']
+		extra_kwargs = {
+			'password': {'write_only': True},
+		}
 
 	def update(self, instance, validated_data):
 		instance.pseudo = validated_data.get('pseudo', instance.pseudo)
 		instance.phone = validated_data.get('phone', instance.phone)
 		instance.email = validated_data.get('email', instance.email)
 		instance.currency = validated_data.get('currency', instance.currency)
+		instance.password = validated_data.get('password', instance.password)
 		instance.save()
 		return instance
 
@@ -64,7 +68,7 @@ class UserForAdSerializer(serializers.ModelSerializer):
 		model = User
 		fields = ['pseudo', 'seniority']
 
-class AdPostSerializer(serializers.ModelSerializer):
+class AdSerializer(serializers.ModelSerializer):
     quantityFixe = serializers.CharField(allow_blank=True, required=False)
     quantityMin = serializers.CharField(allow_blank=True, required=False)
     quantityMax = serializers.CharField(allow_blank=True, required=False)
@@ -76,22 +80,10 @@ class AdPostSerializer(serializers.ModelSerializer):
         model = Ad
         fields = '__all__'
 
-class AdGetSerializer(serializers.ModelSerializer):
+class AdsSerializer(serializers.ModelSerializer):
     user = UserForAdSerializer()
 
     class Meta:
         model = Ad
         fields = '__all__'
         depth = 1
-
-
-"""
-class AdsSerializer(serializers.ModelSerializer):
-
-	class Meta:
-		model = Ad
-		fields = '__all__'
-		extra_kwargs = {
-			'publicationDate': {'read_only': True},
-		}
-"""

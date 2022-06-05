@@ -98,16 +98,17 @@ class Ad(models.Model):
 	#Enum Sens
 	PAYMENT_METHOD = [("WAVE", "Wave"), ("OM", "Orange Money"), ("FREE","Free Money")]
 	SENS = [("A", "Achat"), ("V", "Vente")]
+	TYPE = [("F", "FIXED"), ("R", "RANGE")]
 	STATUS = [("F", "Finalisée"), ("A","Annulé"), ("C", "En cours"), ("I", "Initial")]
 
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	status = models.CharField(max_length=1, choices=STATUS, default="I")
 	sens = models.CharField(max_length=1, choices=SENS)
-	quantityType = models.CharField(max_length=50)
+	quantityType = models.CharField(max_length=50, choices=TYPE)
 	quantityFixe = models.CharField(max_length=21, blank=True, null=True)
 	quantityMin = models.CharField(max_length=21, blank=True, null=True)
 	quantityMax = models.CharField(max_length=21, blank=True, null=True)
-	amountType = models.CharField(max_length=50)
+	amountType = models.CharField(max_length=50, choices=TYPE)
 	amountFixe = models.CharField(max_length=21, blank=True, null=True)
 	amountMin = models.CharField(max_length=21, blank=True, null=True)
 	amountMax = models.CharField(max_length=21, blank=True, null=True)
