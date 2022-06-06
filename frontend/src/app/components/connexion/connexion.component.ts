@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertService } from 'src/app/parameters/alert/alert.service';
 import { AuthService } from 'src/app/parameters/auth.service';
 import { LocalStorageService } from 'src/app/parameters/local-storage.service';
 import { RegisterComponent } from '../register/register.component';
@@ -26,7 +27,8 @@ export class ConnexionComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private localStorage: LocalStorageService,
-    private router: Router
+    private router: Router,
+    private alert : AlertService
   ) { }
 
 
@@ -36,7 +38,7 @@ export class ConnexionComponent implements OnInit {
 
   }
   get formControls(){
-    return this.  signin.controls;
+    return this.signin.controls;
   }
 
   connected(){
@@ -48,7 +50,7 @@ export class ConnexionComponent implements OnInit {
       (data) => {
         
         this.localStorage.set('status', data.status);
-        this.localStorage.set('user', data.user.pseudo);
+        // this.localStorage.set('user', data.user.pseudo);
         this.localStorage.set('key', data.key);
         this.localStorage.set('token', data.token);
         this.localStorage.set('signature', data.signature);
@@ -57,15 +59,15 @@ export class ConnexionComponent implements OnInit {
         
         const status = data.status;
         
-        this.authService.uniqConnexion(data.key, data.signature).subscribe(
-          reponse => {
-            console.log(reponse);
-            if (reponse.status = true) {
-              this.router.navigate(['connexion']);
-            }
-          });
         if (status === "SUCCESSFUL") {
           this.localStorage.set('token', data);
+          this.authService.uniqConnexion(data.token, data.signature).subscribe(
+            reponse => {
+              console.log(reponse);
+              if (reponse.status == true && reponse.motif === "New Connexion") {
+                this.router.navigate(['connexion']);
+              }
+            });
           this.router.navigate(['user']);
           
         } 

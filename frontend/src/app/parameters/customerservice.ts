@@ -21,6 +21,6 @@ export class CustomerService {
 
   /** PATCH Set data Account*/
   setUserAccount(data:any): Observable<any>{
-    return this.http.patch<any>(this.setUserUrl, data, this.httpOptions)
+    return this.http.patch<any>(this.setUserUrl, data)
   }
 }

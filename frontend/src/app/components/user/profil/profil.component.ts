@@ -14,11 +14,10 @@ export class ProfilComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const datauser:any = this.localStorage.get('user');
+    const datauser:any = this.localStorage.get('data');
     const data = JSON.parse(datauser);
-    console.log(data);
-    
-    this.pseudo = data.user;
+    this.pseudo = data.user.pseudo;
+    console.log(this.pseudo);
   }
 
 }

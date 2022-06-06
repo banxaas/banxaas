@@ -11,10 +11,10 @@ export class  AuthService {
   constructor(private http: HttpClient) { }
 
   // tslint:disable-next-line: member-ordering
-  private authUrl = 'http://localhost:9000/connexion/';
-  private registerUrl = 'http://localhost:9000/createAccount/';
-  private codeUrl = 'http://localhost:9000/validateCode/';
-  private isDeconnectedUrl = 'http://localhost:9000/isDisconnected/';
+  private authUrl = 'http://localhost:8000/api/connexion/';
+  private registerUrl = 'http://localhost:8000/api/createAccount/';
+  private codeUrl = 'http://localhost:8000/api/validateCode/';
+  private isDeconnectedUrl = 'http://localhost:8000/api/isDisconnected/';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json', Authorization: 'Bearer ' +localStorage.getItem('token') })
@@ -37,7 +37,7 @@ export class  AuthService {
   }
 
   /** POST */
-  uniqConnexion(key: string, signature: string): Observable<any> {
-    return this.http.post<any>(this.isDeconnectedUrl, { key, signature }, this.httpOptions);
+  uniqConnexion(token: string, signature: string): Observable<any> {
+    return this.http.post<any>(this.isDeconnectedUrl, { token, signature });
   }
 }
