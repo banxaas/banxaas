@@ -54,6 +54,7 @@ export class ConnexionComponent implements OnInit {
         this.localStorage.set('key', data.key);
         this.localStorage.set('token', data.token);
         this.localStorage.set('signature', data.signature);
+        this.localStorage.set('currency', data.user.currency);
         this.localStorage.set('data', JSON.stringify(data));
         console.log(this.localStorage.get('user'));
         

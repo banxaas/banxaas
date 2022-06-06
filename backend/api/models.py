@@ -39,7 +39,7 @@ class CustomUserManager(BaseUserManager):
 # Create your models here.
 class User(AbstractBaseUser, PermissionsMixin):
 	#Enum Variable
-	CURRENCY_VALUE = [("CFA", "CFA"), ("USD", "USD"), ("EUR", "EUR")]
+	CURRENCY_VALUE = [("XOF", "XOF"), ("USD", "USD"), ("EUR", "EUR")]
 	# Personnal Info
 	pseudo = models.CharField(max_length=30, unique=True)
 	email = models.EmailField(_('email address'), unique=True, blank=True, null=True)
