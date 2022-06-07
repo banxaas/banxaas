@@ -5,26 +5,36 @@
     </div>
     <div class="mt-10 flex flex-col">
         <h4 class="text-[14px] uppercase text-gray-400 font-bold">actif</h4>
-        <div class="w-[90%] md:w-1/2 bg-white flex mt-2 border border-b-4 border-green-design rounded-t-lg">
-            <div class="w-full flex items-center">
-                <div class="w-[60%] md:w-[20%] mt-2 mb-2 flex">                    
-                    <div class="flex flex-col ml-5 p-7 mt-3 mb-3 justify-center">
-                        <img src="../../../../../assets/logo_sans_text_Orange_Money.png" alt="">
+        <div *ngIf="datas">
+            <div *ngFor="let paiement of datas" class="w-[90%] md:w-1/2 bg-white flex mt-5 border border-b-4 border-green-design rounded-t-lg">
+                <div class="w-full flex items-center">
+                    <div class="w-[60%] md:w-[20%] mt-2 mb-2 flex">                    
+                        <div *ngIf="paiement.name=='OM'" class="flex flex-col ml-5 p-7 mt-3 mb-3 justify-center">
+                            <img src="../../../../../assets/logo_sans_text_Orange_Money.png" alt="">
+                        </div>                    
+                        <div *ngIf="paiement.name=='WAVE'" class="flex flex-col ml-5 p-7 mt-3 mb-3 justify-center">
+                            <img src="../../../../../assets/wave-logo-sans-text.png" alt="">
+                        </div>                    
+                        <div *ngIf="paiement.name=='FREE'" class="flex flex-col ml-5 p-7 mt-3 mb-3 justify-center">
+                            <img src="../../../../../assets/freemoney.png" alt="">
+                        </div>
+                    </div>
+                    <div class="w-[50%] flex flex-col">
+                        <div *ngIf="paiement.name=='OM'" class="uppercase font-bold text-[14px]">Orange Money</div>
+                        <div *ngIf="paiement.name=='WAVE'" class="uppercase font-bold text-[14px]">Wave</div>
+                        <div *ngIf="paiement.name=='FREE'" class="uppercase font-bold text-[14px]">Free Money</div>
+                        <div class="text-[12px] mt-2 text-gray-400">Numéro de téléphone: {{paiement.phone}}</div>
+                    </div>
+                    <div class="md:w-[25%] flex justify-center">
+                        <button (click)="deletePayment(paiement.id)" class=" flex border border-green-design flex-row bg-white hover:bg-green-design hover:text-white text-green-design font-bold md:py-4 md:px-12 rounded">
+                            Retirer
+                        </button>
                     </div>
                 </div>
-                <div class="w-[50%] flex flex-col">
-                    <div class="uppercase font-bold text-[14px]">Orange Money</div>
-                    <div class="text-[12px] mt-2 text-gray-400">Numéro de téléphone: +xxx xxxxxxxxx33</div>
-                </div>
-                <div class="md:w-[25%] flex justify-center">
-                    <button type="" class=" flex border border-green-design flex-row bg-white hover:bg-green-design hover:text-white text-green-design font-bold md:py-4 md:px-12 rounded">
-                        Retirer
-                    </button>
-                </div>
-            </div>
+            </div> 
         </div>
     </div>
-    <div class="mt-5 flex flex-col">
+    <!-- <div *ngIf="name == 'WAVE'" class="mt-5 flex flex-col">
         <div class="w-[90%] md:w-1/2 bg-white flex mt-2 border border-b-4 border-green-design rounded-t-lg">
             <div class="w-full flex items-center">
                 <div class="w-[60%] md:w-[20%] mt-2 mb-2 flex">                    
@@ -34,7 +44,7 @@
                 </div>
                 <div class="w-[50%] flex flex-col">
                     <div class="uppercase font-bold text-[14px]">wave</div>
-                    <div class="text-[12px] mt-2 text-gray-400">Numéro de téléphone: +xxx xxxxxxxxx33</div>
+                    <div class="text-[12px] mt-2 text-gray-400">Numéro de téléphone: {{phone}}</div>
                 </div>
                 <div class="md:w-[25%] flex justify-center">
                     <button type="" class=" flex border border-green-design flex-row bg-white hover:bg-green-design hover:text-white text-green-design font-bold md:py-4 md:px-12 rounded">
@@ -43,9 +53,74 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
+    <!-- <div *ngIf="name == 'FREE'" class="mt-5 flex flex-col">
+        <div class="w-[90%] md:w-1/2 bg-white flex mt-2 border border-b-4 border-green-design rounded-t-lg">
+            <div class="w-full flex items-center">
+                <div class="w-[60%] md:w-[20%] mt-2 mb-2 flex">                    
+                    <div class="flex flex-col ml-5 p-7 mt-3 mb-3 justify-center">
+                        <img src="../../../../../assets/freemoney.png" alt="">
+                    </div>
+                </div>
+                <div class="w-[50%] flex flex-col">
+                    <div class="uppercase font-bold text-[14px]">free money</div>
+                    <div class="text-[12px] mt-2 text-gray-400">Numéro de téléphone: {{phone}}</div>
+                </div>
+                <div class="md:w-[25%] flex justify-center">
+                    <button type="" class=" flex border border-green-design flex-row bg-white hover:bg-green-design hover:text-white text-green-design font-bold md:py-4 md:px-12 rounded">
+                        Retirer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <p-dialog header="Formulaire" [(visible)]="hidden"  [style]="{width: '30vw'}">
+    
+        <form [formGroup]="paymentForm" (ngSubmit)="setPaymentMethod()">
+            <div class="mt-4">
+                <label class="block font-bold" for="name">Nom</label>
+                <select formControlName="name" class="form-select appearance-none
+                  block
+                  w-full
+                  px-4
+                  py-2
+                  border border-green-design
+                  bg-white bg-clip-padding bg-no-repeat
+                  focus:outline-none focus:ring-1 focus:ring-green-design
+                  rounded
+                  transition
+                  ease-in-out
+                  m-0
+                  " aria-label="Default select example">
+                    <option selected>Choisir une methode de paiement</option>
+                    <option value="OM">Orange Money</option>
+                    <option value="WAVE">Wave</option>
+                    <option value="FREE">Free Money</option>
+                </select>
+
+                <!-- <label class="block font-bold" for="name">Nom</label>
+                <input type="text" formControlName="username" placeholder="di_aissatu" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design"> -->
+                <!-- <div class="mt-2 text-red-600" *ngIf="formControls['username'].errors?.['required']">Nom d'utilisateur est obligatoire</div> -->
+            </div>
+            <div class="mt-4">
+                <div class="mt-2 flex justify-center font-bold text-red-600" *ngIf="errorMessage">
+                   {{errorMessage}}
+                </div>
+                <label class="block font-bold" for="name">Numéro de téléphone</label>
+                <input type="text" formControlName="phone" mask="00 000 00 00" placeholder="77 000 00 00" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design">
+                    <div class="mt-2 text-red-600" *ngIf="formControls['phone'].errors?.['required'] && formControls['phone']?.touched">Numéro de téléphone est obligatoire</div>
+                    <div class="mt-2 text-red-600" *ngIf="formControls['phone'].errors?.['pattern']">Le numéro de téléphone est invalide</div>
+                    <!-- <div class="mt-2 text-red-600" *ngIf="formControls['username'].errors?.['required']">Nom d'utilisateur est obligatoire</div> -->
+            </div>
+    
+            <div class="mt-10 grid w-full justify-center">
+                <button class="w-full shadow-xl border border-green-design flex-row bg-green-design hover:bg-white hover:text-green-design text-white font-bold py-4 px-12 rounded">Ajouter</button>
+            </div>
+        </form>
+          
+    </p-dialog>
     
     <div class="mt-10 grid w-[50%] justify-items-end">
-        <button class="w-[40%] shadow-xl border border-green-design flex-row bg-green-design hover:bg-white hover:text-green-design text-white font-bold py-4 px-4 rounded">Ajouter un mode de paiement</button>
+        <button (click)="toggleModal()" class="w-[40%] shadow-xl border border-green-design flex-row bg-green-design hover:bg-white hover:text-green-design text-white font-bold py-4 px-4 rounded">Ajouter un mode de paiement</button>
     </div>
 </div>

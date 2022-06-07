@@ -59,6 +59,7 @@ export class ConnexionComponent implements OnInit {
           this.localStorage.set('token', data.token);
           this.localStorage.set('signature', data.signature);
           this.localStorage.set('currency', data.user.currency);
+          this.localStorage.set('paymentMethods', JSON.stringify(data.user.paymentMethods));
           this.localStorage.set('data', JSON.stringify(data));
           this.authService.uniqConnexion(data.token, data.signature).subscribe(
             reponse => {

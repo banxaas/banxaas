@@ -7,9 +7,7 @@ import { Customer } from './customer';
 export class CustomerService {
     
   private setUserUrl = 'http://localhost:8000/api/setUser/';
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json', Authorization: 'Bearer ' +localStorage.getItem('token') })
-  }
+  private paymentUrl = 'http://localhost:8000/api/paymentMethod/';
     constructor(private http: HttpClient) { }
 
     getCustomersLarge() {
@@ -22,5 +20,14 @@ export class CustomerService {
   /** PATCH Set data Account*/
   setUserAccount(data:any): Observable<any>{
     return this.http.patch<any>(this.setUserUrl, data)
+  }
+  /** ADD Payment Method Account*/
+  addPaymentMethod(data:any): Observable<any>{
+    return this.http.post<any>(this.paymentUrl, data)
+  }
+
+  /** ADD Payment Method Account*/
+  deletePaymentMethod(data:any): Observable<any>{
+    return this.http.delete<any>(this.paymentUrl, data)
   }
 }
