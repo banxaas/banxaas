@@ -148,7 +148,7 @@ def CreateAccountViewset(request):
 			'token': createToken(payload)
 		})
 	except:
-		Response({'status': 'FAILED', 'message': "Vérifier votre connexion, Si l'erreur persiste, contactez moi!"})
+		return Response({'status': 'FAILED', 'message': "Vérifier votre connexion, Si l'erreur persiste, contactez moi!"})
 
 @api_view(['POST'])
 def ValidateCodeViewset(request):

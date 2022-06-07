@@ -1,6 +1,6 @@
 from api.models import *
 from rest_framework.authtoken.models import Token
-import smtplib
+import smtplib, ssl
 import random
 import os, hashlib, jwt
 from api.models import *
@@ -53,7 +53,7 @@ def createCode():
 	""" Permet de créer un code de validation"""
 	return ''.join(random.choices([str(i) for i in range(10)], k=6))
 
-messageEmail = """From: Yite Verification <mailtestyite@gmail.com>
+messageEmail = """From: Yite Verification <test.yite@outlook.com>
 To: <UserMail>
 MIME-Version: 1.0
 Content-type: text/html
@@ -67,12 +67,14 @@ messageSms = "[ Banxaas ] Votre code de validation est : "
 def sendVerificationCodeByMail(userMail):
 	"""Permet d'envoyer un code de validation par email"""
 	# Connexion au server
-	server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-	server.login("mailtestyite@gmail.com", "yitetechtest")
+	server = smtplib.SMTP('smtp.office365.com', 587)
+	context = ssl.create_default_context()
+	server.starttls(context=context)
+	server.login("test.yite@outlook.com", "Yitetechtest2022")#("mailtestyite@gmail.com", "yitetechtest")
 	# Création du code de validation
 	code = createCode()
 	# Préparation du mail
-	sender = 'mailtestyite@gmail.com'
+	sender = 'test.yite@outlook.com'
 	receivers = [userMail]
 	mail = str(messageEmail.decode('utf-8')).replace("UserMail", userMail).replace("ValidationCode", code)
 	mail = bytes(mail.encode('utf-8'))
