@@ -172,7 +172,7 @@ def ValidateCodeViewset(request):
 		user.save()
 		return Response({'status': "SUCCESSFUL"})
 	except:
-		return Response({'status': "FAILED", 'message':'Erreur non identifié !'})
+		return Response({'status': "FAILED", 'message':'Token ou Code Invalide, Vérifier que vous avez récupéré le token de validation'})
 	
 
 class PaymentMethodViewset(APIView):
