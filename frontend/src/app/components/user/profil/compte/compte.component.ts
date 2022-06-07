@@ -73,6 +73,8 @@ export class CompteComponent implements OnInit {
         
         const status = response.status
         if (status === "SUCCESSFUL") {
+          this.localStorage.remove('token_validation')
+          this.localStorage.set('token_validation', response.token)
           this.authService.uniqConnexion(dataForm.token, dataForm.signature).subscribe(
             reponse => {
               console.log(reponse);
@@ -82,7 +84,6 @@ export class CompteComponent implements OnInit {
               }
               if (reponse.status == true && reponse.motif === "Validate Code") {
                 this.localStorage.remove('data')
-                this.localStorage.set('token_validation', response.token)
                 this.router.navigate(['validation_code']);
               }
             }

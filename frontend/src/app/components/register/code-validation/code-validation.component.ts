@@ -47,7 +47,7 @@ export class CodeValidationComponent implements OnInit {
         console.log(response);
         
         if (response.status === "SUCCESSFUL") {
-          this.localStorage.remove('token');
+          this.localStorage.remove('token_validation');
           this.router.navigate(['connexion'])
         }
         if (response.status === "FAILED") {
