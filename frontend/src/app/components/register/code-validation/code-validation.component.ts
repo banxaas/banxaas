@@ -20,7 +20,7 @@ export class CodeValidationComponent implements OnInit {
   })
 
   constructor(
-    private localStorgae: LocalStorageService,
+    private localStorage: LocalStorageService,
     private authService: AuthService,
     private router: Router
   ) { }
@@ -35,11 +35,19 @@ export class CodeValidationComponent implements OnInit {
 
   validerCompte(){
     const data = this.valide.value;
-    this.valide.value.token = this.localStorgae.get('token');
+    this.valide.value.token = this.localStorage.get('token_validation');
+    data.code = Number.parseInt(data.code);
+    console.log(typeof(data.code));
+    console.log(data.code);
+    
+    console.log(this.valide.value);
+    
     this.authService.validAccount(data.code, data.token).subscribe(
       response => {
+        console.log(response);
+        
         if (response.status === "SUCCESSFUL") {
-          this.localStorgae.remove('token');
+          this.localStorage.remove('token');
           this.router.navigate(['connexion'])
         }
         if (response.status === "FAILED") {

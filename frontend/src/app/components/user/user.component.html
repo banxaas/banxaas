@@ -21,7 +21,7 @@
             <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-full w-[50%]" alt="Avatar"/>
         </div>
         <div class="w-[30%] ml-0 flex justify-around">
-            <div class="md:mx-5 mt-3 ml-12 md:ml-0">
+            <div class="md:mx-5 mt-4 ml-12 md:ml-0">
                 <div (click)="isListProfil = !isListProfil " class="p-3 rounded bg-green-design text-link leading-none text-white flex items-center justify-between cursor-pointer" onclick="dropdownHandler()">
                     {{pseudo}}
                     <div class="mx-2">
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="isListProfil" class="lg:w-[5%] p-2 bg-white shadow-xl rounded absolute lg:top-[30%]" id="dropdown">
+                <div *ngIf="isListProfil" class="lg:w-[5%] p-2 bg-white shadow-xl rounded absolute lg:top-[12%]" id="dropdown">
                     <ul class="list-none">
                         <a routerLink="profil" class=""><li class="rounded hover:text-white hover:bg-green-design text-green-design">profil</li></a>
                     </ul>

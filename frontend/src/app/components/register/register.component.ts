@@ -65,7 +65,7 @@ export class RegisterComponent implements OnInit {
     this.authService.createAccount(data).subscribe(
       response => {
         const token = response.token;
-        this.localStorage.set('token', token);
+        this.localStorage.set('token_validation', token);
         const status = response.status;
         console.log("test");
         

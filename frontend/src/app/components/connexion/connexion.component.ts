@@ -48,25 +48,28 @@ export class ConnexionComponent implements OnInit {
       
       
       (data) => {
+        console.log(data);
         
-        this.localStorage.set('status', data.status);
-        // this.localStorage.set('user', data.user.pseudo);
-        this.localStorage.set('key', data.key);
-        this.localStorage.set('token', data.token);
-        this.localStorage.set('signature', data.signature);
-        this.localStorage.set('currency', data.user.currency);
-        this.localStorage.set('data', JSON.stringify(data));
-        console.log(this.localStorage.get('user'));
+        
+        
         
         const status = data.status;
         
         if (status === "SUCCESSFUL") {
-          this.localStorage.set('token', data);
+          this.localStorage.set('token', data.token);
+          this.localStorage.set('signature', data.signature);
+          this.localStorage.set('currency', data.user.currency);
+          this.localStorage.set('data', JSON.stringify(data));
           this.authService.uniqConnexion(data.token, data.signature).subscribe(
             reponse => {
               console.log(reponse);
               if (reponse.status == true && reponse.motif === "New Connexion") {
+                this.localStorage.remove('data');
                 this.router.navigate(['connexion']);
+              }
+              
+              if (reponse.status == true && reponse.motif === "Validate Code") {
+                this.router.navigate(['validation_code']);
               }
             });
           this.router.navigate(['user']);
