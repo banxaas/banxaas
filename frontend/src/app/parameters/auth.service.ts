@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment'
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +12,10 @@ export class  AuthService {
   constructor(private http: HttpClient) { }
 
   // tslint:disable-next-line: member-ordering
-  private authUrl = 'http://localhost:8000/api/connexion/';
-  private registerUrl = 'http://localhost:8000/api/createAccount/';
-  private codeUrl = 'http://localhost:8000/api/validateCode/';
-  private isDeconnectedUrl = 'http://localhost:8000/api/isDisconnected/';
+  private authUrl = environment.apiUrl + 'connexion/';
+  private registerUrl = environment.apiUrl + 'createAccount/';
+  private codeUrl = environment.apiUrl + 'validateCode/';
+  private isDeconnectedUrl = environment.apiUrl + 'isDisconnected/';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json', Authorization: 'Bearer ' +localStorage.getItem('token') })
