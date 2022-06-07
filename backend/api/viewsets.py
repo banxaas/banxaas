@@ -83,11 +83,8 @@ def isDisconnected(request):
 			# Récupération de l'utilisateur
 			user = User.objects.get(id=id_user)
 			if not user.is_active:
-				print("You need to validate the code")
 				return Response({'status': True, 'motif': "Validate Code"})
-			print('User is already active')
 			if request.data['signature'] != Token.objects.filter(user=user)[0].key:
-				print("You need to reconnect")
 				return Response({'status': True, 'motif': "New Connexion"})
 			time.sleep(10)	
 	except:
@@ -412,7 +409,6 @@ class AdViewset(APIView):
 			# Récupération de user
 			user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
 			data['user'] = user.id # ajout de user dans data
-			pprint(data)
 			serializer = AdSerializer(data=data)
 			if serializer.is_valid():
 				serializer.save()
