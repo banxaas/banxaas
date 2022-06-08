@@ -43,7 +43,7 @@ export class PaymentMethodComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.updateSubscription = interval(1000).subscribe(
+    this.updateSubscription = interval(500).subscribe(
       (val) => {
         
       const datauser: any = this.localStorage.get('paymentMethods');
