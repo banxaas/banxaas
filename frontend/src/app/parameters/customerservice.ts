@@ -9,8 +9,9 @@ export class CustomerService {
 
   private setUserUrl = environment.apiUrl + 'setUser/';
   private paymentUrl = environment.apiUrl + 'paymentMethod/';
+  private urlBitcoin = 'https://bitpay.com/rates/BTC/XOF'
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.getItem('token') })
+    headers: new HttpHeaders({'X-Accept-Version': '2.0.0', 'Content-Type': 'application/json'})
   }
   constructor(private http: HttpClient) { }
 
@@ -37,5 +38,9 @@ export class CustomerService {
       body: data
     }
     return this.http.delete<any>(this.paymentUrl, parametre)
+  }
+
+  getRateBitcoin(){
+    return this.http.get<any>(this.urlBitcoin, this.httpOptions)
   }
 }
