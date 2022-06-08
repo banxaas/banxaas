@@ -48,6 +48,8 @@ export class PaymentMethodComponent implements OnInit {
         
       const datauser: any = this.localStorage.get('paymentMethods');
       let data = JSON.parse(datauser);
+      console.log(data);
+      
 
 
       if (data.length == 0) {
@@ -57,6 +59,7 @@ export class PaymentMethodComponent implements OnInit {
       }
       if (data.length > 0) {
         this.datas = data
+        this.fieldActive = true
       }
       }
 
