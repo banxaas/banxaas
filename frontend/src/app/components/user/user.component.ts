@@ -19,8 +19,8 @@ export class UserComponent implements OnInit {
   pseudo!: string | null;
   currency!: string | null;
 
-  isListProfil:any;
-  isListDevise:any;
+  isListProfil: any;
+  isListDevise: any;
 
   constructor(
     private localStorage: LocalStorageService,
@@ -28,38 +28,42 @@ export class UserComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
-    const datauser:any = this.localStorage.get('data');
+
+    const datauser: any = this.localStorage.get('data');
     const data = JSON.parse(datauser);
     this.pseudo = data.user.pseudo;
     const curr = this.localStorage.get('currency')
     this.currency = curr
   }
-  setCurrency(){
-    
-    const datauser:any = this.localStorage.get('data');
+  setCurrency() {
+
+    const datauser: any = this.localStorage.get('data');
     const data = JSON.parse(datauser);
     // const curr = this.localStorage.get('currency')
     // this.currency = curr
- 
+
     const dataCurrencyForm = this.currencyForm.value;
     dataCurrencyForm.token = data.token;
     dataCurrencyForm.signature = data.signature;
     console.log(dataCurrencyForm);
-    
+
     this.customerService.setUserAccount(dataCurrencyForm).subscribe(
       response => {
         console.log(response);
-        
+
         const status = response.status
         if (status === "SUCCESSFUL") {
           this.localStorage.set('currency', dataCurrencyForm.currency)
           const curr = this.localStorage.get('currency')
           this.currency = curr
         }
+      },
+      error => {
+        console.log(error);
+
       }
     )
 
-    
+
   }
 }

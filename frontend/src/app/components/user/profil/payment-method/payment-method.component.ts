@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
+import { interval } from 'rxjs';
 import { CustomerService } from 'src/app/parameters/customerservice';
 import { LocalStorageService } from 'src/app/parameters/local-storage.service';
 
@@ -31,6 +32,7 @@ export class PaymentMethodComponent implements OnInit {
   phone: any;
   datas: any
   errorMessage: any;
+  updateSubscription: any;
 
   constructor(
     private localStorage: LocalStorageService,
@@ -40,37 +42,44 @@ export class PaymentMethodComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
-    this.primengConfig.ripple = true;
-    const datauser:any = this.localStorage.get('paymentMethods');
-    let data = JSON.parse(datauser);
-    console.log(typeof(data));
-    console.log(data);
-    
+
+    this.updateSubscription = interval(1000).subscribe(
+      (val) => {
         
-    if (data.length == 0) {
-      console.log("test");
-      
-      this.fieldActive = false
-    }
-    if (data.length > 0) {
-      this.datas = data
-    }
+      const datauser: any = this.localStorage.get('paymentMethods');
+      let data = JSON.parse(datauser);
+
+
+      if (data.length == 0) {
+        console.log("test");
+
+        this.fieldActive = false
+      }
+      if (data.length > 0) {
+        this.datas = data
+      }
+      }
+
+);
+    this.primengConfig.ripple = true;
   }
-  
-  toggleModal(){
+  updateStats() {
+    throw new Error('Method not implemented.');
+  }
+
+  toggleModal() {
     this.hidden = true;
   }
 
-  get formControls(){
-    
+  get formControls() {
+
     return this.paymentForm.controls;
   }
 
-  setPaymentMethod(){
+  setPaymentMethod() {
 
-    
-    const datauser:any = this.localStorage.get('data');
+
+    const datauser: any = this.localStorage.get('data');
     const data = JSON.parse(datauser);
     const dataForm = this.paymentForm.value;
     dataForm.token = data.token;
@@ -81,42 +90,54 @@ export class PaymentMethodComponent implements OnInit {
         console.log(response);
         const status = response.status
         if (status === "SUCCESSFUL") {
-          const payment:any = this.localStorage.get('paymentMethods')
+          const payment: any = this.localStorage.get('paymentMethods')
           let method = JSON.parse(payment)
-          
+
           method.push(response.paymentMethod)
           console.log(method);
-          
-          this.localStorage.set('paymentMethods', JSON.stringify(method) );
+
+          this.localStorage.set('paymentMethods', JSON.stringify(method));
           // this.router.navigate(['methode-paiement'])
         }
         // {status: 'FAILED', message: 'Payment Method already exists!'}
-        if (status === 'FAILED' && response.message ==='Payment Method already exists!') {
-            this.errorMessage = response.message
+        if (status === 'FAILED' && response.message === 'Payment Method already exists!') {
+          this.errorMessage = response.message
         }
-        
+
       }
     )
 
   }
 
-  deletePayment(id:number){
-    const datauser:any = this.localStorage.get('data');
+  deletePayment(id: number) {
+    const datauser: any = this.localStorage.get('data');
     const data = JSON.parse(datauser);
     const dataForm = this.deletePaymentForm.value;
     dataForm.token = data.token;
     dataForm.signature = data.signature;
     dataForm.id = id;
-    
-    
+
+
 
     console.log(dataForm);
-    
+
     this.customerService.deletePaymentMethod(dataForm).subscribe(
       response => {
         console.log(response);
         const status = response.status
-        
+        if (status === "SUCCESSFUL") {
+          
+          const payment: any = this.localStorage.get('paymentMethods')
+          let method = JSON.parse(payment)
+          method = method.filter((element: any) => element.id != dataForm.id);
+          this.localStorage.set('paymentMethods', JSON.stringify(method));
+
+          console.log(method);
+          console.log('delete');
+          
+          
+        }
+
       }
     )
   }
