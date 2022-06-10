@@ -91,7 +91,7 @@ def sendVerificationCodeBySms(userPhone):
 	payload = json.dumps({
 	  "outboundSMSMessageRequest": {
 	    "address": f"tel:+221{userPhone}",
-	    "senderAddress": "tel:+221777023861",
+	    "senderAddress": "tel:+221774924730",
 	    "outboundSMSTextMessage": {
 	      "message": messageSms + code
 	    }
@@ -102,7 +102,7 @@ def sendVerificationCodeBySms(userPhone):
 	  'Authorization': f"{token['token_type']} {token['access_token']}"
 	}
 	# Envoie du Code
-	conn.request("POST", "/smsmessaging/v1/outbound/tel%3A%2B221777023861/requests", payload, headers)
+	conn.request("POST", "/smsmessaging/v1/outbound/tel%3A%2B221774924730/requests", payload, headers)
 	res = conn.getresponse()
 	data = res.read()
 	return code
