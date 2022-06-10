@@ -9,6 +9,7 @@ export class CustomerService {
 
   private setUserUrl = environment.apiUrl + 'setUser/';
   private paymentUrl = environment.apiUrl + 'paymentMethod/';
+  private adsUrl = environment.apiUrl + 'ad/';
   private urlBitcoin = 'https://bitpay.com/rates/BTC/XOF'
   httpOptions = {
     headers: new HttpHeaders({'X-Accept-Version': '2.0.0', 'Content-Type': 'application/json'})
@@ -38,6 +39,11 @@ export class CustomerService {
       body: data
     }
     return this.http.delete<any>(this.paymentUrl, parametre)
+  }
+
+  /** ADD Announce*/
+  addAds(data: any): Observable<any> {
+    return this.http.post<any>(this.adsUrl, data)
   }
 
   getRateBitcoin(){

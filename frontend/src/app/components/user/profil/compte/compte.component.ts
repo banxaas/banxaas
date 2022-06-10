@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { AlertService } from 'src/app/parameters/alert/alert.service';
 import { AuthService } from 'src/app/parameters/auth.service';
 import { CustomerService } from 'src/app/parameters/customerservice';
@@ -25,15 +26,21 @@ export class CompteComponent implements OnInit {
     email: new FormControl(),
     phone: new FormControl()
   })
+  hidden!: boolean;
 
   constructor(
     private localStorage: LocalStorageService,
     private authService: AuthService,
     private router: Router,
     private customeService: CustomerService,
-    private alerte: AlertService
+    private alerte: AlertService,
+    private messageService: MessageService,
+    private primengConfig: PrimeNGConfig
   ) { }
 
+  showMessage() {
+    this.messageService.add({severity:'success', summary: 'Successully', detail:'Compte modifié, veuillez-vous reconnecter'});
+  }
   ngOnInit(): void {
  
     const datauser:any = this.localStorage.get('data');
@@ -48,6 +55,12 @@ export class CompteComponent implements OnInit {
       this.fieldPhone = true
       this.fieldEmail = false
     }
+    this.primengConfig.ripple = true;
+
+  }
+
+  toggleModal() {
+    this.hidden = true;
   }
 
   setUser(){
@@ -79,6 +92,7 @@ export class CompteComponent implements OnInit {
           this.localStorage.remove('token_validation')
           this.localStorage.set('token_validation', response.token)
           if (dataForm.pseudo) {
+            this.showMessage()
             this.router.navigate(['connexion']);
           }
           if (dataForm.email || dataForm.phone || (dataForm.email && dataForm.pseudo) || (dataForm.phone && dataForm.pseudo)) {

@@ -33,9 +33,6 @@ export class HomeComponent implements OnInit {
       response => {
         this.rate = cfa.format(response.data.rate)
         console.log(this.rate);
-        
-
-        
       }
     )
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { PrimeNGConfig } from 'primeng/api';
 import { AlertService } from 'src/app/parameters/alert/alert.service';
 import { AuthService } from 'src/app/parameters/auth.service';
 import { CustomerService } from 'src/app/parameters/customerservice';
@@ -45,15 +46,23 @@ export class PasswordComponent implements OnInit {
   );
 
   submitted = false;
+  hidden!: boolean;
   constructor(
     private customerService : CustomerService,
     private localStorage : LocalStorageService,
     private authService : AuthService,
     private router : Router,
-    private alert : AlertService
+    private alert : AlertService,
+    private primengConfig : PrimeNGConfig
   ) { }
 
   ngOnInit(): void {
+    this.primengConfig.ripple = true;
+
+  }
+
+  toggleModal() {
+    this.hidden = true;
   }
 
   toggleFieldTextTypeActual() {

@@ -34,6 +34,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {ProgressBarModule} from 'primeng/progressbar';
 import {DropdownModule} from 'primeng/dropdown';
 import { CustomerService } from './parameters/customerservice';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,7 @@ import { CustomerService } from './parameters/customerservice';
     NgxMaskModule.forRoot()
   ],
   providers: [
-    CustomerService
+    CustomerService, MessageService
   ],
   bootstrap: [AppComponent]
 })
