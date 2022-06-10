@@ -53,7 +53,7 @@ def createCode():
 	""" Permet de créer un code de validation"""
 	return ''.join(random.choices([str(i) for i in range(10)], k=6))
 
-messageEmail = """From: Yite Verification <test.yite@outlook.com>
+messageEmail = f"""From: Yite Verification <{str(os.environ.get('MAIL_BANXAAS'))}>
 To: <UserMail>
 MIME-Version: 1.0
 Content-type: text/html
@@ -67,14 +67,14 @@ messageSms = "[ Banxaas ] Votre code de validation est : "
 def sendVerificationCodeByMail(userMail):
 	"""Permet d'envoyer un code de validation par email"""
 	# Connexion au server
-	server = smtplib.SMTP('smtp.office365.com', 587)
+	server = smtplib.SMTP(str(os.environ.get('MAIL_SERVER_HOST')), int(os.environ.get('MAIL_SERVER_PORT')))
 	context = ssl.create_default_context()
 	server.starttls(context=context)
-	server.login("test.yite@outlook.com", "Yitetechtest2022")#("mailtestyite@gmail.com", "yitetechtest")
+	server.login(str(os.environ.get('MAIL_BANXAAS')), str(os.environ.get('PASSWORD_MAIL_BANXAAS')))
 	# Création du code de validation
 	code = createCode()
 	# Préparation du mail
-	sender = 'test.yite@outlook.com'
+	sender = str(os.environ.get('MAIL_BANXAAS'))
 	receivers = [userMail]
 	mail = str(messageEmail.decode('utf-8')).replace("UserMail", userMail).replace("ValidationCode", code)
 	mail = bytes(mail.encode('utf-8'))
