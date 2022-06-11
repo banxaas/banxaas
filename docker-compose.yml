@@ -7,7 +7,7 @@ services:
     volumes:
       - ./data/postgres/pgdata:/var/lib/postgresql/data/pgdata
     ports:
-      - 5432:5432
+      - 4200:5432
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_DB: ${DATABASE_NAME}
@@ -45,6 +45,6 @@ services:
       - /frontend/node_modules
       - /frontend/.angular
     ports: 
-      - 4200:32145
+      - 80:32145
     depends_on:
       - gateway
