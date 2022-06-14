@@ -1,6 +1,6 @@
 from api.models import *
 from rest_framework.authtoken.models import Token
-import smtplib
+import smtplib, ssl
 import random
 import os, hashlib, jwt
 from api.models import *
@@ -53,7 +53,7 @@ def createCode():
 	""" Permet de créer un code de validation"""
 	return ''.join(random.choices([str(i) for i in range(10)], k=6))
 
-messageEmail = """From: Yite Verification <mailtestyite@gmail.com>
+messageEmail = f"""From: Yite Verification <{str(os.environ.get('MAIL_BANXAAS'))}>
 To: <UserMail>
 MIME-Version: 1.0
 Content-type: text/html
@@ -67,12 +67,14 @@ messageSms = "[ Banxaas ] Votre code de validation est : "
 def sendVerificationCodeByMail(userMail):
 	"""Permet d'envoyer un code de validation par email"""
 	# Connexion au server
-	server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-	server.login("mailtestyite@gmail.com", "yitetechtest")
+	server = smtplib.SMTP(str(os.environ.get('MAIL_SERVER_HOST')), int(os.environ.get('MAIL_SERVER_PORT')))
+	context = ssl.create_default_context()
+	server.starttls(context=context)
+	server.login(str(os.environ.get('MAIL_BANXAAS')), str(os.environ.get('PASSWORD_MAIL_BANXAAS')))
 	# Création du code de validation
 	code = createCode()
 	# Préparation du mail
-	sender = 'mailtestyite@gmail.com'
+	sender = str(os.environ.get('MAIL_BANXAAS'))
 	receivers = [userMail]
 	mail = str(messageEmail.decode('utf-8')).replace("UserMail", userMail).replace("ValidationCode", code)
 	mail = bytes(mail.encode('utf-8'))
@@ -89,7 +91,7 @@ def sendVerificationCodeBySms(userPhone):
 	payload = json.dumps({
 	  "outboundSMSMessageRequest": {
 	    "address": f"tel:+221{userPhone}",
-	    "senderAddress": "tel:+221777023861",
+	    "senderAddress": "tel:+221774924730",
 	    "outboundSMSTextMessage": {
 	      "message": messageSms + code
 	    }
@@ -100,10 +102,9 @@ def sendVerificationCodeBySms(userPhone):
 	  'Authorization': f"{token['token_type']} {token['access_token']}"
 	}
 	# Envoie du Code
-	conn.request("POST", "/smsmessaging/v1/outbound/tel%3A%2B221777023861/requests", payload, headers)
+	conn.request("POST", "/smsmessaging/v1/outbound/tel%3A%2B221774924730/requests", payload, headers)
 	res = conn.getresponse()
 	data = res.read()
-	#print(data.decode("utf-8"))
 	return code
 
 def createValidationTokenPayload(code, userId, userIdType):
@@ -132,7 +133,6 @@ def verifyCodeValidation(code, token):
 	creationDate = tokenDecoded['xd']
 	expirationDate = tokenDecoded['yd']
 	userId = tokenDecoded['userId']
-	pprint(tokenDecoded['token'])
 	tokenId = str(creationDate) + str(code) + str(userId) + str(expirationDate)
 	tokenId  = hashlib.sha256(tokenId.encode('utf-8')).hexdigest()
 	if tokenId != tokenDecoded['token']:
