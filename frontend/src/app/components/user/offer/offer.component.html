@@ -79,10 +79,10 @@
           Publier une annonce
         </button>
       </div>
-        <p-table #dt [value]="customers" [(selection)]="selectedCustomers" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+        <p-table #dt [value]="customers" styleClass="p-datatable-customers" [rowHover]="true"
             [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
-            [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [filterDelay]="0" [globalFilterFields]="['name','country.name','representative.name','status']">
+            [paginator]="false" currentPageReportTemplate="Voir {first} à {last} {totalRecords} entries"
+            [filterDelay]="0">
             <!-- <ng-template pTemplate="caption">
                 <div class="table-header">
                     List of Customers
@@ -95,40 +95,30 @@
               <ng-template pTemplate="header">
                   <tr>
                       <!-- <th style="width: 3rem"></th> -->
-                      <th pSortableColumn="id text-center"><b>Id user</b>  <p-sortIcon field="id"></p-sortIcon></th>
-                      <th pSortableColumn="quantite"><b>Quantité(min-max)</b><p-sortIcon field="quantite"></p-sortIcon></th>
-                      <th pSortableColumn="montant"><b>Montant(min-max)</b> <p-sortIcon field="montant"></p-sortIcon></th>
+                      <th pSortableColumn="id text-center"><b>Id user</b>  <p-sortIcon field="user.pseudo"></p-sortIcon></th>
+                      <th pSortableColumn="quantite"><b>Quantité(min-max)</b><p-sortIcon field="quantiteType"></p-sortIcon></th>
+                      <th pSortableColumn="montant"><b>Montant(min-max)</b> <p-sortIcon field="amoutType"></p-sortIcon></th>
                       <th pSortableColumn="marge"><b>Marge</b> <p-sortIcon field="marge"></p-sortIcon></th>
                       <th pSortableColumn="sens"><b>Sens</b> <p-sortIcon field="sens"></p-sortIcon></th>
-                      <th pSortableColumn="paiement"><b>Méthode paiement</b> <p-sortIcon field="paiement"></p-sortIcon></th>
-                      <th pSortableColumn="anciennete"><b>Ancienneté</b> <p-sortIcon field="anciennete"></p-sortIcon></th>
+                      <th pSortableColumn="paiement"><b>Méthode paiement</b> <p-sortIcon field="provider"></p-sortIcon></th>
+                      <th pSortableColumn="anciennete"><b>Ancienneté</b> <p-sortIcon field="user.seniority"></p-sortIcon></th>
                       <th pSortableColumn=""><b>Action</b></th>
                       <!-- <th style="width: 8rem"></th> -->
                   </tr>
                   <tr>
-                      <!-- <th>
-                          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                      </th> -->
                       <th>
-                          <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'id', 'startsWith')" placeholder="Filtrer par Id user" class="p-column-filter w-[90%]">
+                          <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'user.pseudo', 'startsWith')" placeholder="Filtrer par Id user" class="p-column-filter w-[90%]">
                       </th>
                       <th>
-                          <!-- <input pInputText type="text" (input)="dt.filter($event, 'quantite_min', 'lte')" placeholder="Search by Quantity" class="p-column-filter"> -->
-                          <input pInputText type="number" (input)="filtrequantite($event)" placeholder="Entrer une quantité" class="p-column-filter  w-[90%]" >
+                          <input pInputText type="number" (input)="filtreRangeQuantity($event)" placeholder="Filtre Range" class="p-column-filter  w-[40%]" >
+                          <input pInputText type="number" (input)="filtreFixeQuantity($event)" placeholder="Filtre Fixe" class="p-column-filter  w-[40%]" >
                       </th>
                       <th>
-                          <!-- <p-multiSelect placeholder="All" (onChange)="onRepresentativeChange($event)" styleClass="p-column-filter" optionLabel="name">
-                              <ng-template let-option pTemplate="item">
-                                  <div class="p-multiselect-representative-option">
-                                      <span class="p-ml-1">{{option.label}}</span>
-                                  </div>
-                              </ng-template>
-                          </p-multiSelect> -->
-                          <input pInputText type="number" onclick="filtrequantite($event)"  placeholder="Entrer un montant" class="p-column-filter  w-[90%]" >
+                          <input pInputText type="number" (input)="filtreRangeAmount($event)"  placeholder="Rangée Prix" class="p-column-filter  w-[40%]" >
+                          <input pInputText type="number" (input)="filtreFixeAmount($event)"  placeholder="Prix Fixe" class="p-column-filter  w-[40%]" >
                       </th>
                       <th>
-                        <!-- <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'marge', 'gte')" placeholder="Marge" class="p-column-filter" > -->
-                          <input pInputText type="text" (input)="onActivityChange($event)" placeholder="Marge au minimum" class="p-column-filter  w-[90%]" >
+                          <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'marge', 'equals')" placeholder="Marge au minimum" class="p-column-filter  w-[90%]" >
                       </th>
                       <th>
                           <p-dropdown [options]="statuses" (onChange)="dt.filter($event.value, 'sens', 'equals')" styleClass="p-column-filter  w-[90%]" placeholder="Selectionner un sens" [showClear]="true">
@@ -138,11 +128,10 @@
                           </p-dropdown>
                       </th>
                       <th>
-                          <!-- <input pInputText type="text" (input)="onActivityChange($event)" placeholder="Minimum" class="p-column-filter" > -->
-                          <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'paiement', 'startsWith')" placeholder="Méthode de paiement" class="p-column-filter  w-[90%]" >
+                          <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'provider', 'startsWith')" placeholder="Méthode de paiement" class="p-column-filter  w-[90%]" >
                       </th>
                       <th>
-                        <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'anciennete', 'startsWith')" placeholder="Filtrer par Anciennete" class="p-column-filter  w-[90%]">
+                        <input pInputText type="text" (input)="filtreSeniority($event)" placeholder="Filtrer par Anciennete" class="p-column-filter  w-[90%]">
                       </th>
                       <th></th>
                   </tr>
@@ -155,17 +144,17 @@
                     </td> -->
                     <td>
                         <span class="p-column-title">Id user</span>
-                        {{customer.id}}
+                        {{customer.user.pseudo}}
                     </td>
                     <td>
                         <span class="p-column-title">quantite</span>
-                        <span *ngIf="customer.quantite_type=='range'" class="text-center">{{customer.quantite_min}}-{{customer.quantite_max}}</span>
-                        <span *ngIf="customer.quantite_type=='fixe'" class="text-center">{{customer.quantite_fixe}}</span>
+                        <span *ngIf="customer.quantityType=='R'" class="text-center">{{customer.quantityMin}}-{{customer.quantityMax}}</span>
+                        <span *ngIf="customer.quantityType=='F'" class="text-center">{{customer.quantityFixe}}</span>
                     </td>
                     <td>
                         <span class="p-column-title">Montant</span>
-                        <span  *ngIf="customer.montant_type=='range'" class="image-text">{{customer.montant_min}}-{{customer.montant_max}}</span>
-                        <span *ngIf="customer.montant_type=='fixe'" class="image-text">{{customer.montant_fixe}}</span>
+                        <span  *ngIf="customer.amountType=='R'" class="image-text">{{customer.amountMin}}-{{customer.amountMax}}</span>
+                        <span *ngIf="customer.amountType=='F'" class="image-text">{{customer.amountFixe}}</span>
                     </td>
                     <td>
                         <span class="p-column-title">Marge</span>
@@ -173,19 +162,24 @@
                     </td>
                     <td>
                         <span class="p-column-title">Sens</span>
-                        <span [class]="'customer-badge status-' + customer.sens">{{customer.sens}}</span>
+                        <!-- <span [class]="'customer-badge status-' + customer.sens">{{customer.sens}}</span> -->
+                        <span *ngIf="customer.sens=='A'" [class]="'customer-badge status-' + customer.sens">Achat</span>
+                        <span *ngIf="customer.sens=='V'" [class]="'customer-badge status-' + customer.sens">Vente</span>
                     </td>
                     <td>
                         <span class="p-column-title">Méthode de paiement</span>
                         <!-- <p-progressBar [value]="customer.activity" [showValue]="false"></p-progressBar> -->
-                        <span [class]="'customer-badge activity-' + customer.paiement">{{customer.paiement}}</span>
+                        <!-- <span [class]="'customer-badge activity-' + customer.provider">{{customer.provider}}</span> -->
+                        <span *ngIf="customer.provider=='OM'">Orange Money</span>
+                        <span *ngIf="customer.provider=='FREE'">Free Money</span>
+                        <span *ngIf="customer.provider=='WAVE'">Wave</span>
                     </td>
                     <!-- <td style="text-align: center">
                         <button pButton type="button" class="p-button-secondary" icon="pi pi-cog"></button>
                     </td> -->
                     <td>
-                      <span class="p-column-title">Anciennete</span>
-                      {{customer.anciennete}} jours
+                      <span *ngIf="seniority" class="p-column-title">Anciennete</span>
+                      {{seniority}} 
                   </td>
                   <td style="text-align: center">
                       <button type="button" class="text-green-600 px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-600 hover:text-white    hover:bg-green-600">Accepter</button>
@@ -197,7 +191,14 @@
                     <td colspan="8">No customers found.</td>
                 </tr>
             </ng-template>
+         
 </p-table>
+
+<div class="p-mb-3 flex justify-center">
+  <p-button *ngIf="disableButtonPrev===false" type="button" icon="pi pi-chevron-left" (click)="prev()" styleClass="p-button-text"></p-button>
+  <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text"></p-button>
+  <p-button *ngIf="disableButtonNext === false" type="button" icon="pi pi-chevron-right" (click)="next()"  styleClass="p-button-text"></p-button>
+</div>
         <!-- <div class="table mt-20">
             <div class="flex flex-col">
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">

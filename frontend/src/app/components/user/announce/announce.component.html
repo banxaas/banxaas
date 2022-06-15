@@ -77,14 +77,28 @@
                     </select>
                 </div>
             </div>
+            
+            <div class="mt-2 flex justify-center font-bold text-red-600" *ngIf="errorMessage">
+                {{errorMessage}}
+            </div>
             <div class="w-[75%] mt-[3%] grid justify-items-start ">
                 <p class="text-link w-[80%] ">
-                    Vous souhaitez donc acheter <b>0,001 BTC </b>pour une valeur de <b>21,600 FCFA </b>, en payant via <b>Orange Money.</b><br>
+                    Vous souhaitez donc <span *ngIf="announceForm.value.sens==='A'">&nbsp; acheter</span><span *ngIf="announceForm.value.sens==='V'">&nbsp; vendre</span> 
+                    <b *ngIf="announceForm.value.quantityType==='F'">{{announceForm.value.quantityFixe}} BTC </b>
+                    <b *ngIf="announceForm.value.quantityType==='R'">{{announceForm.value.quantityMin}} à {{announceForm.value.quantityMax}} BTC </b>
+                    pour une valeur de 
+                    <b *ngIf="announceForm.value.quantityType==='F'">{{announceForm.value.amountFixe}} BTC </b>
+                    <b *ngIf="announceForm.value.quantityType==='R'">{{announceForm.value.amountMin}} à {{announceForm.value.amountMax}} BTC </b>
+                    , en payant via 
+                    <b *ngIf="announceForm.value.provider==='OM'">Orange Money.</b>
+                    <b *ngIf="announceForm.value.provider==='FREE'">Free Money.</b>
+                    <b *ngIf="announceForm.value.provider==='WAVE'">Wave.</b>
+                    <br>
                     A cela, il faudra ajouter des frais de <b>5% </b>prélevés sur les BTC que vous recevrez, ainsi que les frais de transaction du réseau Bitcoin.
                 </p>
             </div>
             <div class="flex justify-center w-[45%] mt-[3%]">
-                <button (click)="showMessage()" type="submit" class="w-[50%] text-title md:w-full px-6 py-3 text-green-design bg-white border-2 border-green-design rounded-[40px] font-bold hover:text-white hover:bg-green-800">Confirmer</button>
+                <button type="submit" class="w-[50%] text-title md:w-full px-6 py-3 text-green-design bg-white border-2 border-green-design rounded-[40px] font-bold hover:text-white hover:bg-green-800">Confirmer</button>
             </div>
 
             

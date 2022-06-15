@@ -1,17 +1,23 @@
 
 export interface Customer {
     
-    id?: number;
-    quantite_type?: string;
-    quantite_min?:number;
-    quantite_max?:number;
-    quantite_fixe?:number;
-    montant_type?: string;
-    montant_min?:number;
-    montant_max?:number;
-    montant_fixe?:number;
+    // id?: number;
+    quantityType?: string;
+    quantityMin?:string;
+    quantityMax?:string;
+    quantityFixe?:string;
+    amountType?: string;
+    amountMin?:string;
+    amountMax?:string;
+    amountFixe?:string;
     marge?: number;
     sens?: string;
-    paiement?: string;
-    anciennete?: string
+    provider?: string;
+    user?: User
+}
+
+export interface User {
+
+    pseudo?: string
+    seniority?: string
 }

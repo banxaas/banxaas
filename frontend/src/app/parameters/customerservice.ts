@@ -10,10 +10,12 @@ export class CustomerService {
   private setUserUrl = environment.apiUrl + 'setUser/';
   private paymentUrl = environment.apiUrl + 'paymentMethod/';
   private adsUrl = environment.apiUrl + 'ad/';
+  private getAdsUrl = environment.apiUrl + 'ads/';
   private urlBitcoin = 'https://bitpay.com/rates/BTC/XOF'
   httpOptions = {
     headers: new HttpHeaders({'X-Accept-Version': '2.0.0', 'Content-Type': 'application/json'})
   }
+  
   constructor(private http: HttpClient) { }
 
   getCustomersLarge() {
@@ -34,7 +36,6 @@ export class CustomerService {
 
   /** ADD Payment Method Account*/
   deletePaymentMethod(data: any): Observable<any> {
-    console.log(data);
     const parametre = {
       body: data
     }
@@ -46,6 +47,12 @@ export class CustomerService {
     return this.http.post<any>(this.adsUrl, data)
   }
 
+  /** LIST Announce*/
+  getAds(data: any, id:any): Observable<any> {
+    return this.http.post<any>(this.getAdsUrl+id+'/', data)
+  }
+
+  // Prix actuel d'un Bitcoin
   getRateBitcoin(){
     return this.http.get<any>(this.urlBitcoin, this.httpOptions)
   }

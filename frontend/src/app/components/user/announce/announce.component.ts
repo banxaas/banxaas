@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { CustomerService } from 'src/app/parameters/customerservice';
 import { LocalStorageService } from 'src/app/parameters/local-storage.service';
@@ -33,12 +34,14 @@ export class AnnounceComponent implements OnInit {
       amountMin: new FormControl(''),
       amountMax: new FormControl('')
   })
+  errorMessage: any;
 
   constructor(
     private customerService : CustomerService,
     private localStorage : LocalStorageService,
     private messageService: MessageService,
-    private primengConfig: PrimeNGConfig
+    private primengConfig: PrimeNGConfig,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -113,6 +116,12 @@ export class AnnounceComponent implements OnInit {
     this.customerService.addAds(dataForm).subscribe(
       response => {
         console.log(response);
+        if (response.status === "SUCCESSFUL") {
+          this.router.navigate(['user/offre'])
+        }
+        if (response.status === "FAILED") {
+          this.errorMessage = response.message;
+        }
         
       },
       error => {
