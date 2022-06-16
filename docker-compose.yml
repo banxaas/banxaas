@@ -7,7 +7,7 @@ services:
     volumes:
       - ./data/postgres/pgdata:/var/lib/postgresql/data/pgdata
     ports:
-      - 5432:5432
+      - ${DATABASE_MAP_PORT}:${DATABASE_SERVER_PORT}
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_DB: ${DATABASE_NAME}

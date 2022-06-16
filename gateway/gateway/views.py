@@ -22,16 +22,21 @@ def isDisconnected(request):
 
 @api_view(['PATCH'])
 def SetUser(request):
-	return Response(requests.post('http://backend:27543/api/setUser/', data=request.data).json())
+	return Response(requests.patch('http://backend:27543/api/setUser/', data=request.data).json())
 
 @api_view(['POST', 'DELETE'])
 def PaymentMethod(request):
-	return Response(requests.post('http://backend:27543/api/paymentMethod/', data=request.data).json())
+	if request.method == "POST":
+		return Response(requests.post('http://backend:27543/api/paymentMethod/', data=request.data).json())
+	elif request.method == "DELETE":
+		return Response(requests.delete('http://backend:27543/api/paymentMethod/', data=request.data).json())
 
 @api_view(['POST', 'DELETE'])
 def Ad(request):
-	pprint(request.METHOD)
-	return Response(requests.post('http://backend:27543/api/ad/', data=request.data).json())
+	if request.method == "POST":
+		return Response(requests.post('http://backend:27543/api/ad/', data=request.data).json())
+	elif request.method == "DELETE":
+		return Response(requests.delete('http://backend:27543/api/ad/', data=request.data).json())
 
 @api_view(['GET'])
 def Ads(request, page):

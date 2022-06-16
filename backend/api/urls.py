@@ -1,11 +1,9 @@
-from django.urls import path, include
-from .models import User
-from rest_framework import routers
+from django.urls import path
+
 from .viewsets import *
 
-
 urlpatterns = [
-    path('connexion/', Connexion),
+    path('connexion/', connexion),
     path('createAccount/', CreateAccountViewset),
     path('validateCode/', ValidateCodeViewset),
     path('isDisconnected/', isDisconnected),
