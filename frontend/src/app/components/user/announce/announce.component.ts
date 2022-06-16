@@ -35,6 +35,7 @@ export class AnnounceComponent implements OnInit {
       amountMax: new FormControl('')
   })
   errorMessage: any;
+  pseudo: any;
 
   constructor(
     private customerService : CustomerService,
@@ -47,9 +48,12 @@ export class AnnounceComponent implements OnInit {
   ngOnInit(): void {
 
             
-    const datauser: any = this.localStorage.get('paymentMethods');
-    let data = JSON.parse(datauser);
-    console.log(data);
+    const dataPaymentMethods: any = this.localStorage.get('paymentMethods');
+    let data = JSON.parse(dataPaymentMethods);
+    
+    const datauser: any = this.localStorage.get('data');
+    let username = JSON.parse(datauser);
+    this.pseudo = username.user.pseudo
     
 
 

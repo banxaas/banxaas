@@ -1,0 +1,68 @@
+<mat-stepper orientation="vertical">
+    <mat-step>
+      <ng-template matStepLabel>Step 1</ng-template>
+      <ng-template matStepContent>
+        <p>This content was rendered lazily</p>
+        <button mat-button matStepperNext>Next</button>
+      </ng-template>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Step 2</ng-template>
+      <ng-template matStepContent>
+        <p>This content was also rendered lazily</p>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </ng-template>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Step 3</ng-template>
+      <p>This content was rendered eagerly</p>
+      <button mat-button matStepperPrevious>Back</button>
+    </mat-step>
+  </mat-stepper>
+  <mat-stepper>
+    <mat-step label="Step 1" state="phone">
+      <p>Put down your phones.</p>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <mat-step label="Step 2" state="chat">
+      <p>Socialize with each other.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <mat-step label="Step 3">
+      <p>You're welcome.</p>
+    </mat-step>
+  
+    <!-- Icon overrides. -->
+    <!-- <ng-template matStepperIcon="phone">
+      <mat-icon>call_end</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="chat">
+      <mat-icon>forum</mat-icon>
+    </ng-template> -->
+  </mat-stepper>
+<!-- <div class="flex relative flex-col items-center justify-center min-h-screen bg-gray-100 space-y-[2%]">
+
+    <div class="lg:w-[60%] shadow-lg p-[8%]">
+        <p class="lg:text-link text-[12px]">Bonjour <b>pseudo</b><br>
+            Nous avons notifié <b>pseudo borom annonce bi</b> de votre offre d'achat.<br>
+            Il a désormais <b>24h</b>pour accepter votre offre. Vous pouvez annuler votre offre jusqu'à ce qu'il accepte.
+        </p>
+        
+        <div class="lg:text-subtitle w-full flex p-5 mt-10 justify-center">
+            <p class="lg:w-[60%]">Il vous reste <b>heure</b>avant l'annulation automatique de l'offre</p>
+        </div>
+        <div class="lg:w-full flex mt-5 justify-center">
+            barre de progression
+        </div>
+        <div class="w-full mt-5">
+            <button class="w-full">annuler l'offre d'achat</button>
+        </div>
+    </div>
+</div> -->
+

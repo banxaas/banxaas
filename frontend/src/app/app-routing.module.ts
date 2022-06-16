@@ -12,6 +12,7 @@ import { PasswordComponent } from './components/user/profil/password/password.co
 import { PaymentMethodComponent } from './components/user/profil/payment-method/payment-method.component';
 import { ProfilComponent } from './components/user/profil/profil.component';
 import { SecurityComponent } from './components/user/profil/security/security.component';
+import { TransactionComponent } from './components/user/transaction/transaction.component';
 import { UserComponent } from './components/user/user.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'user', component: UserComponent,
       children: [
         { path: 'home', component: HomeComponent },
+        { path: 'transaction', component: TransactionComponent },
         { path: 'offre', component: OfferComponent },
         { path: 'accueil', component: WelcomeComponent },
         { path: 'profil', redirectTo:'profil/securite' },

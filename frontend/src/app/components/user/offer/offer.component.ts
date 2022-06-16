@@ -59,17 +59,8 @@ export class OfferComponent implements OnInit {
         response => {
             this.customers = response;
             response.forEach((element: any) => {
-                
-                if (element.user.seniority < 86400) {
-                    this.seniority = 'Aujourd\'hui'
-                }
-                else {
-                    this.seniority = Math.trunc(element.user.seniority / 86400) + ' jour(s)';
-                    this.tabSeniority.push(this.seniority);
-
-    
-                }
-
+                this.seniority = element.user.seniority;
+                this.tabSeniority.push(this.seniority)
                 if (element.quantityType==="R") {
                     this.range_quantity.push([Number(element.quantityMin),Number(element.quantityMax)])
                 }else {
@@ -246,7 +237,6 @@ export class OfferComponent implements OnInit {
   filtreSeniority(event: { target: any; }){
     let senior = event.target.value;
     console.log(this.tabSeniority);
-    senior = senior+' jour(s)';
     
     this.tabSeniority.forEach(element => {
         if (senior != element) {

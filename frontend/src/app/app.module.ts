@@ -20,6 +20,7 @@ import { SecurityComponent } from './components/user/profil/security/security.co
 import { BuyComponent } from './components/user/buy/buy.component';
 import { AnnounceComponent } from './components/user/announce/announce.component';
 import { OfferComponent } from './components/user/offer/offer.component';
+import {MatStepperModule} from '@angular/material/stepper';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TableModule} from 'primeng/table';
@@ -33,8 +34,10 @@ import {ToastModule} from 'primeng/toast';
 import {InputTextModule} from 'primeng/inputtext';
 import {ProgressBarModule} from 'primeng/progressbar';
 import {DropdownModule} from 'primeng/dropdown';
+import { StepsModule } from 'primeng/steps';
 import { CustomerService } from './parameters/customerservice';
 import { MessageService } from 'primeng/api';
+import { TransactionComponent } from './components/user/transaction/transaction.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +57,7 @@ import { MessageService } from 'primeng/api';
     AnnounceComponent,
     OfferComponent,
     AnnounceComponent,
+    TransactionComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +66,7 @@ import { MessageService } from 'primeng/api';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
+    MatStepperModule,
     TableModule,
     CalendarModule,
     SliderModule,
@@ -69,6 +74,7 @@ import { MessageService } from 'primeng/api';
 		MultiSelectModule,
 		ContextMenuModule,
 		DropdownModule,
+    StepsModule,
 		ButtonModule,
 		ToastModule,
     InputTextModule,
