@@ -421,7 +421,7 @@ class AdViewset(APIView):
 	            return Response({"status": 'FAILED',
 	                             "message": "Quand le type est range, les champs quantityFixe et amountFixe ne doivent pas figurer dans le JSON"})
 	        if (data['quantityType'] == 'R') and (
-	                (data['quantityMin'] >= data['quantityMax']) or (data['amountMin'] >= data['amountMax'])):
+	                (float(data['quantityMin']) >= float(data['quantityMax'])) or (float(data['amountMin']) >= float(data['amountMax']))):
 	            return Response({"status": 'FAILED',
 	                             "message": "Les valeurs quantityMin et amountMin ne peuvent pas être supérieur à quantityMax et amountMax"})
 
