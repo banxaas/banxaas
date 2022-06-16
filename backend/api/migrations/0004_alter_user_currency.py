@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('api', '0003_alter_ad_amounttype_alter_ad_quantitytype'),
     ]
@@ -13,6 +12,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='user',
             name='currency',
-            field=models.CharField(choices=[('XOF', 'XOF'), ('USD', 'USD'), ('EUR', 'EUR')], default='CFA', max_length=50),
+            field=models.CharField(choices=[('XOF', 'XOF'), ('USD', 'USD'), ('EUR', 'EUR')], default='CFA',
+                                   max_length=50),
         ),
     ]

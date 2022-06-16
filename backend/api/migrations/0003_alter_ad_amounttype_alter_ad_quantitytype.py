@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('api', '0002_alter_ad_amountfixe_alter_ad_amountmax_and_more'),
     ]

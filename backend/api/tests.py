@@ -1,7 +1,7 @@
 from django.test import TestCase
-from datetime import datetime
-from .models import *
+
 from .serializers import *
+
 
 # Create your tests here.
 class UserTestCase(TestCase):
