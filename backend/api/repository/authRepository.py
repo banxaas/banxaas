@@ -22,7 +22,7 @@ def isRequestDataConnexionValid(data):
         return False
     try:
         login = data['login']
-        password = data.get('password')
+        password = data['password']
         return [login, password]
     except KeyError:
         return False
@@ -154,7 +154,7 @@ def verifyCodeValidation(code, token):
     return [True, userId]
 
 
-def is_authenticated(token, signature):
+def isAuthenticated(token, signature):
     user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
     if user.is_authenticated and (signature == Token.objects.filter(user=user)[0].key):
         return True
