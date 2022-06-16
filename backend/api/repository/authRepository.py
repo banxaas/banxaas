@@ -1,15 +1,4 @@
-<<<<<<< HEAD
-from api.models import *
-from rest_framework.authtoken.models import Token
-import smtplib, ssl
-import random
-import os, hashlib, jwt
-from api.models import *
-from rest_framework.response import Response
-from datetime import datetime, timedelta
-=======
 import hashlib
->>>>>>> backend
 import http.client
 import json
 import jwt
@@ -73,10 +62,6 @@ def createCode():
     """ Permet de créer un code de validation"""
     return ''.join(random.choices([str(i) for i in range(10)], k=6))
 
-<<<<<<< HEAD
-=======
-
->>>>>>> backend
 messageEmail = f"""From: Yite Verification <{str(os.environ.get('MAIL_BANXAAS'))}>
 To: <UserMail>
 MIME-Version: 1.0
@@ -90,49 +75,6 @@ messageSms = "[ Banxaas ] Votre code de validation est : "
 
 
 def sendVerificationCodeByMail(userMail):
-<<<<<<< HEAD
-	"""Permet d'envoyer un code de validation par email"""
-	# Connexion au server
-	server = smtplib.SMTP(str(os.environ.get('MAIL_SERVER_HOST')), int(os.environ.get('MAIL_SERVER_PORT')))
-	context = ssl.create_default_context()
-	server.starttls(context=context)
-	server.login(str(os.environ.get('MAIL_BANXAAS')), str(os.environ.get('PASSWORD_MAIL_BANXAAS')))
-	# Création du code de validation
-	code = createCode()
-	# Préparation du mail
-	sender = str(os.environ.get('MAIL_BANXAAS'))
-	receivers = [userMail]
-	mail = str(messageEmail.decode('utf-8')).replace("UserMail", userMail).replace("ValidationCode", code)
-	mail = bytes(mail.encode('utf-8'))
-	# Envoie !!
-	server.sendmail(sender, userMail, mail)
-	server.quit() # Déconnexion
-	return code
-
-def sendVerificationCodeBySms(userPhone):
-	"""Permet d'envoyer un code de validation par phone"""
-	token = verifyExistingToken() # Vérification d'un token API ORANGE existant
-	code = createCode() # Création du code de validation
-	conn = http.client.HTTPSConnection("api.orange.com") # Initialisation de la connexion
-	payload = json.dumps({
-	  "outboundSMSMessageRequest": {
-	    "address": f"tel:+221{userPhone}",
-	    "senderAddress": "tel:+221774924730",
-	    "outboundSMSTextMessage": {
-	      "message": messageSms + code
-	    }
-	  }
-	})
-	headers = {
-	  'Content-Type': 'application/json',
-	  'Authorization': f"{token['token_type']} {token['access_token']}"
-	}
-	# Envoie du Code
-	conn.request("POST", "/smsmessaging/v1/outbound/tel%3A%2B221774924730/requests", payload, headers)
-	res = conn.getresponse()
-	data = res.read()
-	return code
-=======
     """Permet d'envoyer un code de validation par email"""
     # Connexion au server
     server = smtplib.SMTP(str(os.environ.get('MAIL_SERVER_HOST')), int(os.environ.get('MAIL_SERVER_PORT')))
@@ -176,7 +118,6 @@ def sendVerificationCodeBySms(userPhone):
     data = res.read()
     return code
 
->>>>>>> backend
 
 def createValidationTokenPayload(code, userId, userIdType):
     """ Permet de créer un Payload pour le JWT """
