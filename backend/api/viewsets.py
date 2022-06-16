@@ -34,7 +34,7 @@ def connexion(request):
         return Response({'status': 'INACTIVATED', 'message': 'Votre compte n\'a pas été activé'})
 
     # Déconnexion de l'utilisateur s'il est connecté autre part
-    if user.is_authenticated:
+    if user.isAuthenticated:
         user.disconnect()
 
     if Token.objects.filter(user=user):
@@ -57,6 +57,7 @@ def connexion(request):
     return Response({
         'status': "SUCCESSFUL",
         'user': serializer.data,
+        'numberOfAds': Ad.get_num_of_ads_available(),
         'token': jwt,
         'signature': signature.key
     })
@@ -201,7 +202,7 @@ class PaymentMethodViewset(APIView):
             token = request.data['token']
 
             # Vérifie si l'utilisateur est connecté
-            if not is_authenticated(token, request.data['signature']):
+            if not isAuthenticated(token, request.data['signature']):
                 return Response({"status": "FAILED", 'message': "Vous devez vous connecter"})
 
             # Verification existence PM
@@ -238,7 +239,7 @@ class PaymentMethodViewset(APIView):
                 return Response({'status': "FAILED", "message": "JSON invalide"})
             token = request.data['token']
             # Vérifie si l'utilisateur est connecté
-            if not is_authenticated(token, request.data['signature']):
+            if not isAuthenticated(token, request.data['signature']):
                 return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
             pm = PaymentMethod.objects.get(id=int(request.data['id']))
             pm.delete()
@@ -273,7 +274,7 @@ def SetUserViewset(request):
         token = data['token']  # Récupération du Token
 
         # Vérifie si l'utilisateur est connecté
-        if not is_authenticated(token, data['signature']):
+        if not isAuthenticated(token, data['signature']):
             return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
 
         user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
@@ -385,7 +386,7 @@ class AdViewset(APIView):
             token = data['token']  # Récupération du Token
 
             # Vérifie si l'utilisateur est connecté
-            if not is_authenticated(token, data['signature']):
+            if not isAuthenticated(token, data['signature']):
                 return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
 
             # Nettoyage de data
@@ -454,7 +455,7 @@ class AdViewset(APIView):
 
             token = data['token']  # Récupération du Token
             # Vérifie si l'utilisateur est connecté
-            if not is_authenticated(token, data['signature']):
+            if not isAuthenticated(token, data['signature']):
                 return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
 
             # Nettoyage de data
@@ -478,7 +479,7 @@ class AdsViewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generi
                 return Response({"status": "FAILED", "message": "L'iindice de page minimal est 1"})
             token = request.data['token']  # Récupération du Token
             # Vérifie si l'utilisateur est connecté
-            if not is_authenticated(token, request.data['signature']):
+            if not isAuthenticated(token, request.data['signature']):
                 return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
             self.queryset = Ad.objects.order_by('-publicationDate')[(page - 1) * 10:10 * page]
             return self.list(request)

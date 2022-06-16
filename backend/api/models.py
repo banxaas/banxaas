@@ -47,7 +47,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(max_length=14, unique=True, blank=True, null=True)
 
     # Others Info
-    is_authenticated = models.BooleanField(default=False)  # readOnly
+    isAuthenticated = models.BooleanField(default=False)  # readOnly
     is_staff = models.BooleanField(default=False)  # readOnly
     is_active = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
@@ -63,11 +63,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.pseudo
 
     def connect(self):
-        self.is_authenticated = True
+        self.isAuthenticated = True
         self.last_login = datetime.now(timezone.utc)
 
     def disconnect(self):
-        self.is_authenticated = False
+        self.isAuthenticated = False
 
     def get_seniority(self):
         seniority = datetime.now(timezone.utc) - self.date_joined
@@ -117,6 +117,9 @@ class Ad(models.Model):
     publicationDate = models.DateTimeField(auto_now_add=True)
     marge = models.IntegerField()
     provider = models.CharField(max_length=15, choices=PAYMENT_METHOD)
+
+    def get_num_of_ads_available():
+    	return int(Ad.objects.filter(status="I").count())
 
 
 class Trade(models.Model):

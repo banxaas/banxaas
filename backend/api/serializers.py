@@ -62,7 +62,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['pseudo', 'email', 'phone', 'is_active', 'is_authenticated', 'currency', 'seniority', 'paymentMethods']
+        fields = ['pseudo', 'email', 'phone', 'is_active', 'isAuthenticated', 'currency', 'seniority', 'paymentMethods']
         depth = 1
 
 
