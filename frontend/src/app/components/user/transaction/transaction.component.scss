@@ -1,9 +1,77 @@
-p-steps .ui-steps .ui-steps-item.ui-state-highlight .ui-steps-number {
-    background-color: #757575 !important;
-   }
-   .ui-steps .ui-steps-item .ui-menuitem-link .ui-steps-number {
-    background-color: #bdbdbd !important;
-   }
-   .ui-steps:before {
-    border: none !important;
-   }
+
+  
+  .step {
+    
+    padding: 10px;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    
+    background-color: cream;
+  }
+  
+  .v-stepper {
+    position: relative;
+  /*   visibility: visible; */
+  }
+  
+  
+  /* regular step */
+  .step .circle {
+    background-color: white;
+    border: 3px solid gray;
+    border-radius: 100%;
+    width: 20px;    /* +6 for border */
+    height: 20px;
+    display: inline-block;
+  }
+  
+  .step .line {
+      top: 23px;
+    left: 12px;
+  /*   height: 120px; */
+    height: 100%;
+      
+      position: absolute;
+      border-left: 3px solid gray;
+  }
+  
+  .step.completed .circle {
+    visibility: visible;
+    background-color: rgb(6,150,215);
+    border-color: rgb(6,150,215);
+  }
+  
+  .step.completed .line {
+    border-left: 3px solid rgb(6,150,215);
+  }
+  
+  .step.active .circle {
+  visibility: visible;
+    border-color: rgb(6,150,215);
+  }
+  
+  .step.empty .circle {
+      visibility: hidden;
+  }
+  
+  .step.empty .line {
+  /*     visibility: hidden; */
+  /*   height: 150%; */
+    top: 0;
+    height: 150%;
+  }
+  
+  
+  .step:last-child .line {
+    border-left: 3px solid white;
+    z-index: -1; /* behind the circle to completely hide */
+  }
+  
+  .content {
+    margin-left: 20px;
+    display: inline-block;
+  }
+  
+  

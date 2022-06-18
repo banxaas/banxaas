@@ -1,68 +1,81 @@
-<mat-stepper orientation="vertical">
-    <mat-step>
-      <ng-template matStepLabel>Step 1</ng-template>
-      <ng-template matStepContent>
-        <p>This content was rendered lazily</p>
-        <button mat-button matStepperNext>Next</button>
-      </ng-template>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Step 2</ng-template>
-      <ng-template matStepContent>
-        <p>This content was also rendered lazily</p>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
-      </ng-template>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Step 3</ng-template>
-      <p>This content was rendered eagerly</p>
-      <button mat-button matStepperPrevious>Back</button>
-    </mat-step>
-  </mat-stepper>
-  <mat-stepper>
-    <mat-step label="Step 1" state="phone">
-      <p>Put down your phones.</p>
-      <div>
-        <button mat-button matStepperNext>Next</button>
+<div class="flex flex-row">
+
+  <!--Stepper Vertical-->
+  <div class="flex ml-10 mt-[5%] ml-[5%] flex-col w-[25%]">
+    <!-- completed -->
+    <div class="w-full flex justify-items-start completed">
+      <div class="w-full relative flex flex-row">
+        <div class="mt-[10%] w-[50%]">1. <b>Notification</b></div>
+        <div class="line h-[100px] border border-green-design"></div>
+        <div class="w-[15px] h-[15px] mt-[100px] relative right-[8px] border bg-green-design rounded-full"><button
+            routerLink="accueil">&nbsp;</button></div>
+
       </div>
-    </mat-step>
-    <mat-step label="Step 2" state="chat">
-      <p>Socialize with each other.</p>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+
+    </div>
+
+    <!-- active -->
+
+    <div class="w-full flex justify-items-start completed">
+      <div class="w-full relative flex flex-row">
+        <div class="mt-[10%] w-[50%]">2. <b>Envoi des fonds</b></div>
+        <div class="line h-[100px] border border-green-design"></div>
+        <div class="w-[15px] h-[15px] mt-[100px] relative right-[8px] border bg-green-design rounded-full"><button
+            routerLink="accueil">&nbsp;</button></div>
+
       </div>
-    </mat-step>
-    <mat-step label="Step 3">
-      <p>You're welcome.</p>
-    </mat-step>
-  
-    <!-- Icon overrides. -->
-    <!-- <ng-template matStepperIcon="phone">
-      <mat-icon>call_end</mat-icon>
-    </ng-template>
-    <ng-template matStepperIcon="chat">
-      <mat-icon>forum</mat-icon>
-    </ng-template> -->
-  </mat-stepper>
+
+    </div>
+    <!-- empty -->
+
+    <div class="w-full flex justify-items-start  completed">
+      <div class="w-full relative flex flex-row">
+        <div class="mt-[10%] w-[50%]">3. <b>Adresse bitcoin</b></div>
+        <div class="line h-[100px] border border-green-design"></div>
+        <div class="w-[15px] h-[15px] mt-[100px] relative right-[8px] border bg-green-design rounded-full"><button
+            routerLink="accueil">&nbsp;</button></div>
+
+      </div>
+
+    </div>
+
+    <!-- regular -->
+
+    <div class="w-full flex justify-items-start completed">
+      <div class="w-full relative flex flex-row">
+        <div class="mt-[10%] w-[50%]">4. <b>Clôture</b></div>
+        <div class="line h-[100px] border border-green-design"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!--Page Content-->
+  <div class="w-[75%] flex flex-col min-h-screen">
+    <div class="lg:w-[90%] mt-[10%] p-[5%]">
+      <p class="lg:text-link text-[12px] pl-[10%] ">Bonjour <b>pseudo</b><br>
+        Nous avons notifié <b>pseudo borom annonce bi</b> de votre offre d'achat.<br>
+        Il a désormais <b>24h</b>pour accepter votre offre. Vous pouvez annuler votre offre jusqu'à ce qu'il accepte.
+      </p>
+
+      <div class="lg:text-subtitle w-full flex p-5 mt-10 justify-center">
+        <p class="lg:w-[60%]">Il vous reste <b> {{hours}}h &nbsp; {{minutes}}minutes &nbsp;  {{seconds}}secondes  </b>&nbsp; avant l'annulation automatique de l'offre</p>
+      </div>
+      <div class="lg:w-[30%] ml-[25%] flex mt-5 justify-center">
+        <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+          <div class="bg-green-design text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full w-[45%]"> 45%</div>
+        </div>
+      </div>
+      <div class="w-full flex justify-center mt-10">
+        <button class="w-[80%] px-8 py-4 text-red-500 border-red-500 text-title uppercase rounded-3xl border-2 mx-5 font-bold">annuler
+          l'offre d'achat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- <div class="flex relative flex-col items-center justify-center min-h-screen bg-gray-100 space-y-[2%]">
 
-    <div class="lg:w-[60%] shadow-lg p-[8%]">
-        <p class="lg:text-link text-[12px]">Bonjour <b>pseudo</b><br>
-            Nous avons notifié <b>pseudo borom annonce bi</b> de votre offre d'achat.<br>
-            Il a désormais <b>24h</b>pour accepter votre offre. Vous pouvez annuler votre offre jusqu'à ce qu'il accepte.
-        </p>
-        
-        <div class="lg:text-subtitle w-full flex p-5 mt-10 justify-center">
-            <p class="lg:w-[60%]">Il vous reste <b>heure</b>avant l'annulation automatique de l'offre</p>
-        </div>
-        <div class="lg:w-full flex mt-5 justify-center">
-            barre de progression
-        </div>
-        <div class="w-full mt-5">
-            <button class="w-full">annuler l'offre d'achat</button>
-        </div>
-    </div>
 </div> -->
-

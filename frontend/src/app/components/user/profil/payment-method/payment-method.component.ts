@@ -46,19 +46,19 @@ export class PaymentMethodComponent implements OnInit {
     this.updateSubscription = interval(500).subscribe(
       (val) => {
         
-      const datauser: any = this.localStorage.get('paymentMethods');
-      let data = JSON.parse(datauser);
-      
+        const datauser: any = this.localStorage.get('paymentMethods');
+        let data = JSON.parse(datauser);
+        
 
 
-      if (data.length == 0) {
+        if (data.length == 0) {
 
-        this.fieldActive = false
-      }
-      if (data.length > 0) {
-        this.datas = data
-        this.fieldActive = true
-      }
+          this.fieldActive = false
+        }
+        if (data.length > 0) {
+          this.datas = data
+          this.fieldActive = true
+        }
       }
 
 );
