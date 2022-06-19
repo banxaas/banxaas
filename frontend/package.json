@@ -23,6 +23,7 @@
     "@angular/router": "~13.3.0",
     "@auth0/angular-jwt": "^5.0.2",
     "jwt-decode": "^3.1.2",
+    "ngx-clipboard": "^15.1.0",
     "ngx-mask": "^13.1.12",
     "primeicons": "^5.0.0",
     "primeng": "^13.4.1",

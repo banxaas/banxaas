@@ -21,6 +21,8 @@ import { BuyComponent } from './components/user/buy/buy.component';
 import { AnnounceComponent } from './components/user/announce/announce.component';
 import { OfferComponent } from './components/user/offer/offer.component';
 import {MatStepperModule} from '@angular/material/stepper';
+import { ClipboardModule } from 'ngx-clipboard';
+
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TableModule} from 'primeng/table';
@@ -79,6 +81,7 @@ import { TransactionComponent } from './components/user/transaction/transaction.
 		ToastModule,
     InputTextModule,
     ProgressBarModule,
+    ClipboardModule,
     NgxMaskModule.forRoot()
   ],
   providers: [
