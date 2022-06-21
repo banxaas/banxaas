@@ -1,7 +1,4 @@
-
 import { AfterViewInit, Component } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { ClipboardService } from 'ngx-clipboard';
 import { interval } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 
@@ -25,21 +22,20 @@ export class TransactionComponent implements AfterViewInit {
   progress: number = 0;
   update: any;
   notif: boolean = false
+  fonds: boolean = false
+  adrese: boolean = false
   copy: boolean = false
 
   formAdresseBtc = new FormGroup({
     adresse: new FormControl('bc1qn0r06gtwlamffet49fph9jnm9u2e2ylx5ns7qc')
   })
+  adresseBtc: boolean = false;
+  close: boolean = false;
   constructor(
-    private clipboardApi: ClipboardService
   ) { }
-  copyText() {
-    this.clipboardApi.copyFromContent(this.formAdresseBtc.value.adresse);
-    this.copy = true
-    console.log('test');
-    
-  }
+
   ngAfterViewInit() {
+    this.showNotification();
     this.myTimer();
   }
 
@@ -71,6 +67,34 @@ export class TransactionComponent implements AfterViewInit {
         
       }
     )
+  }
+
+  showNotification(){
+    this.notif = true;
+    this.fonds = false;
+    this.adresseBtc = false;
+    this.close = false;
+  }
+
+  showEnvoiFonds(){
+    this.fonds = true;
+    this.notif = false;
+    this.adresseBtc = false;
+    this.close = false;
+  }
+
+  showAdresseBtc(){
+    this.adresseBtc = true;
+    this.fonds = false;
+    this.notif = false;
+    this.close = false;
+  }
+
+  showClose(){
+    this.adresseBtc = false;
+    this.fonds = false;
+    this.notif = false;
+    this.close = true;
   }
 
 }

@@ -4,7 +4,13 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:9000/'
+  // URL GATEWAY
+  // apiUrl: 'http://localhost:9000/'
+
+  // URL BACKEND
+  apiUrl: 'http://localhost:8000/api/'
+
+  // URL SERVER TEST
   // apiUrl: 'http://149.56.200.27:8000/api/'
 };
 
