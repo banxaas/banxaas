@@ -4,9 +4,9 @@
             <img src="../../../assets/logo_banxass_vert.png" />
         </button>
     </div>
-    <div class="px-5 py-6 md:px-10 md:py-12 mx-4 md:mt-4 text-left md:h-1/2 shadow-xl bg-white md:w-1/2 lg:w-1/2 sm:w-1/2 rounded-md">
+    <div class="px-5 py-6 md:px-10 md:py-12 mx-4 md:mt-4 text-left md:h-1/2 shadow-xl bg-white md:w-[70%] lg:w-1/2 sm:w-[90%] rounded-md">
         <div class="flex justify-center">
-            <h1 class="md:text-title font-bold uppercase">vérification du mail</h1>
+            <h1 class="sm:text-[12px] md:text-title font-bold uppercase">vérification du mail</h1>
         </div>
         <div class="mt-2 flex justify-center font-bold text-red-600" *ngIf="errorMessage">
            {{errorMessage}}
@@ -17,11 +17,11 @@
                     <label class="block text-[10px] md:text-link flex justify-center" for="name">Veuillez renseigner le code qui vient de vous être envoyé</label>
                 </div>
                 <div class="mt-4 justify-center flex">
-                    <input type="text" formControlName="code" placeholder="XXX-XXX" mask="000-000" class="md:w-1/2 text-center text-title font-bold px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" required>
+                    <input type="text" formControlName="code" placeholder="XXX-XXX" mask="000-000" class="sm:w-[70%] md:w-[60%] text-center lg:text-title font-bold md:px-4 md:py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" required>
                 </div>
                 <div class="mt-2 flex justify-center text-red-600" *ngIf="formControls['code'].errors?.['required'] && formControls['code']?.touched">Le code est obligatoire</div>
                 <div class="mt-4 flex justify-center">
-                    <button type="submit" class="w-[70%] md:w-1/3 px-6 py-4 mt-4 text-white bg-green-design rounded-3xl font-bold hover:bg-green-800">
+                    <button type="submit" class="sm:w-[40%] lg:w-[30%] md:w-1/3 px-6 py-4 mt-4 text-white bg-green-design rounded-3xl font-bold hover:bg-green-800">
                         Valider
                     </button>
                 </div>
