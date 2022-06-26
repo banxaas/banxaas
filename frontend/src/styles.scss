@@ -4,14 +4,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @font-face {
-    font-family: 'Celias';
-    src: url(assets/font/Celias.eot) format("opentype");
+    font-family: 'Sora';
+    src: url(assets/font/Sora-VariableFont_wght.ttf) format("opentype");
   }
 
   @layer base {
     html {
-      font-family: Celias;
+      font-family: Sora;
     }
   }
 // html, body { height: 100%; }

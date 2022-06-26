@@ -5,7 +5,7 @@
     <!-- Notification -->
     <div class="w-full flex justify-items-start completed">
       <div class="w-full relative flex flex-row">
-        <div class="mt-[10%] w-[50%]"><button (click)="showNotification()"><b class="text-green-design" *ngIf="notif">1. Notification</b><span class="text-gray-300" *ngIf="!notif">1. Notification</span></button></div>
+        <div class="mt-[10%] w-[50%]"><button (click)="showNotification()"><b class="text-green-design" *ngIf="notif || fonds || adresseBtc || close">1. Notification</b></button></div>
         <div class="line h-[100px] border border-green-design"></div>
         <div class="w-[15px] h-[15px] mt-[100px] relative right-[8px] border bg-green-design rounded-full"><button (click)="showEnvoiFonds()">&nbsp;</button></div>
 
@@ -17,7 +17,7 @@
 
     <div class="w-full flex justify-items-start completed">
       <div class="w-full relative flex flex-row">
-        <div class="mt-[10%] w-[50%]"><button (click)="showEnvoiFonds()"><b class="text-green-design" *ngIf="fonds && !notif">2. Envoi des fonds</b><span class="text-gray-300" *ngIf="!fonds">2. Envoi des fonds</span></button></div>
+        <div class="mt-[10%] w-[50%]"><button (click)="showEnvoiFonds()"><b class="text-green-design" *ngIf="fonds || adresseBtc || close ">2. Envoi des fonds</b><span class="text-gray-400" *ngIf="!fonds && notif">2. Envoi des fonds</span></button></div>
         <div  *ngIf="fonds || adresseBtc || close" class="line h-[100px] border border-green-design"></div>
         <div  *ngIf="!fonds && notif " class="line h-[100px] border border-gray-300"></div>
         <div *ngIf="fonds || adresseBtc || close" (click)="showAdresseBtc()" class="w-[15px] h-[15px] mt-[100px] relative right-[8px] border bg-green-design rounded-full"><button>&nbsp;</button></div>
@@ -29,7 +29,7 @@
 
     <div class="w-full flex justify-items-start  completed">
       <div class="w-full relative flex flex-row">
-        <div class="mt-[10%] w-[50%]"><button (click)="showAdresseBtc()"><b class="text-green-design" *ngIf="adresseBtc">3. Adresse Bitcoin</b><span class="text-gray-300" *ngIf="!adresseBtc">3. Adresse Bitcoin</span></button></div>
+        <div class="mt-[10%] w-[50%]"><button (click)="showAdresseBtc()"><b class="text-green-design" *ngIf="adresseBtc || close">3. Adresse Bitcoin</b><span class="text-gray-400" *ngIf="(!adresseBtc || fonds || notif) && !close">3. Adresse Bitcoin</span></button></div>
         <div *ngIf="adresseBtc || close" class="line h-[100px] border border-green-design"></div>
         <div  *ngIf="!adresseBtc && !close" class="line h-[100px] border border-gray-300"></div>
         <div *ngIf="adresseBtc || close" class="w-[15px] h-[15px] mt-[100px] relative right-[8px] border bg-green-design rounded-full"><button>&nbsp;</button></div> 
@@ -42,7 +42,7 @@
 
     <div class="w-full flex justify-items-start completed">
       <div class="w-full relative flex flex-row">
-        <div class="mt-[10%] w-[50%]"><button (click)="showClose()"><b class="text-green-design" *ngIf="close">4. Clôture</b><span class="text-gray-300" *ngIf="!close">4. Clôture</span></button></div>
+        <div class="mt-[10%] w-[50%]"><button (click)="showClose()"><b class="text-green-design" *ngIf="close">4. Clôture</b><span class="text-gray-400" *ngIf="!close">4. Clôture</span></button></div>
         <div *ngIf="close" class="line h-[100px] border border-green-design"></div>
         <div *ngIf="!close " class="line h-[100px] border border-gray-300"></div>
 
@@ -56,8 +56,8 @@
     <!--Section Notification-->
     <div *ngIf="notif" class="w-[75%] flex flex-col min-h-screen">
       <div class="lg:w-[90%] mt-[10%] p-[5%]">
-        <p class="lg:text-link text-[12px] pl-[10%] ">Bonjour <b>pseudo</b><br>
-          Nous avons notifié <b>pseudo borom annonce bi</b> de votre offre d'achat.<br>
+        <p class="lg:text-link text-[12px] pl-[10%] ">Bonjour <b>{{pseudo}}</b><br>
+          Nous avons notifié <b>Pseudo du vendeur</b> de votre offre d'achat.<br>
           Il a désormais <b>24h</b>pour accepter votre offre. Vous pouvez annuler votre offre jusqu'à ce qu'il accepte.
         </p>
 
@@ -107,8 +107,7 @@
         </p>
         <form [formGroup]="formAdresseBtc" class="w-full">
           <div class="lg:text-subtitle w-full flex p-5 mt-10 justify-center">
-            <input type="text" formControlName="adresse" placeholder="" id="" class="w-[50%] px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" />
-            
+            <input type="text" formControlName="adresse" placeholder="bc1qn0r06gtwlamffet49fph9jnm9u2e2ylx5ns7qc" id="" class="w-[50%] px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" />
           </div>
           <div class="w-full flex justify-center mt-10">
             <button class="w-[80%] px-8 py-4 text-green-design border-green-design text-title uppercase rounded-3xl border-2 mx-5 font-bold">
@@ -133,7 +132,7 @@
           La transaction est désormais close.
         </div>
         <div class="pl-[10%] ml-[10%] w-[40%] ">
-          Merci à bientot <b>pseudo</b>.
+          Merci à bientot <b>{{pseudo}}</b>.
         </div>
       </div>
     </div>

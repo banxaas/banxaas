@@ -1,13 +1,14 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { interval } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
+import { LocalStorageService } from 'src/app/parameters/local-storage.service';
 
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
   styleUrls: ['./transaction.component.scss'],
 })
-export class TransactionComponent implements AfterViewInit {
+export class TransactionComponent implements OnInit, AfterViewInit {
 
 
 
@@ -24,19 +25,53 @@ export class TransactionComponent implements AfterViewInit {
   notif: boolean = false
   fonds: boolean = false
   adrese: boolean = false
-  copy: boolean = false
 
   formAdresseBtc = new FormGroup({
-    adresse: new FormControl('bc1qn0r06gtwlamffet49fph9jnm9u2e2ylx5ns7qc')
+    adresse: new FormControl('')
   })
   adresseBtc: boolean = false;
   close: boolean = false;
+  pseudo: any;
   constructor(
+    private localStorage : LocalStorageService
   ) { }
+  ngOnInit(): void {
+    
+    this.notif = true;
+  }
 
   ngAfterViewInit() {
-    this.showNotification();
-    this.myTimer();
+    const datauser: any = this.localStorage.get('data');
+    const data = JSON.parse(datauser);
+    this.pseudo = data.user.pseudo;
+    // this.showNotification();
+    
+    this.updateSubscription = interval(1000).subscribe(
+      (val) => {
+          
+        this.seconds = Math.floor(this.difference / 1000);
+        this.minutes = Math.floor(this.seconds / 60);
+        this.hours = Math.floor(this.minutes / 60);
+        
+        this.hours %= 24;
+        this.minutes %= 60;
+        
+        this.seconds %= 60;
+        this.idhours = this.hours < 10 ? '0' + this.hours : this.hours;
+        this.idMinutes = this.minutes < 10 ? '0' + this.minutes : this.minutes;
+        this.idSeconds = this.seconds < 10 ? '0' + this.seconds : this.seconds;
+        this.difference = this.difference - 1000;
+
+      }
+    )
+
+    this.update = interval(864000).subscribe(
+      (val) => {
+        this.progress = this.progress + 1;
+        console.log(this.progress);
+        
+      }
+    )
   }
 
   /* Fonction Minuterie */
