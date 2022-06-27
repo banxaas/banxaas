@@ -21,14 +21,14 @@
                     </div>               
                 </div>
                 <div class="mt-10">
-                    <button (click)="toggleModal()" class=" flex shadow-xl border border-green-design flex-row bg-green-design hover:bg-white hover:text-green-design text-white font-bold py-4 px-12 rounded">Enregistrer</button>
+                    <button (click)="toggleModal()" class=" flex shadow-xl border border-green-design flex-row bg-green-design hover:bg-white hover:text-green-design text-white font-bold lg:px-12 lg:py-4 md:px-8 md:py-2 sm:px-4 sm:py-2 rounded">Enregistrer</button>
                 </div>
-                <p-dialog header="Confirmation" [(visible)]="hidden"  [style]="{width: '20vw'}">
+                <p-dialog header="Confirmation" [(visible)]="hidden">
                     <div class="mt-4">
                         <p>Veuillez-vous reconnecter apres les changements, Cliquer sur ok pour confirmer</p>
                     </div>
                     <div class="mt-10 grid w-full justify-center">
-                        <button type="submit" (click)="setUser()" class="w-full shadow-xl border border-green-design flex-row bg-green-design hover:bg-white hover:text-green-design text-white font-bold py-4 px-12 rounded">Ok</button>
+                        <button type="submit" (click)="setUser()" class="w-full shadow-xl border border-green-design flex-row bg-green-design hover:bg-white hover:text-green-design text-white font-bold lg:px-12 lg:py-4 md:px-8 md:py-2 sm:px-4 sm:py-2 rounded">Ok</button>
                     </div>
                 </p-dialog>
                     
