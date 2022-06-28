@@ -18,16 +18,15 @@ module.exports = {
         'green-design': '#008137',
       },
     },
-    
     screens: {
-      'sm': '640px',
-      // => @media (min-width: 640px) { ... }
+      'sm': '375px',
+      // => @media (min-width: 576px) { ... }
 
-      'md': '1024px',
-      // => @media (min-width: 1024px) { ... }
+      'md': '768px',
+      // => @media (min-width: 960px) { ... }
 
       'lg': '1280px',
-      // => @media (min-width: 1280px) { ... }
+      // => @media (min-width: 1440px) { ... }
     },
   },
   plugins: [],
