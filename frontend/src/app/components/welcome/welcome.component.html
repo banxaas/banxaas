@@ -2,26 +2,44 @@
 
   <!--  Avec Tailwind  -->
 
-  <nav class="container-fluid bg-green-design flex flex-col md:flex-row justify-around py-5 mx-auto head">
-    <div class="flex w-full ml-[40%] md:ml-4 md:w-[25%] sm:w-[50%] items-center">
-      <img src="../../../assets/logo1.png" class="w-[30%] md:w-1/2 sm:w-[50%] max-h-full" >
-    </div>
-    <!-- center header section -->
-    <div class="items-center mt-5 md:mt-0 sm:ml-[20%] md:ml-0 flex w-full md:w-[30%] lg:space-x-8 md:space-x-2 sm:space-x-2 lg:flex">
-      <a href="" class="text-white lg:text-link">Documentation</a>
-      <a href="" class="text-white lg:text-link">FAQ</a>
-      <a href="" class="text-white lg:text-link" >Aide</a>
-    </div>
-    <!-- right header section -->
-    <div class="flex mt-5 md:mt-0 justify-center items-center space-x-2">
-      <button class="lg:px-4 sm:px-2 md:px-2 lg:py-2 md:py-1 sm:py-1 text-white lg:text-link sm:text-[12px] bg-green-design rounded-3xl border-2 shadow-lg mx-5 font-bold hover:text-green-800 hover:bg-white"  routerLink="/connexion">
-        Se connecter
+
+  <nav class="container-fluid w-full bg-green-design sm:px-4 ">
+    <div class="flex flex-wrap justify-between items-center mx-auto">
+      <a href="" class="flex w-[25%] md:w-[25%] max-h-full">
+          <img src="../../../assets/logo.png" class="w-full md:w-[50%] align-items-right max-h-full" alt="Flowbite Logo" />
+          <!-- <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span> -->
+      </a>
+      <button data-collapse-toggle="mobile-menu" type="button" class=" items-center p-2 ml-3 text-sm text-white rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white-200 dark:text-white  dark:hover:bg-gray-700 dark:focus:ring-white-600" aria-controls="mobile-menu" aria-expanded="false">
+        <span class="sr-only">Menu</span>
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+        <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
       </button>
-      <button class="lg:px-4 sm:px-2 md:px-2 lg:py-2 md:py-1 sm:py-1 text-green-design lg:text-link sm:text-[12px] bg-white rounded-3xl border-2 font-bold hover:text-white hover:bg-green-800" routerLink="/register">
-        Créer un compte
-      </button>
+      <div class="hidden  w-full md:block md:w-[70%]  flex justify-center" id="mobile-menu">
+        <ul class="flex flex-col mt-4 md:flex-row md:space-x-4 lg:space-x-[10%] md:mt-0 md:text-sm lg:ml-[15%] md:font-medium">
+          <li class="flex md:justify-center">
+            <div class="items-center md:justify-center sm:ml-[100%] md:ml-0 mt-5 md:mt-0 md:space-y-[0%] flex sm:flex-col sm:space-y-[5%] md:flex-row w-full md:w-[100%] space-x-8 lg:flex">
+              <button class="text-white sm:text-[10px] md:text-[14px] lg:text-[18px]">Echanges en cours</button>
+              <button class="text-white sm:text-[10px] md:text-[14px] lg:text-[18px]">FAQ</button>
+              <button class="text-white sm:text-[10px] md:text-[14px] lg:text-[18px]" >Aide</button>
+            </div>
+          </li>
+          <li class="flex justify-center lg:w-[50%] ">
+            <div class="flex sm:flex-col sm:ml-[100%] md:ml-0 sm:space-y-[10%] md:space-y-[0%] md:flex-row md:flex-row w-full justify-center mt-5 md:mt-0 md:w-full  items-center space-x-2">
+              <button class="sm:w-[90%] sm:px-2 sm:py-1 md:px-2 md:py-2 lg:px-4 lg:py-2 text-white sm:text-[10px] md:text-[12px] lg:text-[16px] bg-green-design rounded-3xl border-2 mx-5 font-bold hover:text-green-800 hover:bg-white"  routerLink="/acheter">
+                Acheter du BTC
+              </button>
+              <button class="sm:w-[90%] sm:px-2 sm:py-1 md:px-2 md:py-2 lg:px-4 lg:py-2 text-green-design sm:text-[10px] md:text-[12px] lg:text-[16px] rounded-3xl bg-white  border-2 font-bold hover:text-white hover:bg-green-800" routerLink="">
+                Vendre du BTC
+              </button>
+            </div>
+          </li>
+          
+        </ul>
+      </div>
     </div>
   </nav>
+
+
 
 <!--   HOME BODY   -->
 
@@ -45,22 +63,7 @@
       </button>
     </div>
   </div>
-  <div class="sm:basis-[0%] md:basis-[25%] lg:basis-[25%] mt-[40%] lg:mt-[20%] ml-10 lg:ml-28 md:ml-18">
+  <div class="sm:basis-[0%] md:basis-[25%] lg:basis-[25%] mt-[40%] lg:mt-[15%] sm:mr-10 lg:mr-20 md:mr-18">
     <img src="../../../assets/illustration.png" alt="rocket" class="w-full">
   </div>
 </div>
-
-<!-- <div class="container-fluid row justify-content-md-between py-5 box-body">
-        <div class="div-illustration col-12 ">
-            <img src="../../../assets/illustration_sans_titre-4.png" alt="" class="col-12 illustration">
-        </div>
-        <div class="div-text">
-            <h1 class="text-center font-weight-bold titre">Acheter et Vendre<br> du Bitcoin</h1>
-            <p class="text-center text-justify">Créer un compte et commencer à <b>ACHETER</b> et à <b>VENDRE</b> du<br> <b>BITCOIN</b>, avec les moyens de paiement locaux, en mode <b>P2P</b>.</p>
-            <button type="button" class="btn text-center btn_start p-3 font-weight-bold">Commencer</button>
-
-        </div>
-        <div class="div-carapide">
-            <img src="../../../assets/illustration2.png" alt="" class="illustration2">
-        </div>
-</div> -->
