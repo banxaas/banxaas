@@ -12,7 +12,9 @@ import { PasswordComponent } from './components/user/profil/password/password.co
 import { PaymentMethodComponent } from './components/user/profil/payment-method/payment-method.component';
 import { ProfilComponent } from './components/user/profil/profil.component';
 import { SecurityComponent } from './components/user/profil/security/security.component';
+import { AchatComponent } from './components/user/transaction/achat/achat.component';
 import { TransactionComponent } from './components/user/transaction/transaction.component';
+import { VenteComponent } from './components/user/transaction/vente/vente.component';
 import { UserComponent } from './components/user/user.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 
@@ -28,7 +30,12 @@ const routes: Routes = [
   { path: 'user', component: UserComponent,
       children: [
         { path: 'home', component: HomeComponent },
-        { path: 'transaction', component: TransactionComponent },
+        { path: 'transaction', component: TransactionComponent,
+            children: [
+              { path: 'achat', component: AchatComponent },
+              { path: 'vente', component: VenteComponent },
+            ]
+        },
         { path: 'offre', component: OfferComponent },
         { path: 'accueil', component: WelcomeComponent },
         { path: 'profil', redirectTo:'profil/securite' },
