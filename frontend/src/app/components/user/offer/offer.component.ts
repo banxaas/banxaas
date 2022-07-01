@@ -292,6 +292,8 @@ export class OfferComponent implements OnInit {
         this.customerService.getAds(dataForm, id).subscribe(
             response => {
                 this.customers = response;
+                console.log(response);
+                
                 
             response.forEach((element: any) => {
                 

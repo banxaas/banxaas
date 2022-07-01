@@ -40,6 +40,8 @@ import { StepsModule } from 'primeng/steps';
 import { CustomerService } from './parameters/customerservice';
 import { MessageService } from 'primeng/api';
 import { TransactionComponent } from './components/user/transaction/transaction.component';
+import { AchatComponent } from './components/user/transaction/achat/achat.component';
+import { VenteComponent } from './components/user/transaction/vente/vente.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,8 @@ import { TransactionComponent } from './components/user/transaction/transaction.
     OfferComponent,
     AnnounceComponent,
     TransactionComponent,
+    AchatComponent,
+    VenteComponent,
   ],
   imports: [
     BrowserModule,
