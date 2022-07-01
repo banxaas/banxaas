@@ -38,6 +38,6 @@ def Ad(request):
 	elif request.method == "DELETE":
 		return Response(requests.delete('http://backend:27543/api/ad/', data=request.data).json())
 
-@api_view(['GET'])
+@api_view(['POST'])
 def Ads(request, page):
-	return Response(requests.get(f'http://backend:27543/api/ads/{page}/', data=request.data).json())
+	return Response(requests.post(f'http://backend:27543/api/ads/{page}/', data=request.data).json())
