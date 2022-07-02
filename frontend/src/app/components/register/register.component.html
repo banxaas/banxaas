@@ -55,11 +55,11 @@
                     <svg class="h-5 w-5 text-green-500 absolute top-10 right-5 z-10" *ngIf="fieldTextType" viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />  <line x1="1" y1="1" x2="23" y2="23" /></svg>
                 </div>
                 <div class="mt-2 text-red-600" *ngIf="formControls['password'].errors?.['required'] && formControls['password']?.touched">Le mot de passe est obligatoire</div>
-                <!-- <div class="mt-2 text-red-600" *ngIf="formControls['password'].errors?.['minlength']">Mot de passe invalide</div>            -->
+                <!-- <div class="mt-2 text-red-600" *ngIf="formControls['password'].errors?.['minlength']">Mot de passe invalide</div> -->
                 <div class="mt-2 text-red-600" *ngIf="formControls['password'].errors?.['pattern']">8 caractères au minimum, lettre majuscule, lettre miniscule, un chiffre et un caractère spécial</div>           
                 <div class="mt-6 inline-flex w-full">
                     
-                    <input type="checkbox" formControlName="box" class="w-5 h-5 border-0 rounded-md"/>
+                    <input type="checkbox" formControlName="box" class="w-5 h-5 border-1 border-green-design rounded-md"/>
                     <span class="ml-2 text-petit">En cochant cette case, j'accepte les conditions d'utilisation et les régles de confidentialité</span>
                 </div>
                 <div class="text-red-600" *ngIf="formControls['box'].errors?.['required']">!</div>
