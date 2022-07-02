@@ -36,7 +36,7 @@
                         <option value="R" >Range</option>
                     </select>   
                 </div>
-                <div *ngIf="rangeHidden" class="lg:w-[16%] md:w-[20%] sm:w-[25%] absolute bg-red-600 lg:left-[19%]  md:left-[10%]  sm:left-[12%] flex flex-row sm:m-[10%]" id="dropdown">
+                <div *ngIf="rangeHidden" class="lg:w-[16%] md:w-[20%] sm:w-[25%] absolute  lg:left-[19%]  md:left-[10%]  sm:left-[12%] flex flex-row sm:m-[10%]" id="dropdown">
                     <input type="text" formControlName="quantityMin" value="" placeholder="Min" class="lg:w-[50%] md:w-[50px] sm:w-[20px] sm:text-[10px]  border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
                     <input type="text" formControlName="quantityMax" value="" placeholder="Max" class="lg:w-[50%] md:w-[50px] sm:w-[20px] sm:text-[10px] border border-green-400 rounded-r-lg focus:outline-none focus:ring-1 focus:ring-green-design">
                     <div class="lg:ml-5 sm:ml-2">
@@ -44,7 +44,7 @@
                         <input type="text" formControlName="amountMax" value="" placeholder="Max" class="lg:w-[50%] md:w-[50px] sm:w-[20px] sm:text-[10px]  border border-green-400 rounded-r-lg focus:outline-none focus:ring-1 focus:ring-green-design">
                     </div>
                 </div>
-                <div *ngIf="fixeHidden" class="lg:w-[16%] md:w-[20%] sm:w-[25%] absolute bg-blue-600 lg:left-[19%]  md:left-[10%]  sm:left-[12%] flex flex-row sm:m-[10%]" id="dropdown">
+                <div *ngIf="fixeHidden" class="lg:w-[16%] md:w-[20%] sm:w-[25%] absolute lg:left-[19%]  md:left-[10%]  sm:left-[12%] flex flex-row sm:m-[10%]" id="dropdown">
                     <input type="text" formControlName="quantityFixe" value="" placeholder="Fixe" class="lg:w-[50%] md:w-[50px] sm:w-[40%] sm:text-[10px]  rounded-r-lg border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
                     <div class="ml-5 sm:ml-2 lg:w-[50%] md:w-[50px] sm:w-[40%]">
                         <input type="text" formControlName="amountFixe" value="" placeholder="Fixe" class="w-full sm:text-[10px] rounded-r-lg border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
@@ -62,7 +62,7 @@
                     </select>
                 </div>
                 <div *ngIf="!fieldActive" class="lg:w-[10%] md:w-[10%] sm:w-[15%] absolute lg:right-[23%] md:right-[20%] sm:right-[15%]">
-                    <button routerLink="/user/profil/methode-paiement" class="w-full rounded bg-blue-600  lg:text-[12px] md:text-[8px] sm:text-[6px] px-2 py-2 border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">Veillez ajouter un moyen de paiement</button>
+                    <button routerLink="/user/profil/methode-paiement" class="w-full rounded  lg:text-[12px] md:text-[8px] sm:text-[6px] px-2 py-2 border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">Veillez ajouter un moyen de paiement</button>
                 </div>
                 <div *ngIf="fieldActive" class="lg:w-[10%] md:w-[10%] sm:w-[15%] absolute lg:right-[23%] md:right-[20%] sm:right-[15%]">
                     
