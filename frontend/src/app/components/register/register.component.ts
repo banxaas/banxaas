@@ -15,6 +15,7 @@ export class RegisterComponent implements OnInit {
   changeText: boolean = false;  
   inputVisisble: boolean = false;
   submitted: boolean = false;
+  progress!: boolean;
 
   errorMessage!: string;
   failed!: string;
@@ -67,7 +68,8 @@ export class RegisterComponent implements OnInit {
         const token = response.token;
         this.localStorage.set('token_validation', token);
         const status = response.status;
-        console.log("test");
+        console.log(response);
+        
         
         
         if (status === 'FAILED') {
@@ -84,6 +86,9 @@ export class RegisterComponent implements OnInit {
   toggleFieldTextType() {
     
     this.fieldTextType = !this.fieldTextType;
+  }
+  progressSpinner(){
+    this.progress = true
   }
 
 }

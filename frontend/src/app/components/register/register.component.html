@@ -64,10 +64,17 @@
                 </div>
                 <div class="text-red-600" *ngIf="formControls['box'].errors?.['required']">!</div>
                 <div class="flex justify-center">
-                    <button type="submit" [disabled]="(formControls['pseudo'].invalid || formControls['box'].invalid || formControls['password'].invalid)||(formControls['email'].invalid && formControls['phone'].invalid)" class="sm:w-[75%] lg:w-[65%] px-6 py-4 mt-4 text-white bg-green-design rounded-3xl font-bold hover:bg-green-800">
+                    <button (click)="progressSpinner()" [disabled]="(formControls['pseudo'].invalid || formControls['box'].invalid || formControls['password'].invalid)||(formControls['email'].invalid && formControls['phone'].invalid)" class="sm:w-[75%] lg:w-[65%] px-6 py-4 mt-4 text-white bg-green-design rounded-3xl font-bold hover:bg-green-800">
                         Créer le compte
                     </button>
                 </div>
+                
+                <div *ngIf="progress" class="flex justify-center">
+                    <div class="sm:w-[75%] lg:w-[65%] px-6 py-4 mt-4 text-center">
+                        <p-progressSpinner></p-progressSpinner>
+                    </div>
+                </div>
+                
             </div>
         </form>
     </div>
