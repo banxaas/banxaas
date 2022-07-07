@@ -50,3 +50,12 @@ services:
       - 4200:32145
     depends_on:
       - gateway
+
+
+volumes:
+  frontend:
+    driver: local
+  backend:
+    driver: local
+  gateway:
+    driver: local

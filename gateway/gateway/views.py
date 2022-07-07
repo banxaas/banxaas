@@ -41,3 +41,7 @@ def Ad(request):
 @api_view(['POST'])
 def Ads(request, page):
 	return Response(requests.post(f'http://backend:27543/api/ads/{page}/', data=request.data).json())
+
+@api_view(['POST'])
+def InitTrade(request):
+	return Response(requests.post(f'http://backend:27543/api/trade/init/', data=request.data).json())

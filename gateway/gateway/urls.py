@@ -26,5 +26,6 @@ urlpatterns = [
     path('setUser/', SetUser),
     path('paymentMethod/', PaymentMethod),
     path('ad/', Ad),
-    path('ads/<int:page>/', Ads)
+    path('ads/<int:page>/', Ads),
+    path('trade/init/', InitTrade)
 ]

@@ -1,11 +1,11 @@
-import re
-import time
-
+import re, time, math
+from pprint import pprint
 from rest_framework import generics, mixins
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 
 from api.repository.authRepository import *
+from api.repository.tradeRepository import *
 from .serializers import *
 
 
@@ -76,16 +76,16 @@ def isDisconnected(request):
     Ces informations sont fournis lors de la connexion
     """
     try:
+        start = time.time()
         # Boucle de vérification ( à voir si c'est performant ou pas)
-        id_user = User.objects.get(
-            pseudo=jwt.decode(request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub']).id
+        id_user = User.objects.get(pseudo=jwt.decode(request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub']).id
         while True:
             # En attente de changement du token (c'est à dire, une nouvelle connexion)
             # Récupération de l'utilisateur
             user = User.objects.get(id=id_user)
             if not user.is_active:
                 return Response({'status': True, 'motif': "Validate Code"})
-            if request.data['signature'] != Token.objects.filter(user=user)[0].key:
+            if (request.data['signature'] != Token.objects.filter(user=user)[0].key) or (time.time() - start > 72000):
                 return Response({'status': True, 'motif': "New Connexion"})
             time.sleep(10)
     except:
@@ -468,7 +468,7 @@ class AdViewset(APIView):
 
 
 class AdsViewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
-    queryset = Ad.objects.all()
+    queryset = Ad.objects.filter(status="I")
     serializer_class = AdsSerializer
 
     def post(self, request, page):
@@ -483,3 +483,64 @@ class AdsViewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generi
             return self.list(request)
         except:
             return Response({"status": "FAILED", "message": "Token ou Signature Invalide"})
+
+@api_view(['POST'])
+def InitTrade(request):
+
+    """
+    Permet d'initialiser un trade
+    Méthode: POST,
+    JSON: {
+        "token": "...", // Type String/str
+        "signature":"...", // Type String/str
+        "adId": ... // Type Interger/Int
+    }
+    """
+
+    try:
+
+        # Vérifie si l'utilisateur est connecté
+        if not isAuthenticated(request.data['token'], request.data['signature']):
+            return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
+
+        # Mise à jour de l'état de l'annonce
+        ad = Ad.objects.get(id=request.data['adId'])
+        if ad.status != "I":
+            return Response({"status": "FAILED", "message": "Désolé cet annonce n'est plus disponible !"})
+        ad.status = "C"
+        ad.save()
+
+        # Récupération des élements du trade
+        trader = User.objects.get(pseudo=jwt.decode(request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+        walletAddress = bdk_generate_address()
+
+        # Initialisation du trade
+        trade = Trade.objects.create(trader=trader, ad=ad, walletAddress=walletAddress)
+        
+        # Mise à jour du tradeHash
+        startingDate = math.log2(int(str(trade.startingDate.day) + str(trade.startingDate.month) + str(trade.startingDate.year) + str(trade.startingDate.hour) + str(trade.startingDate.minute) + str(trade.startingDate.second) + str(trade.startingDate.microsecond))-1)
+        pprint(startingDate)
+        traderHash = hashlib.sha256(str(trader.id).encode('utf-8')).hexdigest()
+        adHash = hashlib.sha256(str(ad.id).encode('utf-8')).hexdigest()
+        walletAddressHash = hashlib.sha256(str(walletAddress).encode('utf-8')).hexdigest()
+        startingDateHash = hashlib.sha256(str(startingDate).encode('utf-8')).hexdigest()
+        tradeHash = hashlib.sha256(str(traderHash + adHash + walletAddressHash + startingDateHash).encode('utf-8')).hexdigest()
+        trade.tradeHash = tradeHash
+        trade.steps = "2"
+        trade.save()
+        
+        # Envoie de la notification
+        if ad.user.email:
+            sellerMail = ad.user.email
+            sellerPseudo = ad.user.pseudo
+            sendNotificationByMailToSeller(sellerMail, sellerPseudo)
+        else:
+            sellerPhone = ad.user.phone
+            sellerPseudo = ad.user.pseudo
+            sendNotificationByPhoneToSeller(sellerPhone, sellerPseudo)
+
+        # Reponse
+        return Response({'status':'SUCCESSFUL', 'tradeHash':tradeHash, 'tradeId':trade.id, "step": 1})
+    
+    except:
+        return Response({'status': 'FAILDE', 'message': 'JSON invalide, si le problème persiste contacte moi !'})

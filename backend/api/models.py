@@ -126,8 +126,10 @@ class Ad(models.Model):
 class Trade(models.Model):
     STATUS = [("F", "Finalisée"), ("A", "Annulé"), ("C", "En cours")]
 
+    tradeHash = models.CharField(max_length=256, default="")
+    walletAddress = models.CharField(max_length=256, default="")
     trader = models.ForeignKey(User, on_delete=models.CASCADE)
     ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
     startingDate = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=1, choices=STATUS, default="C")
-    steps = models.CharField(max_length=2, choices=[(str(i), "step " + str(i)) for i in range(1, 14)])
+    steps = models.CharField(max_length=2, choices=[(str(i), "step " + str(i)) for i in range(1, 14)], default="1")
