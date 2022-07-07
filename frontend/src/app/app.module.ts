@@ -43,6 +43,11 @@ import { MessageService } from 'primeng/api';
 import { TransactionComponent } from './components/user/transaction/transaction.component';
 import { AchatComponent } from './components/user/transaction/achat/achat.component';
 import { VenteComponent } from './components/user/transaction/vente/vente.component';
+import { AchateurComponent } from './components/user/transaction/achat/achateur/achateur.component';
+import { VendeurComponent } from './components/user/transaction/achat/vendeur/vendeur.component';
+import { Achateur1Component } from './components/user/transaction/vente/achateur1/achateur1.component';
+import { Vendeur1Component } from './components/user/transaction/vente/vendeur1/vendeur1.component';
+
 
 @NgModule({
   declarations: [
@@ -65,6 +70,12 @@ import { VenteComponent } from './components/user/transaction/vente/vente.compon
     TransactionComponent,
     AchatComponent,
     VenteComponent,
+    AchateurComponent,
+    VendeurComponent,
+    AchateurComponent,
+    VendeurComponent,
+    Achateur1Component,
+    Vendeur1Component
   ],
   imports: [
     BrowserModule,

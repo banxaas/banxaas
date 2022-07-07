@@ -12,7 +12,10 @@ export class AppComponent {
 
   timeoutId: any;
   userInactive: Subject<any> = new Subject();
-  constructor(private router: Router) {
+
+  constructor(
+    private router: Router
+    ) {
  
     this.checkTimeOut();
     // this.userInactive.subscribe((message) => {
@@ -41,4 +44,6 @@ export class AppComponent {
  
     this.checkTimeOut();
   }
+
+
 }
