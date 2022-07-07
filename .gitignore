@@ -6,4 +6,3 @@ __pycache__
 node_modules
 data
 runtime
-bdkserver.pem
