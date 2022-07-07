@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment'
 @Injectable()
 export class CustomerService {
 
+
   private setUserUrl = environment.apiUrl + 'setUser/';
   private paymentUrl = environment.apiUrl + 'paymentMethod/';
   private adsUrl = environment.apiUrl + 'ad/';
@@ -56,4 +57,6 @@ export class CustomerService {
   getRateBitcoin(){
     return this.http.get<any>(this.urlBitcoin, this.httpOptions)
   }
+
+  
 }

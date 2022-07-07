@@ -13,10 +13,14 @@ import { PaymentMethodComponent } from './components/user/profil/payment-method/
 import { ProfilComponent } from './components/user/profil/profil.component';
 import { SecurityComponent } from './components/user/profil/security/security.component';
 import { AchatComponent } from './components/user/transaction/achat/achat.component';
+import { AchateurComponent } from './components/user/transaction/achat/achateur/achateur.component';
+import { VendeurComponent } from './components/user/transaction/achat/vendeur/vendeur.component';
 import { TransactionComponent } from './components/user/transaction/transaction.component';
 import { VenteComponent } from './components/user/transaction/vente/vente.component';
 import { UserComponent } from './components/user/user.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { Achateur1Component } from './components/user/transaction/vente/achateur1/achateur1.component';
+import { Vendeur1Component } from './components/user/transaction/vente/vendeur1/vendeur1.component';
 
 const routes: Routes = [
   { path: 'accueil', component: WelcomeComponent },
@@ -32,12 +36,22 @@ const routes: Routes = [
         { path: 'home', component: HomeComponent },
         { path: 'transaction', component: TransactionComponent,
             children: [
-              { path: 'achat', component: AchatComponent },
-              { path: 'vente', component: VenteComponent },
+              { path: 'achat', component: AchatComponent,
+                  children: [
+                    { path: 'achateur', component: AchateurComponent },
+                    { path: 'vendeur', component: VendeurComponent }
+                  ]
+              },
+              { path: 'vente', component: VenteComponent,
+                  children: [
+                    { path: 'achateur', component: Achateur1Component },
+                    { path: 'vendeur', component: Vendeur1Component }
+                  ]
+              
+              },
             ]
         },
         { path: 'offre', component: OfferComponent },
-        { path: 'accueil', component: WelcomeComponent },
         { path: 'profil', redirectTo:'profil/securite' },
         { path: 'profil', component: ProfilComponent,
             children: [
