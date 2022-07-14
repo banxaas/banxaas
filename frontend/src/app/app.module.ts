@@ -47,6 +47,7 @@ import { AchateurComponent } from './components/user/transaction/achat/achateur/
 import { VendeurComponent } from './components/user/transaction/achat/vendeur/vendeur.component';
 import { Achateur1Component } from './components/user/transaction/vente/achateur1/achateur1.component';
 import { Vendeur1Component } from './components/user/transaction/vente/vendeur1/vendeur1.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
@@ -75,7 +76,8 @@ import { Vendeur1Component } from './components/user/transaction/vente/vendeur1/
     AchateurComponent,
     VendeurComponent,
     Achateur1Component,
-    Vendeur1Component
+    Vendeur1Component,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

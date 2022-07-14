@@ -44,9 +44,6 @@ export class VendeurComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     
     this.notif = true;
-    this.localStorage.set('declencheur', true)
-    console.log(this.customerService.myTimer(true));
-    console.log('test');
   }
 
   ngAfterViewInit() {
