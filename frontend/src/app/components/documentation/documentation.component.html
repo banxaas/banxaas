@@ -1,0 +1,165 @@
+<!--  BANNIERE  -->
+
+  <!--  Avec Tailwind  -->
+
+
+  <nav class="container-fluid w-full bg-green-design sm:px-4 ">
+    <div class="flex flex-wrap justify-between items-center lg:ml-[8%]  mx-auto">
+      <a href="" class="flex w-[25%] md:w-[25%] max-h-full">
+          <img src="../../../assets/logo.png" class="w-full md:w-[50%] align-items-right max-h-full" alt="Flowbite Logo" />
+          <!-- <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span> -->
+      </a>
+      <button data-collapse-toggle="mobile-menu" type="button" class=" items-center p-2 ml-3 text-sm text-white rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white-200 dark:text-white  dark:hover:bg-gray-700 dark:focus:ring-white-600" aria-controls="mobile-menu" aria-expanded="false">
+        <span class="sr-only">Menu</span>
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+        <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+      </button>
+      <div class="hidden  w-full md:block md:w-[70%]  flex justify-center" id="mobile-menu">
+        <ul class="flex flex-col mt-4 md:flex-row md:space-x-4 lg:space-x-[10%] md:mt-0 md:text-sm lg:ml-[10%] md:font-medium">
+          <li class="flex md:justify-center">
+            <div class="items-center md:justify-center sm:ml-[100%] md:ml-0 mt-5 md:mt-0 md:space-y-[0%] flex sm:flex-col sm:space-y-[5%] md:flex-row w-full md:w-[100%] space-x-8 lg:flex">
+              <button class="text-white sm:text-[10px] md:text-[14px] lg:text-[16px]">Documentation</button>
+              <button class="text-white sm:text-[10px] md:text-[14px] lg:text-[16px]">FAQ</button>
+              <button class="text-white sm:text-[10px] md:text-[14px] lg:text-[16px]" >Aide</button>
+            </div>
+          </li>
+          <li class="flex justify-center lg:w-[50%] ">
+            <div class="flex sm:flex-col sm:ml-[100%] md:ml-0 lg:mr-[8%] sm:space-y-[10%] md:space-y-[0%] md:flex-row md:flex-row w-full justify-center mt-5 md:mt-0 md:w-full  items-center space-x-2">
+              <button class="px-4 py-2 text-white sm:text-[10px] md:text-[12px] lg:text-[16px] bg-green-design rounded-3xl border-2 mx-5 font-bold hover:text-green-800 hover:bg-white"  routerLink="/connexion">
+                Se Connecter
+              </button>
+              <button class="px-4 py-2 text-green-design sm:text-[10px] md:text-[12px] lg:text-[16px] rounded-3xl bg-white  border-2 font-bold hover:text-white hover:bg-green-800" routerLink="/register">
+                Créer un compte
+              </button>
+            </div>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+
+<!--   HOME BODY   -->
+
+<div class="container-fluid flex flex-row">
+  <div class="sm:basis-[30%] shadow-xl bg-white rounded-md flex flex-col md:basis-[18%] lg:basis-[18%] mt-[3%] lg:mt-[3%] sm:ml-[5%] lg:ml-[11%] md:ml-[11%]">
+    <!-- <img src="../../../assets/Illustration_sans_titre-4-removebg-preview.png" alt="rocket" class="w-full"> -->
+    <div class="w-full p-2 flex justify-center mt-[20%] hover:bg-green-100">
+        <a routerLink="introduction" (click)="hide('intro')" class="w-full flex justify-center active">
+            <div class="w-[90%] flex flex-row sm:text-[8px] md:text-[14px] lg:text-[16px] font-bold justify-center">
+                <div class="w-[10%] flex rounded-full bg-green-design justify-center text-white">1</div>
+                <div class="w-[85%] ml-[5%] uppercase">introduction</div>
+            </div>
+        </a>
+    </div>
+    <div class="w-full p-2 flex justify-center mt-[10%] hover:bg-green-100">
+        <a routerLink="qu_est_ce_que_le_bitcoin" (click)="hide('bitcoin')" class="w-full flex justify-center">
+            <div class="w-[90%] flex flex-row sm:text-[8px] md:text-[14px] lg:text-[16px] font-bold justify-center">
+                <div class="w-[10%] h-min flex rounded-full bg-green-design justify-center text-white">2</div>
+                <div class="w-[85%] ml-[5%]">Qu'est ce que Bitcoin?</div>
+            </div>
+        </a>
+    </div>
+    <div class="w-full p-2 flex justify-center mt-[10%] hover:bg-green-100">
+        <a routerLink="difference_entre_bitcoin_et_les_autres_cryptomonnaies" (click)="hide('difference')" class="w-full flex justify-center">
+            <div class="w-[90%] flex flex-row sm:text-[8px] md:text-[14px] lg:text-[16px] font-bold justify-center">
+                <div class="w-[10%] h-min flex rounded-full bg-green-design justify-center text-white">3</div>
+                <div class="w-[85%] ml-[5%] uppercase">La différence entre Bitcoin et les autres cryptomonnaie</div>
+            </div>
+        </a>
+    </div>
+    <div class="w-full p-2 flex justify-center mt-[10%] hover:bg-green-100">
+        <a routerLink="comment_acheter" (click)="hide('acheter')" class="w-full flex justify-center">
+            <div class="w-[90%] flex flex-row sm:text-[8px] md:text-[14px] lg:text-[16px] font-bold justify-center">
+                <div class="w-[10%] h-min flex rounded-full bg-green-design justify-center text-white">4</div>
+                <div class="w-[85%] ml-[5%] uppercase">Comment acheter du Bitcoin sur Banxaas?</div>
+            </div>
+        </a>
+    </div>
+    <div class="w-full p-2 flex justify-center mt-[10%] hover:bg-green-100">
+        <a routerLink="comment_vendre" (click)="hide('vendre')" class="w-full flex justify-center">
+            <div class="w-[90%] flex flex-row sm:text-[8px] md:text-[14px] lg:text-[16px] font-bold justify-center">
+                <div class="w-[10%] h-min flex rounded-full bg-green-design justify-center text-white">5</div>
+                <div class="w-[85%] ml-[5%]">Comment vendre du Bitcoin sur Banxaas?</div>
+            </div>
+        </a>
+    </div>
+    <div class="w-full p-2 flex justify-center mt-[10%] hover:bg-green-100">
+        <a routerLink="comment_publier" (click)="hide('publier')" class="w-full flex justify-center">
+            <div class="w-[90%] flex flex-row sm:text-[8px] md:text-[14px] lg:text-[16px] font-bold justify-center">
+                <div class="w-[10%] h-min flex rounded-full bg-green-design justify-center text-white">6</div>
+                <div class="w-[85%] ml-[5%]">Comment publier une annonce sur Banxaas?</div>
+            </div>
+        </a>
+    </div>
+    <div class="w-full p-2 flex justify-center mt-[10%] hover:bg-green-100">
+        <a routerLink="blockchain" (click)="hide('blockchain')" class="w-full flex justify-center">
+            <div class="w-[90%] flex flex-row sm:text-[8px] md:text-[14px] lg:text-[16px] font-bold justify-center">
+                <div class="w-[10%] h-min flex rounded-full bg-green-design justify-center text-white">7</div>
+                <div class="w-[85%] ml-[5%]">Qu'est ce que la "Blockchain"?</div>
+            </div>
+        </a>
+    </div>
+    <div class="w-full p-2 flex justify-center mt-[10%] hover:bg-green-100">
+        <a routerLink="minage" (click)="hide('minage')" class="w-full flex justify-center">
+            <div class="w-[90%] flex flex-row sm:text-[8px] md:text-[14px] lg:text-[16px] font-bold justify-center">
+                <div class="w-[10%] h-min flex rounded-full bg-green-design justify-center text-white">8</div>
+                <div class="w-[85%] ml-[5%] ">Qu'est ce que le minage?</div>
+            </div>
+        </a>
+    </div>
+    <div class="w-full p-2 flex justify-center mt-[10%] hover:bg-green-100">
+        <a routerLink="pow" (click)="hide('pow')" class="w-full flex justify-center">
+            <div class="w-[90%] flex flex-row sm:text-[8px] md:text-[14px] lg:text-[16px] font-bold justify-center">
+                <div class="w-[10%] h-min flex rounded-full bg-green-design justify-center text-white">9</div>
+                <div class="w-[85%] ml-[5%]">Qu'est ce que le PoW?</div>
+            </div>
+        </a>
+    </div>
+    <div class="w-full p-2 flex justify-center mt-[10%]">
+        <img src="../../../assets/4.png" alt="" srcset="">
+        <!-- <a href="" class="w-full flex justify-center">
+            <div class="w-[90%] flex flex-row sm:text-[10px] md:text-[14px] lg:text-[16px] font-bold justify-center">
+                <div class="w-[10%] h-min flex rounded-full bg-green-design justify-center text-white">8</div>
+                <div class="w-[85%] ml-[5%]">Qu'est ce que le PoW?</div>
+            </div>
+        </a> -->
+    </div>
+
+  </div>
+  <div class="sm:basis-[15%] md:basis-[10%] lg:basis-[10%] sm:mt-[3%] md:mt-[3%] lg:mt-[3%] flex flex-col">
+    <div *ngIf="intro" class="relative top-[5%] ml-[40%] ">
+      <img src="../../../assets/fleche.png" alt="">
+    </div>
+    <div *ngIf="btc" class="relative top-[10.5%] ml-[40%]">
+      <img src="../../../assets/fleche.png" alt="">
+    </div>
+    <div *ngIf="diff" class="relative top-[19%] ml-[40%]">
+      <img src="../../../assets/fleche.png" alt="">
+    </div>
+    <div *ngIf="buy" class="relative top-[28%] ml-[40%]">
+      <img src="../../../assets/fleche.png" alt="">
+    </div>
+    <div *ngIf="sell" class="relative lg:top-[35%] sm:top-[38%] ml-[40%]">
+      <img src="../../../assets/fleche.png" alt="">
+    </div>
+    <div *ngIf="publish" class="relative lg:top-[43%] sm:top-[46%] ml-[40%]">
+      <img src="../../../assets/fleche.png" alt="">
+    </div>
+    <div *ngIf="blockchain" class="relative lg:top-[51%] sm:top-[55%] ml-[40%]">
+      <img src="../../../assets/fleche.png" alt="">
+    </div>
+    <div *ngIf="minage" class="relative lg:top-[59%] sm:top-[63%] ml-[40%]">
+      <img src="../../../assets/fleche.png" alt="">
+    </div>
+    <div *ngIf="pow" class="relative lg:top-[65%] sm:top-[70%] ml-[40%]">
+      <img src="../../../assets/fleche.png" alt="">
+    </div>
+  </div>
+  <div class="sm:basis-[70%] md:basis-[70%] lg:basis-[70%] shadow-xl bg-white rounded-md h-min bg-no-repeat bg-center sm:mt-[3%] md:mt-[3%] lg:mt-[3%] sm:mr-[3%] md:mr-[15%] lg:mr-[15%] bg-[url('./assets/Illustration_sans_titre-4-removebg-preview.png')]">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+<app-footer></app-footer>

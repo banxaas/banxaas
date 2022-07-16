@@ -48,6 +48,16 @@ import { VendeurComponent } from './components/user/transaction/achat/vendeur/ve
 import { Achateur1Component } from './components/user/transaction/vente/achateur1/achateur1.component';
 import { Vendeur1Component } from './components/user/transaction/vente/vendeur1/vendeur1.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { DocumentationComponent } from './components/documentation/documentation.component';
+import { IntroductionComponent } from './components/documentation/introduction/introduction.component';
+import { BitcoinComponent } from './components/documentation/bitcoin/bitcoin.component';
+import { BlockchainComponent } from './components/documentation/blockchain/blockchain.component';
+import { DifferenceBetweenBtcAndOtherCryptoComponent } from './components/documentation/difference-between-btc-and-other-crypto/difference-between-btc-and-other-crypto.component';
+import { HowBuyComponent } from './components/documentation/how-buy/how-buy.component';
+import { HowSellComponent } from './components/documentation/how-sell/how-sell.component';
+import { HowPublishComponent } from './components/documentation/how-publish/how-publish.component';
+import { MinageComponent } from './components/documentation/minage/minage.component';
+import { PowComponent } from './components/documentation/pow/pow.component';
 
 
 @NgModule({
@@ -77,7 +87,17 @@ import { FooterComponent } from './components/footer/footer.component';
     VendeurComponent,
     Achateur1Component,
     Vendeur1Component,
-    FooterComponent
+    FooterComponent,
+    DocumentationComponent,
+    IntroductionComponent,
+    BitcoinComponent,
+    BlockchainComponent,
+    DifferenceBetweenBtcAndOtherCryptoComponent,
+    HowBuyComponent,
+    HowSellComponent,
+    HowPublishComponent,
+    MinageComponent,
+    PowComponent
   ],
   imports: [
     BrowserModule,

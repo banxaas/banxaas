@@ -4,7 +4,7 @@
             <img src="../../../assets/logo_banxass_vert.png" />
         </button>
     </div>
-    <div class="px-10 md:py-12 py-2 mx-4 mt-[20%] md:mt-4 text-left shadow-xl bg-white md:w-1/2 lg:w-1/3 sm:w-[95%] rounded-md">
+    <div class="px-10 md:py-12 py-2 mx-4 mt-[20%] md:mt-[8%] text-left shadow-xl bg-white md:w-1/2 lg:w-1/3 sm:w-[95%] rounded-md">
         <div class="flex justify-center">
             <h1 class="md:text-title font-bold uppercase">crée ton compte</h1>
         </div>
@@ -69,9 +69,9 @@
                     </button>
                 </div>
                 
-                <div *ngIf="progress" class="flex justify-center">
-                    <div class="sm:w-[75%] lg:w-[65%] px-6 py-4 mt-4 text-center">
-                        <p-progressSpinner></p-progressSpinner>
+                <div *ngIf="!progress" class="flex justify-center">
+                    <div class="sm:w-[75%] lg:w-[60%] bg-red-700 mt-4 text-center">
+                        <img src="../../../assets/banxaas_logo_animation.gif" class="" alt="banxaas_logo_animation" srcset="">
                     </div>
                 </div>
                 
