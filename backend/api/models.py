@@ -44,7 +44,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # Personnal Info
     pseudo = models.CharField(max_length=30, unique=True)
-    email = models.EmailField(_('email address'), unique=True, blank=True, null=True)
+    email = models.EmailField(
+        _('email address'), unique=True, blank=True, null=True)
     phone = models.CharField(max_length=14, unique=True, blank=True, null=True)
 
     # Others Info
@@ -53,7 +54,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(null=True, blank=True)
-    currency = models.CharField(max_length=50, default="CFA", choices=CURRENCY_VALUE)
+    currency = models.CharField(
+        max_length=50, default="CFA", choices=CURRENCY_VALUE)
 
     # Config User
     USERNAME_FIELD = 'pseudo'
@@ -84,12 +86,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_payment_methods(self):
         return [pm for pm in PaymentMethod.objects.filter(user=self)]
 
+    def get_current_trade(self):
+        liste_trade = [ct for ct in Trade.objects.filter(trader=self, status="C")] + [Trade.objects.get(ad=ad, status="C") for ad in Ad.objects.filter(user=self, status="C")]
+        return sorted(liste_trade, key=lambda trade: trade.startingDate)
+        
+
 
 class PaymentMethod(models.Model):
     # Enum Payment Method
-    PAYMENT_METHOD = [("WAVE", "Wave"), ("OM", "Orange Money"), ("FREE", "Free Money")]
+    PAYMENT_METHOD = [("WAVE", "Wave"), ("OM", "Orange Money"),
+                      ("FREE", "Free Money")]
 
-    user = models.ForeignKey(User, related_name="pms", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name="pms",
+                             on_delete=models.CASCADE)
     name = models.CharField(max_length=15, choices=PAYMENT_METHOD)
     phone = models.IntegerField()
 
@@ -99,10 +108,12 @@ class PaymentMethod(models.Model):
 
 class Ad(models.Model):
     # Enum Sens
-    PAYMENT_METHOD = [("WAVE", "Wave"), ("OM", "Orange Money"), ("FREE", "Free Money")]
+    PAYMENT_METHOD = [("WAVE", "Wave"), ("OM", "Orange Money"),
+                      ("FREE", "Free Money")]
     SENS = [("A", "Achat"), ("V", "Vente")]
     TYPE = [("F", "FIXED"), ("R", "RANGE")]
-    STATUS = [("F", "Finalisée"), ("A", "Annulé"), ("C", "En cours"), ("I", "Initial")]
+    STATUS = [("F", "Finalisée"), ("A", "Annulé"),
+              ("C", "En cours"), ("I", "Initial")]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=1, choices=STATUS, default="I")
@@ -120,7 +131,7 @@ class Ad(models.Model):
     provider = models.CharField(max_length=15, choices=PAYMENT_METHOD)
 
     def get_num_of_ads_available():
-    	return int(Ad.objects.filter(status="I").count())
+        return int(Ad.objects.filter(status="I").count())
 
 
 class Trade(models.Model):
@@ -132,4 +143,5 @@ class Trade(models.Model):
     ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
     startingDate = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=1, choices=STATUS, default="C")
-    steps = models.CharField(max_length=2, choices=[(str(i), "step " + str(i)) for i in range(1, 14)], default="1")
+    steps = models.CharField(max_length=2, choices=[(
+        str(i), "step " + str(i)) for i in range(1, 14)], default="1")

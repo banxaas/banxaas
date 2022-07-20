@@ -1,4 +1,6 @@
-import re, time, math
+import re
+import time
+import math
 from pprint import pprint
 from rest_framework import generics, mixins
 from rest_framework.decorators import api_view
@@ -47,7 +49,8 @@ def connexion(request):
     jwt = createToken(payload)  # Créer un nouvel Token JWT
 
     # Création du Token Signature de Connexion
-    signature = Token.objects.create(user=user)  # Permet d'identifier la connexion de l'utilisateur
+    # Permet d'identifier la connexion de l'utilisateur
+    signature = Token.objects.create(user=user)
     user.connect()
     user.save()
 
@@ -65,7 +68,6 @@ def connexion(request):
 
 @api_view(['POST'])
 def isDisconnected(request):
-
     """ Cette fonction permet de vérifier si l'utilisateur s'est connecté à nouveau
     pour le déconnecter
     Méthode autorisée: POST,
@@ -78,7 +80,8 @@ def isDisconnected(request):
     try:
         start = time.time()
         # Boucle de vérification ( à voir si c'est performant ou pas)
-        id_user = User.objects.get(pseudo=jwt.decode(request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub']).id
+        id_user = User.objects.get(pseudo=jwt.decode(
+            request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub']).id
         while True:
             # En attente de changement du token (c'est à dire, une nouvelle connexion)
             # Récupération de l'utilisateur
@@ -91,12 +94,13 @@ def isDisconnected(request):
     except:
         return Response({'status': 'FAILED', 'message': 'Token Invalide'})
 
+
 @api_view(['POST'])
 def CreateAccountViewset(request):
     try:
-        """ Cette fonction, permet de creer un compte utilisateur 
+        """ Cette fonction, permet de creer un compte utilisateur
         Méthode autorisée: POST,
-        JSON à soumettre: 
+        JSON à soumettre:
         {
         "pseudo": "...", // Type String/Str
         "password": "...", // Type String/Str
@@ -121,14 +125,17 @@ def CreateAccountViewset(request):
             emailRegex = "([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+@([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+\\.([A-Z|a-z]{2,})"
             if (not re.match(emailRegex, email)):  # Regex Email Vérification
                 return Response({'status': 'Email Invalide'})
-            userExist, response = verifyUser(email)  # Vérification d'un potentiel utilisateur avec cet email
+            # Vérification d'un potentiel utilisateur avec cet email
+            userExist, response = verifyUser(email)
         else:
             # L'utilisateur a donné son phone
             phone = data['phone']
-            phoneRegex = "^(77|78|75|70|76)[0-9]{7}$"  # Regex Phone Verification
+            # Regex Phone Verification
+            phoneRegex = "^(77|78|75|70|76)[0-9]{7}$"
             if (not re.match(phoneRegex, phone)):
                 return Response({'status': 'Phone Invalide'})
-            userExist, response = verifyUser(data['phone'])  # Vérification d'un potentiel utilisateur avec ce mail
+            # Vérification d'un potentiel utilisateur avec ce mail
+            userExist, response = verifyUser(data['phone'])
         if userExist:
             return response
         serializer = CreateAccountSerializer(data=data)  # Sérialisation
@@ -150,6 +157,7 @@ def CreateAccountViewset(request):
         return Response(
             {'status': 'FAILED', 'message': "Vérifier votre connexion, Si l'erreur persiste, contactez moi!"})
 
+
 @api_view(['POST'])
 def ValidateCodeViewset(request):
     """ Cette fonction, permet de valider le code de l'utilisateur
@@ -161,7 +169,8 @@ def ValidateCodeViewset(request):
     }
     """
     try:
-        isValid, userId = verifyCodeValidation(request.data['code'], request.data['token'])
+        isValid, userId = verifyCodeValidation(
+            request.data['code'], request.data['token'])
         if not isValid:
             return Response({'status': "FAILED", 'message': 'Token ou Code Invalide'})
         if User.objects.filter(email=userId):
@@ -174,6 +183,7 @@ def ValidateCodeViewset(request):
     except:
         return Response({'status': "FAILED",
                          'message': 'Token ou Code Invalide, Vérifier que vous avez récupéré le token de validation'})
+
 
 class PaymentMethodViewset(APIView):
 
@@ -209,13 +219,15 @@ class PaymentMethodViewset(APIView):
 
             user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")[
                 'sub']).id  # Récupération du User
-            data = {'user': user, 'name': request.data['name'], 'phone': request.data['phone']}
+            data = {
+                'user': user, 'name': request.data['name'], 'phone': request.data['phone']}
             # Sérialisation
             serializer = PaymentMethodSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()
                 data = serializer.data
-                data['id'] = PaymentMethod.objects.get(name=data['name'], phone=data['phone']).id
+                data['id'] = PaymentMethod.objects.get(
+                    name=data['name'], phone=data['phone']).id
                 return Response({'status': "SUCCESSFUL", "paymentMethod": PaymentMethodForConnSerializer(data).data})
             return Response({'status': "FAILED", "message": "Types des données du JSON invalides!"})
         except:
@@ -275,7 +287,8 @@ def SetUserViewset(request):
         if not isAuthenticated(token, data['signature']):
             return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
 
-        user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+        user = User.objects.get(pseudo=jwt.decode(
+            token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
 
         # Vérifie si les nouvelles informations existent ou pas
         if ('pseudo' in keys) and (user.pseudo != data['pseudo']):
@@ -288,7 +301,8 @@ def SetUserViewset(request):
             if emailExist:
                 return response
             emailRegex = "([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+@([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+\\.([A-Z|a-z]{2,})"
-            if not re.match(emailRegex, data['email']):  # Regex Email Vérification
+            # Regex Email Vérification
+            if not re.match(emailRegex, data['email']):
                 return Response({'status': 'Email Invalide'})
 
         if ('phone' in keys) and (user.phone != str(data['phone'])):
@@ -326,10 +340,12 @@ def SetUserViewset(request):
                 ('phone' in keys) and (user.phone != str(data['phone']))):
             if 'email' in keys:
                 code = sendVerificationCodeByMail(data['email'])
-                payload = createValidationTokenPayload(code, data['email'], "email")
+                payload = createValidationTokenPayload(
+                    code, data['email'], "email")
             else:
                 code = sendVerificationCodeBySms(data['phone'])
-                payload = createValidationTokenPayload(code, data['phone'], "phone")
+                payload = createValidationTokenPayload(
+                    code, data['phone'], "phone")
             serializer.save()
             user.is_active = False
             user.save()
@@ -380,59 +396,59 @@ class AdViewset(APIView):
         }
         """
         try:
-        	data = request.data.copy()
-	        token = data['token']  # Récupération du Token
+            data = request.data.copy()
+            token = data['token']  # Récupération du Token
 
-	        # Vérifie si l'utilisateur est connecté
-	        if not isAuthenticated(token, data['signature']):
-	            return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
+            # Vérifie si l'utilisateur est connecté
+            if not isAuthenticated(token, data['signature']):
+                return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
 
-	        # Nettoyage de data
-	        data.pop('token')
-	        data.pop('signature')
+            # Nettoyage de data
+            data.pop('token')
+            data.pop('signature')
 
-	        keys = list(data.keys())
-	        fields = ['sens', 'quantityType', 'quantityFixe', 'quantityMin', 'quantityMax', 'amountType', 'amountFixe',
-	                  'amountMin', 'amountMax', 'marge', 'provider']
+            keys = list(data.keys())
+            fields = ['sens', 'quantityType', 'quantityFixe', 'quantityMin', 'quantityMax', 'amountType', 'amountFixe',
+                        'amountMin', 'amountMax', 'marge', 'provider']
 
-	        # Donnée en plus
-	        for key in keys:
-	            if key not in fields:
-	                return Response({"status": "FAILED", "message": "JSON invalide"})
+            # Donnée en plus
+            for key in keys:
+                if key not in fields:
+                    return Response({"status": "FAILED", "message": "JSON invalide"})
 
-	        # Vérification de la conformité des données
-	        if data['quantityType'] != data['amountType']:
-	            return Response(
-	                {"status": "FAILED", "message": "quantityType et amountType ne peuvent pas être différents"})
-	        if (data['quantityType'] == 'F') and (('quantityFixe' not in keys) or ('amountFixe' not in keys)):
-	            return Response({"status": "FAILED",
-	                             "message": "Quand le type est fixe, les champs quantityFixe et amountFixe deviennent Obligatoires"})
-	        if (data['quantityType'] == 'F') and (
-	                ('quantityMin' in keys) or ('quantityMax' in keys) or ('amountMin' in keys) or (
-	                'amountMax' in keys)):
-	            return Response({"status": "FAILED",
-	                             "message": "Quand le type est fixe, les champs (quantityMin, quantityMax, amountMin, amountMax) ne doivent pas figurer dans le JSON"})
-	        if (data['quantityType'] == 'R') and (
-	                ('quantityMin' not in keys) or ('quantityMax' not in keys) or ('amountMin' not in keys) or (
-	                'amountMax' not in keys)):
-	            return Response({"status": 'FAILED',
-	                             "message": "Quand le type est range, les champs (quantityMin, quantityMax, amountMin, amountMax) deviennent Obligatoires"})
-	        if (data['quantityType'] == 'R') and (('quantityFixe' in keys) or ('quantityFixe' in keys)):
-	            return Response({"status": 'FAILED',
-	                             "message": "Quand le type est range, les champs quantityFixe et amountFixe ne doivent pas figurer dans le JSON"})
-	        if (data['quantityType'] == 'R') and (
-	                (float(data['quantityMin']) >= float(data['quantityMax'])) or (float(data['amountMin']) >= float(data['amountMax']))):
-	            return Response({"status": 'FAILED',
-	                             "message": "Les valeurs quantityMin et amountMin ne peuvent pas être supérieur à quantityMax et amountMax"})
+            # Vérification de la conformité des données
+            if data['quantityType'] != data['amountType']:
+                return Response(
+                    {"status": "FAILED", "message": "quantityType et amountType ne peuvent pas être différents"})
+            if (data['quantityType'] == 'F') and (('quantityFixe' not in keys) or ('amountFixe' not in keys)):
+                return Response({"status": "FAILED",
+                                    "message": "Quand le type est fixe, les champs quantityFixe et amountFixe deviennent Obligatoires"})
+            if (data['quantityType'] == 'F') and (
+                    ('quantityMin' in keys) or ('quantityMax' in keys) or ('amountMin' in keys) or (
+                    'amountMax' in keys)):
+                return Response({"status": "FAILED",
+                                    "message": "Quand le type est fixe, les champs (quantityMin, quantityMax, amountMin, amountMax) ne doivent pas figurer dans le JSON"})
+            if (data['quantityType'] == 'R') and (
+                    ('quantityMin' not in keys) or ('quantityMax' not in keys) or ('amountMin' not in keys) or (
+                    'amountMax' not in keys)):
+                return Response({"status": 'FAILED',
+                                    "message": "Quand le type est range, les champs (quantityMin, quantityMax, amountMin, amountMax) deviennent Obligatoires"})
+            if (data['quantityType'] == 'R') and (('quantityFixe' in keys) or ('quantityFixe' in keys)):
+                return Response({"status": 'FAILED',
+                                    "message": "Quand le type est range, les champs quantityFixe et amountFixe ne doivent pas figurer dans le JSON"})
+            if (data['quantityType'] == 'R') and (
+                    (float(data['quantityMin']) >= float(data['quantityMax'])) or (float(data['amountMin']) >= float(data['amountMax']))):
+                return Response({"status": 'FAILED',
+                                    "message": "Les valeurs quantityMin et amountMin ne peuvent pas être supérieur à quantityMax et amountMax"})
 
-	        # Récupération de user
-	        user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
-	        data['user'] = user.id  # ajout de user dans data
-	        serializer = AdSerializer(data=data)
-	        if serializer.is_valid():
-	            serializer.save()
-	            return Response({'status': "SUCCESSFUL"})
-	        return Response({'status': "FAILED", "message": "Types des données du JSON invalides!"})
+            # Récupération de user
+            user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+            data['user'] = user.id  # ajout de user dans data
+            serializer = AdSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'status': "SUCCESSFUL"})
+            return Response({'status': "FAILED", "message": "Types des données du JSON invalides!"})
         except:
             return Response({"status": "FAILED", "message": "Token ou Signature Invalide"})
 
