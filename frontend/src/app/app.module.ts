@@ -58,6 +58,7 @@ import { HowSellComponent } from './components/documentation/how-sell/how-sell.c
 import { HowPublishComponent } from './components/documentation/how-publish/how-publish.component';
 import { MinageComponent } from './components/documentation/minage/minage.component';
 import { PowComponent } from './components/documentation/pow/pow.component';
+import { HelpComponent } from './components/help/help.component';
 
 
 @NgModule({
@@ -97,7 +98,8 @@ import { PowComponent } from './components/documentation/pow/pow.component';
     HowSellComponent,
     HowPublishComponent,
     MinageComponent,
-    PowComponent
+    PowComponent,
+    HelpComponent
   ],
   imports: [
     BrowserModule,

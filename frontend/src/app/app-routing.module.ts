@@ -31,6 +31,7 @@ import { HowPublishComponent } from './components/documentation/how-publish/how-
 import { BlockchainComponent } from './components/documentation/blockchain/blockchain.component';
 import { MinageComponent } from './components/documentation/minage/minage.component';
 import { PowComponent } from './components/documentation/pow/pow.component';
+import { HelpComponent } from './components/help/help.component';
 
 const routes: Routes = [
   { path: 'accueil', component: WelcomeComponent },
@@ -50,6 +51,7 @@ const routes: Routes = [
       ]
 
   },
+  { path: 'aide_et_support', component: HelpComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'connexion', component: ConnexionComponent },
   { path: 'validation_code', component: CodeValidationComponent },

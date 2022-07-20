@@ -29,13 +29,13 @@
               </button>
             </div>
           </li>
-          <li class="flex w-[30%] lg:relative left-[8%]">
+          <li class="flex w-[30%] lg:relative lg:left-[4%]">
             <div class="mt-5 sm:mt-5 md:mt-0 sm:ml-[45%] md:ml-0 sm:space-y-[7%] md:space-y-[0%] lg:w-full md:w-[100%] flex sm:flex-col  md:flex-row justify-center items-center">
                 <div class="sm:w-[60%] lg:w-[20%] md:w-[25%] justify-center flex">
                     <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-full w-[50%]" alt="Avatar"/>
                 </div>
                 <div class="lg:w-[70%] ml-0 flex sm:flex-col md:flex-row justify-around">
-                    <div class="md:w-[50%] lg:w-[35%] md:mx-2 lg:mx-5 mt-4 lg:ml-3  md:ml-2">
+                    <div class="md:w-[50%] lg:w-[35%] md:mx-2 lg:mx-5 mt-2 lg:ml-3  md:ml-2">
                         <div (click)="isListProfil = !isListProfil " class="p-3 rounded bg-green-design text-link leading-none text-white flex items-center justify-between cursor-pointer" onclick="dropdownHandler()">
                             {{pseudo}}
                             <div class="mx-2">
@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="isListProfil" class="lg:w-[5%] p-2 bg-white shadow-xl rounded absolute lg:top-[12%]" id="dropdown">
+                        <div *ngIf="isListProfil" class="lg:w-[25%] p-2 bg-white shadow-xl rounded absolute lg:top-[80%]" id="dropdown">
                             <ul class="list-none">
                                 <a routerLink="profil" class=""><li class="rounded hover:text-white hover:bg-green-design text-green-design">profil</li></a>
                             </ul>
@@ -61,11 +61,11 @@
                     
                     <div class="md: lg:w-[80%] flex flex-col justify-center mb-5">
                         <form novalidate [formGroup]="currencyForm">
-                            <div class="lg:w-[10%] sm:w-[10%] relative top-8 left-3">
+                            <!-- <div class="lg:w-[10%] sm:w-[10%] relative top-8 left-3">
                                 {{currency}}
-                            </div>
-                            <select formControlName="currency" (change)="setCurrency()" class="lg:w-[50%] md:w-[100%] sm:w-[100%] rounded px-2 py-2 border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
-                                <!-- <option value="{{currency}}" >{{currency}}</option> -->
+                            </div> -->
+                            <select formControlName="currency" (change)="setCurrency()" class="lg:w-[50%] md:w-[100%] sm:w-[100%] mt-2.5 rounded px-2 py-2 border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
+                                <option *ngIf="currency">{{currency}}</option>
                                 <option value="XOF">XOF</option>
                                 <option value="EUR">EUR</option>
                                 <option value="USD" >USD</option>
@@ -82,3 +82,5 @@
   <div>
       <router-outlet></router-outlet>
   </div>
+
+  <app-footer></app-footer>
