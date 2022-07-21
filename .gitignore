@@ -4,5 +4,6 @@ __pycache__
 .vscode
 .angular
 node_modules
+.idea
 data
 runtime

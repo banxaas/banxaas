@@ -92,9 +92,10 @@ class IsDisconnectedViewset(APIView):
                     return Response({'status': True, 'motif': "Validate Code"})
                 if (request.data['signature'] != Token.objects.filter(user=user)[0].key) or (time.time() - start > 72000):
                     return Response({'status': True, 'motif': "New Connexion"})
-                time.sleep(10)
+                if time.time() - start > 180:
+                    return Response({'status': True, 'motif': "Reload"})
         except:
-            return Response({'status': 'FAILED', 'message': 'Token Invalide'})
+            return Response({'status': True, 'motif': "New Connexion"})
 
 
 class CreateAccountViewset(APIView):
