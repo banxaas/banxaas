@@ -21,8 +21,8 @@ def isDisconnected(request):
 	return Response(requests.post('http://backend:27543/api/isDisconnected/', data=request.data).json())
 
 @api_view(['PATCH'])
-def SetUser(request):
-	return Response(requests.patch('http://backend:27543/api/setUser/', data=request.data).json())
+def user(request):
+	return Response(requests.patch('http://backend:27543/api/user/', data=request.data).json())
 
 @api_view(['POST', 'DELETE'])
 def PaymentMethod(request):
