@@ -90,7 +90,9 @@ class IsDisconnectedViewset(APIView):
                 user = User.objects.get(id=id_user)
                 if not user.is_active:
                     return Response({'status': True, 'motif': "Validate Code"})
-                if (request.data['signature'] != Token.objects.filter(user=user)[0].key) or (time.time() - start > 72000):
+                if  not Token.objects.filter(user=user):
+                    return Response({'status': True, 'motif': "Déconnexion"})
+                if request.data['signature'] != Token.objects.filter(user=user)[0].key or time.time() - start > 72000:
                     return Response({'status': True, 'motif': "New Connexion"})
                 if time.time() - start > 180:
                     return Response({'status': True, 'motif': "Reload"})
@@ -551,6 +553,13 @@ class InitTradeSerializer(APIView):
             # Vérifie si l'utilisateur est connecté
             if not isAuthenticated(request.data['token'], request.data['signature']):
                 return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
+            
+            # Vérifie si l'utilisateur ne trade pas son propre offre
+            trader = User.objects.get(pseudo=jwt.decode(request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+            ad = Ad.objects.get(id=request.data['adId'])
+            
+            if ad.user == trader:
+                return Response({"status": "FAILED", "message": "Il s'agit de votre propre offre !"})
 
             # Mise à jour de l'état de l'annonce
             ad = Ad.objects.get(id=request.data['adId'])
