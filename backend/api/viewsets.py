@@ -94,6 +94,7 @@ class IsDisconnectedViewset(APIView):
                     return Response({'status': True, 'motif': "New Connexion"})
                 if time.time() - start > 180:
                     return Response({'status': True, 'motif': "Reload"})
+                time.sleep(10)
         except:
             return Response({'status': True, 'motif': "New Connexion"})
 
