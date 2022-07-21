@@ -11,15 +11,70 @@ from api.repository.tradeRepository import *
 from .serializers import *
 
 
+class Connexion(APIView):
+
+    def post(self, request):
+        """ Cette fonction prend en charge de la connexion des utilisateurs.
+        Methode autorisée: POST,
+        JSON à soumettre: {
+            "login": "...", // Type String/Str
+            "password": "..." // Type String/Str
+        }
+        """
+        # Vérification de la validité des données collectées
+        try:
+            [login, password] = isRequestDataConnexionValid(request.data)
+        except TypeError:
+            return Response({'status': "FAILED", 'message': "Identifiants Incorrects"})
+
+        # Vérification de l'existence du user (pseudo, email, telephone)
+        user = getUserByLogin(login)
+        if (not user) or (not user.check_password(password)):
+            return Response({'status': "FAILED", 'message': "Identifiants Incorrects"})
+
+        # Vérification de l'état du compte de l'utilisateur
+        if not user.is_active:
+            return Response({'status': 'INACTIVATED', 'message': 'Votre compte n\'a pas été activé'})
+
+        # Déconnexion de l'utilisateur s'il est connecté autre part
+        if user.isAuthenticated:
+            user.disconnect()
+
+        if Token.objects.filter(user=user):
+            Token.objects.filter(user=user)[0].delete()
+
+        # Création du token JWT
+        iat = datetime.now(timezone.utc)
+        exp = iat + timedelta(seconds=72000)
+        payload = {'sub': user.pseudo, 'iat': iat, 'exp': exp}
+        jwt = createToken(payload)  # Créer un nouvel Token JWT
+
+        # Création du Token Signature de Connexion
+        # Permet d'identifier la connexion de l'utilisateur
+        signature = Token.objects.create(user=user)
+        user.connect()
+        user.save()
+
+        # Sérialisation
+        serializer = UserDetailSerializer(user)
+
+        return Response({
+            'status': "SUCCESSFUL",
+            'user': serializer.data,
+            'numberOfAds': Ad.get_num_of_ads_available(),
+            'token': jwt,
+            'signature': signature.key
+        })
+"""
 @api_view(['POST'])
 def connexion(request):
-    """ Cette fonction prend en charge de la connexion des utilisateurs.
+    \""" Cette fonction prend en charge de la connexion des utilisateurs.
     Methode autorisée: POST,
     JSON à soumettre: {
         "login": "...", // Type String/Str
         "password": "..." // Type String/Str
     }
-    """
+    \"""
     # Vérification de la validité des données collectées
     try:
         [login, password] = isRequestDataConnexionValid(request.data)
@@ -64,7 +119,7 @@ def connexion(request):
         'token': jwt,
         'signature': signature.key
     })
-
+"""
 
 @api_view(['POST'])
 def isDisconnected(request):
@@ -559,4 +614,4 @@ def InitTrade(request):
         return Response({'status':'SUCCESSFUL', 'tradeHash':tradeHash, 'tradeId':trade.id, "step": 1})
     
     except:
-        return Response({'status': 'FAILDE', 'message': 'JSON invalide, si le problème persiste contacte moi !'})
+        return Response({'status': 'FAILED', 'message': 'JSON invalide, si le problème persiste contacte moi !'})

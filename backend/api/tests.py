@@ -21,7 +21,7 @@ class UserTestCase(TestCase):
         time.sleep(5)
         ad2 = Ad.objects.create(user=acheteur, sens="V", quantityType="F", quantityFixe="1", amountType="F", amountFixe="12000000", marge=1, provider="WAVE", status="C")
         trade2 = Trade.objects.create(tradeHash="rtyuia54678fdghjk", walletAddress="rtyuia54678fdghjk23DD", trader=vendeur, ad=ad2)
-        vendeur.get_current_trade()
-        acheteur.get_current_trade()
-        
+        print(vendeur.get_current_trade())
+        print(acheteur.get_current_trade())
+
 

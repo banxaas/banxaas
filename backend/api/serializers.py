@@ -55,17 +55,6 @@ class PaymentMethodForConnSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'phone']
 
 
-class UserDetailSerializer(serializers.ModelSerializer):
-    seniority = serializers.ReadOnlyField(source='get_seniority')
-    # paymentMethods = serializers.ReadOnlyField(source='get_payment_methods')
-    paymentMethods = PaymentMethodForConnSerializer(many=True, source='get_payment_methods')
-
-    class Meta:
-        model = User
-        fields = ['pseudo', 'email', 'phone', 'is_active', 'isAuthenticated', 'currency', 'seniority', 'paymentMethods']
-        depth = 1
-
-
 class UserForAdSerializer(serializers.ModelSerializer):
     seniority = serializers.ReadOnlyField(source='get_seniority')
 
@@ -93,4 +82,30 @@ class AdsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ad
         fields = '__all__'
+        depth = 1
+
+
+class TraderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['pseudo']
+
+
+class TradeSerializer(serializers.ModelSerializer):
+    ad = AdsSerializer()
+    trader = TraderSerializer()
+    class Meta:
+        model = Trade
+        fields = ['tradeHash', 'trader', 'ad', 'walletAddress', 'startingDate']
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    seniority = serializers.ReadOnlyField(source='get_seniority')
+    paymentMethods = serializers.ReadOnlyField(source='get_payment_methods')
+    paymentMethods = PaymentMethodForConnSerializer(many=True, source='get_payment_methods')
+    currentTrade = TradeSerializer(many=True, source="get_current_trade")
+
+    class Meta:
+        model = User
+        fields = ['pseudo', 'email', 'phone', 'is_active', 'isAuthenticated', 'currency', 'seniority', 'paymentMethods', 'currentTrade']
         depth = 1
