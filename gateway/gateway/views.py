@@ -17,6 +17,10 @@ def ValidateCode(request):
 	return Response(requests.post('http://backend:27543/api/validateCode/', data=request.data).json())
 
 @api_view(['POST'])
+def Deconnexion(request):
+	return Response(requests.post('http://backend:27543/api/disconnect/', data=request.data).json())
+
+@api_view(['POST'])
 def isDisconnected(request):
 	return Response(requests.post('http://backend:27543/api/isDisconnected/', data=request.data).json())
 

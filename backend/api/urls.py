@@ -5,6 +5,7 @@ from .viewsets import *
 urlpatterns = [
     path('connexion/', ConnexionViewset.as_view()),
     path('isDisconnected/', IsDisconnectedViewset.as_view()),
+    path('disconnect/', Disconnect.as_view()),
     path('createAccount/', CreateAccountViewset.as_view()),
     path('validateCode/', ValidateCodeViewset.as_view()),
     path('user/', UserViewset.as_view()),

@@ -99,11 +99,34 @@ class IsDisconnectedViewset(APIView):
             return Response({'status': True, 'motif': "New Connexion"})
 
 
+class Disconnect(APIView):
+
+    def post(self, request):
+        """ Cette fonction permet de déconecter l'utilisateur
+            Méthode Autorisée: POST,
+            JSON à soumettre: {
+                "token": "...", // Type String/Str
+                "signature": "..." // Type String/Str
+            }
+
+        """
+        try:
+            if not isAuthenticated(request.data['token'], request.data['signature']):
+                return Response({"status": "FAILED", 'message': "Vous devez vous connecter"})
+
+            user = User.objects.get(pseudo=jwt.decode(
+                request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+            user.disconnect()
+            Token.objects.filter(user=user)[0].delete()
+            return Response({"status": "SUCCESSFUL", 'message': "Déconnecté avec succès !"})
+        except:
+            return Response({"status": "FAILED", 'message': "Erreur non identifié !"})
+
+
 class CreateAccountViewset(APIView):
     
     def post(self, request):
-        try:
-            """ Cette fonction, permet de creer un compte utilisateur
+        """ Cette fonction, permet de creer un compte utilisateur
             Méthode autorisée: POST,
             JSON à soumettre:
             {
@@ -117,6 +140,7 @@ class CreateAccountViewset(APIView):
             "phone":"..." // Type String/Str
             }
             """
+        try:
             data = request.data.copy()
             keys = list(data.keys())
             # Vérification de la validité des données collectées
