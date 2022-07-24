@@ -18,7 +18,7 @@ export class  AuthService {
   private isDeconnectedUrl = environment.apiUrl + 'isDisconnected/';
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json', Authorization: 'Bearer ' +localStorage.getItem('token') })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json'})
   }
 
   /** POST Connexion*/

@@ -27,10 +27,10 @@ export class ConnexionComponent implements OnInit {
     private authService: AuthService,
     private localStorage: LocalStorageService,
     private router: Router,
-    private alert: AlertService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
   get formControls() {
     return this.signin.controls;
   }
@@ -38,7 +38,8 @@ export class ConnexionComponent implements OnInit {
   // Le reste j'ai rien touché c'est juste le formatage
   // J'espère que yakoumafi lou beuri
   verifyConnexion(token: string, signature: string) {
-    this.authService.uniqConnexion(token, signature).subscribe((reponse) => {
+    this.authService.uniqConnexion(token, signature).subscribe(
+      (reponse) => {
       console.log(reponse);
       if (reponse.status == true && reponse.motif === 'New Connexion') {
         this.localStorage.remove('data');

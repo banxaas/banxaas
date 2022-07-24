@@ -144,9 +144,10 @@
                 <div class="flex flex-row mt-4">
                     <label for="" class="flex items-center font-bold w-[20%]">Categorie</label>
                     <select name="" id="" class="w-[80%] px-4 py-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design">
-                        <option value="">1</option>
-                        <option value="">1</option>
-                        <option value="">1</option>
+                        <option value="">Problémes techniques</option>
+                        <option value="">Connexion et accès au compte</option>
+                        <option value="">Trade</option>
+                        <option value="">Autres</option>
                     </select>
                 </div>
                 <div class="flex flex-row mt-4">
@@ -163,6 +164,80 @@
                     </button>
                 </div>
             </form>
+        </p-dialog>
+        <div class="w-[96%] mt-[3%]">
+            <b class="sm:text-[10px] md:text-[14px] lg:text-[18px]">Historique des tickets</b>
+        </div>
+        <p-table #dt [value]="ticket" class="w-[96%] mt-[1%]" styleClass="p-datatable-customers" [rowHover]="true"
+            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+            [paginator]="false" currentPageReportTemplate="Voir {first} à {last} {totalRecords} entries"
+            [filterDelay]="0">
+              <ng-template pTemplate="header">
+                  <tr>
+                      <!-- <th style="width: 3rem"></th> -->
+                      <th pSortableColumn="id text-center"><b>Objet</b>  <p-sortIcon ></p-sortIcon></th>
+                      <th pSortableColumn="quantite"><b>Type</b><p-sortIcon></p-sortIcon></th>
+                      <th pSortableColumn="montant"><b>Statut</b> <p-sortIcon></p-sortIcon></th>
+                      <th pSortableColumn="marge"><b>Date de création</b> <p-sortIcon></p-sortIcon></th>
+                      <th pSortableColumn="sens"><b>Derniére mis à jour</b> <p-sortIcon></p-sortIcon></th>
+                      <th pSortableColumn=""><b>Action</b></th>
+                      <!-- <th style="width: 8rem"></th> -->
+                  </tr>
+              </ng-template>
+
+            <ng-template pTemplate="body" let-ticket>
+                <tr class="p-selectable-row">
+                    
+                    <td>{{ticket.objet}}</td>
+                    <td>{{ticket.type}}</td>
+                    <td>{{ticket.statut}}</td>
+                    <td>{{ticket.dateCreation}}</td>
+                    <td>{{ticket.update}}</td>
+                  <td>
+                      <button type="button" (click)="toggleModalTicket()" class="text-white bg-green-design px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-design hover:text-green-design  hover:bg-white">Suivre</button>
+                      <button type="button" class="text-green-design px-6 py-1 rounded-[20px] mx-3 shadow-lg border-2 font-bold border-green-design hover:text-white  hover:bg-green-design">Fermer le ticket</button>
+                  </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">Pas de tickets.</td>
+                </tr>
+            </ng-template>
+         
+        </p-table>
+        
+        <p-dialog header="Ticket #16542: Trade" [(visible)]="hiddenTicket">
+            <div class="mt-[2%]">
+                <b>mass</b> a crée ce ticket le 20/07/2002 à 20:30:00 UTC
+            </div>
+            <div>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam saepe, animi perspiciatis laboriosam fugiat repudiandae excepturi, voluptates enim obcaecati harum sunt sed vero distinctio itaque sapiente in debitis voluptas consectetur.
+            </div>
+            <div class="mt-[2%]">
+                <b>Banxaas</b> a répondu le 20/07/2002 à 21:00:00 UTC
+            </div>
+            <div>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, repudiandae reiciendis, voluptatum hic veniam facere nobis accusamus animi maxime sunt quam veritatis quos nemo eum? Voluptas maiores hic voluptate eligendi!
+            </div>
+            <div class="mt-[2%]">
+                <form action="">
+                    <div ><b>Ce ticket est marqué comme résolu. Si vous avez d'autres questions ou préoccupations, vous pouvez rouvrir le ticket et soumettre une réponse ci-dessous</b></div>
+                    <div class="flex flex-row mt-[1%]">
+                        <label for="" class="flex items-center w-[10%] font-bold">Message</label>
+                        <textarea name="" id="" cols="60" rows="10" class="w-[90%] px-4 py-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design"></textarea>
+                    </div>
+                    
+                    <div class="flex flex-row-reverse w-[60%] ml-[40%] mt-[1%]">
+                        <button class="w-[15%] px-3 py-2 md:px-6 md:py-4 lg:px-2 lg:py-2 mt-4 text-green-design bg-white rounded-3xl font-bold border-green-design border-2 hover:text-white  hover:bg-green-design">
+                            Répondre
+                        </button>
+                        <button class="w-[15%] mx-2 px-3 py-2 md:px-6 md:py-4 lg:px-2 lg:py-2 mt-4 text-white bg-green-design rounded-3xl border-green-design border-2 font-bold hover:text-green-800 hover:bg-white ">
+                            Fermer le ticket
+                        </button>
+                    </div>
+                </form>
+            </div>
         </p-dialog>
     </div>
 </div>

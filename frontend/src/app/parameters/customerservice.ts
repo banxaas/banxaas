@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Ticket } from './ticket';
 
 @Injectable()
 export class CustomerService {
@@ -49,5 +50,12 @@ export class CustomerService {
   // Prix actuel d'un Bitcoin
   getRateBitcoin() {
     return this.http.get<any>(this.urlBitcoin, this.httpOptions);
+  }
+
+  getTicketsLarge() {
+    return this.http.get<any>('assets/customers-large.json')
+      .toPromise()
+      .then(res => <Ticket[]>res.data)
+      .then(data => { return data; });
   }
 }
