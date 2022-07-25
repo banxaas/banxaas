@@ -89,7 +89,7 @@
                     pour une valeur de 
                     <b *ngIf="announceForm.value.quantityType==='F'">{{announceForm.value.amountFixe}} {{devise}} </b>
                     <b *ngIf="announceForm.value.quantityType==='R'">{{announceForm.value.amountMin}} à {{announceForm.value.amountMax}} {{devise}} </b>
-                    , en payant via 
+                    , en <span *ngIf="announceForm.value.sens==='A'"> payant&nbsp;</span><span *ngIf="announceForm.value.sens==='V'"> recevant&nbsp;</span>  via 
                     <b *ngIf="announceForm.value.provider==='OM'">Orange Money.</b>
                     <b *ngIf="announceForm.value.provider==='FREE'">Free Money.</b>
                     <b *ngIf="announceForm.value.provider==='WAVE'">Wave.</b>
