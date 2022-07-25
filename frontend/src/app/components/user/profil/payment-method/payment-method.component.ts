@@ -98,7 +98,7 @@ export class PaymentMethodComponent implements OnInit {
           console.log(method);
 
           this.localStorage.set('paymentMethods', JSON.stringify(method));
-          // this.router.navigate(['methode-paiement'])
+          this.hidden = false
         }
         // {status: 'FAILED', message: 'Payment Method already exists!'}
         if (status === 'FAILED' && response.message === 'Payment Method already exists!') {
