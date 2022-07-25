@@ -34,9 +34,16 @@
                 </div>
                 <div class="mt-2 text-red-600" *ngIf="formControls['password'].errors?.['required'] && formControls['password']?.touched">Le mot de passe est obligatoire</div>
                 <div class="flex justify-center mt-4">
-                    <button type="submit" [disabled]="signin.invalid" class="w-[60%] px-3 py-2 md:px-6 md:py-4 lg:px-4 lg:py-4 mt-4 text-white bg-green-design rounded-3xl font-bold hover:bg-green-800">
+                    <button (click)="progressSpinner()" [disabled]="signin.invalid" class="w-[60%] px-3 py-2 md:px-6 md:py-4 lg:px-4 lg:py-4 mt-4 text-white bg-green-design rounded-3xl font-bold hover:bg-green-800">
                         Se connecter
                     </button>
+                </div>
+                <div *ngIf="progress" class="flex justify-center">
+                    <div class="sm:w-[75%] lg:w-[50%] mt-4 text-center">
+                        <!-- <img src="../../../assets/banxaas_logo_animation.gif" class="" alt="banxaas_logo_animation" srcset=""> -->
+                        <!-- <p-progressSpinner></p-progressSpinner> -->
+                        <p-progressSpinner styleClass="custom-spinner" strokeWidth="2" fill="#FFFFFF" animationDuration=".5s"></p-progressSpinner>
+                    </div>
                 </div>
             </div>
         </form>

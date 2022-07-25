@@ -14,6 +14,7 @@ import { RegisterComponent } from '../register/register.component';
 export class ConnexionComponent implements OnInit {
   fieldTextType: boolean = false;
   changeText: boolean = false;
+  progress!: boolean;
 
   failed_message!: string;
 
@@ -147,5 +148,8 @@ export class ConnexionComponent implements OnInit {
 
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
+  }
+  progressSpinner(){
+    this.progress = true
   }
 }
