@@ -97,7 +97,9 @@ export class ConnexionComponent implements OnInit {
                   this.router.navigate(['validation_code']);
                 }
               });*/
-            this.router.navigate(['user']);
+              setTimeout(() => {
+                this.router.navigate(['user']);
+              }, 1500)
           }
 
           if (status === 'INACTIVATED') {
