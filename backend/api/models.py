@@ -40,7 +40,7 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
 
     # Enum Variable
-    CURRENCY_VALUE = [("XOF", "XOF"), ("USD", "USD"), ("EUR", "EUR")]
+    CURRENCY_VALUE = [("FCFA", "FCFA"), ("USD", "USD"), ("EUR", "EUR")]
 
     # Personnal Info
     pseudo = models.CharField(max_length=30, unique=True)
@@ -55,7 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(null=True, blank=True)
     currency = models.CharField(
-        max_length=50, default="CFA", choices=CURRENCY_VALUE)
+        max_length=50, default="FCFA", choices=CURRENCY_VALUE)
 
     # Config User
     USERNAME_FIELD = 'pseudo'

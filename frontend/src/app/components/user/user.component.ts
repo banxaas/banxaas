@@ -17,7 +17,7 @@ export class UserComponent implements OnInit {
   })
 
   pseudo!: string | null;
-  currency!: string | null;
+  devise!: string | null;
 
   isListProfil: any;
   isListDevise: any;
@@ -33,7 +33,7 @@ export class UserComponent implements OnInit {
     const data = JSON.parse(datauser);
     this.pseudo = data.user.pseudo;
     const curr = this.localStorage.get('currency')
-    this.currency = curr
+    this.devise = curr
   }
   setCurrency() {
 
@@ -55,7 +55,7 @@ export class UserComponent implements OnInit {
         if (status === "SUCCESSFUL") {
           this.localStorage.set('currency', dataCurrencyForm.currency)
           const curr = this.localStorage.get('currency')
-          this.currency = curr
+          this.devise = curr
         }
       },
       error => {
