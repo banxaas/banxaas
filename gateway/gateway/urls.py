@@ -20,7 +20,7 @@ from .views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('connexion/', Connexion),
-    path('deconnexion/', Deconnexion),
+    path('disconnect/', Deconnexion),
     path('createAccount/', CreateAccount),
     path('validateCode/', ValidateCode),
     path('isDisconnected/', isDisconnected),
