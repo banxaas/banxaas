@@ -62,7 +62,9 @@ export class CompteComponent implements OnInit {
   toggleModal() {
     this.hidden = true;
   }
-
+  dismissModal() {
+    this.hidden = false;
+  }
   setUser(){
     const datauser:any = this.localStorage.get('data');
     const data = JSON.parse(datauser);
