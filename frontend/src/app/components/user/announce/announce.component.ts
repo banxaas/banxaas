@@ -36,6 +36,7 @@ export class AnnounceComponent implements OnInit {
   })
   errorMessage: any;
   pseudo: any;
+  devise!: string | null;
 
   constructor(
     private customerService : CustomerService,
@@ -55,7 +56,9 @@ export class AnnounceComponent implements OnInit {
     let username = JSON.parse(datauser);
     this.pseudo = username.user.pseudo
     
-
+    
+    const curr = this.localStorage.get('currency')
+    this.devise = curr
 
     if (data.length == 0) {
       console.log("test");

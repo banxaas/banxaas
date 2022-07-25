@@ -83,12 +83,12 @@
             </div>
             <div class="w-[75%] mt-[3%] grid  justify-items-start ">
                 <p class="text-link w-[80%] lg:text-[14px] md:text-[12px] sm:text-[8px]">
-                    Vous souhaitez donc <span *ngIf="announceForm.value.sens==='A'">&nbsp; acheter</span><span *ngIf="announceForm.value.sens==='V'">&nbsp; vendre</span> 
+                    Vous souhaitez donc <span *ngIf="announceForm.value.sens==='A'"> acheter&nbsp;</span><span *ngIf="announceForm.value.sens==='V'"> vendre&nbsp;</span> 
                     <b *ngIf="announceForm.value.quantityType==='F'">{{announceForm.value.quantityFixe}} BTC </b>
                     <b *ngIf="announceForm.value.quantityType==='R'">{{announceForm.value.quantityMin}} à {{announceForm.value.quantityMax}} BTC </b>
                     pour une valeur de 
-                    <b *ngIf="announceForm.value.quantityType==='F'">{{announceForm.value.amountFixe}} BTC </b>
-                    <b *ngIf="announceForm.value.quantityType==='R'">{{announceForm.value.amountMin}} à {{announceForm.value.amountMax}} BTC </b>
+                    <b *ngIf="announceForm.value.quantityType==='F'">{{announceForm.value.amountFixe}} {{devise}} </b>
+                    <b *ngIf="announceForm.value.quantityType==='R'">{{announceForm.value.amountMin}} à {{announceForm.value.amountMax}} {{devise}} </b>
                     , en payant via 
                     <b *ngIf="announceForm.value.provider==='OM'">Orange Money.</b>
                     <b *ngIf="announceForm.value.provider==='FREE'">Free Money.</b>
