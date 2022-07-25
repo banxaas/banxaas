@@ -46,6 +46,8 @@ export class OfferComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    
+    this.listAnnonce(1);
     this.range_quantity = [];
     this.range_amount = [];
     this.tabSeniority = [];
@@ -79,25 +81,6 @@ export class OfferComponent implements OnInit {
             
         }
     )
-
-    // this.customerService.getCustomersLarge().then((customers: Customer[]) => {
-    //     this.customers = customers;
-    //     this.customers.forEach(element => {
-    //     if (element.quantite_type==="range") {
-    //         this.range_quantity.push([element.quantite_min,element.quantite_max])
-    //     }else {
-    //         this.range_quantity.push([element.quantite_fixe])
-    //     } 
-    //     if (element.montant_type==="range") {
-    //         this.range_amount.push([element.montant_min,element.montant_max])
-    //     }else {
-    //         this.range_amount.push([element.montant_fixe])
-    //     } 
-        
-    // });
-        
-    //     this.loading = false;
-    // });
     
     this.paiementMethode = [
         {name: "Orange", value: 'orange'},
@@ -116,10 +99,8 @@ export class OfferComponent implements OnInit {
 
     let quantite = event.target.value;
     quantite = Number(quantite)  
-     console.log(this.range_quantity);
       
     this.range_quantity.forEach(element => {
-        console.log(element.length);
         
         switch (element.length) {
 
@@ -147,10 +128,8 @@ export class OfferComponent implements OnInit {
 
     let quantite = event.target.value;
     quantite = Number(quantite)  
-     console.log(this.range_quantity);
       
     this.range_quantity.forEach(element => {
-        console.log(element.length);
         
         switch (element.length) {
 
@@ -180,7 +159,6 @@ export class OfferComponent implements OnInit {
     amount = Number(amount)  
       
     this.range_amount.forEach(element => {
-        console.log(element.length);
         
         switch (element.length) {
 
@@ -208,10 +186,8 @@ export class OfferComponent implements OnInit {
 
     let amount = event.target.value;
     amount = Number(amount)  
-     console.log(this.range_amount);
       
     this.range_amount.forEach(element => {
-        console.log(element.length);
         
         switch (element.length) {
 
@@ -236,11 +212,9 @@ export class OfferComponent implements OnInit {
 
   filtreSeniority(event: { target: any; }){
     let senior = event.target.value;
-    console.log(this.tabSeniority);
     
     this.tabSeniority.forEach(element => {
         if (senior != element) {
-            console.log(element);
             
             this.table.filter(senior, 'user.seniority', 'startsWith');
             
@@ -249,42 +223,6 @@ export class OfferComponent implements OnInit {
 
   }
 
-  
-//   onActivityChange(event: { target: any; }) {
-//     const value = event.target.value;
-//     if (value && value.trim().length) {
-//         const activity = parseInt(value);
-        
-
-//         if (!isNaN(activity)) {
-//             this.table.filter(activity, 'marge', 'gte');
-//         }
-//     }
-// }
-
-// onDateSelect(value: any) {
-//     this.table.filter(this.formatDate(value), 'date', 'equals')
-// }
-
-// formatDate(date: { getMonth: () => number; getDate: () => any; getFullYear: () => string; }) {
-//     let month = date.getMonth() + 1;
-//     let day = date.getDate();
-
-//     if (month < 10) {
-//         month = 0 + month;
-//     }
-
-//     if (day < 10) {
-//         day = 0 + day;
-//     }
-
-//     return date.getFullYear() + '-' + month + '-' + day;
-// }
-
-// onRepresentativeChange(event: { value: any; }) {
-//     this.table.filter(event.value, 'sens', 'in')
-// }
-
     listAnnonce(id:number){
         const datauser: any = this.localStorage.get('data');
         const data = JSON.parse(datauser);
@@ -292,7 +230,6 @@ export class OfferComponent implements OnInit {
         this.customerService.getAds(dataForm, id).subscribe(
             response => {
                 this.customers = response;
-                console.log(response);
                 
                 
             response.forEach((element: any) => {
@@ -304,7 +241,6 @@ export class OfferComponent implements OnInit {
                     this.seniority = Math.trunc(element.user.seniority / 86400) + ' jour(s)'
     
                 }
-
                 if (element.quantityType==="R") {
                     this.range_quantity.push([Number(element.quantityMin),Number(element.quantityMax)])
                 }else {
