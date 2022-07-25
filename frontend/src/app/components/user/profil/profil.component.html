@@ -26,8 +26,8 @@
   <div class="w-full flex justify-center mt-10">
       <div class="sm:w-[90%] lg:w-[70%]">
           <ul class="nav nav-tabs nav-justified flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 " id="tabs-tabJustify" role="tablist">
-            <li class="nav-item flex-grow text-center rounded-tl-lg border border-green-design md:border-r-0 hover:border-b-4 focus:border focus:border-b-4 bg-white hover:bg-green-design hover:text-white" role="presentation">
-              <a routerLink="compte" class="
+            <li (click)="changeBg('compte')" [style]="bgAccount" class="nav-item flex-grow text-center rounded-tl-lg border border-green-design md:border-r-0 hover:border-b-4 focus:border focus:border-b-4 hover:bg-green-design hover:text-white" role="presentation">
+              <a routerLink="compte"  class="
                 nav-link
                 h-full
                 w-full
@@ -41,7 +41,7 @@
               " id="tabs-home-tabJustify" data-bs-toggle="pill" data-bs-target="#tabs-homeJustify" role="tab"
                 aria-controls="tabs-homeJustify" aria-selected="true">Compte</a>
             </li>
-            <li class="nav-item flex-grow text-center border border-green-design md:border-r-0 hover:border-b-4 focus:border focus:border-b-4 bg-white hover:bg-green-design hover:text-white" role="presentation">
+            <li (click)="changeBg('securité')" [style]="bgSecure" class="nav-item flex-grow text-center border border-green-design md:border-r-0 hover:border-b-4 focus:border focus:border-b-4 bg-white hover:bg-green-design hover:text-white" role="presentation">
               <a routerLink="securite" class="
                 nav-link 
                 h-full
@@ -56,7 +56,7 @@
               " id="tabs-home-tabJustify" data-bs-toggle="pill" data-bs-target="#tabs-homeJustify" role="tab"
                 aria-controls="tabs-homeJustify" aria-selected="true">Sécurité</a>
             </li>
-            <li class="nav-item flex-grow text-center border border-green-design md:border-r-0 hover:border-b-4 focus:border focus:border-b-4 bg-white hover:bg-green-design hover:text-white" role="presentation">
+            <li (click)="changeBg('password')" [style]="bgPassword" class="nav-item flex-grow text-center border border-green-design md:border-r-0 hover:border-b-4 focus:border focus:border-b-4 bg-white hover:bg-green-design hover:text-white" role="presentation">
               <a routerLink="mot-de-passe" class="
                 nav-link
                 h-full
@@ -71,7 +71,7 @@
               " id="tabs-home-tabJustify" data-bs-toggle="pill" data-bs-target="#tabs-homeJustify" role="tab"
                 aria-controls="tabs-homeJustify" aria-selected="true">Mot de passe</a>
             </li>
-            <li class="nav-item flex-grow text-center border border-green-design rounded-tr-lg hover:border-b-4 focus:border focus:border-b-4 bg-white hover:bg-green-design hover:text-white" role="presentation">
+            <li (click)="changeBg('payment')" [style]="bgPayment" class="nav-item flex-grow text-center border border-green-design rounded-tr-lg hover:border-b-4 focus:border focus:border-b-4 bg-white hover:bg-green-design hover:text-white" role="presentation">
               <a routerLink="methode-paiement" class="
                 nav-link
                 h-full
