@@ -25,6 +25,7 @@ export class OfferComponent implements OnInit {
   range_amount: any[] = [];
   tabSeniority: User[] = [];
   seniority:any
+  pseudo: any
 
   loading: boolean = true;
   disableButtonNext: boolean = false;
@@ -53,6 +54,7 @@ export class OfferComponent implements OnInit {
     this.tabSeniority = [];
     const datauser: any = this.localStorage.get('data');
     const data = JSON.parse(datauser);
+    this.pseudo = data.user.pseudo;
     const dataForm = this.announceForm.value;
     dataForm.token = data.token;
     dataForm.signature = data.signature;

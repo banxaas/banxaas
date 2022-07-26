@@ -62,7 +62,7 @@ export class ConnexionComponent implements OnInit {
       .login(dataFormSignin.login, dataFormSignin.password)
       .subscribe(
         (data) => {
-          console.log(data);
+          console.log(data.user.currentTrade.length);
 
           const status = data.status;
 
@@ -98,7 +98,12 @@ export class ConnexionComponent implements OnInit {
                 }
               });*/
               setTimeout(() => {
-                this.router.navigate(['user']);
+                if (data.user.currentTrade.length>0) {
+                  this.router.navigate(['user/transaction/achat/achateur']);
+                }
+                else {
+                  this.router.navigate(['user']);
+                }
               }, 1500)
           }
 

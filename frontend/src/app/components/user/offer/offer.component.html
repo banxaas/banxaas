@@ -79,7 +79,7 @@
           Publier une annonce
         </button>
       </div>
-        <p-table #dt [value]="customers" styleClass="p-datatable-customers" [rowHover]="true"
+      <p-table #dt [value]="customers" styleClass="p-datatable-customers" [rowHover]="true"
             [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
             [paginator]="false" currentPageReportTemplate="Voir {first} à {last} {totalRecords} entries"
             [filterDelay]="0">
@@ -181,8 +181,11 @@
                       <span *ngIf="seniority" class="p-column-title">Anciennete</span>
                       {{seniority}} 
                   </td>
-                  <td style="text-align: center">
-                      <button type="button" class="text-green-600 px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-600 hover:text-white  hover:bg-green-600" routerLink="/user/transaction/achat/achateur">Accepter</button>
+                  <td *ngIf="pseudo == customer.user.pseudo" style="text-align: center">
+                      <button type="button" pTooltip="Ce bouton est désactivé car vous êtes l'annonceur" tooltipPosition="top" class="text-green-600 px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-600 hover:text-white  hover:bg-green-600">Accepter</button>
+                  </td>
+                  <td *ngIf="pseudo != customer.user.pseudo" style="text-align: center">
+                      <button type="button"  class="text-green-600 px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-600 hover:text-white  hover:bg-green-600" routerLink="/user/transaction/achat/achateur">Accepter</button>
                   </td>
                 </tr>
             </ng-template>
@@ -192,13 +195,13 @@
                 </tr>
             </ng-template>
          
-</p-table>
+      </p-table>
 
-<div class="p-mb-3 flex justify-center">
-  <p-button *ngIf="disableButtonPrev===false" type="button" icon="pi pi-chevron-left" (click)="prev()" styleClass="p-button-text"></p-button>
-  <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text"></p-button>
-  <p-button *ngIf="disableButtonNext === false" type="button" icon="pi pi-chevron-right" (click)="next()"  styleClass="p-button-text"></p-button>
-</div>
+      <div class="p-mb-3 flex justify-center">
+        <p-button *ngIf="disableButtonPrev===false" type="button" icon="pi pi-chevron-left" (click)="prev()" styleClass="p-button-text"></p-button>
+        <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text"></p-button>
+        <p-button *ngIf="disableButtonNext === false" type="button" icon="pi pi-chevron-right" (click)="next()"  styleClass="p-button-text"></p-button>
+      </div>
         <!-- <div class="table mt-20">
             <div class="flex flex-col">
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -270,4 +273,3 @@
     </div>
 </div>
 
-<app-footer></app-footer>

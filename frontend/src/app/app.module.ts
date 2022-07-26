@@ -38,6 +38,7 @@ import {ProgressBarModule} from 'primeng/progressbar';
 import {DropdownModule} from 'primeng/dropdown';
 import { StepsModule } from 'primeng/steps';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TooltipModule } from "primeng/tooltip";
 import { CustomerService } from './parameters/customerservice';
 import { MessageService } from 'primeng/api';
 import { TransactionComponent } from './components/user/transaction/transaction.component';
@@ -122,6 +123,7 @@ import { HelpComponent } from './components/help/help.component';
     InputTextModule,
     ProgressBarModule,
     ProgressSpinnerModule,
+    TooltipModule,
     ClipboardModule,
     NgxMaskModule.forRoot()
   ],
