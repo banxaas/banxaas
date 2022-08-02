@@ -67,38 +67,27 @@ class ConnexionViewset(APIView):
         })
 
 
-class IsDisconnectedViewset(APIView):
+class ConnexionRoomName(APIView):
 
     def post(self, request):
-        """ Cette fonction permet de vérifier si l'utilisateur s'est connecté à nouveau
-        pour le déconnecter
-        Méthode autorisée: POST,
-        JSON à soumettre: {
-            "token": "...", // Type String/Str
-            "signature": "..." // Type String/Str
-        }
-        Ces informations sont fournis lors de la connexion
+        """ Cette fonction permet de récupérer le chat room de l'utilisateur
+            Méthode Autorisée: POST,
+            JSON à soumettre: {
+                "token": "...", // Type String/Str
+                "signature": "..." // Type String/Str
+            }
         """
         try:
-            start = time.time()
-            # Boucle de vérification ( à voir si c'est performant ou pas)
+            if not isAuthenticated(request.data['token'], request.data['signature']):
+                return Response({"status": "FAILED", 'message': "Vous devez vous connecter"})
+
             id_user = User.objects.get(pseudo=jwt.decode(
                 request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub']).id
-            while True:
-                # En attente de changement du token (c'est à dire, une nouvelle connexion)
-                # Récupération de l'utilisateur
-                user = User.objects.get(id=id_user)
-                if not user.is_active:
-                    return Response({'status': True, 'motif': "Validate Code"})
-                if  not Token.objects.filter(user=user):
-                    return Response({'status': True, 'motif': "Déconnexion"})
-                if request.data['signature'] != Token.objects.filter(user=user)[0].key or time.time() - start > 72000:
-                    return Response({'status': True, 'motif': "New Connexion"})
-                if time.time() - start > 180:
-                    return Response({'status': True, 'motif': "Reload"})
-                time.sleep(10)
+
+            roomName = hashlib.sha256(str(id_user).encode('utf-8')).hexdigest()
+            return Response({"status": "SUCCESFUL", "room_name": roomName})
         except:
-            return Response({'status': True, 'motif': "New Connexion"})
+            return Response({"status": "FAILED", 'message': "Erreur non identifié"})
 
 
 class Disconnect(APIView):
@@ -126,7 +115,7 @@ class Disconnect(APIView):
 
 
 class CreateAccountViewset(APIView):
-    
+
     def post(self, request):
         """ Cette fonction, permet de creer un compte utilisateur
             Méthode autorisée: POST,
@@ -291,7 +280,7 @@ class PaymentMethodViewset(APIView):
 
 
 class UserViewset(APIView):
-    
+
     def patch(self, request):
         """
         Permet de modifier les informations de l'utilisateurs
@@ -442,7 +431,7 @@ class AdViewset(APIView):
 
             keys = list(data.keys())
             fields = ['sens', 'quantityType', 'quantityFixe', 'quantityMin', 'quantityMax', 'amountType', 'amountFixe',
-                        'amountMin', 'amountMax', 'marge', 'provider']
+                      'amountMin', 'amountMax', 'marge', 'provider']
 
             # Donnée en plus
             for key in keys:
@@ -455,27 +444,28 @@ class AdViewset(APIView):
                     {"status": "FAILED", "message": "quantityType et amountType ne peuvent pas être différents"})
             if (data['quantityType'] == 'F') and (('quantityFixe' not in keys) or ('amountFixe' not in keys)):
                 return Response({"status": "FAILED",
-                                    "message": "Quand le type est fixe, les champs quantityFixe et amountFixe deviennent Obligatoires"})
+                                 "message": "Quand le type est fixe, les champs quantityFixe et amountFixe deviennent Obligatoires"})
             if (data['quantityType'] == 'F') and (
                     ('quantityMin' in keys) or ('quantityMax' in keys) or ('amountMin' in keys) or (
                     'amountMax' in keys)):
                 return Response({"status": "FAILED",
-                                    "message": "Quand le type est fixe, les champs (quantityMin, quantityMax, amountMin, amountMax) ne doivent pas figurer dans le JSON"})
+                                 "message": "Quand le type est fixe, les champs (quantityMin, quantityMax, amountMin, amountMax) ne doivent pas figurer dans le JSON"})
             if (data['quantityType'] == 'R') and (
                     ('quantityMin' not in keys) or ('quantityMax' not in keys) or ('amountMin' not in keys) or (
                     'amountMax' not in keys)):
                 return Response({"status": 'FAILED',
-                                    "message": "Quand le type est range, les champs (quantityMin, quantityMax, amountMin, amountMax) deviennent Obligatoires"})
+                                 "message": "Quand le type est range, les champs (quantityMin, quantityMax, amountMin, amountMax) deviennent Obligatoires"})
             if (data['quantityType'] == 'R') and (('quantityFixe' in keys) or ('quantityFixe' in keys)):
                 return Response({"status": 'FAILED',
-                                    "message": "Quand le type est range, les champs quantityFixe et amountFixe ne doivent pas figurer dans le JSON"})
+                                 "message": "Quand le type est range, les champs quantityFixe et amountFixe ne doivent pas figurer dans le JSON"})
             if (data['quantityType'] == 'R') and (
                     (float(data['quantityMin']) >= float(data['quantityMax'])) or (float(data['amountMin']) >= float(data['amountMax']))):
                 return Response({"status": 'FAILED',
-                                    "message": "Les valeurs quantityMin et amountMin ne peuvent pas être supérieur à quantityMax et amountMax"})
+                                 "message": "Les valeurs quantityMin et amountMin ne peuvent pas être supérieur à quantityMax et amountMax"})
 
             # Récupération de user
-            user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+            user = User.objects.get(pseudo=jwt.decode(
+                token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
             data['user'] = user.id  # ajout de user dans data
             serializer = AdSerializer(data=data)
             if serializer.is_valid():
@@ -496,22 +486,23 @@ class AdViewset(APIView):
         }
         """
         try:
-	        data = request.data.copy()
-	        if len(data) != 3:
-	            return Response({"status": "FAILED", "message": "JSON invalide"})
+            data = request.data.copy()
+            if len(data) != 3:
+                return Response({"status": "FAILED", "message": "JSON invalide"})
 
-	        token = data['token']  # Récupération du Token
-	        # Vérifie si l'utilisateur est connecté
-	        if not isAuthenticated(token, data['signature']):
-	            return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
+            token = data['token']  # Récupération du Token
+            # Vérifie si l'utilisateur est connecté
+            if not isAuthenticated(token, data['signature']):
+                return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
 
-	        # Nettoyage de data
-	        data.pop('token')
-	        data.pop('signature')
-	        user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
-	        ad = Ad.objects.get(id=int(request.data['id']), user=user.id)
-	        ad.delete()
-	        return Response({'status': "SUCCESSFUL"})
+            # Nettoyage de data
+            data.pop('token')
+            data.pop('signature')
+            user = User.objects.get(pseudo=jwt.decode(
+                token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+            ad = Ad.objects.get(id=int(request.data['id']), user=user.id)
+            ad.delete()
+            return Response({'status': "SUCCESSFUL"})
         except:
             return Response({'status': "FAILED", "message": "Token ou Signature invalide"})
 
@@ -521,23 +512,23 @@ class AdsViewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generi
     serializer_class = AdsSerializer
 
     def post(self, request, page):
-    #try:
+        # try:
         if page < 1:
             return Response({"status": "FAILED", "message": "L'iindice de page minimal est 1"})
         token = request.data['token']  # Récupération du Token
         # Vérifie si l'utilisateur est connecté
         if not isAuthenticated(token, request.data['signature']):
             return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
-        self.queryset = Ad.objects.order_by('-publicationDate')[(page - 1) * 10:10 * page]
+        self.queryset = Ad.objects.order_by(
+            '-publicationDate')[(page - 1) * 10:10 * page]
         return self.list(request)
-    #except:
+    # except:
         return Response({"status": "FAILED", "message": "Token ou Signature Invalide"})
 
 
 class InitTradeSerializer(APIView):
 
     def post(self, request):
-
         """
         Permet d'initialiser un trade
         Méthode: POST,
@@ -553,11 +544,12 @@ class InitTradeSerializer(APIView):
             # Vérifie si l'utilisateur est connecté
             if not isAuthenticated(request.data['token'], request.data['signature']):
                 return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
-            
+
             # Vérifie si l'utilisateur ne trade pas son propre offre
-            trader = User.objects.get(pseudo=jwt.decode(request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+            trader = User.objects.get(pseudo=jwt.decode(
+                request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
             ad = Ad.objects.get(id=request.data['adId'])
-            
+
             if ad.user == trader:
                 return Response({"status": "FAILED", "message": "Il s'agit de votre propre offre !"})
 
@@ -569,24 +561,31 @@ class InitTradeSerializer(APIView):
             ad.save()
 
             # Récupération des élements du trade
-            trader = User.objects.get(pseudo=jwt.decode(request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+            trader = User.objects.get(pseudo=jwt.decode(
+                request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
             walletAddress = bdk_generate_address()
 
             # Initialisation du trade
-            trade = Trade.objects.create(trader=trader, ad=ad, walletAddress=walletAddress)
-            
+            trade = Trade.objects.create(
+                trader=trader, ad=ad, walletAddress=walletAddress)
+
             # Mise à jour du tradeHash
-            startingDate = math.log2(int(str(trade.startingDate.day) + str(trade.startingDate.month) + str(trade.startingDate.year) + str(trade.startingDate.hour) + str(trade.startingDate.minute) + str(trade.startingDate.second) + str(trade.startingDate.microsecond))-1)
+            startingDate = math.log2(int(str(trade.startingDate.day) + str(trade.startingDate.month) + str(trade.startingDate.year) + str(
+                trade.startingDate.hour) + str(trade.startingDate.minute) + str(trade.startingDate.second) + str(trade.startingDate.microsecond))-1)
             pprint(startingDate)
-            traderHash = hashlib.sha256(str(trader.id).encode('utf-8')).hexdigest()
+            traderHash = hashlib.sha256(
+                str(trader.id).encode('utf-8')).hexdigest()
             adHash = hashlib.sha256(str(ad.id).encode('utf-8')).hexdigest()
-            walletAddressHash = hashlib.sha256(str(walletAddress).encode('utf-8')).hexdigest()
-            startingDateHash = hashlib.sha256(str(startingDate).encode('utf-8')).hexdigest()
-            tradeHash = hashlib.sha256(str(traderHash + adHash + walletAddressHash + startingDateHash).encode('utf-8')).hexdigest()
+            walletAddressHash = hashlib.sha256(
+                str(walletAddress).encode('utf-8')).hexdigest()
+            startingDateHash = hashlib.sha256(
+                str(startingDate).encode('utf-8')).hexdigest()
+            tradeHash = hashlib.sha256(str(
+                traderHash + adHash + walletAddressHash + startingDateHash).encode('utf-8')).hexdigest()
             trade.tradeHash = tradeHash
             trade.steps = "2"
             trade.save()
-            
+
             # Envoie de la notification
             if ad.user.email:
                 sellerMail = ad.user.email
@@ -598,7 +597,7 @@ class InitTradeSerializer(APIView):
                 sendNotificationByPhoneToSeller(sellerPhone, sellerPseudo)
 
             # Reponse
-            return Response({'status':'SUCCESSFUL', 'tradeHash':tradeHash, 'tradeId':trade.id, "step": 1})
-        
+            return Response({'status': 'SUCCESSFUL', 'tradeHash': tradeHash, 'tradeId': trade.id, "step": 1})
+
         except:
             return Response({'status': 'FAILED', 'message': 'JSON invalide, si le problème persiste contacte moi !'})
