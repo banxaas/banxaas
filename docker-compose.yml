@@ -25,6 +25,13 @@ services:
       - ${BACKEND_MAP_PORT}:${BACKEND_SERVER_PORT}
     depends_on:
       - database
+  
+  redis:
+    image: redis
+    container_name: redis
+    command: redis-server
+    ports:
+      - 6379:6379
 
   gateway:
     build: ./gateway
@@ -37,7 +44,9 @@ services:
       - ${GATEWAY_MAP_PORT}:${GATEWAY_SERVER_PORT}
     depends_on:
       - backend
-
+    links:
+      - redis
+  
   frontend:
     build: ./frontend
     container_name: frontend

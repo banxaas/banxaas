@@ -26,7 +26,8 @@ SECRET_KEY = 'oit5-hvs-rho806%grwssz-n=n8&rwo#wrqubf+=5qa7ztp9zg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'gateway', '192.168.1.10', '149.56.200.27', 'test.banxaas.com']
+ALLOWED_HOSTS = ['localhost', 'gateway',
+                 '192.168.1.10', '149.56.200.27', 'test.banxaas.com']
 
 
 # Application definition
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
 
     'rest_framework',
     'rest_framework.authtoken',
@@ -73,8 +75,16 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'gateway.wsgi.application'
-
+#WSGI_APPLICATION = 'gateway.wsgi.application'
+ASGI_APPLICATION = 'gateway.asgi.application'
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
