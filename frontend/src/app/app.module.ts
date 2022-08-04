@@ -61,6 +61,7 @@ import { MinageComponent } from './components/documentation/minage/minage.compon
 import { PowComponent } from './components/documentation/pow/pow.component';
 import { HelpComponent } from './components/help/help.component';
 import { HistoryTradeComponent } from './components/user/history-trade/history-trade.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 
 @NgModule({
@@ -102,7 +103,8 @@ import { HistoryTradeComponent } from './components/user/history-trade/history-t
     MinageComponent,
     PowComponent,
     HelpComponent,
-    HistoryTradeComponent
+    HistoryTradeComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

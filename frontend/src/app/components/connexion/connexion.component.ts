@@ -31,6 +31,8 @@ export class ConnexionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+    this.localStorage.remove('token')
   }
   get formControls() {
     return this.signin.controls;
