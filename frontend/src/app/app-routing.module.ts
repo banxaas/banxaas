@@ -32,6 +32,7 @@ import { BlockchainComponent } from './components/documentation/blockchain/block
 import { MinageComponent } from './components/documentation/minage/minage.component';
 import { PowComponent } from './components/documentation/pow/pow.component';
 import { HelpComponent } from './components/help/help.component';
+import { HistoryTradeComponent } from './components/user/history-trade/history-trade.component';
 
 const routes: Routes = [
   { path: 'accueil', component: WelcomeComponent },
@@ -61,17 +62,18 @@ const routes: Routes = [
   { path: 'user', component: UserComponent,
       children: [
         { path: 'home', component: HomeComponent },
+        { path: 'historique_transactions', component: HistoryTradeComponent },
         { path: 'transaction', component: TransactionComponent,
             children: [
               { path: 'achat', component: AchatComponent,
                   children: [
-                    { path: 'achateur', component: AchateurComponent },
+                    { path: 'acheteur', component: AchateurComponent },
                     { path: 'vendeur', component: VendeurComponent }
                   ]
               },
               { path: 'vente', component: VenteComponent,
                   children: [
-                    { path: 'achateur', component: Achateur1Component },
+                    { path: 'acheteur', component: Achateur1Component },
                     { path: 'vendeur', component: Vendeur1Component }
                   ]
               

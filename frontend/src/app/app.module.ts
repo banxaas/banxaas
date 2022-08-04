@@ -60,6 +60,7 @@ import { HowPublishComponent } from './components/documentation/how-publish/how-
 import { MinageComponent } from './components/documentation/minage/minage.component';
 import { PowComponent } from './components/documentation/pow/pow.component';
 import { HelpComponent } from './components/help/help.component';
+import { HistoryTradeComponent } from './components/user/history-trade/history-trade.component';
 
 
 @NgModule({
@@ -100,7 +101,8 @@ import { HelpComponent } from './components/help/help.component';
     HowPublishComponent,
     MinageComponent,
     PowComponent,
-    HelpComponent
+    HelpComponent,
+    HistoryTradeComponent
   ],
   imports: [
     BrowserModule,

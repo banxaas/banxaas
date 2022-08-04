@@ -181,11 +181,8 @@
                       <span *ngIf="seniority" class="p-column-title">Anciennete</span>
                       {{seniority}} 
                   </td>
-                  <td *ngIf="pseudo == customer.user.pseudo" style="text-align: center">
-                      <button type="button" pTooltip="Ce bouton est désactivé car vous êtes l'annonceur" tooltipPosition="top" class="text-green-600 px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-600 hover:text-white  hover:bg-green-600">Accepter</button>
-                  </td>
-                  <td *ngIf="pseudo != customer.user.pseudo" style="text-align: center">
-                      <button type="button"  class="text-green-600 px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-600 hover:text-white  hover:bg-green-600" routerLink="/user/transaction/achat/achateur">Accepter</button>
+                  <td style="text-align: center">
+                      <button type="button"  class="text-green-600 px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-600 hover:text-white hover:bg-green-600" routerLink="/user/transaction/achat/acheteur">Accepter</button>
                   </td>
                 </tr>
             </ng-template>
