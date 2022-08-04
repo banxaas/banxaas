@@ -46,19 +46,7 @@ services:
       - backend
     links:
       - redis
-  
-  frontend:
-    build: ./frontend
-    container_name: frontend
-    command: ng serve --host 0.0.0.0 --port 32145 --disable-host-check
-    volumes: 
-      - ./frontend:/frontend
-      - /frontend/node_modules
-      - /frontend/.angular
-    ports: 
-      - 4200:32145
-    depends_on:
-      - gateway
+
 
 
 volumes:

@@ -1,6 +1,7 @@
 import re
 import time
 import math
+import json
 from pprint import pprint
 from rest_framework import generics, mixins
 from rest_framework.decorators import api_view
@@ -526,7 +527,7 @@ class AdsViewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generi
         return Response({"status": "FAILED", "message": "Token ou Signature Invalide"})
 
 
-class InitTradeSerializer(APIView):
+class InitTradeViewset(APIView):
 
     def post(self, request):
         """
@@ -583,7 +584,6 @@ class InitTradeSerializer(APIView):
             tradeHash = hashlib.sha256(str(
                 traderHash + adHash + walletAddressHash + startingDateHash).encode('utf-8')).hexdigest()
             trade.tradeHash = tradeHash
-            trade.steps = "2"
             trade.save()
 
             # Envoie de la notification
@@ -601,3 +601,32 @@ class InitTradeSerializer(APIView):
 
         except:
             return Response({'status': 'FAILED', 'message': 'JSON invalide, si le problème persiste contacte moi !'})
+
+
+class TradeViewset(APIView):
+
+    def get(self, request, tradeHash):
+        # N'oublie pas de vérifier la validité du token et de la signature
+        try:
+            trade = Trade.objects.get(tradeHash=tradeHash)
+            serializer = TradeSerializer(trade)
+        # Là aussi je dois renvoyer le rôle de cet utilisateur dans cette transaction (Acheteur ou Vendeur)
+            return Response({'status': "SUCCESSFUL", 'trade': serializer.data})
+        except:
+            return Response({'status': 'FAILED', 'message': 'Transaction inexistante'})
+
+    def patch(self, request, tradeHash):
+        try:
+            trade = Trade.objects.get(tradeHash=tradeHash)
+            # Vérifier la réception des bitcoins, s'il s'agit de l'étape 2
+            trade.steps = f"{request.data['step']}"
+            trade.save()
+            return Response({'status': 'SUCCESSFUL', 'message': 'Trade mis à jour avec succès !'})
+        except:
+            return Response({'status': 'FAILED', 'message': 'Pas encore identifié'})
+
+
+"""
+class UpdateTradeViewset(APIView):
+    passs
+"""

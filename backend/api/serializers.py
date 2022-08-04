@@ -94,18 +94,22 @@ class TraderSerializer(serializers.ModelSerializer):
 class TradeSerializer(serializers.ModelSerializer):
     ad = AdsSerializer()
     trader = TraderSerializer()
+
     class Meta:
         model = Trade
-        fields = ['tradeHash', 'trader', 'ad', 'walletAddress', 'startingDate']
+        fields = ['tradeHash', 'trader', 'ad',
+                  'walletAddress', 'startingDate', 'steps']
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
     seniority = serializers.ReadOnlyField(source='get_seniority')
     paymentMethods = serializers.ReadOnlyField(source='get_payment_methods')
-    paymentMethods = PaymentMethodForConnSerializer(many=True, source='get_payment_methods')
+    paymentMethods = PaymentMethodForConnSerializer(
+        many=True, source='get_payment_methods')
     currentTrade = TradeSerializer(many=True, source="get_current_trade")
 
     class Meta:
         model = User
-        fields = ['pseudo', 'email', 'phone', 'is_active', 'isAuthenticated', 'currency', 'seniority', 'paymentMethods', 'currentTrade']
+        fields = ['pseudo', 'email', 'phone', 'is_active', 'isAuthenticated',
+                  'currency', 'seniority', 'paymentMethods', 'currentTrade']
         depth = 1

@@ -13,5 +13,6 @@ urlpatterns = [
     path('ad/', AdViewset.as_view()),
     path('ads/<int:page>/', AdsViewset.as_view()),
     # path('trades/' Trade)
-    path('trade/init/', InitTradeSerializer.as_view())
+    path('trade/init/', InitTradeViewset.as_view()),
+    path('trade/<str:tradeHash>/', TradeViewset.as_view()),
 ]
