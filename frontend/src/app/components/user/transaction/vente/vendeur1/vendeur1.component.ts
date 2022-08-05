@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ClipboardService } from 'ngx-clipboard';
+// import { ClipboardService } from 'ngx-clipboard';
 import { interval } from 'rxjs';
 import { CustomerService } from 'src/app/parameters/customerservice';
 import { LocalStorageService } from 'src/app/parameters/local-storage.service';
@@ -39,7 +39,7 @@ export class Vendeur1Component implements OnInit, AfterViewInit {
   constructor(
     private localStorage : LocalStorageService,
     private customerService : CustomerService,
-    private _clipboardService: ClipboardService
+    // private _clipboardService: ClipboardService
   ) { }
   ngOnInit(): void {
     
@@ -139,10 +139,10 @@ export class Vendeur1Component implements OnInit, AfterViewInit {
   }
 
 
-  copyText() {
-    this._clipboardService.copyFromContent(this.formAdresseBtc.value.adresse);
-    this.copy = true
-  }
+  // copyText() {
+  //   this._clipboardService.copyFromContent(this.formAdresseBtc.value.adresse);
+  //   this.copy = true
+  // }
 
 
 

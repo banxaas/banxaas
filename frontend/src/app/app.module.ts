@@ -20,8 +20,6 @@ import { SecurityComponent } from './components/user/profil/security/security.co
 import { BuyComponent } from './components/user/buy/buy.component';
 import { AnnounceComponent } from './components/user/announce/announce.component';
 import { OfferComponent } from './components/user/offer/offer.component';
-import {MatStepperModule} from '@angular/material/stepper';
-import { ClipboardModule } from 'ngx-clipboard';
 
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -45,9 +43,7 @@ import { TransactionComponent } from './components/user/transaction/transaction.
 import { AchatComponent } from './components/user/transaction/achat/achat.component';
 import { VenteComponent } from './components/user/transaction/vente/vente.component';
 import { AchateurComponent } from './components/user/transaction/achat/achateur/achateur.component';
-import { VendeurComponent } from './components/user/transaction/achat/vendeur/vendeur.component';
 import { Achateur1Component } from './components/user/transaction/vente/achateur1/achateur1.component';
-import { Vendeur1Component } from './components/user/transaction/vente/vendeur1/vendeur1.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { DocumentationComponent } from './components/documentation/documentation.component';
 import { IntroductionComponent } from './components/documentation/introduction/introduction.component';
@@ -62,6 +58,8 @@ import { PowComponent } from './components/documentation/pow/pow.component';
 import { HelpComponent } from './components/help/help.component';
 import { HistoryTradeComponent } from './components/user/history-trade/history-trade.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { VendeurComponent } from './components/user/transaction/achat/vendeur/vendeur.component';
+import { Vendeur1Component } from './components/user/transaction/vente/vendeur1/vendeur1.component';
 
 
 @NgModule({
@@ -87,8 +85,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     VenteComponent,
     AchateurComponent,
     VendeurComponent,
-    AchateurComponent,
-    VendeurComponent,
+    VenteComponent,
     Achateur1Component,
     Vendeur1Component,
     FooterComponent,
@@ -113,7 +110,6 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    MatStepperModule,
     TableModule,
     CalendarModule,
     SliderModule,
@@ -128,7 +124,6 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     ProgressBarModule,
     ProgressSpinnerModule,
     TooltipModule,
-    ClipboardModule,
     NgxMaskModule.forRoot()
   ],
   providers: [
