@@ -38,7 +38,5 @@ export class  AuthService {
   }
 
   /** POST */
-  uniqConnexion(token: string, signature: string): Observable<any> {
-    return this.http.post<any>(this.isDeconnectedUrl, { token, signature });
-  }
+ 
 }
