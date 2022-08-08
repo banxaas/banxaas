@@ -562,8 +562,6 @@ class InitTradeViewset(APIView):
             ad.save()
 
             # Récupération des élements du trade
-            trader = User.objects.get(pseudo=jwt.decode(
-                request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
             walletAddress = bdk_generate_address()
 
             # Initialisation du trade
@@ -605,28 +603,81 @@ class InitTradeViewset(APIView):
 
 class TradeViewset(APIView):
 
+    def verification(self, token, signature, tradeId, tradeHash):
+        try:
+            # Vérification du trade et de la signature
+            if not isAuthenticated(token, signature):
+                return {"status": "FAILED", "message": "Vous devez vous connecter"}
+
+            # Récupération de l'utilisateur qui a envoyé la requête
+            user = User.objects.get(pseudo=jwt.decode(
+                token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+            
+            # Récupération du trade associé
+            trade = Trade.objects.get(tradeHash=tradeHash, id=tradeId)
+
+            # Identification du sens du trade et du role de l'utilisateur
+            sens = trade.ad.sens
+            if sens == 'V' and user == trade.ad.user:
+                role = 'Vendeur'
+            elif sens == 'V' and user == trade.trader:
+                role = 'Acheteur'
+            elif sens == 'A' and user == trade.ad.user:
+                role = 'Acheteur'
+            elif sens == 'A' and user == trade.trader:
+                role = 'Vendeur'
+            else:
+                return {'status':'FAILED', 'message': 'Vous n etes pas un acteur !'}
+            return {'status':'SUCCESSFUL', 'role': role, 'trade':trade}
+        except:
+            return {'status':'FAILED', 'message':'Transaction inexistante'}
+
+
     def get(self, request, tradeHash):
-        # N'oublie pas de vérifier la validité du token et de la signature
         try:
             trade = Trade.objects.get(tradeHash=tradeHash)
-            serializer = TradeSerializer(trade)
-        # Là aussi je dois renvoyer le rôle de cet utilisateur dans cette transaction (Acheteur ou Vendeur)
-            return Response({'status': "SUCCESSFUL", 'trade': serializer.data})
+            return Response({'status': "SUCCESSFUL"})
+        except:
+            return Response({'status': 'FAILED', 'message': 'Transaction inexistante'})
+    
+    def post(self, request, tradeHash):
+        try:
+        # Vérification du trade et de la signature
+            verification = self.verification(request.data['token'], request.data['signature'], request.data['tradeId' ], tradeHash)
+            if verification['status'] == "FAILED":
+                return Response(verification)
+            serializer = TradeSerializer(verification['trade'])
+            return Response({'status': "SUCCESSFUL", 'trade': serializer.data, 'role':verification['role']})
         except:
             return Response({'status': 'FAILED', 'message': 'Transaction inexistante'})
 
+
     def patch(self, request, tradeHash):
         try:
-            trade = Trade.objects.get(tradeHash=tradeHash)
-            # Vérifier la réception des bitcoins, s'il s'agit de l'étape 2
-            trade.steps = f"{request.data['step']}"
+            verification = self.verification(request.data['token'], request.data['signature'], request.data['tradeId'], tradeHash)
+            if verification['status'] == "FAILED":
+                return Response(verification)
+            if request.data['role'] != verification['role']:
+                return Response({'status':'FAILED', 'message': 'Les roles ne correspondent pas!'})
+            
+            role = verification['role']
+            # Vérification de la légitimité de l'envoie et traitement associé
+            step = int(request.data['step'])
+
+            if role == "Vendeur" and step == 2:
+                pprint("Légitime")
+            elif role == "Acheteur" and step == 3:
+                pprint("Légitime")
+            elif role == "Vendeur" and step == 4:
+                pprint("Légitime")
+            elif role == "Acheteur" and step == 5:
+                pprint("Légitime")
+            else:
+                return Response({'status':'FAILED', 'message': 'Cette action ne vous correspond pas!'})
+            
+            trade = verification['trade']
+            trade.steps = step
             trade.save()
-            return Response({'status': 'SUCCESSFUL', 'message': 'Trade mis à jour avec succès !'})
+            return Response({'status': 'SUCCESSFUL', 'message': 'Trade mis à jour avec succès !', 'role':role})
         except:
             return Response({'status': 'FAILED', 'message': 'Pas encore identifié'})
-
-
-"""
-class UpdateTradeViewset(APIView):
-    passs
-"""

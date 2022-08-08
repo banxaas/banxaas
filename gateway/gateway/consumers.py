@@ -78,23 +78,51 @@ class TransactionConsumer(WebsocketConsumer):
 
     def receive(self, text_data):
         data = json.loads(text_data)
-        # Je dois vérifier avant qui a envoyé le message !
-        # Vérifier l'étape du trade
-        # Véérifier si l'action correspond à l'état du trade
-        step = data['step']
-        request = requests.patch(
-            f'http://backend:27543/api/trade/{self.tradeHash}/', data={'step': step})
-        if request.json()['status'] == "SUCCESSFUL":
-            async_to_sync(self.channel_layer.group_send)(
-                self.room_group_name,
-                {
-                    'step': step,
-                    'type': 'chat_message',
-                    'message': "nc"
-                }
-            )
+        keys = list(data.keys())
+        token = data['token']
+        signature = data['signature']
+        tradeId = data['tradeId']
+        if (len(keys) == 3) and ('token' in keys) and ('signature' in keys) and ('tradeId' in keys):
+            data = {'token':token, 'signature':signature, 'tradeId':tradeId}
+            request = requests.post(f'http://backend:27543/api/trade/{self.tradeHash}/', data=data)
+            if request.json()['status'] == 'FAILED':
+                pprint(request.json()['message'])
+                self.close(code=4004)
+            else:
+                self.role = request.json()['role']
+                self.send(text_data=json.dumps({
+                    'type': 'verification',
+                    'trade': request.json()['trade']
+                }))
+                pprint(self.role)
+        else:
+            step = data['step']
+            pprint(self.role)
+            pprint(data)
+            if (self.role == "Vendeur" and (step == 2 or step == 4)) or (self.role == "Acheteur" and (step==3 or step==5)):
+                data = {'token':token, 'signature':signature, 'step':step, 'tradeId':tradeId, 'role':self.role}
+                request = requests.patch(
+                    f'http://backend:27543/api/trade/{self.tradeHash}/', data=data)
+                if request.json()['status'] == "SUCCESSFUL":
+                    async_to_sync(self.channel_layer.group_send)(
+                        self.room_group_name,
+                        {
+                            'step': step,
+                            'type': 'chat_message',
+                            'message': "nc"
+                        }
+                    )
+                else:
+                    pprint(request.json()['message'])
+                    self.close(code=4004)
+            else:
+                self.send(text_data=json.dumps({
+                    "message":"Cette action ne vous correspond pas!"
+                }))
+                self.close(code=4004)
 
     def chat_message(self, event):
         self.send(text_data=json.dumps({
+            'type': 'trade',
             'step': event['step']
         }))
