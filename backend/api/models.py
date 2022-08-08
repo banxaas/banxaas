@@ -142,6 +142,8 @@ class Trade(models.Model):
     trader = models.ForeignKey(User, on_delete=models.CASCADE)
     ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
     startingDate = models.DateTimeField(auto_now_add=True)
+    txId = models.CharField(max_length=256, blank=True, null=True)
+    transactionId = models.CharField(max_length=256, blank=True, null=True)
     status = models.CharField(max_length=1, choices=STATUS, default="C")
     steps = models.CharField(max_length=2, choices=[(
         str(i), "step " + str(i)) for i in range(1, 14)], default="1")
