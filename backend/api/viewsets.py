@@ -35,7 +35,18 @@ class ConnexionViewset(APIView):
 
         # Vérification de l'état du compte de l'utilisateur
         if not user.is_active:
-            return Response({'status': 'INACTIVATED', 'message': 'Votre compte n\'a pas été activé'})
+            email = user.email
+            if email != None:
+                code = sendVerificationCodeByMail(email)
+                payload = createValidationTokenPayload(code, email, "email")
+            else:
+                phone = user.phone
+                code = sendVerificationCodeBySms(phone)
+                payload = createValidationTokenPayload(code, phone, "phone")
+            return Response({
+                'status': "INACTIVATED",
+                'token': createToken(payload)
+            })
 
         # Déconnexion de l'utilisateur s'il est connecté autre part
         if user.isAuthenticated:
@@ -374,20 +385,23 @@ class UserViewset(APIView):
                 user.save()
                 return Response({
                     'status': "SUCCESSFUL",
-                    'token': createToken(payload)
+                    'token': createToken(payload),
+                    'motif': 'Validate Code'
                 })
             if (('pseudo' in keys) and (user.pseudo != data['pseudo'])) or ('password' in keys):
                 serializer.save()
                 Token.objects.filter(user=user)[0].delete()
                 Token.objects.create(user=user)
                 return Response({
-                    'status': "SUCCESSFUL"
+                    'status': "SUCCESSFUL",
+                    'motif': 'Reconnexion'
                 })
             serializer.save()
             if ('currency' in keys):
                 return Response({
                     'status': "SUCCESSFUL",
-                    'currency': user.currency
+                    'currency': user.currency,
+                    'motif': 'Pas de reconnexion'
                 })
         except:
             return Response(
