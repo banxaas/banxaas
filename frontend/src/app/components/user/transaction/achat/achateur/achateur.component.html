@@ -57,7 +57,7 @@
       <div *ngIf="notif" class="w-[75%] flex flex-col min-h-screen">
         <div class="lg:w-[90%] lg:mt-[10%] md:mt-[20%] sm:mt-[45%]  p-[5%]">
           <p class="lg:text-link sm:text-[8px] md:text-[12px] pl-[10%] ">Bonjour <b>{{pseudo}}</b><br>
-            Nous avons notifié <b>Pseudo du vendeur</b> de votre offre d'achat.<br>
+            Nous avons notifié <b>{{pseudoVendeur}}</b> de votre offre d'achat.<br>
             Il a désormais <b>24h</b>pour accepter votre offre. Vous pouvez annuler votre offre jusqu'à ce qu'il accepte.
           </p>
   
@@ -82,7 +82,7 @@
       <div *ngIf="fonds" class="w-[75%] flex flex-col min-h-screen">
         <div class="lg:w-[90%] lg:mt-[10%] md:mt-[20%] sm:mt-[45%]  p-[5%]">
           <p class="lg:text-link sm:text-[8px] md:text-[12px] pl-[10%] ">
-            <b>pseudo du vendeur</b> vient d'accepter votre offre d'achat.<br>
+            <b>{{pseudoVendeur}}</b> vient d'accepter votre offre d'achat.<br>
             Merci de lui transférer les fonds convenus, selon le mode de paiement ci-dessous.
           </p>
   
@@ -105,7 +105,7 @@
       <div *ngIf="adresseBtc" class="w-[75%] flex flex-col min-h-screen">
         <div class="lg:w-[90%] lg:mt-[10%] md:mt-[20%] sm:mt-[45%]  p-[5%]">
           <p class="lg:text-link sm:text-[8px] md:text-[12px] pl-[10%] ">
-            <b>pseudo du vendeur</b> a confirmé la réception des fonds.<br>
+            <b>{{pseudoVendeur}}</b> a confirmé la réception des fonds.<br>
             Merci de communiquer une adresse bitcoin valide pour y recevoir les BTC achetés.
           </p>
           <form [formGroup]="formAdresseBtc" class="w-full">

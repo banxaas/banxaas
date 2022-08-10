@@ -60,6 +60,7 @@ import { HistoryTradeComponent } from './components/user/history-trade/history-t
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { VendeurComponent } from './components/user/transaction/achat/vendeur/vendeur.component';
 import { Vendeur1Component } from './components/user/transaction/vente/vendeur1/vendeur1.component';
+import { WebsocketService } from './parameters/websocket.service';
 
 
 @NgModule({
@@ -127,7 +128,7 @@ import { Vendeur1Component } from './components/user/transaction/vente/vendeur1/
     NgxMaskModule.forRoot()
   ],
   providers: [
-    CustomerService, MessageService
+    CustomerService, MessageService, WebsocketService
   ],
   bootstrap: [AppComponent]
 })

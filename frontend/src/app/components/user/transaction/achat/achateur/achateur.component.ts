@@ -1,9 +1,11 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ClipboardService } from 'ngx-clipboard';
 import { interval } from 'rxjs';
 import { CustomerService } from 'src/app/parameters/customerservice';
 import { LocalStorageService } from 'src/app/parameters/local-storage.service';
+import { WebsocketService } from 'src/app/parameters/websocket.service';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-achateur',
@@ -34,11 +36,42 @@ export class AchateurComponent implements OnInit, AfterViewInit {
   adresseBtc: boolean = false;
   close: boolean = false;
   pseudo: any;
+  tradeHash: any;
+  tradeId: any;
+  token: any;
+  signature: any;
+  step: any;
+  pseudoVendeur: any;
   constructor(
-    private localStorage : LocalStorageService
+    private localStorage : LocalStorageService,
+    private wsService: WebsocketService
   ) { }
   ngOnInit(): void {
     
+    this.tradeHash = this.localStorage.get('tradeHash')
+    this.tradeId = this.localStorage.get('tradeId')
+    this.token = this.localStorage.get('token')
+    this.signature = this.localStorage.get('signature')
+    this.tradeHash = this.localStorage.get('tradeHash')
+    this.step = this.localStorage.get('step')
+    const webSocketUrl = environment.webSocketUrl + 'transaction/'+ this.tradeHash + '/';
+    let dataSocket= {
+      'token': this.token,
+      'signature': this.signature,
+      'tradeId': this.tradeId,
+      'step': this.step
+  }
+    this.wsService.createObservableSocket(webSocketUrl).subscribe(
+      data => {
+        console.log(data);
+        this.wsService.sendMessage(dataSocket)
+        const dataWebSocket:any = this.localStorage.get('dataSocket');
+        console.log(dataWebSocket);
+        
+        this.pseudoVendeur = dataWebSocket.trade.trader.pseudo
+      }
+    )
+
     this.notif = true;
   }
 

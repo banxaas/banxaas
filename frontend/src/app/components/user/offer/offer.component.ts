@@ -1,10 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { Subscription } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Customer, User } from 'src/app/parameters/customer';
 import { CustomerService } from 'src/app/parameters/customerservice';
 import { LocalStorageService } from 'src/app/parameters/local-storage.service';
+import { WebsocketService } from 'src/app/parameters/websocket.service';
+
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-offer',
@@ -27,6 +32,10 @@ export class OfferComponent implements OnInit {
   seniority:any
   pseudo: any
 
+
+  messageFromServer!: WebSocket;
+  wsSubscription!: Subscription;
+
   loading: boolean = true;
   disableButtonNext: boolean = false;
   disableButtonPrev: boolean = false;
@@ -38,13 +47,25 @@ export class OfferComponent implements OnInit {
     signature: new FormControl('')
   })
 
+  initTradeForm = new FormGroup({
+    token: new FormControl(''),
+    signature: new FormControl(''),
+    adId: new FormControl('')
+
+  })
+
   @ViewChild('dt') table!: Table;
+  
+  status: any
 
   constructor(
     private customerService: CustomerService, 
     private primengConfig: PrimeNGConfig,
-    private localStorage:LocalStorageService
-    ) { }
+    private localStorage:LocalStorageService,
+    private wsService: WebsocketService,
+    ) { 
+        
+    }
 
   ngOnInit(): void {
     
@@ -95,6 +116,9 @@ export class OfferComponent implements OnInit {
         {label: 'Achat', value: 'A'}
     ]
     this.primengConfig.ripple = true;
+
+
+    
   }
 
   filtreRangeQuantity(event: { target: any; }){
@@ -232,6 +256,7 @@ export class OfferComponent implements OnInit {
         this.customerService.getAds(dataForm, id).subscribe(
             response => {
                 this.customers = response;
+                console.log(this.customers);
                 
                 
             response.forEach((element: any) => {
@@ -294,4 +319,63 @@ export class OfferComponent implements OnInit {
             this.disableButtonNext = false
         }
     }
+
+    accepter(id:number){
+        const datauser:any = this.localStorage.get('data');
+        const data = JSON.parse(datauser);
+        const dataInitTradeForm = this.initTradeForm.value
+        dataInitTradeForm.token = data.token;
+        dataInitTradeForm.signature = data.signature;
+        dataInitTradeForm.adId = id;
+        // console.log(dataInitTradeForm);
+        this.customerService.initTrade(dataInitTradeForm).subscribe(
+            response => {
+                console.log(response);
+                if (response.status === "SUCCESSFUL") {
+                    this.localStorage.set('tradeHash', response.tradeHash)
+                    this.localStorage.set('tradeId', response.tradeId)
+                    this.localStorage.set('step', response.step)
+                    let dataSocket= {
+                        'token': data.token,
+                        'signature': data.signature,
+                        'tradeId': response.tradeId
+                    }
+                    const webSocketUrl = environment.webSocketUrl + 'transaction/'+ response.tradeHash + '/';
+                    this.wsService.createObservableSocket(webSocketUrl).subscribe(
+                        data => {
+                            this.status = this.wsService.sendMessage(dataSocket);
+                            console.log(this.status);
+                            ;
+                            
+                        } 
+                    )
+                    
+                        // data => {
+                            
+                            
+                        //     // console.log(data.onmessage.message);
+                            
+                        //     // console.log("data");
+                            
+                        //     this.wsService.sendMessage(dataSocket);
+                        //     console.log(data);
+
+                        //     // console.log(this.messageFromServer.onmessage);
+                            
+                        // }
+
+                    // const valueTest = this.wsService.openSocket(webSocketUrl)
+                    // const test = this.wsService.envoiMessage(dataSocket)
+                    // console.log(test);
+                    
+                    // console.log(valueTest);
+                    
+                    
+                }
+                
+            }
+        ) 
+        
+    }
+
 }

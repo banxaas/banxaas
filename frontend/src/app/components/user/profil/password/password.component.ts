@@ -101,13 +101,7 @@ export class PasswordComponent implements OnInit {
             console.log(response);
             const status = response.status
             if(status === "SUCCESSFUL"){
-              this.authService.uniqConnexion(data.token, data.signature).subscribe(
-                reponse => {
-                  console.log(reponse);
-                  if (reponse.status == true && reponse.motif === "New Connexion") {
-                    this.router.navigate(['connexion']);
-                  }
-                });
+                this.router.navigate(['connexion']);
             }
             if (status === "FAILED") {
               this.errorMessage = response.message;

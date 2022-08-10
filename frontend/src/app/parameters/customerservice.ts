@@ -1,15 +1,21 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { map } from 'rxjs/operators';
 import { Ticket } from './ticket';
+import { WebsocketService } from './websocket.service';
+import { LocalStorageService } from './local-storage.service';
+
 
 @Injectable()
 export class CustomerService {
+
   private setUserUrl = environment.apiUrl + 'user/';
   private paymentUrl = environment.apiUrl + 'paymentMethod/';
   private adsUrl = environment.apiUrl + 'ad/';
   private getAdsUrl = environment.apiUrl + 'ads/';
+  private tradeInitUrl = environment.apiUrl + 'trade/init/';
   private urlBitcoin = 'https://bitpay.com/rates/BTC/XOF';
   httpOptions = {
     headers: new HttpHeaders({
@@ -18,7 +24,20 @@ export class CustomerService {
     }),
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private localStorage: LocalStorageService
+    ) {
+      // this.messages = <Subject<Message>>this.wsService
+      // .connect(this.webSocketUrl)
+      // .pipe(
+      //   map((response: MessageEvent): Message => {
+      //     let data = JSON.parse(response.data);
+      //     return data
+      //   })
+      // )
+
+    }
 
   /** PATCH Set data Account*/
   setUserAccount(data: any): Observable<any> {
@@ -51,7 +70,14 @@ export class CustomerService {
   getRateBitcoin() {
     return this.http.get<any>(this.urlBitcoin, this.httpOptions);
   }
+ 
+// Déclencher une transaction en appuyant sur le btn accepter
+  initTrade(data: any): Observable<any> {
+    return this.http.post<any>(this.tradeInitUrl, data);
+  }
 
+
+  // Fonction de test
   getTicketsLarge() {
     return this.http.get<any>('assets/customers-large.json')
       .toPromise()

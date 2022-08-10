@@ -15,7 +15,6 @@ export class  AuthService {
   private authUrl = environment.apiUrl + 'connexion/';
   private registerUrl = environment.apiUrl + 'createAccount/';
   private codeUrl = environment.apiUrl + 'validateCode/';
-  private isDeconnectedUrl = environment.apiUrl + 'isDisconnected/';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json'})
