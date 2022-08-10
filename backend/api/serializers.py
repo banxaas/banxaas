@@ -97,7 +97,7 @@ class TradeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Trade
-        fields = ['tradeHash', 'trader', 'ad',
+        fields = ['id', 'tradeHash', 'trader', 'ad',
                   'walletAddress', 'startingDate', 'steps']
 
 
