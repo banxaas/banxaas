@@ -139,6 +139,7 @@ class Trade(models.Model):
 
     tradeHash = models.CharField(max_length=256, default="")
     walletAddress = models.CharField(max_length=256, default="")
+    buyerWalletAdress = models.CharField(max_length=256, default="")
     trader = models.ForeignKey(User, on_delete=models.CASCADE)
     ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
     startingDate = models.DateTimeField(auto_now_add=True)

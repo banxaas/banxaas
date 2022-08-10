@@ -83,8 +83,8 @@ class TransactionConsumer(WebsocketConsumer):
         signature = data['signature']
         tradeId = data['tradeId']
         if (len(keys) == 3) and ('token' in keys) and ('signature' in keys) and ('tradeId' in keys):
-            data = {'token':token, 'signature':signature, 'tradeId':tradeId}
-            request = requests.post(f'http://backend:27543/api/trade/{self.tradeHash}/', data=data)
+            data_ = {'token':token, 'signature':signature, 'tradeId':tradeId}
+            request = requests.post(f'http://backend:27543/api/trade/{self.tradeHash}/', data=data_)
             if request.json()['status'] == 'FAILED':
                 pprint(request.json()['message'])
                 self.close(code=4004)
@@ -97,12 +97,16 @@ class TransactionConsumer(WebsocketConsumer):
                 pprint(self.role)
         else:
             step = data['step']
-            pprint(self.role)
-            pprint(data)
+
             if (self.role == "Vendeur" and (step == 2 or step == 4)) or (self.role == "Acheteur" and (step==3 or step==5)):
-                data = {'token':token, 'signature':signature, 'step':step, 'tradeId':tradeId, 'role':self.role}
-                request = requests.patch(
-                    f'http://backend:27543/api/trade/{self.tradeHash}/', data=data)
+                data_ = {'token':token, 'signature':signature, 'step':step, 'tradeId':tradeId, 'role':self.role}
+                if step == 2:
+                    data_['txId'] = data['txId']
+                if step == 3:
+                    data_['transactionId'] = data['transactionId']
+                if step == 5:
+                    data_['buyerWalletAdress'] = data['buyerWalletAdress']
+                request = requests.patch(f'http://backend:27543/api/trade/{self.tradeHash}/', data=data_)
                 if request.json()['status'] == "SUCCESSFUL":
                     async_to_sync(self.channel_layer.group_send)(
                         self.room_group_name,
