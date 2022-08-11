@@ -97,6 +97,13 @@ class TransactionConsumer(WebsocketConsumer):
                 pprint(self.role)
         else:
             step = data['step']
+            data_ = {'token':token, 'signature':signature, 'tradeId':tradeId}
+            request = requests.post(f'http://backend:27543/api/trade/{self.tradeHash}/', data=data_)
+            if request.json()['status'] == 'FAILED':
+                pprint(request.json()['message'])
+                self.close(code=4004)
+            else:
+                self.role = request.json()['role']
 
             if (self.role == "Vendeur" and (step == 2 or step == 4)) or (self.role == "Acheteur" and (step==3 or step==5)):
                 data_ = {'token':token, 'signature':signature, 'step':step, 'tradeId':tradeId, 'role':self.role}
