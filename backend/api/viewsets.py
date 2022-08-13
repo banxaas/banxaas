@@ -607,9 +607,11 @@ class InitTradeViewset(APIView):
                 sellerPhone = ad.user.phone
                 sellerPseudo = ad.user.pseudo
                 sendNotificationByPhoneToSeller(sellerPhone, sellerPseudo)
+            
+            serializer = TradeSerializer(trade)
 
             # Reponse
-            return Response({'status': 'SUCCESSFUL', 'tradeHash': tradeHash, 'tradeId': trade.id, "step": 1})
+            return Response({'status': 'SUCCESSFUL', 'tradeHash': tradeHash, 'currentTrade': serializer.data, "step": 1})
 
         except:
             return Response({'status': 'FAILED', 'message': 'JSON invalide, si le problème persiste contacte moi !'})
