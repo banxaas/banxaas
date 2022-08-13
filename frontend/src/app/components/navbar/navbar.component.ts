@@ -32,7 +32,7 @@ export class NavbarComponent implements OnInit {
   
   ngOnInit(): void {
     this.token = this.localStorage.get('token');
-    console.log(this.token);
+    // console.log(this.token);
     const datauser: any = this.localStorage.get('data');
     const data = JSON.parse(datauser);
     this.pseudo = data.user.pseudo;

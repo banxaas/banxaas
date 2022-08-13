@@ -18,7 +18,7 @@ import { environment } from 'src/environments/environment';
 })
 export class OfferComponent implements OnInit {
 
-  customers!: Customer[];
+  customers: Customer[] = [];
 
   selectedCustomers!: Customer[];
 
@@ -69,7 +69,7 @@ export class OfferComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this.listAnnonce(1);
+    this.reset();
     this.range_quantity = [];
     this.range_amount = [];
     this.tabSeniority = [];
@@ -80,30 +80,30 @@ export class OfferComponent implements OnInit {
     dataForm.token = data.token;
     dataForm.signature = data.signature;
     
-    this.customerService.getAds(dataForm, this.id).subscribe(
-        response => {
-            this.customers = response;
-            response.forEach((element: any) => {
-                this.seniority = element.user.seniority;
-                this.tabSeniority.push(this.seniority)
-                if (element.quantityType==="R") {
-                    this.range_quantity.push([Number(element.quantityMin),Number(element.quantityMax)])
-                }else {
-                    this.range_quantity.push([Number((element.quantityFixe))])
-                } 
-                if (element.amountType==="R") {
-                    this.range_amount.push([Number(element.amountMin),Number(element.amountMax)])
-                }else {
-                    this.range_amount.push([Number(element.amountFixe)])
-                } 
+    // this.customerService.getAds(dataForm, this.id).subscribe(
+    //     response => {
+    //         this.customers = response;
+    //         response.forEach((element: any) => {
+    //             this.seniority = element.user.seniority;
+    //             this.tabSeniority.push(this.seniority)
+    //             if (element.quantityType==="R") {
+    //                 this.range_quantity.push([Number(element.quantityMin),Number(element.quantityMax)])
+    //             }else {
+    //                 this.range_quantity.push([Number((element.quantityFixe))])
+    //             } 
+    //             if (element.amountType==="R") {
+    //                 this.range_amount.push([Number(element.amountMin),Number(element.amountMax)])
+    //             }else {
+    //                 this.range_amount.push([Number(element.amountFixe)])
+    //             } 
                 
-            });
+    //         });
             
-            this.loading = false;
+    //         this.loading = false;
 
             
-        }
-    )
+    //     }
+    // )
     
     this.paiementMethode = [
         {name: "Orange", value: 'orange'},
@@ -253,35 +253,42 @@ export class OfferComponent implements OnInit {
         const datauser: any = this.localStorage.get('data');
         const data = JSON.parse(datauser);
         const dataForm = this.announceForm.value;
+        dataForm.token = data.token;
+        dataForm.signature = data.signature;
         this.customerService.getAds(dataForm, id).subscribe(
             response => {
-                this.customers = response;
+                console.log(response);
+                
+                // this.customers = response;
+                // console.log(this.customers);
+                
+                response.forEach((element: any) => {
+                    if (element.status === 'I') {
+                        this.customers.push(element)
+                    }
+                    if (element.user.seniority < 86400) {
+                        this.seniority = 'Aujourd\'hui'
+                    }
+                    else {
+                        this.seniority = Math.trunc(element.user.seniority / 86400) + ' jour(s)'
+        
+                    }
+                    if (element.quantityType==="R") {
+                        this.range_quantity.push([Number(element.quantityMin),Number(element.quantityMax)])
+                    }else {
+                        this.range_quantity.push([Number(element.quantityFixe)])
+                    } 
+                    if (element.amountType==="R") {
+                        this.range_amount.push([Number(element.amountMin),Number(element.amountMax)])
+                    }else {
+                        this.range_amount.push([Number(element.amountMixe)])
+                    } 
+                
+                });
                 console.log(this.customers);
                 
                 
-            response.forEach((element: any) => {
-                
-                if (element.user.seniority < 86400) {
-                    this.seniority = 'Aujourd\'hui'
-                }
-                else {
-                    this.seniority = Math.trunc(element.user.seniority / 86400) + ' jour(s)'
-    
-                }
-                if (element.quantityType==="R") {
-                    this.range_quantity.push([Number(element.quantityMin),Number(element.quantityMax)])
-                }else {
-                    this.range_quantity.push([Number(element.quantityFixe)])
-                } 
-                if (element.amountType==="R") {
-                    this.range_amount.push([Number(element.amountMin),Number(element.amountMax)])
-                }else {
-                    this.range_amount.push([Number(element.amountMixe)])
-                } 
-                
-            });
-            
-            this.loading = false;
+                this.loading = false;
                 
             }
         )
@@ -335,15 +342,15 @@ export class OfferComponent implements OnInit {
                     this.localStorage.set('tradeHash', response.tradeHash)
                     this.localStorage.set('tradeId', response.tradeId)
                     this.localStorage.set('step', response.step)
-                    let dataSocket= {
-                        'token': data.token,
-                        'signature': data.signature,
-                        'tradeId': response.tradeId
-                    }
+                    
                     const webSocketUrl = environment.webSocketUrl + 'transaction/'+ response.tradeHash + '/';
                     this.wsService.createObservableSocket(webSocketUrl).subscribe(
                         data => {
-                            this.status = this.wsService.sendMessage(dataSocket);
+                            this.status = this.wsService.sendMessage({
+                            'token': data.token,
+                            'signature': data.signature,
+                            'tradeId': response.tradeId
+                            });
                             console.log(this.status);
                             ;
                             

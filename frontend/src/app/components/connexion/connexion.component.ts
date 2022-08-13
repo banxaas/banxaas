@@ -32,7 +32,7 @@ export class ConnexionComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.localStorage.remove('token')
+    this.localStorage.clear()
   }
   get formControls() {
     return this.signin.controls;
@@ -100,11 +100,36 @@ export class ConnexionComponent implements OnInit {
               });*/
               setTimeout(() => {
                 if (data.user.currentTrade.length>0) {
-                  this.router.navigate(['user/transaction/achat/acheteur']);
+                  
+
+                  if (data.user.pseudo == data.user.currentTrade[0].ad.user.pseudo && data.user.currentTrade[0].ad.sens == 'V') {
+
+                    this.router.navigate(['user/transaction/achat/vendeur']);
+
+                  }
+
+                  if (data.user.pseudo == data.user.currentTrade[0].trader.pseudo && data.user.currentTrade[0].ad.sens == 'V') {
+
+                    this.router.navigate(['user/transaction/achat/acheteur']);
+
+                  }
+                  
+                  if (data.user.pseudo == data.user.currentTrade[0].trader.pseudo && data.user.currentTrade[0].ad.sens == 'A') {
+
+                    this.router.navigate(['user/transaction/vente/vendeur']);
+
+                  }
+                  
+                  if (data.user.pseudo == data.user.currentTrade[0].ad.user.pseudo && data.user.currentTrade[0].ad.sens == 'A') {
+
+                    this.router.navigate(['user/transaction/vente/acheteur']);
+
+                  }
                 }
                 else {
                   this.router.navigate(['user']);
                 }
+                
               }, 1500)
           }
 

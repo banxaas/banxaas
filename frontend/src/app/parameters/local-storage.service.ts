@@ -21,4 +21,9 @@ export class LocalStorageService {
   remove(key: string){
     localStorage.removeItem(key);
   }
+
+  // tslint:disable-next-line: typedef
+  clear(){
+    localStorage.clear();
+  }
 }
