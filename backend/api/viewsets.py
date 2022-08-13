@@ -422,7 +422,8 @@ class AdViewset(APIView):
             "quantityType":"...", // Type String/str | values(F ou R)
             "amountType": "...", // Type String/str | values(F ou R)
             "marge": "...", //Number, Int
-            "provider": "..."
+            "provider": "...",
+            "phone": "...", //Number,Int
             // Optionnel selon le Type
             "quantityFixe": "...", // Type String/str
             "quantityMin": "...", // Type String/str
@@ -446,7 +447,7 @@ class AdViewset(APIView):
 
             keys = list(data.keys())
             fields = ['sens', 'quantityType', 'quantityFixe', 'quantityMin', 'quantityMax', 'amountType', 'amountFixe',
-                      'amountMin', 'amountMax', 'marge', 'provider']
+                      'amountMin', 'amountMax', 'marge', 'provider', 'phone']
 
             # Donnée en plus
             for key in keys:
@@ -481,8 +482,20 @@ class AdViewset(APIView):
             # Récupération de user
             user = User.objects.get(pseudo=jwt.decode(
                 token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+            
+            # Vérification du méthode de paiement associé
+            pprint(user)
+            pprint(data['provider'])
+            pprint(data['phone'])
+            pm = list(PaymentMethod.objects.filter(user=user, name=data['provider'], phone=data['phone']))
+            pprint(pm)
+            if not pm:
+                return Response({'status': "FAILED", "message":"Ce méthode de paiment n'existe pas !"})
+            
             data['user'] = user.id  # ajout de user dans data
             serializer = AdSerializer(data=data)
+
+            # Vérification du méthode de paiement associé
             if serializer.is_valid():
                 serializer.save()
                 return Response({'status': "SUCCESSFUL"})

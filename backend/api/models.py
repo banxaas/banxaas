@@ -128,6 +128,7 @@ class Ad(models.Model):
     amountMax = models.CharField(max_length=21, blank=True, null=True)
     publicationDate = models.DateTimeField(auto_now_add=True)
     marge = models.IntegerField()
+    phone = models.IntegerField()
     provider = models.CharField(max_length=15, choices=PAYMENT_METHOD)
 
     def get_num_of_ads_available():
