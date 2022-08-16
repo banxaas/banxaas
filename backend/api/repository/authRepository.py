@@ -7,7 +7,7 @@ import random
 import smtplib
 import ssl
 from datetime import datetime, timedelta
-
+from django.db.models import Q
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
@@ -27,17 +27,23 @@ def isRequestDataConnexionValid(data):
     except KeyError:
         return False
 
+def verifyBody(data,required_fields):
+     if(len(data)!=len(required_fields)):
+        return False
+     for required_field in required_fields:
+         body_property=data.get(required_field[0])
+         if(not body_property or not type(body_property) is required_field[1]):
+             return False
+     return True        
+            
+
 
 def getUserByLogin(login):
     """ Cette fonction permet de récupérer un utilisateur par son pseudo, email ou phone"""
-    if User.objects.filter(pseudo=login):
-        return User.objects.get(pseudo=login)
-    elif User.objects.filter(email=login):
-        return User.objects.get(email=login)
-    elif User.objects.filter(phone=login):
-        return User.objects.get(phone=login)
-    else:
-        return None  # La foncton retourne None si l'utilisateur n'existe pas !
+    user=User.objects.filter(Q(pseudo=login) | Q(email=login) | Q(phone=login))
+    if user:
+        return user.first()
+    return None  # La foncton retourne None si l'utilisateur n'existe pas !
 
 
 def verifyUser(login):
