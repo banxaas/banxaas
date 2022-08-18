@@ -4,10 +4,13 @@ from rest_framework import status
 from api.repository.authRepository import *
 
 class IsAuthenticatedPermission(BasePermission):
-    message = 'User is not superuser'
-
     def has_permission(self, request, view):
-        return isAuthenticated(request.data.get('token'), request.data.get('signature'))
+        print("kkkk",request.data)
+            
+        try:
+            return isAuthenticated(request.data['token'], request.data['signature'])
+        except:
+            raise NeedLogin()
 class NeedLogin(APIException):
     status_code = status.HTTP_403_FORBIDDEN
     default_detail = {"status": "FAILED", 'message': "Vous devez vous connecter"}

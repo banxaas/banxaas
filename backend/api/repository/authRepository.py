@@ -27,7 +27,7 @@ def isRequestDataConnexionValid(data):
     except KeyError:
         return False
 
-def verifyBody(data,required_fields):
+def verifyBody(data,required_fields):#required_fields tableau de tuple [(nomchamp,type),(nomchamp,type),...]
      if(len(data)!=len(required_fields)):
         return False
      for required_field in required_fields:
@@ -162,6 +162,9 @@ def verifyCodeValidation(code, token):
 
 def isAuthenticated(token, signature):
     user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+    print("------------------------------------")
+    print("user",user)
+    print("------------------------------------")
     if user.is_authenticated and (signature == Token.objects.filter(user=user)[0].key):
         return True
     return False
