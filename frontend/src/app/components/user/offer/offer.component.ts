@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Subscription } from 'rxjs';
@@ -54,18 +55,26 @@ export class OfferComponent implements OnInit {
 
   })
 
-  @ViewChild('dt') table!: Table;
   
-  status: any
+    status: any
+    datauser: any;
 
   constructor(
     private customerService: CustomerService, 
     private primengConfig: PrimeNGConfig,
     private localStorage:LocalStorageService,
-    private wsService: WebsocketService,
+    private router: Router
     ) { 
         
+        this.localStorage.get('data').subscribe(
+            data => {
+            this.datauser = JSON.parse(data)
+    
+            }
+        );
     }
+    
+  @ViewChild('dt') table!: Table;
 
   ngOnInit(): void {
     
@@ -73,12 +82,12 @@ export class OfferComponent implements OnInit {
     this.range_quantity = [];
     this.range_amount = [];
     this.tabSeniority = [];
-    const datauser: any = this.localStorage.get('data');
-    const data = JSON.parse(datauser);
-    this.pseudo = data.user.pseudo;
+    console.log(this.datauser);
+    
+    this.pseudo = this.datauser.user.pseudo;
     const dataForm = this.announceForm.value;
-    dataForm.token = data.token;
-    dataForm.signature = data.signature;
+    dataForm.token = this.datauser.token;
+    dataForm.signature = this.datauser.signature;
     
     // this.customerService.getAds(dataForm, this.id).subscribe(
     //     response => {
@@ -250,11 +259,11 @@ export class OfferComponent implements OnInit {
   }
 
     listAnnonce(id:number){
-        const datauser: any = this.localStorage.get('data');
-        const data = JSON.parse(datauser);
+        console.log(this.datauser);
+        
         const dataForm = this.announceForm.value;
-        dataForm.token = data.token;
-        dataForm.signature = data.signature;
+        dataForm.token = this.datauser.token;
+        dataForm.signature = this.datauser.signature;
         this.customerService.getAds(dataForm, id).subscribe(
             response => {
                 console.log(response);
@@ -328,34 +337,39 @@ export class OfferComponent implements OnInit {
     }
 
     accepter(id:number){
-        const datauser:any = this.localStorage.get('data');
-        const data = JSON.parse(datauser);
         const dataInitTradeForm = this.initTradeForm.value
-        dataInitTradeForm.token = data.token;
-        dataInitTradeForm.signature = data.signature;
+        dataInitTradeForm.token = this.datauser.token;
+        dataInitTradeForm.signature = this.datauser.signature;
         dataInitTradeForm.adId = id;
         // console.log(dataInitTradeForm);
         this.customerService.initTrade(dataInitTradeForm).subscribe(
             response => {
-                console.log(response);
+                // console.log(response);
                 if (response.status === "SUCCESSFUL") {
-                    this.localStorage.set('tradeHash', response.tradeHash)
-                    this.localStorage.set('tradeId', response.tradeId)
-                    this.localStorage.set('step', response.step)
+
+                    this.localStorage.set('currentTrade', JSON.stringify(response))
+
+                    if (response.currentTrade.ad.sens == "V") {
+                        this.router.navigate(['/user/transaction/acheteur'])
+                    }
+                    else if (response.currentTrade.ad.sens == "A") {
+                        this.router.navigate(['/user/transaction/vendeur'])
+                        
+                    }
                     
-                    const webSocketUrl = environment.webSocketUrl + 'transaction/'+ response.tradeHash + '/';
-                    this.wsService.createObservableSocket(webSocketUrl).subscribe(
-                        data => {
-                            this.status = this.wsService.sendMessage({
-                            'token': data.token,
-                            'signature': data.signature,
-                            'tradeId': response.tradeId
-                            });
-                            console.log(this.status);
-                            ;
+                    // const webSocketUrl = environment.webSocketUrl + 'transaction/'+ response.tradeHash + '/';
+                    // this.wsService.createObservableSocket(webSocketUrl).subscribe(
+                    //     data => {
+                    //         this.status = this.wsService.sendMessage({
+                    //         'token': data.token,
+                    //         'signature': data.signature,
+                    //         'tradeId': response.tradeId
+                    //         });
+                    //         console.log(this.status);
+                    //         ;
                             
-                        } 
-                    )
+                    //     } 
+                    // )
                     
                         // data => {
                             

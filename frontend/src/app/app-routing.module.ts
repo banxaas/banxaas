@@ -65,13 +65,14 @@ const routes: Routes = [
         { path: 'historique_transactions', component: HistoryTradeComponent },
         { path: 'transaction', component: TransactionComponent,
             children: [
-              { path: 'achat', component: AchatComponent,
+              { path: 'acheteur', component: AchatComponent,
                   children: [
                     { path: 'acheteur', component: AchateurComponent },
+                    { path: 'acheteur', redirectTo:'user/transaction/acheteur' },
                     { path: 'vendeur', component: VendeurComponent }
                   ]
               },
-              { path: 'vente', component: VenteComponent,
+              { path: 'vendeur', component: VenteComponent,
                   children: [
                     { path: 'acheteur', component: Achateur1Component },
                     { path: 'vendeur', component: Vendeur1Component }

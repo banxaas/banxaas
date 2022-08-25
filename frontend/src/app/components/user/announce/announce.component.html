@@ -1,6 +1,6 @@
 <div class="flex relative flex-col items-center justify-center min-h-screen bg-[#F1F1F1] space-y-[2%]">
     <div class="lg:w-[20%] md:w-[30%] sm:w-[15%] md:w-1/6 absolute top-[3%]">
-        <button routerLink="/accueil">
+        <button routerLink="/connexion">
             <img src="../../../assets/logo_banxass_vert.png" />
         </button>
     </div>
@@ -19,7 +19,7 @@
             </div>
         </div>
     </div>
-    <form [formGroup]="announceForm" (ngSubmit)="addAnnounce()" class="lg:w-[80%] md:w-[90%] sm:w-[95%] flex  items-center justify-center">
+    <form [formGroup]="announceForm" (ngSubmit)="addAnnounce()" class="lg:w-[80%] md:w-[90%] sm:w-[99%] flex  items-center justify-center">
         <div class="lg:w-full shadow-lg flex flex-col items-center justify-center lg:p-5 md:p-3 sm:p-2">
             <div class="lg:w-[70%] md:w-[75%]  sm:w-[80%] lg:text-[12px] md:text-[10px] sm:text-[8px] items-center flex md:flex-row justify-center text-gray-400">
                 <div class="w-[19%] text-center"><label for="">Quantité à acheter</label></div>
@@ -37,21 +37,21 @@
                     </select>   
                 </div>
                 <div *ngIf="rangeHidden" class="lg:w-[16%] md:w-[20%] sm:w-[25%] absolute  lg:left-[19%]  md:left-[10%]  sm:left-[12%] flex flex-row sm:m-[10%]" id="dropdown">
-                    <input type="text" formControlName="quantityMin" value="" placeholder="Min" class="lg:w-[50%] md:w-[50px] sm:w-[20px] sm:text-[10px]  border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
-                    <input type="text" formControlName="quantityMax" value="" placeholder="Max" class="lg:w-[50%] md:w-[50px] sm:w-[20px] sm:text-[10px] border border-green-400 rounded-r-lg focus:outline-none focus:ring-1 focus:ring-green-design">
+                    <input type="text" formControlName="quantityMin" value="" placeholder="Min" class="px-1 py-0.55 lg:w-[50%] md:w-[50px] sm:w-[20px] sm:text-[10px]  border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
+                    <input type="text" formControlName="quantityMax" value="" placeholder="Max" class="px-1 py-0.55 lg:w-[50%] md:w-[50px] sm:w-[20px] sm:text-[10px] border border-green-400 rounded-r-lg focus:outline-none focus:ring-1 focus:ring-green-design">
                     <div class="lg:ml-5 sm:ml-2">
-                        <input type="text" formControlName="amountMin" value="" placeholder="Min" class="lg:w-[50%] md:w-[50px] sm:w-[20px] sm:text-[10px] border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
-                        <input type="text" formControlName="amountMax" value="" placeholder="Max" class="lg:w-[50%] md:w-[50px] sm:w-[20px] sm:text-[10px]  border border-green-400 rounded-r-lg focus:outline-none focus:ring-1 focus:ring-green-design">
+                        <input type="text" formControlName="amountMin" value="" placeholder="Min" class="px-1 py-0.55 lg:w-[50%] md:w-[50px] sm:w-[20px] sm:text-[10px] border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
+                        <input type="text" formControlName="amountMax" value="" placeholder="Max" class="px-1 py-0.55 lg:w-[50%] md:w-[50px] sm:w-[20px] sm:text-[10px]  border border-green-400 rounded-r-lg focus:outline-none focus:ring-1 focus:ring-green-design">
                     </div>
                 </div>
                 <div *ngIf="fixeHidden" class="lg:w-[16%] md:w-[20%] sm:w-[25%] absolute lg:left-[19%]  md:left-[10%]  sm:left-[12%] flex flex-row sm:m-[10%]" id="dropdown">
-                    <input type="text" formControlName="quantityFixe" value="" placeholder="Fixe" class="lg:w-[50%] md:w-[50px] sm:w-[40%] sm:text-[10px]  rounded-r-lg border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
+                    <input type="text" formControlName="quantityFixe" value="" placeholder="Fixe" class="px-1 py-0.55 lg:w-[50%] md:w-[50px] sm:w-[40%] sm:text-[10px]  rounded-r-lg border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
                     <div class="ml-5 sm:ml-2 lg:w-[50%] md:w-[50px] sm:w-[40%]">
-                        <input type="text" formControlName="amountFixe" value="" placeholder="Fixe" class="w-full sm:text-[10px] rounded-r-lg border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
+                        <input type="text" formControlName="amountFixe" value="" placeholder="Fixe" class="px-1 py-0.55 w-full sm:text-[10px] rounded-r-lg border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
                     </div>
                 </div>
                 <div class="w-[8%] absolute">
-                    <input type="number" formControlName="marge" value="" placeholder="-10%" class="w-full text-center  rounded border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
+                    <input type="number" formControlName="marge" value="" placeholder="-10%" class="px-1 py-0.55 w-full text-center  rounded border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
                 </div>
                 <div class="w-[7%] absolute right-[35%]">
                     
@@ -69,9 +69,9 @@
                     <select formControlName="provider" id="" class="w-full  lg:text-[12px] md:text-[10px] sm:text-[6px] rounded px-2 py-2 border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
                         <!-- <option value=Money"" >Select a Value</option> -->
                         <optgroup *ngFor="let paiement of datas">
-                            <option *ngIf="paiement.name === 'OM'" value="{{paiement.name}}">Orange Money</option>
-                            <option *ngIf="paiement.name === 'WAVE'" value="{{paiement.name}}">Wave</option>
-                            <option *ngIf="paiement.name === 'FREE'" value="{{paiement.name}}">Free Money</option>
+                            <option *ngIf="paiement.name === 'OM'" value="{{paiement.id}}">Orange Money</option>
+                            <option *ngIf="paiement.name === 'WAVE'" value="{{paiement.id}}">Wave</option>
+                            <option *ngIf="paiement.name === 'FREE'" value="{{paiement.id}}">Free Money</option>
                         </optgroup>
                         <!-- <option value="WAVE" >Wave</option> -->
                     </select>

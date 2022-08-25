@@ -104,25 +104,25 @@ export class ConnexionComponent implements OnInit {
 
                   if (data.user.pseudo == data.user.currentTrade[0].ad.user.pseudo && data.user.currentTrade[0].ad.sens == 'V') {
 
-                    this.router.navigate(['user/transaction/achat/vendeur']);
+                    this.router.navigate(['user/transaction/vendeur']);
 
                   }
 
                   if (data.user.pseudo == data.user.currentTrade[0].trader.pseudo && data.user.currentTrade[0].ad.sens == 'V') {
 
-                    this.router.navigate(['user/transaction/achat/acheteur']);
+                    this.router.navigate(['user/transaction/acheteur']);
 
                   }
                   
                   if (data.user.pseudo == data.user.currentTrade[0].trader.pseudo && data.user.currentTrade[0].ad.sens == 'A') {
 
-                    this.router.navigate(['user/transaction/vente/vendeur']);
+                    this.router.navigate(['user/transaction/vendeur']);
 
                   }
                   
                   if (data.user.pseudo == data.user.currentTrade[0].ad.user.pseudo && data.user.currentTrade[0].ad.sens == 'A') {
 
-                    this.router.navigate(['user/transaction/vente/acheteur']);
+                    this.router.navigate(['user/transaction/acheteur']);
 
                   }
                 }

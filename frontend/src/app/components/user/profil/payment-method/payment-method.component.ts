@@ -33,6 +33,8 @@ export class PaymentMethodComponent implements OnInit {
   datas: any
   errorMessage: any;
   updateSubscription: any;
+  dataPaymentMethod: any;
+  datauser: any;
 
   constructor(
     private localStorage: LocalStorageService,
@@ -43,27 +45,38 @@ export class PaymentMethodComponent implements OnInit {
 
   ngOnInit(): void {
 
+    
+    this.localStorage.get('data').subscribe(
+      data => {
+        this.datauser = JSON.parse(data)
+
+      }
+    );
+
     this.updateSubscription = interval(500).subscribe(
       (val) => {
         
-        const datauser: any = this.localStorage.get('paymentMethods');
-        let data = JSON.parse(datauser);
-        
+        this.localStorage.get('paymentMethods').subscribe(
+          data => {
+            this.dataPaymentMethod = JSON.parse(data)
+
+          }
+        );
 
 
-        if (data.length == 0) {
+        if (this.dataPaymentMethod .length == 0) {
 
           this.fieldActive = false
         }
-        if (data.length > 0) {
-          this.datas = data
+        if (this.dataPaymentMethod .length > 0) {
+          this.datas = this.dataPaymentMethod 
           this.fieldActive = true
         }
       }
 
-);
+    );
     this.primengConfig.ripple = true;
-  }
+}
   updateStats() {
     throw new Error('Method not implemented.');
   }
@@ -80,19 +93,17 @@ export class PaymentMethodComponent implements OnInit {
   setPaymentMethod() {
 
 
-    const datauser: any = this.localStorage.get('data');
-    const data = JSON.parse(datauser);
     const dataForm = this.paymentForm.value;
-    dataForm.token = data.token;
-    dataForm.signature = data.signature;
+    dataForm.token = this.datauser.token;
+    dataForm.signature = this.datauser.signature;
     this.customerService.addPaymentMethod(dataForm).subscribe(
       response => {
         console.log(dataForm);
         console.log(response);
         const status = response.status
         if (status === "SUCCESSFUL") {
-          const payment: any = this.localStorage.get('paymentMethods')
-          let method = JSON.parse(payment)
+          // const payment: any = this.localStorage.get('paymentMethods')
+          let method = this.dataPaymentMethod
 
           method.push(response.paymentMethod)
           console.log(method);
@@ -111,11 +122,10 @@ export class PaymentMethodComponent implements OnInit {
   }
 
   deletePayment(id: number) {
-    const datauser: any = this.localStorage.get('data');
-    const data = JSON.parse(datauser);
+
     const dataForm = this.deletePaymentForm.value;
-    dataForm.token = data.token;
-    dataForm.signature = data.signature;
+    dataForm.token = this.datauser.token;
+    dataForm.signature = this.datauser.signature;
     dataForm.id = id;
 
 
@@ -128,8 +138,8 @@ export class PaymentMethodComponent implements OnInit {
         const status = response.status
         if (status === "SUCCESSFUL") {
           
-          const payment: any = this.localStorage.get('paymentMethods')
-          let method = JSON.parse(payment)
+          // const payment: any = this.localStorage.get('paymentMethods')
+          let method = this.dataPaymentMethod
           method = method.filter((element: any) => element.id != dataForm.id);
           this.localStorage.set('paymentMethods', JSON.stringify(method));
 

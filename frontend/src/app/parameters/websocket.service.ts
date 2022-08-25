@@ -4,40 +4,37 @@ import { LocalStorageService } from './local-storage.service';
 
 @Injectable()
 export class WebsocketService {
+  datauser: any;
+  tradeId: any;
+  trade: any;
 
 
   constructor(
     private localStorage: LocalStorageService
   ) {
-    
+      this.localStorage.get('data').subscribe(
+        data => {
+          this.datauser = JSON.parse(data)
+          this.trade = this.datauser.user.currentTrade[0]
+        }
+      )
+      this.localStorage.get('currentTrade').subscribe(
+        data => {
+          if (data != null) {
+            this.trade = JSON.parse(data)
+            this.trade = data.currentTrade
+          }
+        }
+      )
   }
   declare ws: WebSocket;
   valeur: any[] = [];
-  // socketIsOpen = 1;
-
-  // createObservableSocket(url: string, message: any): Observable<any> {
-  //    this.ws = new WebSocket(url);
-  //   return new Observable(
-  //      observer => {
-
-  //       this.ws.onmessage = (event) => observer.next(event.data);
-
-  //       this.ws.onerror = (event) => observer.error(event);
-
-  //       if (this.ws.readyState === 0) {
-  //         this.ws.send(JSON.stringify(message))
-  //       }
-  //       this.ws.onclose = (event) => observer.complete();
-        
-  //       return () =>
-  //           this.ws.close(1000, "The user disthis.wsected");
-  //      }
-  //   );
-  // }
 
 
 
   createObservableSocket(url: string): Observable<any> {
+    console.log(this.datauser);
+    
     return new Observable(
       (subscriber: Subscriber<WebSocket>): TeardownLogic => {
         this.ws = new WebSocket(url);
@@ -46,9 +43,9 @@ export class WebsocketService {
           // subscriber.complete();
           this.ws.send(JSON.stringify(
             {
-              'token': this.localStorage.get('token'),
-              'tradeId': this.localStorage.get('tradeId'),
-              'signature': this.localStorage.get('signature')
+              'token': this.datauser.token,
+              'signature': this.datauser.signature,
+              'tradeId': this.trade.id
             }
           ))
         };
@@ -81,6 +78,12 @@ export class WebsocketService {
     } else {
       return 'Message was not sent - the socket is closed';
      }
+  }
+
+  closeSocket(){  
+    console.log('testeuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuur');
+    
+    this.ws.close = e => {console.log(e)}
   }
 
 

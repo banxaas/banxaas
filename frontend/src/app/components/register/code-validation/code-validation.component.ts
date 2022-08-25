@@ -34,14 +34,16 @@ export class CodeValidationComponent implements OnInit {
   }
 
   validerCompte(){
-    const data = this.valide.value;
-    data.token = this.localStorage.get('token_validation'); 
-    data.code = Number.parseInt(data.code)
-    console.log(typeof(data.code));
-    console.log(data.code);
+    const dataForm = this.valide.value;
+    this.localStorage.get('token_validation').subscribe(
+      data => {
+          dataForm.token = data
+      }
+    )
+    dataForm.code = Number.parseInt(dataForm.code)
 
     
-    this.authService.validAccount(data.code, data.token).subscribe(
+    this.authService.validAccount(dataForm.code, dataForm.token).subscribe(
       response => {
         console.log(response);
         

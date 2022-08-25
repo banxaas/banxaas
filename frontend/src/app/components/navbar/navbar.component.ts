@@ -20,37 +20,38 @@ export class NavbarComponent implements OnInit {
   })
 
   pseudo!: string | null;
-  devise!: string | null;
+  devise: any;
 
   isListProfil: any;
   isListDevise: any;
+  datatauser: any
 
   constructor(
     private localStorage: LocalStorageService,
     private customerService: CustomerService,
-  ) { }
+  ) { 
+
+    this.localStorage.get('data').subscribe(
+      data => {
+        this.datatauser = JSON.parse(data);
+        this.pseudo = this.datatauser.user.pseudo;
+        this.devise = this.datatauser.user.currency;
+        this.token = this.datatauser.token
+      }
+    )
+
+  }
   
   ngOnInit(): void {
-    this.token = this.localStorage.get('token');
-    // console.log(this.token);
-    const datauser: any = this.localStorage.get('data');
-    const data = JSON.parse(datauser);
-    this.pseudo = data.user.pseudo;
-    const curr = this.localStorage.get('currency')
-    this.devise = curr
   }
+
   setCurrency() {
 
-    const datauser: any = this.localStorage.get('data');
-    const data = JSON.parse(datauser);
-    // const curr = this.localStorage.get('currency')
-    // this.currency = curr
-
     const dataCurrencyForm = this.currencyForm.value;
-    dataCurrencyForm.token = data.token;
-    dataCurrencyForm.signature = data.signature;
+    dataCurrencyForm.token = this.datatauser.token;
+    dataCurrencyForm.signature = this.datatauser.signature;
     console.log(dataCurrencyForm);
-  
+
     this.customerService.setUserAccount(dataCurrencyForm).subscribe(
       response => {
         console.log(response);
@@ -58,8 +59,11 @@ export class NavbarComponent implements OnInit {
         const status = response.status
         if (status === "SUCCESSFUL") {
           this.localStorage.set('currency', dataCurrencyForm.currency)
-          const curr = this.localStorage.get('currency')
-          this.devise = curr
+          this.localStorage.get('currency').subscribe(
+            data => {
+              this.devise = data;
+            }
+          )
         }
       },
       error => {
@@ -67,9 +71,9 @@ export class NavbarComponent implements OnInit {
 
       }
     )
-  
-  
-    }
+
+
   }
+}
 
 

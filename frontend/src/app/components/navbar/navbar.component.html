@@ -4,27 +4,27 @@
           <img src="../../../assets/logo.png" class="w-full md:w-[50%] align-items-right max-h-full" alt="Flowbite Logo" />
           <!-- <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span> -->
       </a>
-      <button data-collapse-toggle="mobile-menu" type="button" class=" items-center p-2 ml-3 text-sm text-white rounded-lg md:hidden hover:bg-white focus:outline-none focus:ring-2 focus:ring-white-200 dark:text-white  dark:hover:bg-white-700 dark:focus:ring-white-600" aria-controls="mobile-menu" aria-expanded="false">
+      <button data-collapse-toggle="mobile-menu" type="button" class=" items-center p-2 ml-3 text-sm text-white rounded-lg md:hidden hover:bg-green-design focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-white  dark:hover:bg-white-700 dark:focus:ring-white-600" aria-controls="mobile-menu" aria-expanded="false">
         <span class="sr-only">Menu</span>
         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
         <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
       </button>
-      <div class="hidden  w-full md:block md:w-[75%]  flex justify-center" id="mobile-menu">
-        <ul class="flex flex-col mt-4 md:flex-row md:space-x-4 lg:space-x-[10%] md:mt-0 md:text-sm lg:ml-[0%] md:font-medium">
-          <li class="flex md:justify-center lg:w-[40%]">
-            <div class="items-center md:justify-center sm:ml-[100%] md:ml-0 mt-5 md:mt-0 md:space-y-[0%] flex sm:flex-col sm:space-y-[5%] md:flex-row w-full md:w-[100%] space-x-[20%] lg:flex">
+      <div class="hidden md:block w-full md:w-[75%]" id="mobile-menu">
+        <ul class="flex flex-col md:flex-row md:space-x-4 lg:space-x-[10%] md:mt-0 md:text-sm lg:ml-[0%] md:font-medium ">
+          <li class="flex md:justify-center lg:w-[50%] md:w-[40%]">
+            <div class="items-center md:justify-center sm:ml-[75%] md:ml-0 md:mt-0  flex sm:flex-col md:flex-row w-full md:w-[100%] space-x-[20%] lg:flex ">
               <button routerLink="/documentation" class="text-white sm:text-[10px] md:text-[14px] lg:text-[18px]">Documentation</button>
-              <button routerLink="/aide_et_support" class="text-white sm:text-[10px] md:text-[14px] lg:text-[18px]" >Aide</button>
+              <button routerLink="/aide_et_support" class="text-white sm:text-[10px] md:text-[14px] lg:text-[18px] sm:mt-4 md:mt-0" >Aide</button>
               <button routerLink="/aide_et_support" class="text-white sm:text-[10px] md:text-[14px] lg:text-[16px]" >&nbsp;</button>
               <button routerLink="/aide_et_support" class="text-white sm:text-[10px] md:text-[14px] lg:text-[16px]" >&nbsp;</button>
             </div>
           </li>
-          <li class="flex lg:w-[50%]">
-            <div class="lex sm:flex-col sm:ml-[100%] md:ml-0 sm:space-y-[10%] md:space-y-[0%] md:flex-row md:flex-row w-full mt-5 md:mt-0 md:w-full  items-center space-x-[5%]">
-              <button class="px-4 py-2 text-white sm:text-[10px] md:text-[12px] lg:text-[16px] bg-green-design rounded-3xl border-2 mx-5 font-bold hover:text-green-800 hover:bg-white"  routerLink="/connexion">
+          <li class="flex lg:w-[50%] md:w-[60%]">
+            <div class="flex sm:flex-col  lg:w-[80%] md:w-full sm:ml-[75%] ml-[50%] md:ml-[5%]  md:flex-row md:mt-0  items-center space-x-[5%]">
+              <button class="px-4 py-2 text-white sm:text-[10px] md:text-[12px] lg:text-[16px] bg-green-design rounded-3xl border-2 lg:mx-5 md:mx-5 sm:mx-0 font-bold hover:text-green-800 hover:bg-white "  routerLink="/connexion">
                 Se Connecter
               </button>
-              <button class="px-4 py-2 text-green-design sm:text-[10px] md:text-[12px] lg:text-[16px] rounded-3xl bg-white  border-2 font-bold hover:text-white hover:bg-green-800" routerLink="/register">
+              <button class="px-4 py-2 text-green-design sm:text-[10px] md:text-[12px] lg:text-[16px] rounded-3xl bg-white  border-2 font-bold hover:text-white hover:bg-green-800 sm:mt-4 sm:mb-1 md:mt-0 md:mb-0" routerLink="/register">
                 Créer un compte
               </button>
             </div>
@@ -42,22 +42,22 @@
           <img src="../../../assets/logo.png" class="w-full md:w-[50%] lg:ml-[25%] align-items-right max-h-full" alt="Flowbite Logo" />
           <!-- <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span> -->
       </a>
-      <button data-collapse-toggle="mobile-menu" type="button" class=" items-center p-2 ml-3 text-sm text-white rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white-200 dark:text-white  dark:hover:bg-gray-700 dark:focus:ring-white-600" aria-controls="mobile-menu" aria-expanded="false">
+      <button data-collapse-toggle="mobile-menu" type="button" class=" items-center p-2 ml-3 text-sm text-white rounded-lg md:hidden hover:bg-green-design focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-white  dark:hover:bg-white-700 dark:focus:ring-white-600" aria-controls="mobile-menu" aria-expanded="false">
         <span class="sr-only">Menu</span>
         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
         <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
       </button>
       <div class="hidden  w-full md:block md:w-[75%]" id="mobile-menu" >
         <ul class="flex flex-col mt-4 md:flex-row md:space-x-2 justify-center md:mt-0 md:text-sm md:font-medium">
-          <li class="flex md:justify-center w-[35%]">
-            <div class="items-center md:justify-center sm:ml-[60%] md:ml-0 mt-5 md:mt-0 md:space-y-[0%] md:mr-[30%] lg:mr-[0%] sm:mr-[0%] flex sm:flex-col sm:space-y-[5%] md:flex-row w-full md:w-[100%] space-x-8 lg:flex">
+          <li class="flex md:justify-center lg:w-[35%] md:w-[30%]">
+            <div class="items-center md:justify-center sm:ml-[75%] md:ml-0 mt-5 md:mt-0 md:space-y-[0%] md:mr-[30%] lg:mr-[0%] sm:mr-[0%] flex sm:flex-col sm:space-y-[5%] md:flex-row w-full md:w-[100%] space-x-8 lg:flex">
               <button class="text-white sm:text-[10px] md:text-[14px] lg:text-[16px]" routerLink="historique_transactions">Historique des transactions</button>
               <button class="text-white sm:text-[10px] md:text-[14px] lg:text-[16px]" routerLink="/documentation">Documentation</button>
               <button class="text-white sm:text-[10px] md:text-[14px] lg:text-[16px]" routerLink="/aide_et_support" >Aide</button>
             </div>
           </li>
-          <li class="flex justify-center w-[20%] lg:relative left-[2%]">
-            <div class="flex sm:flex-col sm:ml-[60%] md:ml-0 sm:space-y-[10%] md:space-y-[0%] md:flex-row md:flex-row w-full justify-center mt-5 md:mt-0 md:w-[100%] items-center space-x-2">
+          <li class="flex justify-center lg:w-[20%] md:w-[20%] lg:relative left-[2%]">
+            <div class="flex sm:flex-col sm:ml-[75%] md:ml-0 sm:space-y-[10%] md:space-y-[0%] md:flex-row md:flex-row w-full justify-center mt-5 md:mt-0 md:w-[100%] items-center space-x-2">
               <!-- <button class="px-4 py-2 text-white sm:text-[10px] md:text-[12px] lg:text-[14px] bg-green-design rounded-3xl border-2 mx-5 font-bold hover:text-green-800 hover:bg-white"  routerLink="/acheter">
                 Acheter du BTC
               </button> -->
@@ -66,13 +66,13 @@
               </button>
             </div>
           </li>
-          <li class="flex w-[30%] lg:relative">
-            <div class="mt-5 sm:mt-5 md:mt-0 sm:ml-[45%] md:ml-0 sm:space-y-[7%] md:space-y-[0%] lg:w-full md:w-[100%] flex sm:flex-col  md:flex-row justify-center items-center">
+          <li class="flex lg:w-[30%] md:w-[35%] lg:relative">
+            <div class="mt-5 sm:mt-5 md:mt-0 sm:ml-[75%] md:ml-0 sm:space-y-[7%] md:space-y-[0%] lg:w-full md:w-[100%] flex sm:flex-col  md:flex-row justify-center items-center">
                 <div class="sm:w-[60%] lg:w-[20%] md:w-[25%] justify-center flex">
                     <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-full w-[50%]" alt="Avatar"/>
                 </div>
                 <div class="lg:w-[70%] ml-0 flex sm:flex-col md:flex-row justify-around">
-                    <div class="md:w-[50%] lg:w-[35%] md:mx-2 lg:mx-5 mt-5 lg:ml-3  md:ml-2">
+                    <div class="md:w-[50%] lg:w-[35%] md:mx-2 lg:mx-5 lg:mt-5 md:mt-5 sm:mt-1 lg:ml-3  md:ml-2">
                         <div (click)="isListProfil = !isListProfil " class="p-3 rounded bg-green-design text-link leading-none text-white flex items-center justify-between cursor-pointer" onclick="dropdownHandler()">
                             {{pseudo}}
                             <div class="mx-2">

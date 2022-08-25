@@ -67,7 +67,6 @@ export class VendeurComponent implements OnInit, OnDestroy {
     private customerService : CustomerService,
     private wsService: WebsocketService,
     private router: Router
-    // private _clipboardService: ClipboardService
   ) { 
 
   }

@@ -61,6 +61,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { VendeurComponent } from './components/user/transaction/achat/vendeur/vendeur.component';
 import { Vendeur1Component } from './components/user/transaction/vente/vendeur1/vendeur1.component';
 import { WebsocketService } from './parameters/websocket.service';
+import { ClipboardModule } from 'ngx-clipboard';
 
 
 @NgModule({
@@ -125,6 +126,7 @@ import { WebsocketService } from './parameters/websocket.service';
     ProgressBarModule,
     ProgressSpinnerModule,
     TooltipModule,
+    ClipboardModule,
     NgxMaskModule.forRoot()
   ],
   providers: [

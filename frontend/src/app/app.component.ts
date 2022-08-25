@@ -31,7 +31,7 @@ export class AppComponent {
  
     this.timeoutId = setTimeout(
  
-      () => this.router.navigate(['accueil']), 900000
+      () => this.router.navigate(['connexion']), 900000
     );
  
  

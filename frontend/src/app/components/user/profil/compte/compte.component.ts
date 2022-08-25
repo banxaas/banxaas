@@ -27,6 +27,7 @@ export class CompteComponent implements OnInit {
     phone: new FormControl()
   })
   hidden!: boolean;
+  datauser: any;
 
   constructor(
     private localStorage: LocalStorageService,
@@ -43,15 +44,19 @@ export class CompteComponent implements OnInit {
   }
   ngOnInit(): void {
  
-    const datauser:any = this.localStorage.get('data');
-    const data = JSON.parse(datauser);
-    this.pseudo = data.user.pseudo;
+    this.localStorage.get('data').subscribe(
+      data => {
+        this.datauser = JSON.parse(data)
+        this.pseudo = this.datauser.user.pseudo;
 
-    if (data.user.phone == null) {
+      }
+    );
+
+    if (this.datauser .user.phone == null) {
       this.fieldEmail = true
       this.fieldPhone = false
     }
-    if (data.user.email == null) {
+    if (this.datauser .user.email == null) {
       this.fieldPhone = true
       this.fieldEmail = false
     }
@@ -66,13 +71,17 @@ export class CompteComponent implements OnInit {
     this.hidden = false;
   }
   setUser(){
-    const datauser:any = this.localStorage.get('data');
-    const data = JSON.parse(datauser);
-    console.log(data);
+    this.localStorage.get('data').subscribe(
+      data => {
+        this.datauser = JSON.parse(data)
+        this.pseudo = this.datauser.user.pseudo;
+
+      }
+    );
     
     const dataForm = this.formCompte.value;
-    dataForm.token = data.token;
-    dataForm.signature = data.signature;
+    dataForm.token = this.datauser.token;
+    dataForm.signature = this.datauser.signature;
     
     if (dataForm.pseudo == null) {
       delete dataForm.pseudo
