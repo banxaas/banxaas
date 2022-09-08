@@ -275,13 +275,13 @@ export class OfferComponent implements OnInit {
                     if (element.status === 'I') {
                         this.customers.push(element)
                     }
-                    if (element.user.seniority < 86400) {
-                        this.seniority = 'Aujourd\'hui'
-                    }
-                    else {
-                        this.seniority = Math.trunc(element.user.seniority / 86400) + ' jour(s)'
+                    // if (element.user.seniority < 86400) {
+                    //     this.seniority = 'Aujourd\'hui'
+                    // }
+                    // else {
+                    //     this.seniority = Math.trunc(element.user.seniority / 86400) + ' jour(s)'
         
-                    }
+                    // }
                     if (element.quantityType==="R") {
                         this.range_quantity.push([Number(element.quantityMin),Number(element.quantityMax)])
                     }else {

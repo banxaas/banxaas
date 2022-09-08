@@ -178,8 +178,8 @@
                         <button pButton type="button" class="p-button-secondary" icon="pi pi-cog"></button>
                     </td> -->
                     <td>
-                      <span *ngIf="seniority" class="p-column-title">Anciennete</span>
-                      {{seniority}} 
+                      <span class="p-column-title">Anciennete</span>
+                      {{customer.user.seniority}} 
                   </td>
                   <td style="text-align: center">
                       <button (click)="accepter(customer.id)" type="button"  class="text-green-600 px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-600 hover:text-white hover:bg-green-600">Accepter</button>
