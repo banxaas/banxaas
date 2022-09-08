@@ -7,8 +7,8 @@ from api.externe.OrangeSmsApiToken import verifyExistingToken
 def bdk(commande):
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    host='ec2-35-169-128-194.compute-1.amazonaws.com'
-    username='ubuntu'
+    host=os.getenv("BACKEND_AWS_HOSTNAME")
+    username=os.getenv("BACKEND_AWS_USER")
     key_filename= "/backend/api/repository/bdkserver.pem" #"bdkserver.pem"
     ssh.connect(host, username=username, key_filename=key_filename)
     stdin, stdout, stderr = ssh.exec_command(commande)
