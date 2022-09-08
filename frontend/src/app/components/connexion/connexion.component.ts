@@ -37,26 +37,6 @@ export class ConnexionComponent implements OnInit {
   get formControls() {
     return this.signin.controls;
   }
-  // Li La yokou pour que à chaque fois nga am motif reload ça fait un self callback
-  // Le reste j'ai rien touché c'est juste le formatage
-  // J'espère que yakoumafi lou beuri
-  // verifyConnexion(token: string, signature: string) {
-  //   this.authService.uniqConnexion(token, signature).subscribe(
-  //     (reponse) => {
-  //     console.log(reponse);
-  //     if (reponse.status == true && reponse.motif === 'New Connexion') {
-  //       this.localStorage.remove('data');
-  //       this.router.navigate(['connexion']);
-  //     }
-
-  //     if (reponse.status == true && reponse.motif === 'Validate Code') {
-  //       this.router.navigate(['validation_code']);
-  //     }
-  //     if (reponse.status == true && reponse.motif === 'Reload') {
-  //       this.verifyConnexion(token, signature);
-  //     }
-  //   });
-  // }
 
   connected() {
     const dataFormSignin = this.signin.value;

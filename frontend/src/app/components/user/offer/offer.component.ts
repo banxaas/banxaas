@@ -349,10 +349,10 @@ export class OfferComponent implements OnInit {
 
                     this.localStorage.set('currentTrade', JSON.stringify(response))
 
-                    if (response.currentTrade.ad.sens == "V") {
+                    if (response.currentTrade.ad.sens === "V") {
                         this.router.navigate(['/user/transaction/acheteur'])
                     }
-                    else if (response.currentTrade.ad.sens == "A") {
+                    else {
                         this.router.navigate(['/user/transaction/vendeur'])
                         
                     }
