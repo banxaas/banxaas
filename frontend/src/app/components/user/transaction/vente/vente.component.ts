@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
@@ -15,7 +15,7 @@ import { ClipboardService } from 'ngx-clipboard';
   templateUrl: './vente.component.html',
   styleUrls: ['./vente.component.scss']
 })
-export class VenteComponent implements OnInit {
+export class VenteComponent implements OnInit, OnDestroy {
 
 
 

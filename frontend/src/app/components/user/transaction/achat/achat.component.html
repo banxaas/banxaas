@@ -122,8 +122,12 @@
             <div class="lg:text-subtitle w-full flex p-5 mt-10 justify-center">
               <input type="text" formControlName="adresse" placeholder="bc1qn0r06gtwlamffet49fph9jnm9u2e2ylx5ns7qc" id="" class="lg:w-[50%] md:w-[50%] sm:w-[80%] px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" />
             </div>
+            <div class="lg:text-subtitle w-full flex justify-center">
+                <div class="lg:w-[50%] md:w-[50%] sm:w-[80%] mt-2 text-red-600" *ngIf="formControls['adresse'].errors?.['required'] && formControls['adresse']?.touched">L'adresse est obligatoire</div>
+                <div class="lg:w-[50%] md:w-[50%] sm:w-[80%] mt-2 text-red-600" *ngIf="formControls['adresse'].errors?.['pattern']">L'adresse est invalide</div>
+            </div>
             <div class="w-full flex justify-center mt-10">
-              <button  (click)="step5()" class="w-[70%] text-green-design border-green-design px-4 py-2 md:px-8 md:py-4 lg:px-8 lg:py-4 sm:text-[10px] md:text-[12px] lg:text-[18px] uppercase rounded-3xl border-2 mx-5 font-bold">
+              <button  (click)="step5()" [hidden]="formControls['adresse'].invalid" class="w-[70%] text-green-design border-green-design px-4 py-2 md:px-8 md:py-4 lg:px-8 lg:py-4 sm:text-[10px] md:text-[12px] lg:text-[18px] uppercase rounded-3xl border-2 mx-5 font-bold">
                 confirmer l'adresse
               </button>
             </div>

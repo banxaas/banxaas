@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './achat.component.html',
   styleUrls: ['./achat.component.scss']
 })
-export class AchatComponent implements OnInit, AfterViewInit {
+export class AchatComponent implements OnInit, OnDestroy {
 
 
 
@@ -35,7 +35,7 @@ export class AchatComponent implements OnInit, AfterViewInit {
   diasbleBtnConfirmAdress: boolean = false
 
   formAdresseBtc = new FormGroup({
-    adresse: new FormControl('', [Validators.pattern('^([13]{1}[a-km-zA-HJ-NP-Z1-9]{26,33}|bc1[a-z0-9]{39,59})$')]),
+    adresse: new FormControl('', [Validators.required, Validators.pattern('^([13]{1}[a-km-zA-HJ-NP-Z1-9]{26,33}|bc1[a-z0-9]{39,59})$')]),
     transactionId: new FormControl(''),
     buyerWalletAdress: new FormControl('', [Validators.pattern('^([13]{1}[a-km-zA-HJ-NP-Z1-9]{26,33}|bc1[a-z0-9]{39,59})$')])
   })
@@ -388,10 +388,11 @@ export class AchatComponent implements OnInit, AfterViewInit {
       }, 2000);
   }
 
-  ngAfterViewInit() {
-
-
+  get formControls(){
+    
+    return this.formAdresseBtc.controls;
   }
+
 
   /* Fonction Minuterie */
   myTimer(){
