@@ -1,27 +1,46 @@
-import paramiko, json, os, http.client
+import paramiko, json, os, http.client, requests, ssl, smtplib, json5
 from pprint import pprint
-import smtplib
-import ssl
-from api.externe.OrangeSmsApiToken import verifyExistingToken
+#from api.externe.OrangeSmsApiToken import verifyExistingToken
 
 def bdk(commande):
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    host='ec2-35-169-128-194.compute-1.amazonaws.com'
-    username='ubuntu'
-    key_filename= "/backend/api/repository/bdkserver.pem" #"bdkserver.pem"
-    ssh.connect(host, username=username, key_filename=key_filename)
-    stdin, stdout, stderr = ssh.exec_command(commande)
-    output = stdout.read().decode("utf-8")
-    stdin.close()
+    ssh.connect('bdk', 22, 'root', 'root')
+    while True:
+        stdin, stdout, stderr = ssh.exec_command(commande)
+        output = stdout.read().decode("utf-8")
+        pprint(output)
+        error = stderr.read().decode("utf-8")
+        pprint(error)
+        if output != '':
+            break
     ssh.close()
     return output
 
 def bdk_get_balance():
-    return bdk('bdk_get_balance').replace("\n", "").replace("Wallet balance in SAT: ", "")
+    return json5.loads(bdk('bdk_get_balance').replace("\n", ""))['confirmed']
 
 def bdk_generate_address():
-    return bdk('bdk_generate_address').replace("\n", "").replace("Generated Address: ", "")
+    address = str(bdk('bdk_generate_address').replace("\n", ""))
+    return address
+
+def bdk_do_transaction(address,amount):
+    return bdk(f'bdk_do_transaction {address} {amount}')
+
+def mempool_check_transaction(txId, walletAddress, amount_expected):
+    url = f"https://mempool.space/api/tx/{txId}"
+    r = requests.get(url)
+    if r.headers['content-type'] == 'text/plain':
+        return [False, "Transaction Inexistante !"]
+    transaction_data = r.json()
+    vout = transaction_data['vout']
+    for out in vout:
+        if out['scriptpubkey_address'] == walletAddress:
+            print("Banxaas est présent dans la transaction !")
+            if amount_expected != int(out['value']):
+                return [False, "Le montant reçu n'est pas le montant attendu"]
+            return [True]
+    return [False, "Banxaas n'est pas présent dans cette transaction. Vérifier le txId"]
 
 notifSellerMail = f"""From: Yite Verification <{str(os.environ.get('MAIL_BANXAAS'))}>
 To: <sellerMail>
@@ -36,7 +55,7 @@ plus vite possible ! <br/>
 """.encode('utf-8')
 
 def sendNotificationByMailToSeller(sellerMail, sellerPseudo):
-    """Permet de notifier le vendeur d'une potentielle vente par mail"""
+    #Permet de notifier le vendeur d'une potentielle vente par mail#
 
     # Connexion au server
     server = smtplib.SMTP(str(os.environ.get('MAIL_SERVER_HOST')), int(os.environ.get('MAIL_SERVER_PORT')))
@@ -55,11 +74,11 @@ def sendNotificationByMailToSeller(sellerMail, sellerPseudo):
     server.quit()
 
 def sendNotificationByPhoneToSeller(sellerPhone, sellerPseudo):
-    """Permet d'envoyer un code de validation par phone"""
+    #Permet d'envoyer un code de validation par phone#
     messageSms = f"Bonjour {sellerPseudo}, nous vous informons qu'un certain utilisateur désire acheter vos bitcoins ! Nous vous invitons à rejoindre la transaction, le plus vite possible ! http://localhost:4300"
     token = verifyExistingToken()  # Vérification d'un token API ORANGE existant
     conn = http.client.HTTPSConnection("api.orange.com")  # Initialisation de la connexion
-    payload = json.dumps({
+    payloads = json.dumps({
         "outboundSMSMessageRequest": {
             "address": f"tel:+221{sellerPhone}",
             "senderAddress": "tel:+221774924730",
@@ -73,7 +92,7 @@ def sendNotificationByPhoneToSeller(sellerPhone, sellerPseudo):
         'Authorization': f"{token['token_type']} {token['access_token']}"
     }
     # Envoie du Code
-    conn.request("POST", "/smsmessaging/v1/outbound/tel%3A%2B221774924730/requests", payload, headers)
+    conn.request("POST", "/smsmessaging/v1/outbound/tel%3A%2B221774924730/requests", payloads, headers)
     res = conn.getresponse()
     data = res.read()
     pprint(data)
