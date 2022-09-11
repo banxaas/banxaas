@@ -5,7 +5,7 @@ from pprint import pprint
 def bdk(commande):
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect('bdk', 22, 'root', 'root')
+    ssh.connect(str(os.environ.get('BDK_HOST')), int(os.environ.get('BDK_PORT')), str(os.environ.get('BDK_USERNAME')), str(os.environ.get('BDK_PASSWORD')))
     while True:
         stdin, stdout, stderr = ssh.exec_command(commande)
         output = stdout.read().decode("utf-8")
@@ -51,7 +51,7 @@ Subject: Notification de vente
 Bonjour <b>PseudoVendeur</b>, nous vous informons qu'un certain utilisateur
 désire acheter vos bitcoins ! Nous vous invitons à rejoindre la transaction, le
 plus vite possible ! <br/>
-<i><a style="color:red" href="http://localhost:4200">Rejoindre la Transaction</a></i>
+<i><a style="color:red" href="http://localhost:4200/connexion">Rejoindre la Transaction</a></i>
 """.encode('utf-8')
 
 def sendNotificationByMailToSeller(sellerMail, sellerPseudo):

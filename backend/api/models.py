@@ -71,20 +71,31 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def disconnect(self):
         self.isAuthenticated = False
+    
+       
 
     def get_seniority(self):
         seniority = datetime.now(timezone.utc) - self.date_joined
-        seniority = seniority.total_seconds()
-        if seniority < 60:
-            seniority = "Moins d'une minute"
-        elif 60 < seniority < 3600:
-            seniority = str(int(seniority // 60)) + " minute(s)"
-        elif 3600 < seniority < 86400:
-            seniority = str(int(seniority // 3600)) + " heure(s)"
-        return seniority
+        seconds = int(seniority.total_seconds())
+        PERIODS = [
+        ('année',        60*60*24*365),
+        ('mois',       60*60*24*30),
+        ('jour',         60*60*24),
+        ('heure',        60*60),
+        ('minute',      60),
+        ('seconde',      1)
+        ]
 
+        strings=[]
+        for period_name, period_seconds in PERIODS:
+            if seconds > period_seconds:
+                period_value , seconds = divmod(seconds, period_seconds)
+                has_s = 's' if period_value > 1 else ''
+                strings.append("%s %s%s" % (period_value, period_name, has_s))
+
+        return ", ".join(strings)
     def get_payment_methods(self):
-        return [pm for pm in PaymentMethod.objects.filter(user=self)]
+        return list(PaymentMethod.objects.filter(user=self))
 
     def get_current_trade(self):
         liste_trade = [ct for ct in Trade.objects.filter(trader=self, status="C")] + [Trade.objects.get(ad=ad, status="C") for ad in Ad.objects.filter(user=self, status="C")]
@@ -132,7 +143,7 @@ class Ad(models.Model):
     provider = models.CharField(max_length=15, choices=PAYMENT_METHOD)
 
     def get_num_of_ads_available():
-        return int(Ad.objects.filter(status="I").count())
+        return Ad.objects.filter(status="I").count()
 
 
 class Trade(models.Model):

@@ -13,14 +13,10 @@ import { PaymentMethodComponent } from './components/user/profil/payment-method/
 import { ProfilComponent } from './components/user/profil/profil.component';
 import { SecurityComponent } from './components/user/profil/security/security.component';
 import { AchatComponent } from './components/user/transaction/achat/achat.component';
-import { AchateurComponent } from './components/user/transaction/achat/achateur/achateur.component';
-import { VendeurComponent } from './components/user/transaction/achat/vendeur/vendeur.component';
 import { TransactionComponent } from './components/user/transaction/transaction.component';
 import { VenteComponent } from './components/user/transaction/vente/vente.component';
 import { UserComponent } from './components/user/user.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
-import { Achateur1Component } from './components/user/transaction/vente/achateur1/achateur1.component';
-import { Vendeur1Component } from './components/user/transaction/vente/vendeur1/vendeur1.component';
 import { DocumentationComponent } from './components/documentation/documentation.component';
 import { IntroductionComponent } from './components/documentation/introduction/introduction.component';
 import { BitcoinComponent } from './components/documentation/bitcoin/bitcoin.component';
@@ -65,20 +61,8 @@ const routes: Routes = [
         { path: 'historique_transactions', component: HistoryTradeComponent },
         { path: 'transaction', component: TransactionComponent,
             children: [
-              { path: 'acheteur', component: AchatComponent,
-                  children: [
-                    { path: 'acheteur', component: AchateurComponent },
-                    { path: 'acheteur', redirectTo:'user/transaction/acheteur' },
-                    { path: 'vendeur', component: VendeurComponent }
-                  ]
-              },
-              { path: 'vendeur', component: VenteComponent,
-                  children: [
-                    { path: 'acheteur', component: Achateur1Component },
-                    { path: 'vendeur', component: Vendeur1Component }
-                  ]
-              
-              },
+              { path: 'acheteur', component: AchatComponent },
+              { path: 'vendeur', component: VenteComponent },
             ]
         },
         { path: 'offre', component: OfferComponent },

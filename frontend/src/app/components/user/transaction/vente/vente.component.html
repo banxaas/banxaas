@@ -65,19 +65,24 @@
                         l'adresse suivante, afin d'initialiser la transaction</label>
                 </div>
                 <div class="lg:text-subtitle w-full flex mt-6 justify-center">
-                    <input [readonly]="true" type="text" formControlName="adresse" id="" placeholder="bc1qn0r06gtwlamffet49fph9jnm9u2e2ylx5ns7qc"
-                        class="lg:w-[50%] md:w-[50%] sm:w-[80%] lg:text-link sm:text-[8px] md:text-[12px] px-4 py-2 mt-2 font-bold border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" />
+                    <input [readonly]="true" type="text" formControlName="adresse" id=""
+                        class="lg:w-[48%] md:w-[48%] sm:w-[80%] lg:text-link sm:text-[8px] md:text-[12px] px-4 py-2 mt-2 font-bold border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" />
+                    <!-- <div class="mt-2 text-red-600" *ngIf="formControls['adresse'].errors?.['required'] && formControls['adresse']?.touched">L'adresse  est obligatoire</div> -->
                     <button (click)="copyText()" class="relative lg:top-1 right-8 text-green-design">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
                             <path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
                         </svg>
                     </button>
-                    <div *ngIf="copy" class="relative lg:top-4">Copié</div>
+                    <div *ngIf="copy" class="w-[2%] relative lg:top-4">Copié</div>
                 </div>
                 <div class="lg:text-subtitle w-full flex mt-6 justify-center">
                     <input type="text" formControlName="txid" placeholder="TxID" id=""
-                        class="lg:w-[50%] md:w-[50%] sm:w-[80%] lg:text-link sm:text-[8px] md:text-[12px] px-4 py-2 mt-2 font-bold border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" />
+                        class="lg:w-[50%] md:w-[50%] sm:w-[80%] lg:text-link sm:text-[8px] md:text-[12px] px-4 py-2 mt-2 font-bold border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" />                        
+                </div>
+                <div class="lg:text-subtitle w-full flex justify-center">
+                    <div class="lg:w-[50%] md:w-[50%] sm:w-[80%] mt-2 text-red-600" *ngIf="formControls['txid'].errors?.['required'] && formControls['txid']?.touched">Le txid est obligatoire</div>
+                    <div class="lg:w-[50%] md:w-[50%] sm:w-[80%] mt-2 text-red-600" *ngIf="formControls['txid'].errors?.['pattern']">Le Txid est invalide</div>
                 </div>
             </form>
 
@@ -94,9 +99,10 @@
             </div>
             <div class="w-full flex justify-center mt-10">
                 <button
+                    [hidden]="formControls['txid'].invalid"
                     (click)="step2()"
                     class="w-[70%] text-green-500 border-green-500 px-4 py-2 md:px-8 md:py-4 lg:px-8 lg:py-4 sm:text-[10px] md:text-[12px] lg:text-[18px] uppercase rounded-3xl border-2 mx-5 font-bold">
-                    <button (click)="progressSpinner()">confirmer l'envoi</button> 
+                    <button (click)="progressSpinner()" >confirmer l'envoi</button> 
                 </button>
             </div>
             

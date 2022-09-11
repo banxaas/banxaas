@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
 import { CustomerService } from 'src/app/parameters/customerservice';
@@ -15,7 +15,7 @@ import { ClipboardService } from 'ngx-clipboard';
   templateUrl: './vente.component.html',
   styleUrls: ['./vente.component.scss']
 })
-export class VenteComponent implements OnInit, AfterViewInit {
+export class VenteComponent implements OnInit, OnDestroy {
 
 
 
@@ -38,9 +38,8 @@ export class VenteComponent implements OnInit, AfterViewInit {
   diasbleBtnConfirmAdress: boolean = false
 
   formAdresseBtc = new FormGroup({
-    adresse: new FormControl('bc1qn0r06gtwlamffet49fph9jnm9u2e2ylx5ns7qc'),
-    txid: new FormControl(''),
-    buyerWalletAdress: new FormControl('')
+    adresse: new FormControl('bc1qn0r06gtwlamffet49fph9jnm9u2e2ylx5ns7qc', [Validators.required, Validators.pattern('^([13]{1}[a-km-zA-HJ-NP-Z1-9]{26,33}|bc1[a-z0-9]{39,59})$')]),
+    txid: new FormControl('', [Validators.required, Validators.pattern('([A-Za-z0-9]){2,}')])
   })
   adresseBtc: boolean = false;
   close: boolean = false;
@@ -352,9 +351,10 @@ export class VenteComponent implements OnInit, AfterViewInit {
     
   }
 
-  ngAfterViewInit() {
-
-
+  
+  get formControls(){
+    
+    return this.formAdresseBtc.controls;
   }
 
     copyText() {
