@@ -44,6 +44,9 @@ services:
       - ./backend/requirements.txt:/backend/requirements.txt
     ports: 
       - ${GATEWAY_MAP_PORT}:${GATEWAY_SERVER_PORT}
+    environment:
+      BACKEND_URL: ${BACKEND_URL}
+
     depends_on:
       - redis
 
