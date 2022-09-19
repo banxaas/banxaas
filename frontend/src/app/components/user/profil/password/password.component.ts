@@ -47,6 +47,7 @@ export class PasswordComponent implements OnInit {
 
   submitted = false;
   hidden!: boolean;
+  datauser: any;
   constructor(
     private customerService : CustomerService,
     private localStorage : LocalStorageService,
@@ -88,12 +89,16 @@ export class PasswordComponent implements OnInit {
 
   setPassword(){
     
-      const datauser:any = this.localStorage.get('data');
-      const data = JSON.parse(datauser);
+    this.localStorage.get('data').subscribe(
+      data => {
+        this.datauser = JSON.parse(data)
+
+      }
+    );
    
       const dataFormPassword = this.passwordForm.value;
-      dataFormPassword.token = data.token;
-      dataFormPassword.signature = data.signature;
+      dataFormPassword.token = this.datauser.token;
+      dataFormPassword.signature = this.datauser.signature;
       delete dataFormPassword.confirmPassword;
       console.log(dataFormPassword);
       this.customerService.setUserAccount(dataFormPassword).subscribe(

@@ -1,1 +1,158 @@
+<div class="flex flex-row">
+
+    <!--Stepper Vertical-->
+    <div class="flex lg:mt-[5%] md:mt-[15%] sm:mt-[25%] ml-[5%] lg:ml-[9.5%] flex-col w-[20%]">
+      <!-- Notification -->
+      <div class="w-full flex justify-items-start completed">
+        <div class="w-full relative flex flex-row">
+          <div class="lg:mt-[10%] md:mt-[20%] sm:mt-[25%]  w-[50%] sm:text-[8px] md:text-[12px] lg:text-[18px]"><button ><b class="text-green-design" *ngIf="notif || fonds || adresseBtc || close">1. Notification</b></button></div>
+          <div class="line h-[100px] border border-green-design"></div>
+          <div class="w-[15px] h-[15px] mt-[100px] relative right-[8px] border bg-green-design rounded-full"><button >&nbsp;</button></div>
+  
+        </div>
+  
+      </div>
+  
+      <!-- Envoi des fonds -->
+  
+      <div class="w-full flex justify-items-start completed">
+        <div class="w-full relative flex flex-row">
+          <div class="lg:mt-[10%] md:mt-[20%] sm:mt-[25%]  w-[50%] sm:text-[8px] md:text-[12px] lg:text-[18px]"><button><b class="text-green-design" *ngIf="fonds || adresseBtc || close ">2. Envoi des fonds</b><span class="text-gray-400" *ngIf="!fonds && notif">2. Envoi des fonds</span></button></div>
+          <div  *ngIf="fonds || adresseBtc || close" class="line h-[100px] border border-green-design"></div>
+          <div  *ngIf="!fonds && notif " class="line h-[100px] border border-gray-300"></div>
+          <div *ngIf="fonds || adresseBtc || close" (click)="showAdresseBtc()" class="w-[15px] h-[15px] mt-[100px] relative right-[8px] border bg-green-design rounded-full"><button>&nbsp;</button></div>
+  
+        </div>
+  
+      </div>
+      <!-- Adresse de Bitcoin -->
+  
+      <div class="w-full flex justify-items-start  completed">
+        <div class="w-full relative flex flex-row">
+          <div class="lg:mt-[10%] md:mt-[20%] sm:mt-[25%]  w-[50%] sm:text-[8px] md:text-[12px] lg:text-[18px]"><button><b class="text-green-design" *ngIf="adresseBtc || close">3. Adresse Bitcoin</b><span class="text-gray-400" *ngIf="(!adresseBtc || fonds || notif) && !close">3. Adresse Bitcoin</span></button></div>
+          <div *ngIf="adresseBtc || close" class="line h-[100px] border border-green-design"></div>
+          <div  *ngIf="!adresseBtc && !close" class="line h-[100px] border border-gray-300"></div>
+          <div *ngIf="adresseBtc || close" class="w-[15px] h-[15px] mt-[100px] relative right-[8px] border bg-green-design rounded-full"><button>&nbsp;</button></div> 
+  
+        </div>
+  
+      </div>
+  
+      <!-- Cloture -->
+  
+      <div class="w-full flex justify-items-start completed">
+        <div class="w-full relative flex flex-row">
+          <div class="lg:mt-[10%] md:mt-[20%] sm:mt-[25%]  w-[50%] sm:text-[8px] md:text-[12px] lg:text-[18px]"><button><b class="text-green-design" *ngIf="close">4. Clôture</b><span class="text-gray-400" *ngIf="!close">4. Clôture</span></button></div>
+          <div *ngIf="close" class="line h-[100px] border border-green-design"></div>
+          <div *ngIf="!close " class="line h-[100px] border border-gray-300"></div>
+  
+        </div>
+  
+      </div>
+  
+    </div>
+  
+    <!--Page Content-->
+      <!--Section Notification-->
+      <div *ngIf="notif" class="w-[75%] flex flex-col min-h-screen">
+        <div class="lg:w-[90%] lg:mt-[10%] md:mt-[20%] sm:mt-[45%]  p-[5%]">
+          <p class="lg:text-link sm:text-[8px] md:text-[12px] pl-[10%] ">Bonjour <b>{{pseudoAcheteur}}</b><br>
+            Nous avons notifié <b>{{pseudoVendeur}}</b> de votre offre d'achat.<br>
+            Il a désormais <b>24h</b>pour accepter votre offre. Vous pouvez annuler votre offre jusqu'à ce qu'il accepte.
+          </p>
+  
+          <div class="lg:text-link sm:text-[8px] md:text-[12px] w-full flex p-5 mt-10 justify-center">
+            <p class="lg:w-[60%]">Il vous reste <b> {{idhours}}h :&nbsp; {{idMinutes}}minutes :&nbsp;  {{idSeconds}}secondes  </b>&nbsp; avant l'annulation automatique de l'offre</p>
+          </div>
+          <div class="lg:w-[40%] md:w-[30%] sm:w-[60%] lg:ml-[25%] md:ml-[25%] sm:ml-[17%] flex mt-5 justify-center">
+              <div class="w-full bg-gray-200 flex flex-col justify-center rounded-full dark:bg-gray-700">
+                  <div class="bg-green-design leading-none rounded-full lg:p-1 sm:p-0.5 text-center"  style="width: {{progress}}%">&nbsp;</div>
+                  <div *ngIf="progress<=53" class=" absolute left-[57%] lg:m-3 sm:m-0.5 text-center sm:text-[8px] md:text-[12px]">{{progress}}%</div>
+                  <div *ngIf="progress>53" class=" absolute left-[57%] lg:m-3 sm:m-0.5 text-center sm:text-[8px] md:text-[12px] text-white">{{progress}}%</div>
+              </div>
+          </div>
+          <div class="w-full flex justify-center mt-10">
+            <button class="w-[70%] text-red-500 border-red-500 px-4 py-2 md:px-8 md:py-4 lg:px-8 lg:py-4 sm:text-[10px] md:text-[12px] lg:text-[18px] uppercase rounded-3xl border-2 mx-5 font-bold">annuler
+              l'offre d'achat</button>
+          </div>
+        </div>
+      </div>
+  
+      <!--Section Envoi Fonds-->
+        <div *ngIf="fonds" class="w-[75%] flex flex-col min-h-screen">
+          <form [formGroup]="formAdresseBtc" class="w-full">
+            <div class="lg:w-[90%] lg:mt-[10%] md:mt-[20%] sm:mt-[45%]  p-[5%]">
+              <p class="lg:text-link sm:text-[8px] md:text-[12px] pl-[10%] ">
+                <b>{{pseudoVendeur}}</b> vient d'accepter votre offre d'achat.<br>
+                Merci de lui transférer les fonds convenus, selon le mode de paiement ci-dessous.
+              </p>
+      
+              <div class="lg:text-link sm:text-[8px] md:text-[12px] w-full flex p-5 mt-10 justify-center">
+                <p class="lg:w-[60%]">
+                  Méthode de paiement: <b>{{paymentMethod}}</b><br>
+                  Numéro de téléphone: <b>+221 77 123 45 67 A DEFINIR</b><br>
+                  ID Transaction: <input type="text" formControlName="transactionId" value="" class="lg:w-[50%] md:w-[50%] sm:w-[80%] px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" />
+                </p>
+              </div>
+              <div class="w-full flex justify-center mt-10">
+                <button (click)="step3()"  class="w-[70%] text-green-design border-green-design px-4 py-2 md:px-8 md:py-4 lg:px-8 lg:py-4 sm:text-[10px] md:text-[12px] lg:text-[18px] uppercase rounded-3xl border-2 mx-5 font-bold">
+                  <button (click)="progressSpinner()">confirmer l'envoi</button> 
+                </button>
+              </div>
+              
+              <div *ngIf="boolTextAttente" class="flex justify-center">
+                  
+                  <div class="sm:w-[75%] lg:w-[50%] mt-4 text-center text-red-600">Veuillez patienter que {{pseudoVendeur}} confirme la réception des fonds</div>
+                    <!-- <img src="../../../assets/banxaas_logo_animation.gif" class="" alt="banxaas_logo_animation" srcset=""> -->
+                    <!-- <p-progressSpinner></p-progressSpinner> -->
+                    <!-- <p-progressSpinner styleClass="custom-spinner" strokeWidth="2" fill="#F1F1F1" animationDuration=".5s"></p-progressSpinner> -->
+            </div>
+            </div>
+          </form>
+        </div>
+  
+      <!--Section Adresse BTC-->
+      <div *ngIf="adresseBtc" class="w-[75%] flex flex-col min-h-screen">
+        <div class="lg:w-[90%] lg:mt-[10%] md:mt-[20%] sm:mt-[45%]  p-[5%]">
+          <p class="lg:text-link sm:text-[8px] md:text-[12px] pl-[10%] ">
+            <b>{{pseudoVendeur}}</b> a confirmé la réception des fonds.<br>
+            Merci de communiquer une adresse bitcoin valide pour y recevoir les BTC achetés.
+          </p>
+          <form [formGroup]="formAdresseBtc" class="w-full">
+            <div class="lg:text-subtitle w-full flex p-5 mt-10 justify-center">
+              <input type="text" formControlName="adresse" placeholder="bc1qn0r06gtwlamffet49fph9jnm9u2e2ylx5ns7qc" id="" class="lg:w-[50%] md:w-[50%] sm:w-[80%] px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" />
+            </div>
+            <div class="lg:text-subtitle w-full flex justify-center">
+                <div class="lg:w-[50%] md:w-[50%] sm:w-[80%] mt-2 text-red-600" *ngIf="formControls['adresse'].errors?.['required'] && formControls['adresse']?.touched">L'adresse est obligatoire</div>
+                <div class="lg:w-[50%] md:w-[50%] sm:w-[80%] mt-2 text-red-600" *ngIf="formControls['adresse'].errors?.['pattern']">L'adresse est invalide</div>
+            </div>
+            <div class="w-full flex justify-center mt-10">
+              <button  (click)="step5()" [hidden]="formControls['adresse'].invalid" class="w-[70%] text-green-design border-green-design px-4 py-2 md:px-8 md:py-4 lg:px-8 lg:py-4 sm:text-[10px] md:text-[12px] lg:text-[18px] uppercase rounded-3xl border-2 mx-5 font-bold">
+                confirmer l'adresse
+              </button>
+            </div>
+            
+        </form>
+        </div>
+      </div>
+  
+      
+      <!--Section Cloture-->
+      <div *ngIf="close" class="w-[75%] flex flex-col min-h-screen">
+        
+        <div class="lg:w-[90%] lg:mt-[10%] md:mt-[20%] sm:mt-[45%]">
+          <div class="ml-[10%] w-[40%] ">
+              <img src="../../../../assets/3_.png" alt="">
+          </div>
+        </div>
+        <div class="lg:w-[90%] flex flex-col lg:text-link sm:text-[8px] md:text-[12px]">
+          <div class="pl-[10%] ml-[10%] w-[40%] ">
+            La transaction est désormais close.
+          </div>
+          <div class="pl-[10%] ml-[10%] w-[40%] ">
+            Merci à bientot <b>{{pseudoAcheteur}}</b>.
+          </div>
+        </div>
+      </div>
+  </div>
 <router-outlet></router-outlet>

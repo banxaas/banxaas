@@ -10,7 +10,7 @@ import { LocalStorageService } from 'src/app/parameters/local-storage.service';
 export class HomeComponent implements OnInit {
   pseudo!: string | null;
   rate: any
-
+  datatauser: any
   constructor(
     private localStorage: LocalStorageService,
     private customerService: CustomerService
@@ -19,10 +19,13 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     
     // this.pseudo = this.localStorage.get('user');
-    const datauser:any = this.localStorage.get('data');
-    const data = JSON.parse(datauser);
-    this.pseudo = data.user.pseudo;
-    console.log('test');
+    
+    this.localStorage.get('data').subscribe(
+      data => {
+        this.datatauser = JSON.parse(data);
+        this.pseudo = this.datatauser.user.pseudo;
+      }
+    )
     const cfa = new Intl.NumberFormat('fr-FR', {
       style: 'currency',
       currency: 'XOF',
@@ -32,7 +35,6 @@ export class HomeComponent implements OnInit {
     this.customerService.getRateBitcoin().subscribe(
       response => {
         this.rate = cfa.format(response.data.rate)
-        console.log(this.rate);
       }
     )
   }

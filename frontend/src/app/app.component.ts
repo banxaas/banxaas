@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { LocalStorageService } from './parameters/local-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,8 @@ export class AppComponent {
   userInactive: Subject<any> = new Subject();
 
   constructor(
-    private router: Router
+    private router: Router,
+    private localStorage: LocalStorageService
     ) {
  
     this.checkTimeOut();
@@ -29,7 +31,7 @@ export class AppComponent {
  
     this.timeoutId = setTimeout(
  
-      () => this.router.navigate(['accueil']), 900000
+      () => this.router.navigate(['connexion']), 900000
     );
  
  
@@ -41,7 +43,7 @@ export class AppComponent {
   checkUserActivity() {
  
     clearTimeout(this.timeoutId);
- 
+    
     this.checkTimeOut();
   }
 

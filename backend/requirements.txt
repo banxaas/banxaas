@@ -17,6 +17,7 @@ djangorestframework==3.13.1
 hyperlink==21.0.0
 idna==3.3
 incremental==21.3.0
+json5==0.9.10
 loguru==0.6.0
 mysqlclient==2.1.0
 paramiko==2.11.0

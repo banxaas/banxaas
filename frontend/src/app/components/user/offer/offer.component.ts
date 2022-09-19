@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Subscription } from 'rxjs';
@@ -18,7 +19,7 @@ import { environment } from 'src/environments/environment';
 })
 export class OfferComponent implements OnInit {
 
-  customers!: Customer[];
+  customers: Customer[] = [];
 
   selectedCustomers!: Customer[];
 
@@ -54,56 +55,64 @@ export class OfferComponent implements OnInit {
 
   })
 
-  @ViewChild('dt') table!: Table;
   
-  status: any
+    status: any
+    datauser: any;
 
   constructor(
     private customerService: CustomerService, 
     private primengConfig: PrimeNGConfig,
     private localStorage:LocalStorageService,
-    private wsService: WebsocketService,
+    private router: Router
     ) { 
         
+        this.localStorage.get('data').subscribe(
+            data => {
+            this.datauser = JSON.parse(data)
+    
+            }
+        );
     }
+    
+  @ViewChild('dt') table!: Table;
 
   ngOnInit(): void {
     
-    this.listAnnonce(1);
+    this.reset();
     this.range_quantity = [];
     this.range_amount = [];
     this.tabSeniority = [];
-    const datauser: any = this.localStorage.get('data');
-    const data = JSON.parse(datauser);
-    this.pseudo = data.user.pseudo;
-    const dataForm = this.announceForm.value;
-    dataForm.token = data.token;
-    dataForm.signature = data.signature;
+    console.log(this.datauser);
     
-    this.customerService.getAds(dataForm, this.id).subscribe(
-        response => {
-            this.customers = response;
-            response.forEach((element: any) => {
-                this.seniority = element.user.seniority;
-                this.tabSeniority.push(this.seniority)
-                if (element.quantityType==="R") {
-                    this.range_quantity.push([Number(element.quantityMin),Number(element.quantityMax)])
-                }else {
-                    this.range_quantity.push([Number((element.quantityFixe))])
-                } 
-                if (element.amountType==="R") {
-                    this.range_amount.push([Number(element.amountMin),Number(element.amountMax)])
-                }else {
-                    this.range_amount.push([Number(element.amountFixe)])
-                } 
+    this.pseudo = this.datauser.user.pseudo;
+    const dataForm = this.announceForm.value;
+    dataForm.token = this.datauser.token;
+    dataForm.signature = this.datauser.signature;
+    
+    // this.customerService.getAds(dataForm, this.id).subscribe(
+    //     response => {
+    //         this.customers = response;
+    //         response.forEach((element: any) => {
+    //             this.seniority = element.user.seniority;
+    //             this.tabSeniority.push(this.seniority)
+    //             if (element.quantityType==="R") {
+    //                 this.range_quantity.push([Number(element.quantityMin),Number(element.quantityMax)])
+    //             }else {
+    //                 this.range_quantity.push([Number((element.quantityFixe))])
+    //             } 
+    //             if (element.amountType==="R") {
+    //                 this.range_amount.push([Number(element.amountMin),Number(element.amountMax)])
+    //             }else {
+    //                 this.range_amount.push([Number(element.amountFixe)])
+    //             } 
                 
-            });
+    //         });
             
-            this.loading = false;
+    //         this.loading = false;
 
             
-        }
-    )
+    //     }
+    // )
     
     this.paiementMethode = [
         {name: "Orange", value: 'orange'},
@@ -250,38 +259,45 @@ export class OfferComponent implements OnInit {
   }
 
     listAnnonce(id:number){
-        const datauser: any = this.localStorage.get('data');
-        const data = JSON.parse(datauser);
+        console.log(this.datauser);
+        
         const dataForm = this.announceForm.value;
+        dataForm.token = this.datauser.token;
+        dataForm.signature = this.datauser.signature;
         this.customerService.getAds(dataForm, id).subscribe(
             response => {
-                this.customers = response;
+                console.log(response);
+                
+                // this.customers = response;
+                // console.log(this.customers);
+                
+                response.forEach((element: any) => {
+                    if (element.status === 'I') {
+                        this.customers.push(element)
+                    }
+                    // if (element.user.seniority < 86400) {
+                    //     this.seniority = 'Aujourd\'hui'
+                    // }
+                    // else {
+                    //     this.seniority = Math.trunc(element.user.seniority / 86400) + ' jour(s)'
+        
+                    // }
+                    if (element.quantityType==="R") {
+                        this.range_quantity.push([Number(element.quantityMin),Number(element.quantityMax)])
+                    }else {
+                        this.range_quantity.push([Number(element.quantityFixe)])
+                    } 
+                    if (element.amountType==="R") {
+                        this.range_amount.push([Number(element.amountMin),Number(element.amountMax)])
+                    }else {
+                        this.range_amount.push([Number(element.amountMixe)])
+                    } 
+                
+                });
                 console.log(this.customers);
                 
                 
-            response.forEach((element: any) => {
-                
-                if (element.user.seniority < 86400) {
-                    this.seniority = 'Aujourd\'hui'
-                }
-                else {
-                    this.seniority = Math.trunc(element.user.seniority / 86400) + ' jour(s)'
-    
-                }
-                if (element.quantityType==="R") {
-                    this.range_quantity.push([Number(element.quantityMin),Number(element.quantityMax)])
-                }else {
-                    this.range_quantity.push([Number(element.quantityFixe)])
-                } 
-                if (element.amountType==="R") {
-                    this.range_amount.push([Number(element.amountMin),Number(element.amountMax)])
-                }else {
-                    this.range_amount.push([Number(element.amountMixe)])
-                } 
-                
-            });
-            
-            this.loading = false;
+                this.loading = false;
                 
             }
         )
@@ -321,34 +337,39 @@ export class OfferComponent implements OnInit {
     }
 
     accepter(id:number){
-        const datauser:any = this.localStorage.get('data');
-        const data = JSON.parse(datauser);
         const dataInitTradeForm = this.initTradeForm.value
-        dataInitTradeForm.token = data.token;
-        dataInitTradeForm.signature = data.signature;
+        dataInitTradeForm.token = this.datauser.token;
+        dataInitTradeForm.signature = this.datauser.signature;
         dataInitTradeForm.adId = id;
         // console.log(dataInitTradeForm);
         this.customerService.initTrade(dataInitTradeForm).subscribe(
             response => {
-                console.log(response);
+                // console.log(response);
                 if (response.status === "SUCCESSFUL") {
-                    this.localStorage.set('tradeHash', response.tradeHash)
-                    this.localStorage.set('tradeId', response.tradeId)
-                    this.localStorage.set('step', response.step)
-                    let dataSocket= {
-                        'token': data.token,
-                        'signature': data.signature,
-                        'tradeId': response.tradeId
+
+                    this.localStorage.set('currentTrade', JSON.stringify(response))
+
+                    if (response.currentTrade.ad.sens === "V") {
+                        this.router.navigate(['/user/transaction/acheteur'])
                     }
-                    const webSocketUrl = environment.webSocketUrl + 'transaction/'+ response.tradeHash + '/';
-                    this.wsService.createObservableSocket(webSocketUrl).subscribe(
-                        data => {
-                            this.status = this.wsService.sendMessage(dataSocket);
-                            console.log(this.status);
-                            ;
+                    else {
+                        this.router.navigate(['/user/transaction/vendeur'])
+                        
+                    }
+                    
+                    // const webSocketUrl = environment.webSocketUrl + 'transaction/'+ response.tradeHash + '/';
+                    // this.wsService.createObservableSocket(webSocketUrl).subscribe(
+                    //     data => {
+                    //         this.status = this.wsService.sendMessage({
+                    //         'token': data.token,
+                    //         'signature': data.signature,
+                    //         'tradeId': response.tradeId
+                    //         });
+                    //         console.log(this.status);
+                    //         ;
                             
-                        } 
-                    )
+                    //     } 
+                    // )
                     
                         // data => {
                             

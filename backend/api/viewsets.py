@@ -3,6 +3,7 @@ import time
 import math
 import json
 from pprint import pprint
+from .permissions import IsAuthenticatedPermission
 from rest_framework import generics, mixins
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -80,7 +81,7 @@ class ConnexionViewset(APIView):
 
 
 class ConnexionRoomName(APIView):
-
+    permission_classes = [IsAuthenticatedPermission,]
     def post(self, request):
         """ Cette fonction permet de récupérer le chat room de l'utilisateur
             Méthode Autorisée: POST,
@@ -90,9 +91,7 @@ class ConnexionRoomName(APIView):
             }
         """
         try:
-            if not isAuthenticated(request.data['token'], request.data['signature']):
-                return Response({"status": "FAILED", 'message': "Vous devez vous connecter"})
-
+          
             id_user = User.objects.get(pseudo=jwt.decode(
                 request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub']).id
 
@@ -103,7 +102,7 @@ class ConnexionRoomName(APIView):
 
 
 class Disconnect(APIView):
-
+    permission_classes = [IsAuthenticatedPermission,]
     def post(self, request):
         """ Cette fonction permet de déconecter l'utilisateur
             Méthode Autorisée: POST,
@@ -114,9 +113,6 @@ class Disconnect(APIView):
 
         """
         try:
-            if not isAuthenticated(request.data['token'], request.data['signature']):
-                return Response({"status": "FAILED", 'message': "Vous devez vous connecter"})
-
             user = User.objects.get(pseudo=jwt.decode(
                 request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
             user.disconnect()
@@ -219,7 +215,7 @@ class ValidateCodeViewset(APIView):
 
 
 class PaymentMethodViewset(APIView):
-
+    permission_classes = [IsAuthenticatedPermission,]
     def verifyExistingPm(self, name, phone):
         """ Permet de vérifier si le PM existe déja """
         if PaymentMethod.objects.filter(name=name, phone=phone):
@@ -243,9 +239,7 @@ class PaymentMethodViewset(APIView):
             token = request.data['token']
 
             # Vérifie si l'utilisateur est connecté
-            if not isAuthenticated(token, request.data['signature']):
-                return Response({"status": "FAILED", 'message': "Vous devez vous connecter"})
-
+          
             # Verification existence PM
             if self.verifyExistingPm(request.data['name'], request.data['phone']):
                 return Response({'status': "FAILED", "message": "Payment Method already exists!"})
@@ -280,10 +274,7 @@ class PaymentMethodViewset(APIView):
             # Validité des éléments
             if len(request.data) != 3:
                 return Response({'status': "FAILED", "message": "JSON invalide"})
-            token = request.data['token']
             # Vérifie si l'utilisateur est connecté
-            if not isAuthenticated(token, request.data['signature']):
-                return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
             pm = PaymentMethod.objects.get(id=int(request.data['id']))
             pm.delete()
             return Response({'status': "SUCCESSFUL"})
@@ -318,8 +309,7 @@ class UserViewset(APIView):
             token = data['token']  # Récupération du Token
 
             # Vérifie si l'utilisateur est connecté
-            if not isAuthenticated(token, data['signature']):
-                return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
+           
 
             user = User.objects.get(pseudo=jwt.decode(
                 token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
@@ -409,7 +399,7 @@ class UserViewset(APIView):
 
 
 class AdViewset(APIView):
-
+    permission_classes = [IsAuthenticatedPermission,]
     def post(self, request):
         """
         Permet de modifier les informations de l'utilisateurs
@@ -422,7 +412,8 @@ class AdViewset(APIView):
             "quantityType":"...", // Type String/str | values(F ou R)
             "amountType": "...", // Type String/str | values(F ou R)
             "marge": "...", //Number, Int
-            "provider": "..."
+            "provider": "...",
+            "phone": "...", //Number,Int
             // Optionnel selon le Type
             "quantityFixe": "...", // Type String/str
             "quantityMin": "...", // Type String/str
@@ -437,8 +428,7 @@ class AdViewset(APIView):
             token = data['token']  # Récupération du Token
 
             # Vérifie si l'utilisateur est connecté
-            if not isAuthenticated(token, data['signature']):
-                return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
+          
 
             # Nettoyage de data
             data.pop('token')
@@ -446,7 +436,7 @@ class AdViewset(APIView):
 
             keys = list(data.keys())
             fields = ['sens', 'quantityType', 'quantityFixe', 'quantityMin', 'quantityMax', 'amountType', 'amountFixe',
-                      'amountMin', 'amountMax', 'marge', 'provider']
+                      'amountMin', 'amountMax', 'marge', 'provider', 'phone']
 
             # Donnée en plus
             for key in keys:
@@ -481,8 +471,20 @@ class AdViewset(APIView):
             # Récupération de user
             user = User.objects.get(pseudo=jwt.decode(
                 token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+            
+            # Vérification du méthode de paiement associé
+            pprint(user)
+            pprint(data['provider'])
+            pprint(data['phone'])
+            pm = list(PaymentMethod.objects.filter(user=user, name=data['provider'], phone=data['phone']))
+            pprint(pm)
+            if not pm:
+                return Response({'status': "FAILED", "message":"Ce méthode de paiment n'existe pas !"})
+            
             data['user'] = user.id  # ajout de user dans data
             serializer = AdSerializer(data=data)
+
+            # Vérification du méthode de paiement associé
             if serializer.is_valid():
                 serializer.save()
                 return Response({'status': "SUCCESSFUL"})
@@ -507,8 +509,7 @@ class AdViewset(APIView):
 
             token = data['token']  # Récupération du Token
             # Vérifie si l'utilisateur est connecté
-            if not isAuthenticated(token, data['signature']):
-                return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
+          
 
             # Nettoyage de data
             data.pop('token')
@@ -525,15 +526,12 @@ class AdViewset(APIView):
 class AdsViewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
     queryset = Ad.objects.filter(status="I")
     serializer_class = AdsSerializer
-
+    permission_classes = [IsAuthenticatedPermission,]
     def post(self, request, page):
         # try:
         if page < 1:
             return Response({"status": "FAILED", "message": "L'iindice de page minimal est 1"})
-        token = request.data['token']  # Récupération du Token
         # Vérifie si l'utilisateur est connecté
-        if not isAuthenticated(token, request.data['signature']):
-            return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
         self.queryset = Ad.objects.order_by(
             '-publicationDate')[(page - 1) * 10:10 * page]
         return self.list(request)
@@ -542,7 +540,7 @@ class AdsViewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generi
 
 
 class InitTradeViewset(APIView):
-
+    permission_classes = [IsAuthenticatedPermission,]
     def post(self, request):
         """
         Permet d'initialiser un trade
@@ -555,7 +553,6 @@ class InitTradeViewset(APIView):
         """
 
         try:
-
             # Vérifie si l'utilisateur est connecté
             if not isAuthenticated(request.data['token'], request.data['signature']):
                 return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
@@ -577,6 +574,8 @@ class InitTradeViewset(APIView):
 
             # Récupération des élements du trade
             walletAddress = bdk_generate_address()
+            pprint('The wallet address is: ' + walletAddress)
+            pprint('Amount in banxaas wallet: ' + str(bdk_get_balance()))
 
             # Initialisation du trade
             trade = Trade.objects.create(
@@ -585,7 +584,6 @@ class InitTradeViewset(APIView):
             # Mise à jour du tradeHash
             startingDate = math.log2(int(str(trade.startingDate.day) + str(trade.startingDate.month) + str(trade.startingDate.year) + str(
                 trade.startingDate.hour) + str(trade.startingDate.minute) + str(trade.startingDate.second) + str(trade.startingDate.microsecond))-1)
-            pprint(startingDate)
             traderHash = hashlib.sha256(
                 str(trader.id).encode('utf-8')).hexdigest()
             adHash = hashlib.sha256(str(ad.id).encode('utf-8')).hexdigest()
@@ -607,22 +605,23 @@ class InitTradeViewset(APIView):
                 sellerPhone = ad.user.phone
                 sellerPseudo = ad.user.pseudo
                 sendNotificationByPhoneToSeller(sellerPhone, sellerPseudo)
+            
+            serializer = TradeSerializer(trade)
 
             # Reponse
-            return Response({'status': 'SUCCESSFUL', 'tradeHash': tradeHash, 'tradeId': trade.id, "step": 1})
+            return Response({'status': 'SUCCESSFUL', 'tradeHash': tradeHash, 'currentTrade': serializer.data, "step": 1})
 
         except:
             return Response({'status': 'FAILED', 'message': 'JSON invalide, si le problème persiste contacte moi !'})
 
 
 class TradeViewset(APIView):
-
+    permission_classes = [IsAuthenticatedPermission,]
+    
     def verification(self, token, signature, tradeId, tradeHash):
         try:
             # Vérification du trade et de la signature
-            if not isAuthenticated(token, signature):
-                return {"status": "FAILED", "message": "Vous devez vous connecter"}
-
+            
             # Récupération de l'utilisateur qui a envoyé la requête
             user = User.objects.get(pseudo=jwt.decode(
                 token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
@@ -667,31 +666,46 @@ class TradeViewset(APIView):
 
 
     def patch(self, request, tradeHash):
-        try:
-            verification = self.verification(request.data['token'], request.data['signature'], request.data['tradeId'], tradeHash)
-            if verification['status'] == "FAILED":
-                return Response(verification)
-            if request.data['role'] != verification['role']:
-                return Response({'status':'FAILED', 'message': 'Les roles ne correspondent pas!'})
-            
-            role = verification['role']
-            # Vérification de la légitimité de l'envoie et traitement associé
-            step = int(request.data['step'])
+        #try:
+        verification = self.verification(request.data['token'], request.data['signature'], request.data['tradeId'], tradeHash)
+        if verification['status'] == "FAILED":
+            return Response(verification)
 
-            if role == "Vendeur" and step == 2:
-                pprint("Légitime")
-            elif role == "Acheteur" and step == 3:
-                pprint("Légitime")
-            elif role == "Vendeur" and step == 4:
-                pprint("Légitime")
-            elif role == "Acheteur" and step == 5:
-                pprint("Légitime")
-            else:
-                return Response({'status':'FAILED', 'message': 'Cette action ne vous correspond pas!'})
-            
-            trade = verification['trade']
-            trade.steps = step
-            trade.save()
-            return Response({'status': 'SUCCESSFUL', 'message': 'Trade mis à jour avec succès !', 'role':role})
-        except:
-            return Response({'status': 'FAILED', 'message': 'Pas encore identifié'})
+        if request.data['role'] != verification['role']:
+            return Response({'status':'FAILED', 'message': 'Les roles ne correspondent pas!'})
+        
+        role = verification['role']
+        trade = verification['trade']
+        # Vérification de la légitimité de l'envoie et traitement associé
+        step = int(request.data['step'])
+
+        if role == "Vendeur" and step == 2:
+            trade.txId = request.data['txId']
+            montant = float(trade.ad.quantityFixe) * 100000000
+            pprint("Le montant de la transaction est de: " + str(montant))
+            montant_to_check = montant + (montant * 0.02)
+            pprint("Le montant à vérifier est de: " + str(montant_to_check))
+            verify = mempool_check_transaction(trade.txId, trade.walletAddress, montant_to_check)
+            if not verify[0]:
+                return Response({'status':'FAILED', 'message': verify[1]})
+        elif role == "Acheteur" and step == 3:
+            trade.transactionId = request.data['transactionId']
+        elif role == "Vendeur" and step == 4:
+            pprint("Légitime")
+        elif role == "Acheteur" and step == 5:
+            trade.buyerWalletAdress = request.data['buyerWalletAdress']
+            montant = float(trade.ad.quantityFixe) * 100000000
+            pprint("Le montant de la transaction est de: " + str(montant))
+            montant_to_send = montant - (montant * 0.03)
+            pprint("Le montant à envoyer est de: " + str(montant_to_send))
+            print(bdk_do_transaction(trade.buyerWalletAdress, montant_to_send))
+            trade.ad.status = 'F'
+            trade.status = 'F'
+        else:
+            return Response({'status':'FAILED', 'message': 'Cette action ne vous correspond pas!'})
+        
+        trade.steps = step
+        trade.save()
+        return Response({'status': 'SUCCESSFUL', 'message': 'Trade mis à jour avec succès !', 'role':role})
+        #except:
+        #    return Response({'status': 'FAILED', 'message': 'Pas encore identifié'})

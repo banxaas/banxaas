@@ -16,6 +16,7 @@ export class AnnounceComponent implements OnInit {
   fixeHidden!:any;
   rate!:any;
   datas: any;
+  tel: boolean = true
   
   fieldActive!: boolean;
 
@@ -32,11 +33,14 @@ export class AnnounceComponent implements OnInit {
       quantityMax: new FormControl(''),
       amountFixe: new FormControl(''),
       amountMin: new FormControl(''),
-      amountMax: new FormControl('')
+      amountMax: new FormControl(''),
+      phone: new FormControl('')
   })
   errorMessage: any;
   pseudo: any;
-  devise!: string | null;
+  devise: any;
+  dataPaymentMethods: any;
+  dataUser: any;
 
   constructor(
     private customerService : CustomerService,
@@ -49,25 +53,32 @@ export class AnnounceComponent implements OnInit {
   ngOnInit(): void {
 
             
-    const dataPaymentMethods: any = this.localStorage.get('paymentMethods');
-    let data = JSON.parse(dataPaymentMethods);
+    this.localStorage.get('paymentMethods').subscribe(
+      data => {
+        this.dataPaymentMethods = JSON.parse(data)
+      }
+    )
     
-    const datauser: any = this.localStorage.get('data');
-    let username = JSON.parse(datauser);
-    this.pseudo = username.user.pseudo
+    
+    this.localStorage.get('data').subscribe(
+      data => {
+        this.dataUser = JSON.parse(data);
+      }
+    )
+    this.pseudo = this.dataUser.user.pseudo
     
     
-    const curr = this.localStorage.get('currency')
-    this.devise = curr
+    this.devise = this.dataUser.user.currency
 
-    if (data.length == 0) {
+    if (this.dataPaymentMethods.length == 0) {
       console.log("test");
 
       this.fieldActive = false
     }
-    if (data.length > 0) {
-      this.datas = data
+    if (this.dataPaymentMethods.length > 0) {
+      this.datas = this.dataPaymentMethods
       this.fieldActive = true
+      
     }
     
     const cfa = new Intl.NumberFormat('fr-FR', {
@@ -101,11 +112,9 @@ export class AnnounceComponent implements OnInit {
   }
 
   addAnnounce(){
-    const datauser: any = this.localStorage.get('data');
-    const data = JSON.parse(datauser);
     const dataForm = this.announceForm.value;
-    dataForm.token = data.token;
-    dataForm.signature = data.signature;
+    dataForm.token = this.dataUser.token;
+    dataForm.signature = this.dataUser.signature;
     if (dataForm.quantityType === "R") {
       dataForm.amountType = "R"
       delete dataForm.amountFixe
@@ -118,6 +127,16 @@ export class AnnounceComponent implements OnInit {
       delete dataForm.quantityMin
       delete dataForm.quantityMax
     }
+
+    this.datas.forEach((element: any) => {
+      if (element.id = dataForm.provider) {
+        dataForm.provider = element.name;
+        dataForm.phone = element.phone
+      }
+      
+    });
+    
+
     console.log(dataForm);
     
     this.customerService.addAds(dataForm).subscribe(

@@ -12,16 +12,20 @@ export class ProfilComponent implements OnInit {
   bgSecure!: string
   bgPassword!: string
   bgPayment!: string
+  datauser: any
 
   constructor(
     private localStorage: LocalStorageService
   ) { }
 
   ngOnInit(): void {
-    const datauser:any = this.localStorage.get('data');
-    const data = JSON.parse(datauser);
-    this.pseudo = data.user.pseudo;
-    console.log(this.pseudo);
+    this.localStorage.get('data').subscribe(
+      data => {
+        this.datauser = JSON.parse(data)
+        this.pseudo = this.datauser.user.pseudo;
+
+      }
+    );
   }
 
   changeBg(value:string){

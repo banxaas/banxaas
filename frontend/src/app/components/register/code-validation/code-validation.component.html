@@ -11,6 +11,9 @@
         <div class="mt-2 flex justify-center font-bold text-red-600" *ngIf="errorMessage">
            {{errorMessage}}
         </div>
+        <div class="mt-2 flex justify-center font-bold text-green-600" *ngIf="errorMessage=='Inscription Réussie'">
+           {{errorMessage}}
+        </div>
         <form [formGroup]="valide" (ngSubmit)="validerCompte()">
             <div class="mt-4">
                 <div class="mt-4">
