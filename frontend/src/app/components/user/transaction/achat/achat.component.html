@@ -66,7 +66,7 @@
           </div>
           <div class="lg:w-[40%] md:w-[30%] sm:w-[60%] lg:ml-[25%] md:ml-[25%] sm:ml-[17%] flex mt-5 justify-center">
               <div class="w-full bg-gray-200 flex flex-col justify-center rounded-full dark:bg-gray-700">
-                  <div class="bg-green-design leading-none rounded-full lg:p-1 sm:p-0.5 text-center"  style="width: {{progress}}%">&nbsp;</div>
+                  <div class="bg-green-design leading-none rounded-full lg:p-1 sm:p-0.5 text-center test"  style="width: {{progress}}%">&nbsp;</div>
                   <div *ngIf="progress<=53" class=" absolute left-[57%] lg:m-3 sm:m-0.5 text-center sm:text-[8px] md:text-[12px]">{{progress}}%</div>
                   <div *ngIf="progress>53" class=" absolute left-[57%] lg:m-3 sm:m-0.5 text-center sm:text-[8px] md:text-[12px] text-white">{{progress}}%</div>
               </div>
@@ -127,7 +127,7 @@
                 <div class="lg:w-[50%] md:w-[50%] sm:w-[80%] mt-2 text-red-600" *ngIf="formControls['adresse'].errors?.['pattern']">L'adresse est invalide</div>
             </div>
             <div class="w-full flex justify-center mt-10">
-              <button  (click)="step5()" [hidden]="formControls['adresse'].invalid" class="w-[70%] text-green-design border-green-design px-4 py-2 md:px-8 md:py-4 lg:px-8 lg:py-4 sm:text-[10px] md:text-[12px] lg:text-[18px] uppercase rounded-3xl border-2 mx-5 font-bold">
+              <button  (click)="step5()" [hidden]="formControls['adresse' ].invalid" class="w-[70%] text-green-design border-green-design px-4 py-2 md:px-8 md:py-4 lg:px-8 lg:py-4 sm:text-[10px] md:text-[12px] lg:text-[18px] uppercase rounded-3xl border-2 mx-5 font-bold">
                 confirmer l'adresse
               </button>
             </div>

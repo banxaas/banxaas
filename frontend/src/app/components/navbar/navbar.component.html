@@ -72,7 +72,7 @@
                     <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-full w-[50%]" alt="Avatar"/>
                 </div>
                 <div class="lg:w-[70%] ml-0 flex sm:flex-col md:flex-row justify-around">
-                    <div class="md:w-[50%] lg:w-[35%] md:mx-2 lg:mx-5 lg:mt-5 md:mt-5 sm:mt-1 lg:ml-3  md:ml-2">
+                    <div class="md:w-[50%] lg:w-[35%] md:mx-2 lg:mx-5 lg:mt-1 md:mt-1 sm:mt-1 lg:ml-3  md:ml-2">
                         <div (click)="isListProfil = !isListProfil " class="p-3 rounded bg-green-design text-link leading-none text-white flex items-center justify-between cursor-pointer" onclick="dropdownHandler()">
                             {{pseudo}}
                             <div class="mx-2">
@@ -98,10 +98,10 @@
                     
                     <div class="md: lg:w-[80%] flex flex-col justify-center mb-5">
                         <form novalidate [formGroup]="currencyForm">
-                            <div class="lg:w-[10%] sm:w-[10%] relative top-9 left-2">
+                            <!-- <div class="lg:w-[10%] sm:w-[10%] relative top-9 left-2">
                                 {{devise}}
-                            </div>
-                            <select formControlName="currency"  (change)="setCurrency()" [value]='devise' class="lg:w-[50%] md:w-[100%] sm:w-[100%] mt-1.5 rounded px-2 py-2 border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
+                            </div> -->
+                            <select formControlName="currency" (change)="setCurrency()" [value]='devise' class="lg:w-[50%] md:w-[100%] sm:w-[100%] mt-1.5 rounded px-2 py-2 border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
                                 <option value="FCFA">FCFA</option>
                                 <option value="EUR">EUR</option>
                                 <option value="USD" >USD</option>

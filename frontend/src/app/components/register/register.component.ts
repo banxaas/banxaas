@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/parameters/auth.service';
 import { LocalStorageService } from 'src/app/parameters/local-storage.service';
 
@@ -9,7 +10,7 @@ import { LocalStorageService } from 'src/app/parameters/local-storage.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
 
   fieldTextType: boolean = false;
   changeText: boolean = false;  
@@ -19,6 +20,9 @@ export class RegisterComponent implements OnInit {
 
   errorMessage!: string;
   failed!: string;
+
+  
+  private unsubscription$ = new Subject<void>();
   
   registerForm = new FormGroup({
     pseudo: new FormControl('', [Validators.required]),
@@ -63,7 +67,9 @@ export class RegisterComponent implements OnInit {
     if (data.phone && data.phone!="" && data.email && data.email!="") {
       this.errorMessage = "Veuillez choisir l'email ou le numéro de téléphone pour l'envoi du code"
     }
-    this.authService.createAccount(data).subscribe(
+    this.authService.createAccount(data)
+    .pipe(takeUntil(this.unsubscription$))
+    .subscribe(
       response => {
         const token = response.token;
         this.localStorage.set('token_validation', token);
@@ -89,6 +95,13 @@ export class RegisterComponent implements OnInit {
   }
   progressSpinner(){
     this.progress = true
+  }
+
+  ngOnDestroy(): void {
+    if (this.unsubscription$) {
+      this.unsubscription$.next();
+      this.unsubscription$.unsubscribe();
+    }
   }
 
 }

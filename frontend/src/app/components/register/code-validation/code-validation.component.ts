@@ -1,7 +1,8 @@
 import { formatNumber } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/parameters/auth.service';
 import { LocalStorageService } from 'src/app/parameters/local-storage.service';
 
@@ -10,9 +11,11 @@ import { LocalStorageService } from 'src/app/parameters/local-storage.service';
   templateUrl: './code-validation.component.html',
   styleUrls: ['./code-validation.component.scss']
 })
-export class CodeValidationComponent implements OnInit {
+export class CodeValidationComponent implements OnInit, OnDestroy {
 
   errorMessage!: string;
+
+  private unsubscription$ = new Subject<void>();
 
   valide = new FormGroup({
     code: new FormControl('', [Validators.required]),
@@ -35,15 +38,20 @@ export class CodeValidationComponent implements OnInit {
 
   validerCompte(){
     const dataForm = this.valide.value;
-    this.localStorage.get('token_validation').subscribe(
+    this.localStorage.get('token_validation')
+    .pipe(takeUntil(this.unsubscription$))
+    .subscribe(
       data => {
           dataForm.token = data
       }
     )
+
     dataForm.code = Number.parseInt(dataForm.code)
 
     
-    this.authService.validAccount(dataForm.code, dataForm.token).subscribe(
+    this.authService.validAccount(dataForm.code, dataForm.token)
+    .pipe(takeUntil(this.unsubscription$))
+    .subscribe(
       response => {
         console.log(response);
         
@@ -59,15 +67,16 @@ export class CodeValidationComponent implements OnInit {
         }
 
         
-      },
-      error => {
-        this.errorMessage = "Erreur Serveur"
       }
     )
 
-  }
-
-
+  }  
   
+  ngOnDestroy(): void {
+    if (this.unsubscription$) {
+      this.unsubscription$.next();
+      this.unsubscription$.unsubscribe();
+    }
+  }
 
 }
