@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from django.db.models import Q
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-
+from rest_framework import status
 from api.externe.OrangeSmsApiToken import verifyExistingToken
 from api.models import *
 
@@ -49,11 +49,11 @@ def getUserByLogin(login):
 def verifyUser(login):
     """ Cette fonction permet de vérifier si le pseudo ou le phone ou l'email existe """
     if User.objects.filter(pseudo=login):
-        return [True, Response({'status': "FAILED", 'message': 'Pseudo already exists'})]
+        return [True, Response({'status': "FAILED", 'message': 'Pseudo already exists'},status=status.HTTP_400_BAD_REQUEST)]
     if User.objects.filter(email=login):
-        return [True, Response({'status': "FAILED", 'message': 'Email already exists'})]
+        return [True, Response({'status': "FAILED", 'message': 'Email already exists'},status=status.HTTP_400_BAD_REQUEST)]
     if User.objects.filter(phone=login):
-        return [True, Response({'status': "FAILED", 'message': 'Phone already exists'})]
+        return [True, Response({'status': "FAILED", 'message': 'Phone already exists'},status=status.HTTP_400_BAD_REQUEST)]
     return [False, ""]
 
 

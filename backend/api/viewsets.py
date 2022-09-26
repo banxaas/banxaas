@@ -7,7 +7,7 @@ from .permissions import IsAuthenticatedPermission
 from rest_framework import generics, mixins
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
-
+from rest_framework import status
 from api.repository.authRepository import *
 from api.repository.tradeRepository import *
 from .serializers import *
@@ -27,12 +27,12 @@ class ConnexionViewset(APIView):
         try:
             [login, password] = isRequestDataConnexionValid(request.data)
         except TypeError:
-            return Response({'status': "FAILED", 'message': "Identifiants Incorrects"})
+            return Response({'status': "FAILED", 'message': "Identifiants Incorrects"},status=status.HTTP_400_BAD_REQUEST)
 
         # Vérification de l'existence du user (pseudo, email, telephone)
         user = getUserByLogin(login)
         if (not user) or (not user.check_password(password)):
-            return Response({'status': "FAILED", 'message': "Identifiants Incorrects"})
+            return Response({'status': "FAILED", 'message': "Identifiants Incorrects"},status=status.HTTP_400_BAD_REQUEST)
 
         # Vérification de l'état du compte de l'utilisateur
         if not user.is_active:
@@ -47,7 +47,7 @@ class ConnexionViewset(APIView):
             return Response({
                 'status': "INACTIVATED",
                 'token': createToken(payload)
-            })
+            },status=status.HTTP_200_OK)
 
         # Déconnexion de l'utilisateur s'il est connecté autre part
         if user.isAuthenticated:
@@ -77,7 +77,7 @@ class ConnexionViewset(APIView):
             'numberOfAds': Ad.get_num_of_ads_available(),
             'token': jwt,
             'signature': signature.key
-        })
+        },status=status.HTTP_200_OK)
 
 
 class ConnexionRoomName(APIView):
@@ -96,9 +96,9 @@ class ConnexionRoomName(APIView):
                 request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub']).id
 
             roomName = hashlib.sha256(str(id_user).encode('utf-8')).hexdigest()
-            return Response({"status": "SUCCESFUL", "room_name": roomName})
+            return Response({"status": "SUCCESFUL", "room_name": roomName},status=status.HTTP_200_OK)
         except:
-            return Response({"status": "FAILED", 'message': "Erreur non identifié"})
+            return Response({"status": "FAILED", 'message': "Erreur non identifié"},status=status.HTTP_400_BAD_REQUEST)
 
 
 class Disconnect(APIView):
@@ -117,9 +117,9 @@ class Disconnect(APIView):
                 request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
             user.disconnect()
             Token.objects.filter(user=user)[0].delete()
-            return Response({"status": "SUCCESSFUL", 'message': "Déconnecté avec succès !"})
+            return Response({"status": "SUCCESSFUL", 'message': "Déconnecté avec succès !"},status=status.HTTP_200_OK)
         except:
-            return Response({"status": "FAILED", 'message': "Erreur non identifié !"})
+            return Response({"status": "FAILED", 'message': "Erreur non identifié !"},status=status.HTTP_400_BAD_REQUEST)
 
 
 class CreateAccountViewset(APIView):
@@ -145,14 +145,14 @@ class CreateAccountViewset(APIView):
             # Vérification de la validité des données collectées
             if (len(keys) != 3) or ('pseudo' not in keys) or ('password' not in keys) or (
                     ('phone' not in keys) and ('email' not in keys)):
-                return Response({'status': 'FAILED', 'message': 'JSON invalide'})
+                return Response({'status': 'FAILED', 'message': 'JSON invalide'},status=status.HTTP_400_BAD_REQUEST)
 
             if 'email' in keys:
                 # L'utilisateur a donné son email
                 email = data['email']
                 emailRegex = "([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+@([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+\\.([A-Z|a-z]{2,})"
                 if (not re.match(emailRegex, email)):  # Regex Email Vérification
-                    return Response({'status': 'Email Invalide'})
+                    return Response({'status': 'Email Invalide'},status=status.HTTP_400_BAD_REQUEST)
                 # Vérification d'un potentiel utilisateur avec cet email
                 userExist, response = verifyUser(email)
             else:
@@ -161,14 +161,14 @@ class CreateAccountViewset(APIView):
                 # Regex Phone Verification
                 phoneRegex = "^(77|78|75|70|76)[0-9]{7}$"
                 if (not re.match(phoneRegex, phone)):
-                    return Response({'status': 'Phone Invalide'})
+                    return Response({'status': 'Phone Invalide'},status=status.HTTP_400_BAD_REQUEST)
                 # Vérification d'un potentiel utilisateur avec ce mail
                 userExist, response = verifyUser(data['phone'])
             if userExist:
                 return response
             serializer = CreateAccountSerializer(data=data)  # Sérialisation
             if not serializer.is_valid():
-                return Response({'status': 'FAILED', 'message': 'Types des données du JSON invalides!'})
+                return Response({'status': 'FAILED', 'message': 'Types des données du JSON invalides!'},status=status.HTTP_400_BAD_REQUEST)
             serializer.save()
             # Envoie du code de Vérification et Création du Payload JWT
             if 'email' in keys:
@@ -180,10 +180,10 @@ class CreateAccountViewset(APIView):
             return Response({
                 'status': "SUCCESSFUL",
                 'token': createToken(payload)
-            })
+            },status=status.HTTP_201_CREATED)
         except:
             return Response(
-                {'status': 'FAILED', 'message': "Vérifier votre connexion, Si l'erreur persiste, contactez moi!"})
+                {'status': 'FAILED', 'message': "Vérifier votre connexion, Si l'erreur persiste, contactez moi!"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class ValidateCodeViewset(APIView):
@@ -201,17 +201,17 @@ class ValidateCodeViewset(APIView):
             isValid, userId = verifyCodeValidation(
                 request.data['code'], request.data['token'])
             if not isValid:
-                return Response({'status': "FAILED", 'message': 'Token ou Code Invalide'})
+                return Response({'status': "FAILED", 'message': 'Token ou Code Invalide'},status=status.HTTP_400_BAD_REQUEST)
             if User.objects.filter(email=userId):
                 user = User.objects.filter(email=userId)[0]
             if User.objects.filter(phone=userId):
                 user = User.objects.filter(phone=userId)[0]
             user.is_active = True
             user.save()
-            return Response({'status': "SUCCESSFUL"})
+            return Response({'status': "SUCCESSFUL"},status=status.HTTP_200_OK)
         except:
             return Response({'status': "FAILED",
-                            'message': 'Token ou Code Invalide, Vérifier que vous avez récupéré le token de validation'})
+                            'message': 'Token ou Code Invalide, Vérifier que vous avez récupéré le token de validation'},status=status.HTTP_400_BAD_REQUEST)
 
 
 class PaymentMethodViewset(APIView):
@@ -235,14 +235,14 @@ class PaymentMethodViewset(APIView):
         try:
             # Validité des éléments
             if len(request.data) != 4:
-                return Response({'status': "FAILED", 'message': "JSON invalide"})
+                return Response({'status': "FAILED", 'message': "JSON invalide"},status=status.HTTP_400_BAD_REQUEST)
             token = request.data['token']
 
             # Vérifie si l'utilisateur est connecté
           
             # Verification existence PM
             if self.verifyExistingPm(request.data['name'], request.data['phone']):
-                return Response({'status': "FAILED", "message": "Payment Method already exists!"})
+                return Response({'status': "FAILED", "message": "Payment Method already exists!"},status=status.HTTP_400_BAD_REQUEST)
 
             user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")[
                 'sub']).id  # Récupération du User
@@ -255,10 +255,10 @@ class PaymentMethodViewset(APIView):
                 data = serializer.data
                 data['id'] = PaymentMethod.objects.get(
                     name=data['name'], phone=data['phone']).id
-                return Response({'status': "SUCCESSFUL", "paymentMethod": PaymentMethodForConnSerializer(data).data})
-            return Response({'status': "FAILED", "message": "Types des données du JSON invalides!"})
+                return Response({'status': "SUCCESSFUL", "paymentMethod": PaymentMethodForConnSerializer(data).data},status=status.HTTP_200_OK)
+            return Response({'status': "FAILED", "message": "Types des données du JSON invalides!"},status=status.HTTP_400_BAD_REQUEST)
         except:
-            return Response({'status': "FAILED", "message": "Token ou Signature Invalide"})
+            return Response({'status': "FAILED", "message": "Token ou Signature Invalide"},status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request):
         """ Permet de supprimer une méthode de paiement
@@ -277,9 +277,9 @@ class PaymentMethodViewset(APIView):
             # Vérifie si l'utilisateur est connecté
             pm = PaymentMethod.objects.get(id=int(request.data['id']))
             pm.delete()
-            return Response({'status': "SUCCESSFUL"})
+            return Response({'status': "SUCCESSFUL"},status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({'status': "FAILED", "message": "Token ou Signature Invalide"})
+            return Response({'status': "FAILED", "message": "Token ou Signature Invalide"},status=status.HTTP_401_UNAUTHORIZED)
 
 
 class UserViewset(APIView):
@@ -304,7 +304,7 @@ class UserViewset(APIView):
 
             # Validité des éléments
             if len(data) > 7:
-                return Response({'status': "FAILED", "message": "JSON invalide"})
+                return Response({'status': "FAILED", "message": "JSON invalide"},status=status.HTTP_400_BAD_REQUEST)
 
             token = data['token']  # Récupération du Token
 
@@ -327,7 +327,7 @@ class UserViewset(APIView):
                 emailRegex = "([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+@([A-Za-z0-9]+[._-]?)*[A-Za-z0-9]+\\.([A-Z|a-z]{2,})"
                 # Regex Email Vérification
                 if not re.match(emailRegex, data['email']):
-                    return Response({'status': 'Email Invalide'})
+                    return Response({'status': 'Email Invalide'},status=status.HTTP_400_BAD_REQUEST)
 
             if ('phone' in keys) and (user.phone != str(data['phone'])):
                 phoneExist, response = verifyUser(data['phone'])
@@ -335,19 +335,19 @@ class UserViewset(APIView):
                     return response
                 phoneRegex = "^(77|78|75|70|76)[0-9]{7}$"
                 if not re.match(phoneRegex, str(data['phone'])):
-                    return Response({'status': 'Phone Invalide'})
+                    return Response({'status': 'Phone Invalide'},status=status.HTTP_400_BAD_REQUEST)
 
             if (('password' in keys) and ('newPassword' not in keys)) or (
                     ('newPassword' in keys) and ('password' not in keys)):
                 return Response(
-                    {"status": "FAILED", "message": " Les deux champs password et newPassword sont obligatoires"})
+                    {"status": "FAILED", "message": " Les deux champs password et newPassword sont obligatoires"},status=status.HTTP_400_BAD_REQUEST)
 
             if ('password' in keys) and ('newPassword' in keys):
                 if user.check_password(data['password']):
                     data['password'] = make_password(data['newPassword'])
                     data.pop('newPassword')
                 else:
-                    return Response({'status': "FAILED", 'message': "Mot de passe incorrect !"})
+                    return Response({'status': "FAILED", 'message': "Mot de passe incorrect !"},status=status.HTTP_400_BAD_REQUEST)
 
             # Nettoyage de data
             data.pop('token')
@@ -357,7 +357,7 @@ class UserViewset(APIView):
             serializer = SetAccountSerializer(user, data=data, partial=True)
             if not serializer.is_valid():
                 # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-                return Response({"status": "FAILED", "message": "Les Types des données du JSON sont invalides"})
+                return Response({"status": "FAILED", "message": "Les Types des données du JSON sont invalides"},status=status.HTTP_400_BAD_REQUEST)
 
             # Préparation des payload et envoie du code
             if (('email' in keys) and (user.email != data['email'])) or (
@@ -377,7 +377,7 @@ class UserViewset(APIView):
                     'status': "SUCCESSFUL",
                     'token': createToken(payload),
                     'motif': 'Validate Code'
-                })
+                },status=status.HTTP_201_CREATED)
             if (('pseudo' in keys) and (user.pseudo != data['pseudo'])) or ('password' in keys):
                 serializer.save()
                 Token.objects.filter(user=user)[0].delete()
@@ -385,17 +385,17 @@ class UserViewset(APIView):
                 return Response({
                     'status': "SUCCESSFUL",
                     'motif': 'Reconnexion'
-                })
+                },status=status.HTTP_200_OK)
             serializer.save()
             if ('currency' in keys):
                 return Response({
                     'status': "SUCCESSFUL",
                     'currency': user.currency,
                     'motif': 'Pas de reconnexion'
-                })
+                },status=status.HTTP_200_OK)
         except:
             return Response(
-                {"status": "FAILED", "message": "Token ou Signature Invalide ou Vous n'etes pas connecté à internet"})
+                {"status": "FAILED", "message": "Token ou Signature Invalide ou Vous n'etes pas connecté à internet"},status=status.HTTP_400_BAD_REQUEST)
 
 
 class AdViewset(APIView):
@@ -441,7 +441,7 @@ class AdViewset(APIView):
             # Donnée en plus
             for key in keys:
                 if key not in fields:
-                    return Response({"status": "FAILED", "message": "JSON invalide"})
+                    return Response({"status": "FAILED", "message": "JSON invalide"},status=status.HTTP_400_BAD_REQUEST)
 
             # Vérification de la conformité des données
             if data['quantityType'] != data['amountType']:
@@ -449,24 +449,24 @@ class AdViewset(APIView):
                     {"status": "FAILED", "message": "quantityType et amountType ne peuvent pas être différents"})
             if (data['quantityType'] == 'F') and (('quantityFixe' not in keys) or ('amountFixe' not in keys)):
                 return Response({"status": "FAILED",
-                                 "message": "Quand le type est fixe, les champs quantityFixe et amountFixe deviennent Obligatoires"})
+                                 "message": "Quand le type est fixe, les champs quantityFixe et amountFixe deviennent Obligatoires"},status=status.HTTP_400_BAD_REQUEST)
             if (data['quantityType'] == 'F') and (
                     ('quantityMin' in keys) or ('quantityMax' in keys) or ('amountMin' in keys) or (
                     'amountMax' in keys)):
                 return Response({"status": "FAILED",
-                                 "message": "Quand le type est fixe, les champs (quantityMin, quantityMax, amountMin, amountMax) ne doivent pas figurer dans le JSON"})
+                                 "message": "Quand le type est fixe, les champs (quantityMin, quantityMax, amountMin, amountMax) ne doivent pas figurer dans le JSON"},status=status.HTTP_400_BAD_REQUEST)
             if (data['quantityType'] == 'R') and (
                     ('quantityMin' not in keys) or ('quantityMax' not in keys) or ('amountMin' not in keys) or (
                     'amountMax' not in keys)):
                 return Response({"status": 'FAILED',
-                                 "message": "Quand le type est range, les champs (quantityMin, quantityMax, amountMin, amountMax) deviennent Obligatoires"})
+                                 "message": "Quand le type est range, les champs (quantityMin, quantityMax, amountMin, amountMax) deviennent Obligatoires"},status=status.HTTP_400_BAD_REQUEST)
             if (data['quantityType'] == 'R') and (('quantityFixe' in keys) or ('quantityFixe' in keys)):
                 return Response({"status": 'FAILED',
-                                 "message": "Quand le type est range, les champs quantityFixe et amountFixe ne doivent pas figurer dans le JSON"})
+                                 "message": "Quand le type est range, les champs quantityFixe et amountFixe ne doivent pas figurer dans le JSON"},status=status.HTTP_400_BAD_REQUEST)
             if (data['quantityType'] == 'R') and (
                     (float(data['quantityMin']) >= float(data['quantityMax'])) or (float(data['amountMin']) >= float(data['amountMax']))):
                 return Response({"status": 'FAILED',
-                                 "message": "Les valeurs quantityMin et amountMin ne peuvent pas être supérieur à quantityMax et amountMax"})
+                                 "message": "Les valeurs quantityMin et amountMin ne peuvent pas être supérieur à quantityMax et amountMax"},status=status.HTTP_400_BAD_REQUEST)
 
             # Récupération de user
             user = User.objects.get(pseudo=jwt.decode(
@@ -479,7 +479,7 @@ class AdViewset(APIView):
             pm = list(PaymentMethod.objects.filter(user=user, name=data['provider'], phone=data['phone']))
             pprint(pm)
             if not pm:
-                return Response({'status': "FAILED", "message":"Ce méthode de paiment n'existe pas !"})
+                return Response({'status': "FAILED", "message":"Ce méthode de paiment n'existe pas !"},status=status.HTTP_404_NOT_FOUND)
             
             data['user'] = user.id  # ajout de user dans data
             serializer = AdSerializer(data=data)
@@ -487,10 +487,10 @@ class AdViewset(APIView):
             # Vérification du méthode de paiement associé
             if serializer.is_valid():
                 serializer.save()
-                return Response({'status': "SUCCESSFUL"})
-            return Response({'status': "FAILED", "message": "Types des données du JSON invalides!"})
+                return Response({'status': "SUCCESSFUL"},status=status.HTTP_200_OK)
+            return Response({'status': "FAILED", "message": "Types des données du JSON invalides!"},status=status.HTTP_400_BAD_REQUEST)
         except:
-            return Response({"status": "FAILED", "message": "Token ou Signature Invalide"})
+            return Response({"status": "FAILED", "message": "Token ou Signature Invalide"},status=status.HTTP_401_UNAUTHORIZED)
 
     def delete(self, request):
         """
@@ -518,9 +518,9 @@ class AdViewset(APIView):
                 token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
             ad = Ad.objects.get(id=int(request.data['id']), user=user.id)
             ad.delete()
-            return Response({'status': "SUCCESSFUL"})
+            return Response({'status': "SUCCESSFUL"},status=status.HTTP_200_OK)
         except:
-            return Response({'status': "FAILED", "message": "Token ou Signature invalide"})
+            return Response({'status': "FAILED", "message": "Token ou Signature invalide"},status=status.HTTP_401_UNAUTHORIZED)
 
 
 class AdsViewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
@@ -530,7 +530,7 @@ class AdsViewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generi
     def post(self, request, page):
         # try:
         if page < 1:
-            return Response({"status": "FAILED", "message": "L'iindice de page minimal est 1"})
+            return Response({"status": "FAILED", "message": "L'iindice de page minimal est 1"},status=status.HTTP_400_BAD_REQUEST)
         # Vérifie si l'utilisateur est connecté
         self.queryset = Ad.objects.order_by(
             '-publicationDate')[(page - 1) * 10:10 * page]
@@ -555,7 +555,7 @@ class InitTradeViewset(APIView):
         try:
             # Vérifie si l'utilisateur est connecté
             if not isAuthenticated(request.data['token'], request.data['signature']):
-                return Response({"status": "FAILED", "message": "Vous devez vous connecter"})
+                return Response({"status": "FAILED", "message": "Vous devez vous connecter"},status=status.HTTP_401_UNAUTHORIZED)
 
             # Vérifie si l'utilisateur ne trade pas son propre offre
             trader = User.objects.get(pseudo=jwt.decode(
@@ -563,12 +563,12 @@ class InitTradeViewset(APIView):
             ad = Ad.objects.get(id=request.data['adId'])
 
             if ad.user == trader:
-                return Response({"status": "FAILED", "message": "Il s'agit de votre propre offre !"})
+                return Response({"status": "FAILED", "message": "Il s'agit de votre propre offre !"},status=status.HTTP_400_BAD_REQUEST)
 
             # Mise à jour de l'état de l'annonce
             ad = Ad.objects.get(id=request.data['adId'])
             if ad.status != "I":
-                return Response({"status": "FAILED", "message": "Désolé cet annonce n'est plus disponible !"})
+                return Response({"status": "FAILED", "message": "Désolé cet annonce n'est plus disponible !"},status=status.HTTP_404_NOT_FOUND)
             ad.status = "C"
             ad.save()
 
@@ -609,10 +609,10 @@ class InitTradeViewset(APIView):
             serializer = TradeSerializer(trade)
 
             # Reponse
-            return Response({'status': 'SUCCESSFUL', 'tradeHash': tradeHash, 'currentTrade': serializer.data, "step": 1})
+            return Response({'status': 'SUCCESSFUL', 'tradeHash': tradeHash, 'currentTrade': serializer.data, "step": 1},status=status.HTTP_201_CREATED)
 
         except:
-            return Response({'status': 'FAILED', 'message': 'JSON invalide, si le problème persiste contacte moi !'})
+            return Response({'status': 'FAILED', 'message': 'JSON invalide, si le problème persiste contacte moi !'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class TradeViewset(APIView):
@@ -640,18 +640,18 @@ class TradeViewset(APIView):
             elif sens == 'A' and user == trade.trader:
                 role = 'Vendeur'
             else:
-                return {'status':'FAILED', 'message': 'Vous n etes pas un acteur !'}
-            return {'status':'SUCCESSFUL', 'role': role, 'trade':trade}
+                return Response({'status':'FAILED', 'message': 'Vous n etes pas un acteur !'},status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'status':'SUCCESSFUL', 'role': role, 'trade':trade},status=status.HTTP_200_OK)
         except:
-            return {'status':'FAILED', 'message':'Transaction inexistante'}
+            return Response({'status':'FAILED', 'message':'Transaction inexistante'},status=status.HTTP_404_NOT_FOUND)
 
 
     def get(self, request, tradeHash):
         try:
             trade = Trade.objects.get(tradeHash=tradeHash)
-            return Response({'status': "SUCCESSFUL"})
+            return Response({'status': "SUCCESSFUL"},status=status.HTTP_200_OK)
         except:
-            return Response({'status': 'FAILED', 'message': 'Transaction inexistante'})
+            return Response({'status': 'FAILED', 'message': 'Transaction inexistante'},status=status.HTTP_404_NOT_FOUND)
     
     def post(self, request, tradeHash):
         try:
@@ -660,9 +660,9 @@ class TradeViewset(APIView):
             if verification['status'] == "FAILED":
                 return Response(verification)
             serializer = TradeSerializer(verification['trade'])
-            return Response({'status': "SUCCESSFUL", 'trade': serializer.data, 'role':verification['role']})
+            return Response({'status': "SUCCESSFUL", 'trade': serializer.data, 'role':verification['role']},status=status.HTTP_200_OK)
         except:
-            return Response({'status': 'FAILED', 'message': 'Transaction inexistante'})
+            return Response({'status': 'FAILED', 'message': 'Transaction inexistante'},status=status.HTTP_404_NOT_FOUND)
 
 
     def patch(self, request, tradeHash):
@@ -672,7 +672,7 @@ class TradeViewset(APIView):
             return Response(verification)
 
         if request.data['role'] != verification['role']:
-            return Response({'status':'FAILED', 'message': 'Les roles ne correspondent pas!'})
+            return Response({'status':'FAILED', 'message': 'Les roles ne correspondent pas!'},status=status.HTTP_401_UNAUTHORIZED)
         
         role = verification['role']
         trade = verification['trade']
@@ -687,7 +687,7 @@ class TradeViewset(APIView):
             pprint("Le montant à vérifier est de: " + str(montant_to_check))
             verify = mempool_check_transaction(trade.txId, trade.walletAddress, montant_to_check)
             if not verify[0]:
-                return Response({'status':'FAILED', 'message': verify[1]})
+                return Response({'status':'FAILED', 'message': verify[1]},status=status.HTTP_400_BAD_REQUEST)
         elif role == "Acheteur" and step == 3:
             trade.transactionId = request.data['transactionId']
         elif role == "Vendeur" and step == 4:
@@ -702,10 +702,10 @@ class TradeViewset(APIView):
             trade.ad.status = 'F'
             trade.status = 'F'
         else:
-            return Response({'status':'FAILED', 'message': 'Cette action ne vous correspond pas!'})
+            return Response({'status':'FAILED', 'message': 'Cette action ne vous correspond pas!'},status=status.HTTP_400_BAD_REQUEST)
         
         trade.steps = step
         trade.save()
-        return Response({'status': 'SUCCESSFUL', 'message': 'Trade mis à jour avec succès !', 'role':role})
+        return Response({'status': 'SUCCESSFUL', 'message': 'Trade mis à jour avec succès !', 'role':role},status=status.HTTP_200_OK)
         #except:
         #    return Response({'status': 'FAILED', 'message': 'Pas encore identifié'})
