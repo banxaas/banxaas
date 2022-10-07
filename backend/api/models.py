@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+import uuid
 
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
@@ -43,6 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     CURRENCY_VALUE = [("FCFA", "FCFA"), ("USD", "USD"), ("EUR", "EUR")]
 
     # Personnal Info
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4,max_length=36, editable=False)
     pseudo = models.CharField(max_length=30, unique=True)
     email = models.EmailField(
         _('email address'), unique=True, blank=True, null=True)
@@ -107,7 +109,7 @@ class PaymentMethod(models.Model):
     # Enum Payment Method
     PAYMENT_METHOD = [("WAVE", "Wave"), ("OM", "Orange Money"),
                       ("FREE", "Free Money")]
-
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4,max_length=36, editable=False)
     user = models.ForeignKey(User, related_name="pms",
                              on_delete=models.CASCADE)
     name = models.CharField(max_length=15, choices=PAYMENT_METHOD)
@@ -125,7 +127,7 @@ class Ad(models.Model):
     TYPE = [("F", "FIXED"), ("R", "RANGE")]
     STATUS = [("F", "Finalisée"), ("A", "Annulé"),
               ("C", "En cours"), ("I", "Initial")]
-
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4,max_length=36, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=1, choices=STATUS, default="I")
     sens = models.CharField(max_length=1, choices=SENS)
@@ -148,7 +150,7 @@ class Ad(models.Model):
 
 class Trade(models.Model):
     STATUS = [("F", "Finalisée"), ("A", "Annulé"), ("C", "En cours")]
-
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4,max_length=36, editable=False)
     tradeHash = models.CharField(max_length=256, default="")
     walletAddress = models.CharField(max_length=256, default="")
     buyerWalletAdress = models.CharField(max_length=256, default="")
