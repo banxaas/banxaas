@@ -61,7 +61,7 @@ def Ad(request):
 
 @api_view(['POST'])
 def Ads(request, page):
-    return Response(requests.post(os.getenv('BACKEND_URL')+'api/ads/{page}/', data=request.data, headers=setApiKey()).json())
+    return Response(requests.post(os.getenv('BACKEND_URL')+f'api/ads/{page}/', data=request.data, headers=setApiKey()).json())
 
 
 @api_view(['POST'])
