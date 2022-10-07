@@ -23,6 +23,7 @@ urlpatterns = [
     path('disconnect/', Deconnexion),
     path('createAccount/', CreateAccount),
     path('validateCode/', ValidateCode),
+    path('sendNewCodeValidation/', SendValidationCode),
     path('isDisconnected/', isDisconnected),
     path('user/', user),
     path('paymentMethod/', PaymentMethod),

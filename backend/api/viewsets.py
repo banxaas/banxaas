@@ -3,7 +3,7 @@ import time
 import math
 import json
 from pprint import pprint
-from .permissions import IsAuthenticatedPermission
+from .permissions import IsAuthenticatedPermission, CheckApiKeyAuth
 from rest_framework import generics, mixins
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -14,6 +14,7 @@ from .serializers import *
 
 
 class ConnexionViewset(APIView):
+    permission_classes = [CheckApiKeyAuth,]
 
     def post(self, request):
         """ Cette fonction prend en charge de la connexion des utilisateurs.
@@ -21,8 +22,7 @@ class ConnexionViewset(APIView):
         JSON à soumettre: {
             "login": "...", // Type String/Str
             "password": "..." // Type String/Str
-        }
-        """
+        }        """
         # Vérification de la validité des données collectées
         try:
             [login, password] = isRequestDataConnexionValid(request.data)
@@ -81,7 +81,7 @@ class ConnexionViewset(APIView):
 
 
 class ConnexionRoomName(APIView):
-    permission_classes = [IsAuthenticatedPermission,]
+    permission_classes = [IsAuthenticatedPermission, CheckApiKeyAuth]
     def post(self, request):
         """ Cette fonction permet de récupérer le chat room de l'utilisateur
             Méthode Autorisée: POST,
@@ -102,7 +102,7 @@ class ConnexionRoomName(APIView):
 
 
 class Disconnect(APIView):
-    permission_classes = [IsAuthenticatedPermission,]
+    permission_classes = [IsAuthenticatedPermission, CheckApiKeyAuth]
     def post(self, request):
         """ Cette fonction permet de déconecter l'utilisateur
             Méthode Autorisée: POST,
@@ -123,6 +123,7 @@ class Disconnect(APIView):
 
 
 class CreateAccountViewset(APIView):
+    permission_classes = [CheckApiKeyAuth]
 
     def post(self, request):
         """ Cette fonction, permet de creer un compte utilisateur
@@ -185,8 +186,43 @@ class CreateAccountViewset(APIView):
             return Response(
                 {'status': 'FAILED', 'message': "Vérifier votre connexion, Si l'erreur persiste, contactez moi!"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+class SendValidationCode(APIView):
+    permission_classes = [CheckApiKeyAuth]
+    
+    def post(self, request):
+        """ Cette fonction, permet de renvoyer un nouveau code de validation
+        Méthode autorisée: POST,
+        JSON à soumettre:
+        {
+        "email": ..., // Type String
+        ou 
+        "phone": ..., // Type String
+        }
+        """
+        try:
+            data = request.data.copy()
+            keys = list(data.keys())
+            if(len(keys) > 1) or (('phone' not in keys) and ('email' not in keys)):
+                        return Response({'status': 'FAILED', 'message': 'JSON invalide'},status=status.HTTP_400_BAD_REQUEST)
+            if 'email' in keys:
+                email = data['email']
+                code = sendVerificationCodeByMail(email)
+                payload = createValidationTokenPayload(code, email, "email")
+            else:
+                email = data['phone']
+                code = sendVerificationCodeBySms(phone)
+                payload = createValidationTokenPayload(code, phone, "phone")
+            return Response({
+                'status': "SUCCESSFUL",
+                'token': createToken(payload)
+            },status=status.HTTP_201_CREATED)
+        except:
+            return Response(
+                {'status': 'FAILED', 'message': "Vérifier votre connexion, Si l'erreur persiste, contactez moi!"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class ValidateCodeViewset(APIView):
+    permission_classes = [CheckApiKeyAuth]
 
     def post(self, request):
         """ Cette fonction, permet de valider le code de l'utilisateur
@@ -215,7 +251,7 @@ class ValidateCodeViewset(APIView):
 
 
 class PaymentMethodViewset(APIView):
-    permission_classes = [IsAuthenticatedPermission,]
+    permission_classes = [IsAuthenticatedPermission, CheckApiKeyAuth]
     def verifyExistingPm(self, name, phone):
         """ Permet de vérifier si le PM existe déja """
         if PaymentMethod.objects.filter(name=name, phone=phone):
@@ -283,6 +319,7 @@ class PaymentMethodViewset(APIView):
 
 
 class UserViewset(APIView):
+    permission_classes = [CheckApiKeyAuth]
 
     def patch(self, request):
         """
@@ -399,7 +436,7 @@ class UserViewset(APIView):
 
 
 class AdViewset(APIView):
-    permission_classes = [IsAuthenticatedPermission,]
+    permission_classes = [IsAuthenticatedPermission, CheckApiKeyAuth]
     def post(self, request):
         """
         Permet de modifier les informations de l'utilisateurs
@@ -526,7 +563,7 @@ class AdViewset(APIView):
 class AdsViewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
     queryset = Ad.objects.filter(status="I")
     serializer_class = AdsSerializer
-    permission_classes = [IsAuthenticatedPermission,]
+    permission_classes = [IsAuthenticatedPermission, CheckApiKeyAuth]
     def post(self, request, page):
         # try:
         if page < 1:
@@ -540,7 +577,7 @@ class AdsViewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generi
 
 
 class InitTradeViewset(APIView):
-    permission_classes = [IsAuthenticatedPermission,]
+    permission_classes = [IsAuthenticatedPermission, CheckApiKeyAuth]
     def post(self, request):
         """
         Permet d'initialiser un trade
@@ -616,7 +653,7 @@ class InitTradeViewset(APIView):
 
 
 class TradeViewset(APIView):
-    permission_classes = [IsAuthenticatedPermission,]
+    permission_classes = [IsAuthenticatedPermission, CheckApiKeyAuth]
     
     def verification(self, token, signature, tradeId, tradeHash):
         try:

@@ -1,7 +1,8 @@
 from rest_framework.permissions import BasePermission
 from rest_framework.exceptions import APIException
 from rest_framework import status
-from api.repository.authRepository import *
+from api.repository.authRepository import * 
+from pprint import pprint
 
 class IsAuthenticatedPermission(BasePermission):
     def has_permission(self, request, view):
@@ -17,5 +18,5 @@ class NeedLogin(APIException):
 
 class CheckApiKeyAuth(BasePermission):
     def has_permission(self, request, view):
-        api_key_secret = request.META.get('API_KEY')
-        return api_key_secret == os.getenv("API_KEY_SECRET")       
+        api_key_secret = request.headers.get('Api-Key')
+        return api_key_secret == str(os.getenv('API_KEY'))       
