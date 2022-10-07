@@ -1,10 +1,11 @@
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { AlertService } from 'src/app/parameters/alert/alert.service';
 import { AuthService } from 'src/app/parameters/auth.service';
 import { LocalStorageService } from 'src/app/parameters/local-storage.service';
+import { WebsocketService } from 'src/app/parameters/websocket.service';
 import { RegisterComponent } from '../register/register.component';
 
 @Component({
@@ -16,6 +17,9 @@ export class ConnexionComponent implements OnInit, OnDestroy {
   fieldTextType: boolean = false;
   changeText: boolean = false;
   progress!: boolean;
+  status: any;
+  wsSubscription!: Subscription;
+
 
   private unsubscription$ = new Subject<void>();
 
@@ -31,11 +35,20 @@ export class ConnexionComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private localStorage: LocalStorageService,
     private router: Router,
-  ) {}
+    private wsService: WebsocketService
+  ) {
+    
+    this.localStorage.get('dataSocketConnexion').subscribe(
+      data => {
+        this.status = JSON.parse(data)
+      }
+    )
+  }
 
   ngOnInit(): void {
+    
 
-    this.localStorage.clear()
+    this.localStorage.remove('data')
   }
   get formControls() {
     return this.signin.controls;
@@ -44,7 +57,7 @@ export class ConnexionComponent implements OnInit, OnDestroy {
   connected() {
     const dataFormSignin = this.signin.value;
     this.authService
-      .login(dataFormSignin.login, dataFormSignin.password)
+      .login(dataFormSignin.login.trim(), dataFormSignin.password.trim())
       .pipe(takeUntil(this.unsubscription$))
         .subscribe(
           (data) => {
@@ -52,6 +65,7 @@ export class ConnexionComponent implements OnInit, OnDestroy {
             const status = data.status;
 
             if (status === 'SUCCESSFUL') {
+              this.progress = true;  
               this.localStorage.set('token', data.token);
               this.localStorage.set('signature', data.signature);
               this.localStorage.set('currency', data.user.currency);
@@ -61,6 +75,23 @@ export class ConnexionComponent implements OnInit, OnDestroy {
                 JSON.stringify(data.user.paymentMethods)
               );
               this.localStorage.set('data', JSON.stringify(data));
+              
+              const webSocketUrl = 'ws://localhost:9000/ws/connexion/';
+              this.wsSubscription = this.wsService.createObservableSocketConnexion(webSocketUrl).subscribe(
+                data => {
+                  console.log(data);
+                  this.localStorage.get('dataSocketConnexion').subscribe(
+                    data => {
+                      this.status = JSON.parse(data)
+                      if (this.status.message == "Nouvelle Connexion !") {
+                        this.router.navigate(['connexion'])
+                      }
+                    }
+                  )
+                  
+                }
+              )
+              console.log(this.status);
                 setTimeout(() => {
                   if (data.user.currentTrade.length>0) {
                     
@@ -98,9 +129,11 @@ export class ConnexionComponent implements OnInit, OnDestroy {
 
             if (status === 'INACTIVATED') {
               this.failed_message = data.message;
+              this.progress = false;
             }
             if (status === 'FAILED') {
               this.failed_message = data.message;
+              this.progress = false;  
             }
           }
       );

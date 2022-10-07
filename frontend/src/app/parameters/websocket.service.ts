@@ -7,6 +7,8 @@ export class WebsocketService {
   datauser: any;
   tradeId: any;
   trade: any;
+  token: any;
+  signature: any;
 
 
   constructor(
@@ -16,6 +18,16 @@ export class WebsocketService {
         data => {
           this.datauser = JSON.parse(data)
           this.trade = this.datauser.user.currentTrade[0]
+        }
+      )
+      this.localStorage.get('token').subscribe(
+        data => {
+          this.token = data
+        }
+      )
+      this.localStorage.get('signature').subscribe(
+        data => {
+          this.signature = data
         }
       )
       this.localStorage.get('currentTrade').subscribe(
@@ -80,6 +92,42 @@ export class WebsocketService {
      }
   }
 
+
+  
+
+  createObservableSocketConnexion(url: string): Observable<any> {
+    console.log(this.datauser);
+    
+    return new Observable(
+      (subscriber: Subscriber<WebSocket>): TeardownLogic => {
+        this.ws = new WebSocket(url);
+        this.ws.onopen = () => {
+          subscriber.next(this.ws);
+          // subscriber.complete();
+          this.ws.send(JSON.stringify(
+            {
+              'token': this.token,
+              'signature': this.signature
+            }
+          ))
+        };
+        this.ws.onmessage = (event) => {
+          subscriber.next.bind(event.data)
+          this.localStorage.set('dataSocketConnexion', event.data)
+
+        }
+        this.ws.onerror = (err) => {
+          console.error("Websocket errored while trying to this.wsect", err);
+          subscriber.error(err);
+        };
+        this.ws.onclose = (ev) => {
+          console.log("Websocket closed before having emitted any message");
+          subscriber.complete();
+          // this.localStorage.remove('dataSocket')
+        };
+      }
+    );
+  }
   closeSocket(){  
     console.log('testeuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuur');
     

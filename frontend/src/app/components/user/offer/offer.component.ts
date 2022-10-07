@@ -124,7 +124,9 @@ export class OfferComponent implements OnInit {
         {label: 'Vente', value: 'V'},
         {label: 'Achat', value: 'A'}
     ]
+    this.loading = false;
     this.primengConfig.ripple = true;
+    this.listAnnonce(1)
 
 
     
@@ -259,7 +261,6 @@ export class OfferComponent implements OnInit {
   }
 
     listAnnonce(id:number){
-        console.log(this.datauser);
         
         const dataForm = this.announceForm.value;
         dataForm.token = this.datauser.token;

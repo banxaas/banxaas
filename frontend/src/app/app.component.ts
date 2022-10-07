@@ -13,6 +13,7 @@ export class AppComponent {
 
   timeoutId: any;
   userInactive: Subject<any> = new Subject();
+  status: any
 
   constructor(
     private router: Router,
@@ -35,6 +36,16 @@ export class AppComponent {
     );
  
  
+  }
+
+  isDisconnected(){
+    if (this.localStorage.get('dataSocketConnexion')) {
+      this.status = this.localStorage.get('dataSocketConnexion')
+      if (this.status.message == "Nouvelle Connexion !") {
+        this.router.navigate(['connexion'])
+      }
+      
+    }
   }
 
 
