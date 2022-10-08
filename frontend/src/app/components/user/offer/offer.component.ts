@@ -126,7 +126,7 @@ export class OfferComponent implements OnInit {
     ]
     this.loading = false;
     this.primengConfig.ripple = true;
-    this.listAnnonce(1)
+    // this.listAnnonce(1)
 
 
     
