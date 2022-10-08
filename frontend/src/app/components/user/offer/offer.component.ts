@@ -126,7 +126,6 @@ export class OfferComponent implements OnInit {
     ]
     this.loading = false;
     this.primengConfig.ripple = true;
-    // this.listAnnonce(1)
 
 
     
@@ -273,8 +272,12 @@ export class OfferComponent implements OnInit {
                 // console.log(this.customers);
                 
                 response.forEach((element: any) => {
-                    if (element.status === 'I') {
-                        this.customers.push(element)
+                    if (element.status === 'I' ) {
+                        if (response.length > 10) {
+                            this.customers.push(element)
+                        } else {
+                            this.customers = response
+                        }
                     }
                     // if (element.user.seniority < 86400) {
                     //     this.seniority = 'Aujourd\'hui'
