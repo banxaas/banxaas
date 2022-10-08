@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   private unsubscription$ = new Subject<void>();
   
   registerForm = new FormGroup({
-    pseudo: new FormControl('', [Validators.required, Validators.pattern('([A-Za-z0-9]+[.-_]){2,}')]),
+    pseudo: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9-_]+$')]),
     password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[.#?!@$%^&*-]).{8,}$')]),
     email: new FormControl('', [Validators.required, Validators.pattern('([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9]+\\.(([A-Za-z0-9]+[.-_])*[A-Za-z0-9]){2,}')]),
     // "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"

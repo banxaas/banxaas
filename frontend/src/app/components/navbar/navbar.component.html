@@ -1,4 +1,4 @@
-<nav *ngIf="!token" ngxNavbarDynamicExpand class="container-fluid w-full bg-green-design sm:px-4 ">
+<nav *ngIf="!token" ngxNavbarDynamicExpand class="navbar-toggler container-fluid w-full bg-green-design sm:px-4 ">
     <div class="flex justify-between items-center lg:ml-[8%]  mx-auto">
       <a href="" class="flex w-[25%] md:w-[25%] max-h-full">
           <img src="../../../assets/logo.png" class="w-full md:w-[50%] align-items-right max-h-full" alt="Flowbite Logo" />
@@ -11,7 +11,7 @@
       </button>
         <div class="hidden md:block w-full md:w-[75%]">
           <ngx-navbar-collapse #collapse="ngxNavbarCollapse" id="main-nav">
-            <ul class="flex flex-col md:flex-row md:space-x-4 lg:space-x-[10%] md:mt-0 md:text-sm lg:ml-[0%] md:font-medium ">
+            <ul class="navbar-nav flex flex-col md:flex-row md:space-x-4 lg:space-x-[10%] md:mt-0 md:text-sm lg:ml-[0%] md:font-medium ">
               <li class="flex md:justify-center lg:w-[50%] md:w-[40%]">
                 <div class="items-center md:justify-center sm:ml-[75%] md:ml-0 md:mt-0  flex sm:flex-col md:flex-row w-full md:w-[100%] space-x-[20%] lg:flex ">
                   <button routerLink="/documentation" class="text-white sm:text-[10px] md:text-[14px] lg:text-[18px]">Documentation</button>
@@ -38,7 +38,7 @@
   </nav>
 
 
-  <nav *ngIf="token" ngxNavbarDynamicExpand class="container-fluid w-full bg-green-design sm:px-4 ">
+  <nav *ngIf="token" ngxNavbarDynamicExpand class="navbar-toggler container-fluid w-full bg-green-design sm:px-4 ">
     <div class="flex justify-between items-center mx-auto">
       <a href="" class="flex w-[25%] md:w-[25%] max-h-full">
           <img src="../../../assets/logo.png" class="w-full md:w-[50%] lg:ml-[25%] align-items-right max-h-full" alt="Flowbite Logo" />
@@ -51,7 +51,7 @@
       </button>
       <div class="hidden  w-full md:block md:w-[75%]">
         <ngx-navbar-collapse #collapse="ngxNavbarCollapse" id="main-nav">
-          <ul class="flex flex-col mt-4 md:flex-row md:space-x-2 justify-center md:mt-0 md:text-sm md:font-medium">
+          <ul class=" navbar-nav flex flex-col mt-4 md:flex-row md:space-x-2 justify-center md:mt-0 md:text-sm md:font-medium">
             <li class="flex md:justify-center lg:w-[35%] md:w-[30%]">
               <div class="items-center md:justify-center sm:ml-[75%] md:ml-0 mt-5 md:mt-0 md:space-y-[0%] md:mr-[30%] lg:mr-[0%] sm:mr-[0%] flex sm:flex-col sm:space-y-[5%] md:flex-row w-full md:w-[100%] space-x-8 lg:flex">
                 <button class="text-white sm:text-[10px] md:text-[14px] lg:text-[16px]" routerLink="historique_transactions">Historique des transactions</button>

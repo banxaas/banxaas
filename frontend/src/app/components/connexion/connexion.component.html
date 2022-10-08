@@ -17,6 +17,7 @@
                     <label class="block font-bold" for="name">Pseudo</label>
                     <input type="text" formControlName="login" placeholder="Pseudo" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design">
                     <div class="mt-2 text-red-600" *ngIf="formControls['login'].errors?.['required'] && formControls['login']?.touched">Nom d'utilisateur est obligatoire</div>
+                    <div class="mt-2 text-red-600" *ngIf="formControls['login'].errors?.['pattern']">Nom d'utilisateur est invalide</div>
                 </div>
                 <div class="mt-4 relative">
                     <label class="block font-bold" for="password">Mot de passe</label>

@@ -27,7 +27,7 @@ export class ConnexionComponent implements OnInit, OnDestroy {
 
   tokenCcreation = new EventEmitter<RegisterComponent>();
   signin = new FormGroup({
-    login: new FormControl('', [Validators.required]),
+    login: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9-_]+$')]),
     password: new FormControl('', [Validators.required]),
   });
 
