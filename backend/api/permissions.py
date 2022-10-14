@@ -6,10 +6,11 @@ from pprint import pprint
 
 class IsAuthenticatedPermission(BasePermission):
     def has_permission(self, request, view):
-        print("kkkk",request.data)
-            
         try:
-            return isAuthenticated(request.data['token'], request.data['signature'])
+            auth_token=request.headers.get('Authorization').split()[1]
+            auth_sign=request.headers.get('AuthorizationSign')
+
+            return isAuthenticated(auth_token,auth_sign)
         except:
             raise NeedLogin()
 class NeedLogin(APIException):
