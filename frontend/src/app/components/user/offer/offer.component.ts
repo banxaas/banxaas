@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PrimeNGConfig } from 'primeng/api';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -58,10 +58,12 @@ export class OfferComponent implements OnInit {
   
     status: any
     datauser: any;
+    progress!: boolean;
 
   constructor(
     private customerService: CustomerService, 
     private primengConfig: PrimeNGConfig,
+    private messageService: MessageService,
     private localStorage:LocalStorageService,
     private router: Router
     ) { 
@@ -339,8 +341,12 @@ export class OfferComponent implements OnInit {
             this.disableButtonNext = false
         }
     }
-
+    toggleModal(){
+        this.progress  = true;
+      }
     accepter(id:number){
+        
+        this.progress = true;
         const dataInitTradeForm = this.initTradeForm.value
         dataInitTradeForm.token = this.datauser.token;
         dataInitTradeForm.signature = this.datauser.signature;
@@ -349,8 +355,9 @@ export class OfferComponent implements OnInit {
         this.customerService.initTrade(dataInitTradeForm).subscribe(
             response => {
                 // console.log(response);
-                if (response.status === "SUCCESSFUL") {
 
+                if (response.status === "SUCCESSFUL") {
+                    
                     this.localStorage.set('currentTrade', JSON.stringify(response))
 
                     if (response.currentTrade.ad.sens === "V") {
@@ -397,10 +404,17 @@ export class OfferComponent implements OnInit {
                     
                     
                 }
+                if (response.status === "FAILED") {
+                    this.progress = false
+                }
                 
             }
         ) 
         
     }
+    
+  showMessage() {
+    this.messageService.add({key: 'bottomright', severity:'warn', summary: 'Successully', detail:'Veuillez patienter quelques instants pour l\'initialisation d\'une transaction!'});
+  }
 
 }

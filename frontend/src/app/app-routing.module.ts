@@ -69,6 +69,7 @@ const routes: Routes = [
         { path: 'profil', redirectTo:'profil/securite' },
         { path: 'profil', component: ProfilComponent,
             children: [
+              { path: 'profil', component: HomeComponent },
               { path: 'compte', component: CompteComponent },
               { path: 'securite', component: SecurityComponent },
               { path: 'mot-de-passe', component: PasswordComponent },

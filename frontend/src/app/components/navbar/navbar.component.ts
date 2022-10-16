@@ -36,9 +36,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.localStorage.get('data').subscribe(
       data => {
         this.datatauser = JSON.parse(data);
-        this.pseudo = this.datatauser.user.pseudo;
-        this.devise = this.datatauser.user.currency;
-        this.token = this.datatauser.token
+        if (this.datatauser) {
+          this.pseudo = this.datatauser.user.pseudo;
+          this.devise = this.datatauser.user.currency;
+          this.token = this.datatauser.token          
+        }
       }
     )
 

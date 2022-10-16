@@ -83,7 +83,7 @@ export class ConnexionComponent implements OnInit, OnDestroy {
                   this.localStorage.get('dataSocketConnexion').subscribe(
                     data => {
                       this.status = JSON.parse(data)
-                      if (this.status.message == "Nouvelle Connexion !") {
+                      if (this.status.message && this.status.message == "Nouvelle Connexion !") {
                         this.router.navigate(['connexion'])
                       }
                     }
