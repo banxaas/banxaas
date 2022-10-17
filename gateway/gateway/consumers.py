@@ -1,4 +1,7 @@
 # chat/consumers.py
+import os
+import dotenv
+from django.http.request import HttpHeaders
 import json
 import time
 from pprint import pprint
@@ -6,6 +9,10 @@ import requests
 from channels.generic.websocket import WebsocketConsumer
 from asgiref.sync import async_to_sync
 
+def set_headers(auth_headers={}):
+    dotenv.load_dotenv()
+    httpHeaders: HttpHeaders = {'Api-Key': str(os.getenv('API_KEY')),**auth_headers}
+    return httpHeaders
 
 class ConnexionConsumer(WebsocketConsumer):
     def connect(self):
@@ -17,10 +24,11 @@ class ConnexionConsumer(WebsocketConsumer):
 
     def receive(self, text_data):
         try:
+            
             data = json.loads(text_data)
-            data = {"token": data['token'], "signature": data['signature']}
+            auth_headers={'Authorization':f"Bearer {data['token']}",'AuthorizationSign':data['signature']}
             request = requests.post(
-                'http://backend:27543/api/connexionRoomName/', data=data).json()
+                'http://backend:27543/api/connexionRoomName/',headers=set_headers(auth_headers=auth_headers)).json()
             status = request['status']
 
             if status == "FAILED":
@@ -83,8 +91,9 @@ class TransactionConsumer(WebsocketConsumer):
         signature = data['signature']
         tradeId = data['tradeId']
         if (len(keys) == 3) and ('token' in keys) and ('signature' in keys) and ('tradeId' in keys):
-            data_ = {'token':token, 'signature':signature, 'tradeId':tradeId}
-            request = requests.post(f'http://backend:27543/api/trade/{self.tradeHash}/', data=data_)
+            data_ = {'tradeId':tradeId}
+            auth_headers={'Authorization':f"Bearer {data['token']}",'AuthorizationSign':data['signature']}
+            request = requests.post(f'http://backend:27543/api/trade/{self.tradeHash}/', data=data_,headers=set_headers(auth_headers=auth_headers))
             if request.json()['status'] == 'FAILED':
                 pprint(request.json()['message'])
                 self.close(code=4004)
@@ -97,8 +106,9 @@ class TransactionConsumer(WebsocketConsumer):
                 pprint(self.role)
         else:
             step = data['step']
-            data_ = {'token':token, 'signature':signature, 'tradeId':tradeId}
-            request = requests.post(f'http://backend:27543/api/trade/{self.tradeHash}/', data=data_)
+            data_ = {'tradeId':tradeId}
+            auth_headers={'Authorization':f"Bearer {data['token']}",'AuthorizationSign':data['signature']}
+            request = requests.post(f'http://backend:27543/api/trade/{self.tradeHash}/', data=data_,headers=set_headers(auth_headers=auth_headers))
             if request.json()['status'] == 'FAILED':
                 pprint(request.json()['message'])
                 self.close(code=4004)
@@ -113,7 +123,7 @@ class TransactionConsumer(WebsocketConsumer):
                     data_['transactionId'] = data['transactionId']
                 if step == 5:
                     data_['buyerWalletAdress'] = data['buyerWalletAdress']
-                request = requests.patch(f'http://backend:27543/api/trade/{self.tradeHash}/', data=data_)
+                request = requests.patch(f'http://backend:27543/api/trade/{self.tradeHash}/', data=data_,headers=set_headers(auth_headers=auth_headers))
                 if request.json()['status'] == "SUCCESSFUL":
                     async_to_sync(self.channel_layer.group_send)(
                         self.room_group_name,
