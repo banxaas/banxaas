@@ -1,0 +1,27 @@
+ul{
+    width: 80%;
+    margin-left: 20%;
+}
+
+@media screen and (max-width: 770px) {
+    ul {
+        width: 95%;
+    }
+    .btn_nav {
+        width: 30%;
+        margin-bottom: 5%;
+
+    }
+}
+
+@media screen and (max-width: 400px) {
+    ul {
+        width: 90%;
+    }
+    .btn_nav {
+        width: 55%;
+        margin-bottom: 5%;
+
+    }
+}
+

@@ -8,7 +8,7 @@ export const environment = {
   // apiUrl: 'http://localhost:9000/',
 
   // URL BACKEND
-  // apiUrl: 'http://localhost:8000/api/'
+  // apiUrl: 'http://localhost:8000/api/',
 
   // URL SERVER TEST
   apiUrl: 'http://test.banxaas.com:9000/',

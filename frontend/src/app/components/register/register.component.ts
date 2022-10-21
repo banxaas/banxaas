@@ -62,7 +62,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     }
     if (data.phone === "") {
-      delete data.phone    
+      delete data.phone  
     }
     if (data.phone && data.phone!="" && data.email && data.email!="") {
       this.errorMessage = "Veuillez choisir l'email ou le numéro de téléphone pour l'envoi du code"

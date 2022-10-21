@@ -1,75 +1,6 @@
-<!-- <div class="flex flex-col">
-    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-        <div class="overflow-x-auto">
-        <div class="">
-            <button>filter</button>
-        </div>
-          <table class="min-w-full shadow-xl">
-            <thead class="border-b">
-              <tr>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4 text-left">
-                  Id user
-                </th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4 text-left">
-                  Quantité(min-max)
-                </th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4 text-left">
-                  Montant(min-max)
-                </th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4 text-left">
-                  Marge
-                </th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4 text-left">
-                  Sens  
-                </th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4 text-left">
-                  Méthode de paiement
-                </th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4 text-left">
-                  Ancienneté
-                </th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4 text-left">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">1</td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  Cell
-                </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  Cell
-                </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  Cell
-                </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  Cell
-                </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  Cell
-                </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  Cell
-                </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  Cell
-                </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  Cell
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div> -->
 
-  <div class="text-title uppercase font-bold text-center mt-10 underline">
+
+<div class="text-title uppercase font-bold text-center underline sm:mt-[40%] sm:mt-[20%] lg:mt-[10%]">
     liste des offres
 </div>
 <div class="flex w-full mt-5 justify-center items-center bg-white-700">
@@ -83,18 +14,8 @@
             [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
             [paginator]="false" currentPageReportTemplate="Voir {first} à {last} {totalRecords} entries"
             [filterDelay]="0">
-            <!-- <ng-template pTemplate="caption">
-                <div class="table-header">
-                    List of Customers
-                    <span class="p-input-icon-left">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt.filterGlobal($event, 'contains')" placeholder="Global Search" />
-                    </span>
-                </div>
-            </ng-template> -->
               <ng-template pTemplate="header">
                   <tr>
-                      <!-- <th style="width: 3rem"></th> -->
                       <th pSortableColumn="id text-center"><b>Id user</b>  <p-sortIcon field="user.pseudo"></p-sortIcon></th>
                       <th pSortableColumn="quantite"><b>Quantité(min-max)</b><p-sortIcon field="quantiteType"></p-sortIcon></th>
                       <th pSortableColumn="montant"><b>Montant(min-max)</b> <p-sortIcon field="amoutType"></p-sortIcon></th>
@@ -103,7 +24,6 @@
                       <th pSortableColumn="paiement"><b>Méthode paiement</b> <p-sortIcon field="provider"></p-sortIcon></th>
                       <th pSortableColumn="anciennete"><b>Ancienneté</b> <p-sortIcon field="user.seniority"></p-sortIcon></th>
                       <th pSortableColumn=""><b>Action</b></th>
-                      <!-- <th style="width: 8rem"></th> -->
                   </tr>
                   <tr>
                       <th>
@@ -182,7 +102,8 @@
                       {{customer.user.seniority}} 
                   </td>
                   <td style="text-align: center">
-                      <button (click)="accepter(customer.id)" type="button"  class="text-green-600 px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-600 hover:text-white hover:bg-green-600">Accepter</button>
+                    <button (click)="showMessage()"><button *ngIf="customer.user.pseudo!= pseudo" (click)="accepter(customer.id)" type="button"  class="text-green-600 px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-600 hover:text-white hover:bg-green-600">Accepter</button>
+                      </button>
                   </td>
                 </tr>
             </ng-template>
@@ -200,5 +121,15 @@
         <p-button *ngIf="disableButtonNext === false" type="button" icon="pi pi-chevron-right" (click)="next()"  styleClass="p-button-text"></p-button>
       </div>
     </div>
+    
+
+
 </div>
+<p-toast 
+position="top-right" 
+[hideTransitionOptions]="'0ms'"
+[showTransitionOptions]="'0ms'"
+[showTransformOptions]="'100000ms'"
+key="bottomright">
+</p-toast>
 

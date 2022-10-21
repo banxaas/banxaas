@@ -23,14 +23,14 @@ export class JWTTokenService {
     return localStorage.getItem('token');
   }
 
-  decodeToken(jwtToken: string){
+  decodedeToken(jwtToken: string){
     if (jwtToken) {
-      return jwt_decode(jwtToken);
+      return this.helper.decodeToken(jwtToken);
     }
   }
 
   getUserRole(token: string){
-    this.decodeToken = jwt_decode(token);
+    this.decodedToken = jwt_decode(token);
     return this.decodedToken ;
   }
 

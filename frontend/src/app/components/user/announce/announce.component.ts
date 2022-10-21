@@ -143,7 +143,10 @@ export class AnnounceComponent implements OnInit {
       response => {
         console.log(response);
         if (response.status === "SUCCESSFUL") {
-          this.router.navigate(['user/offre'])
+          setTimeout(() => {
+            this.router.navigate(['user/offre'])
+          }, 1500)
+          
         }
         if (response.status === "FAILED") {
           this.errorMessage = response.message;
@@ -158,6 +161,6 @@ export class AnnounceComponent implements OnInit {
 
   }
   showMessage() {
-    this.messageService.add({severity:'success', summary: 'Successully', detail:'Annonce publiée avec succés!'});
+    this.messageService.add({key: 'bottomright', severity:'success', summary: 'Successully', detail:'Annonce publiée avec succés!'});
   }
 }

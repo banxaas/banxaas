@@ -17,7 +17,9 @@ export class WebsocketService {
       this.localStorage.get('data').subscribe(
         data => {
           this.datauser = JSON.parse(data)
-          this.trade = this.datauser.user.currentTrade[0]
+          if (this.datauser) {
+            this.trade = this.datauser.user.currentTrade[0]
+          }
         }
       )
       this.localStorage.get('token').subscribe(

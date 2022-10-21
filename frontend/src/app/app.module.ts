@@ -59,6 +59,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { WebsocketService } from './parameters/websocket.service';
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgxNavbarModule } from 'ngx-bootstrap-navbar';
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -122,7 +123,8 @@ import { NgxNavbarModule } from 'ngx-bootstrap-navbar';
     NgxMaskModule.forRoot()
   ],
   providers: [
-    CustomerService, MessageService, WebsocketService
+    CustomerService, MessageService, WebsocketService,{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService
   ],
   bootstrap: [AppComponent]
 })
