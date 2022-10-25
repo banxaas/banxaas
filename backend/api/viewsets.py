@@ -226,13 +226,13 @@ class ValidateCodeViewset(APIView):
         """
         try:
             isValid, userId = verifyCodeValidation(
-                request.data['code'], request.headers.get('Authorization').split()[1])
+                request.data['code'],request.data['token'])
             if not isValid:
                 return Response({'status': "FAILED", 'message': 'Token ou Code Invalide'},status=status.HTTP_400_BAD_REQUEST)
             if User.objects.filter(email=userId):
-                user = User.objects.filter(email=userId)[0]
+                user = User.objects.filter(email=userId).first()
             if User.objects.filter(phone=userId):
-                user = User.objects.filter(phone=userId)[0]
+                user = User.objects.filter(phone=userId).first()
             user.is_active = True
             user.save()
             return Response({'status': "SUCCESSFUL"},status=status.HTTP_200_OK)
@@ -259,7 +259,7 @@ class PaymentMethodViewset(APIView):
         """
         try:
             # Validité des éléments
-            if len(request.data) != 4:
+            if len(request.data) != 2:
                 return Response({'status': "FAILED", 'message': "JSON invalide"},status=status.HTTP_400_BAD_REQUEST)
             token = request.headers.get('Authorization').split()[1]
 
@@ -295,7 +295,7 @@ class PaymentMethodViewset(APIView):
         """
         try:
             # Validité des éléments
-            if len(request.data) != 3:
+            if len(request.data) != 1:
                 return Response({'status': "FAILED", "message": "JSON invalide"})
             # Vérifie si l'utilisateur est connecté
             pm = PaymentMethod.objects.get(id=int(request.data['id']))
@@ -325,7 +325,7 @@ class UserViewset(APIView):
             keys = list(data.keys())
 
             # Validité des éléments
-            if len(data) > 7:
+            if len(data) > 5:
                 return Response({'status': "FAILED", "message": "JSON invalide"},status=status.HTTP_400_BAD_REQUEST)
 
             token = request.headers.get('Authorization').split()[1]  # Récupération du Token
@@ -518,7 +518,7 @@ class AdViewset(APIView):
         """
         try:
             data = request.data.copy()
-            if len(data) != 3:
+            if len(data) != 1:
                 return Response({"status": "FAILED", "message": "JSON invalide"})
 
             token = request.headers.get('Authorization').split()[1]  # Récupération du Token
@@ -561,7 +561,7 @@ class InitTradeViewset(APIView):
             "adId": ... // Type Interger/Int
         }
         """
-
+ 
         try:
             # Vérifie si l'utilisateur est connecté
             if not isAuthenticated(request.headers.get('Authorization').split()[1], request.headers.get('AuthorizationSign')):
@@ -687,8 +687,11 @@ class TradeViewset(APIView):
         role = verification['role']
         trade = verification['trade']
         # Vérification de la légitimité de l'envoie et traitement associé
+        if(verification['trade'].step>step):
+            return Response({'status':'FAILED', 'message':"Cette étape est inférieure à l'étape actuel!"},status=status.HTTP_400_BAD_REQUEST)
+            
+                    
         step = int(request.data['step'])
-
         if role == "Vendeur" and step == 2:
             trade.txId = request.data['txId']
             montant = float(trade.ad.quantityFixe) * 100000000
