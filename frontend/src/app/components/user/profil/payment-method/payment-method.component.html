@@ -8,13 +8,13 @@
         <div *ngIf="fieldActive">
             <div *ngFor="let paiement of datas" class="w-[90%] md:w-1/2 bg-white flex mt-5 border border-b-4 border-green-design rounded-t-lg">
                 <div class="w-full flex items-center">
-                    <div class="lg:w-[20%] md:w-[20%] sm:w-[30%] mt-2 mb-2 flex">                    
+                    <div class="lg:w-[20%] md:w-[20%] sm:w-[30%] mt-2 mb-2 flex">
                         <div *ngIf="paiement.name=='OM'" class="flex flex-col ml-5 lg:p-4 md:p-2 sm:p-3 mt-3 mb-3 justify-center">
                             <img src="../../../../../assets/logo_sans_text_Orange_Money.png" alt="">
                         </div>
                         <div *ngIf="paiement.name=='WAVE'" class="flex flex-col ml-5 lg:p-7 md:p-5 sm:p-3 mt-3 mb-3 justify-center">
                             <img src="../../../../../assets/wave-logo-sans-text.png" alt="">
-                        </div>                    
+                        </div>
                         <div *ngIf="paiement.name=='FREE'" class="flex flex-col ml-5 lg:p-7 md:p-5 sm:p-3 mt-3 mb-3 justify-center">
                             <img src="../../../../../assets/freemoney.png" alt="">
                         </div>
@@ -26,17 +26,17 @@
                         <div class="sm:text-[6px] md:text-[8px] lg:text-[12px] mt-2 text-gray-400">Numéro de téléphone: {{paiement.phone}}</div>
                     </div>
                     <div class="lg:w-[25%] md:w-[25%] sm:w-[25%] flex justify-center">
-                        <button (click)="deletePayment(paiement.id)" class="sm:text-[8px] md:text-[10px] lg:text-[14px] flex border border-green-design flex-row bg-white hover:bg-green-design hover:text-white text-green-design font-bold lg:px-12 lg:py-4 md:px-8 md:py-2 sm:px-4 sm:py-2 rounded">
+                        <button (click)="deletePayment(paiement.id)" class="sm:text-[8px] md:text-[10px] lg:text-[14px] flex border border-green-design flex-row bg-white text-green-design font-bold lg:px-12 lg:py-4 md:px-8 md:py-2 sm:px-4 sm:py-2 rounded">
                             Retirer
                         </button>
                     </div>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
 
     <p-dialog header="Formulaire" [(visible)]="hidden">
-    
+
         <form [formGroup]="paymentForm" (ngSubmit)="setPaymentMethod()">
             <div class="mt-4">
                 <label class="block font-bold" for="name">Nom</label>
@@ -73,15 +73,15 @@
                     <div class="mt-2 text-red-600" *ngIf="formControls['phone'].errors?.['pattern']">Le numéro de téléphone est invalide</div>
                     <!-- <div class="mt-2 text-red-600" *ngIf="formControls['username'].errors?.['required']">Nom d'utilisateur est obligatoire</div> -->
             </div>
-    
+
             <div class="mt-10 grid w-full justify-center">
-                <button class="w-full shadow-xl border border-green-design flex-row bg-green-design hover:bg-white hover:text-green-design text-white font-bold lg:px-12 lg:py-4 md:px-8 md:py-2 sm:px-4 sm:py-2 rounded">Ajouter</button>
+                <button class="w-full shadow-xl border border-green-design flex-row bg-green-design hover:bg-green-800 text-white font-bold lg:px-12 lg:py-4 md:px-8 md:py-2 sm:px-4 sm:py-2 rounded">Ajouter</button>
             </div>
         </form>
-          
+
     </p-dialog>
-    
+
     <div class="mt-10 grid w-[50%] justify-items-end">
-        <button (click)="toggleModal()" class="w-[40%] shadow-xl border border-green-design flex-row bg-green-design hover:bg-white hover:text-green-design text-white font-bold sm:text-[8px] md:text-[10px] lg:text-[14px]  lg:px-8 lg:py-4 md:px-4 md:py-2 sm:py-2 rounded">Ajouter un mode de paiement</button>
+        <button (click)="toggleModal()" class="w-[40%] shadow-xl border border-green-design flex-row bg-green-design hover:bg-green-800 text-white font-bold sm:text-[8px] md:text-[10px] lg:text-[14px]  lg:px-8 lg:py-4 md:px-4 md:py-2 sm:py-2 rounded">Ajouter un mode de paiement</button>
     </div>
 </div>

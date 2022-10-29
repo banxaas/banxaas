@@ -13,7 +13,7 @@ import { LocalStorageService } from 'src/app/parameters/local-storage.service';
 export class RegisterComponent implements OnInit, OnDestroy {
 
   fieldTextType: boolean = false;
-  changeText: boolean = false;  
+  changeText: boolean = false;
   inputVisisble: boolean = false;
   submitted: boolean = false;
   progress!: boolean;
@@ -21,9 +21,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   errorMessage!: string;
   failed!: string;
 
-  
+
   private unsubscription$ = new Subject<void>();
-  
+
   registerForm = new FormGroup({
     pseudo: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9-_]+$')]),
     password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[.#?!@$%^&*-]).{8,}$')]),
@@ -39,30 +39,30 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private router: Router
   ) { }
 
-  ngOnInit(): void {  
-    
+  ngOnInit(): void {
+
   }
 
   get formControls(){
-    
+
     return this.registerForm.controls;
   }
 
   // Fonction pour le choix du champ entre email ou numéro de téléphone
   inputHidden(){
-    this.inputVisisble = !this.inputVisisble 
+    this.inputVisisble = !this.inputVisisble
   }
-  
+
   // Fonction pour l'envoi des données pour la création de l'utulisateur
   create(){
     const data = this.registerForm.value ;
-    delete data.box;    
+    delete data.box;
     if (data.email === "") {
       delete data.email
 
     }
     if (data.phone === "") {
-      delete data.phone  
+      delete data.phone
     }
     if (data.phone && data.phone!="" && data.email && data.email!="") {
       this.errorMessage = "Veuillez choisir l'email ou le numéro de téléphone pour l'envoi du code"
@@ -75,13 +75,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.localStorage.set('token_validation', token);
         const status = response.status;
         console.log(response);
-        
-        
-        
-        if (status === 'FAILED') {
-          this.failed = response.message;
+
+
+
+        if (status === 'FAILED' && response.message==="Email already exists") {
+          this.failed = "L'email existe déjà";
+          this.progress = false
         }
         if (status === 'SUCCESSFUL') {
+          this.progress = true
           this.router.navigate(["validation_code"]);
         }
       }
@@ -90,7 +92,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   // Fonction pour rendre visible ou invisible le password
   toggleFieldTextType() {
-    
+
     this.fieldTextType = !this.fieldTextType;
   }
   progressSpinner(){

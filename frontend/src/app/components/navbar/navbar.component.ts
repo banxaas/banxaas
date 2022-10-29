@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { CustomerService } from 'src/app/parameters/customerservice';
 import { LocalStorageService } from 'src/app/parameters/local-storage.service';
@@ -20,8 +21,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
     currency: new FormControl(),
   })
 
+  profilForm = new FormGroup({
+    profil: new FormControl()
+  })
+
   pseudo!: string | null;
   devise: any;
+  val!: string
 
   isListProfil: any;
   isListDevise: any;
@@ -31,7 +37,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(
     private localStorage: LocalStorageService,
     private customerService: CustomerService,
-  ) { 
+    private router: Router
+  ) {
 
     this.localStorage.get('data').subscribe(
       data => {
@@ -39,14 +46,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
         if (this.datatauser) {
           this.pseudo = this.datatauser.user.pseudo;
           this.devise = this.datatauser.user.currency;
-          this.token = this.datatauser.token          
+          this.token = this.datatauser.token
         }
       }
     )
 
   }
-  
+
   ngOnInit(): void {
+
   }
 
   setCurrency() {
@@ -75,6 +83,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
       }
     )
+
+
+  }
+  urlProfil(val: string) {
+
+      this.router.navigate(['user/'+val]);
+      console.log("tester");
 
 
   }

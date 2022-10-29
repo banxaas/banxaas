@@ -6,6 +6,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 
 import  jwt_decode from 'jwt-decode'
 import jwtDecode from 'jwt-decode';
+import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/parameters/auth.service';
 import { LocalStorageService } from 'src/app/parameters/local-storage.service';
@@ -32,28 +33,29 @@ export class CodeValidationComponent implements OnInit, OnDestroy {
   status: any;
   tokenValidation: any;
 
-  
+
 
   constructor(
     private localStorage: LocalStorageService,
     private authService: AuthService,
     private jwtService: JwtHelperService,
-    private router: Router) 
+    private messageService: MessageService,
+    private router: Router)
   {
-  
+
    }
 
 
   ngOnInit(): void {
-      
+
       this.localStorage.get('token_validation').subscribe(
         data => {
           this.tokenValidation = this.jwtService.decodeToken(data)
           console.log(this.tokenValidation);
-          
+
         }
       )
-        
+
   }
 
   get formControls(){
@@ -72,15 +74,16 @@ export class CodeValidationComponent implements OnInit, OnDestroy {
 
     dataForm.code = Number.parseInt(dataForm.code)
 
-    
+
     this.authService.validAccount(dataForm.code, dataForm.token)
     .pipe(takeUntil(this.unsubscription$))
     .subscribe(
       response => {
         console.log(response);
         this.status = response.status
-        
+
         if (response.status === "SUCCESSFUL") {
+          this.messageService.add({key: 'bottomright', severity:'success', summary: 'Successully', detail:'Activation compte réussie'});
           this.localStorage.remove('token_validation');
           this.errorMessage = "Inscription Réussie"
           setTimeout(() => {
@@ -88,48 +91,50 @@ export class CodeValidationComponent implements OnInit, OnDestroy {
           }, 1500 )
         }
         if (response.status === "FAILED") {
+          this.messageService.add({key: 'bottomright', severity:'error', summary: 'Erreur', detail:'Activation compte échoué'});
           this.errorMessage = response.message
         }
 
-        
+
       }
     )
 
-  }  
+  }
   resendNewCode(){
 
     const data = this.resendCodeForm.value ;
 
     if (this.tokenValidation.userIdType == 'email') {
 
-      data.email = this.tokenValidation.userId 
-      delete data.phone  
-      
+      data.email = this.tokenValidation.userId
+      delete data.phone
+
     }
 
     if (this.tokenValidation.userIdType == 'phone') {
 
-      data.phone = this.tokenValidation.userId 
-      delete data.email  
-      
+      data.phone = this.tokenValidation.userId
+      delete data.email
+
     }
     console.log(data);
-    
+
     this.authService.sendNewValidationCode(data)
     .pipe(takeUntil(this.unsubscription$))
     .subscribe(
       response => {
-        
+
         const token = response.token;
         this.status = response.status;
         this.localStorage.set('token_validation', token);
         window.location.reload();
         console.log(response);
-        
+
       }
     )
 
   }
+
   ngOnDestroy(): void {
     if (this.unsubscription$) {
       this.unsubscription$.next();

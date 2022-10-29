@@ -45,7 +45,7 @@ export class PaymentMethodComponent implements OnInit {
 
   ngOnInit(): void {
 
-    
+
     this.localStorage.get('data').subscribe(
       data => {
         this.datauser = JSON.parse(data)
@@ -55,7 +55,7 @@ export class PaymentMethodComponent implements OnInit {
 
     this.updateSubscription = interval(500).subscribe(
       (val) => {
-        
+
         this.localStorage.get('paymentMethods').subscribe(
           data => {
             this.dataPaymentMethod = JSON.parse(data)
@@ -64,12 +64,12 @@ export class PaymentMethodComponent implements OnInit {
         );
 
 
-        if (this.dataPaymentMethod .length == 0) {
+        if (this.dataPaymentMethod.length == 0) {
 
           this.fieldActive = false
         }
-        if (this.dataPaymentMethod .length > 0) {
-          this.datas = this.dataPaymentMethod 
+        if (this.dataPaymentMethod.length > 0) {
+          this.datas = this.dataPaymentMethod
           this.fieldActive = true
         }
       }
@@ -137,7 +137,7 @@ export class PaymentMethodComponent implements OnInit {
         console.log(response);
         const status = response.status
         if (status === "SUCCESSFUL") {
-          
+
           // const payment: any = this.localStorage.get('paymentMethods')
           let method = this.dataPaymentMethod
           method = method.filter((element: any) => element.id != dataForm.id);
@@ -145,8 +145,8 @@ export class PaymentMethodComponent implements OnInit {
 
           console.log(method);
           console.log('delete');
-          
-          
+
+
         }
 
       }

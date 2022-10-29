@@ -5,7 +5,7 @@
     </div>
     <div class="mt-10 flex flex-col">
         <div class="w-[90%] md:w-1/2 bg-white flex mt-2">
-            <form [formGroup]="formCompte"  class="w-[90%]"> 
+            <form [formGroup]="formCompte"  class="w-[90%]">
                 <div class="mt-4">
                     <div class="mt-4">
                         <label class="block font-bold text-[14px]" for="name">Pseudo</label>
@@ -18,21 +18,21 @@
                     <div *ngIf="fieldPhone" class="mt-6">
                         <label class="block font-bold text-[14px]" for="name">Numéro de téléphone</label>
                         <input type="text" formControlName="phone" placeholder="77 123 45 67" class="w-[80%] px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design">
-                    </div>               
+                    </div>
                 </div>
                 <div class="mt-10">
-                    <button (click)="toggleModal()" class=" flex shadow-xl border border-green-design flex-row bg-green-design hover:bg-white hover:text-green-design text-white font-bold lg:px-12 lg:py-4 md:px-8 md:py-2 sm:px-4 sm:py-2 rounded">Modifier</button>
+                    <button (click)="toggleModal()" class=" flex shadow-xl border border-green-design flex-row bg-green-design hover:bg-green-800 text-white font-bold lg:px-12 lg:py-4 md:px-8 md:py-2 sm:px-4 sm:py-2 rounded">Modifier</button>
                 </div>
                 <p-dialog header="Confirmation" [(visible)]="hidden">
                     <div class="mt-4">
                         <p>Veuillez-vous reconnecter apres les changements, Cliquer sur Enrégistrer pour confirmer ou Annuler pour annuler les changements</p>
                     </div>
                     <div class="mt-10 w-full flex flex-row justify-center">
-                        <button type="submit" (click)="setUser()" class="w-[20%] shadow-xl border border-green-design flex-row bg-green-design hover:bg-white hover:text-green-design text-white font-bold lg:px-12 lg:py-4 md:px-8 md:py-2 sm:px-4 sm:py-2 rounded">Enrégistrer</button>
-                        <button (click)="dismissModal()"  class="w-[20%] shadow-xl mx-4 border border-green-design flex-row bg-green-design hover:bg-white hover:text-green-design text-white font-bold lg:px-12 lg:py-4 md:px-8 md:py-2 sm:px-4 sm:py-2 rounded">Annuler</button>
+                        <button type="submit" (click)="setUser()" class="w-[20%] shadow-xl border border-green-design flex-row bg-green-design hover:bg-green-800 text-white font-bold lg:px-12 lg:py-4 md:px-8 md:py-2 sm:px-4 sm:py-2 rounded">Enrégistrer</button>
+                        <button (click)="dismissModal()"  class="w-[20%] shadow-xl mx-4 border border-green-design flex-row border-2 border-red-500 text-red-500 font-bold lg:px-12 lg:py-4 md:px-8 md:py-2 sm:px-4 sm:py-2 rounded">Annuler</button>
                     </div>
                 </p-dialog>
-                    
+
                 <!-- <div class="mt-10 grid w-[50%] justify-items-end">
                     <button (click)="toggleModal()" class="w-[40%] shadow-xl border border-green-design flex-row bg-green-design hover:bg-white hover:text-green-design text-white font-bold py-4 px-4 rounded">Ajouter un mode de paiement</button>
                 </div> -->

@@ -1,108 +1,113 @@
 
-<div class="flex relative flex-col items-center justify-center min-h-screen bg-gray-100">
+<div class="flex relative flex-col items-center justify-center min-h-screen">
     <div class="lg:w-[20%] md:w-[30%] sm:w-[25%] md:w-1/6 absolute top-[3%]">
         <a href="user/home">
             <img src="../../../assets/logo_banxass_vert.png" />
         </a>
     </div>
-    <div class="lg:w-[60%] md:w-[100%] sm:w-[100%] sm:mt-[35%] md:mt-[15%] shadow-lg sm:p-2 md:p-5">
-        <span class="text-[14px]">Hello <b>{{pseudo}}</b></span><br>
-        <p class="text-[14px]">Ces quelques lignes sont ce qui vous sépare de vos prochains BTC</p>
+    <div class="lg:w-[60%] md:w-[100%] sm:w-[100%] sm:mt-[35%] md:mt-[20%] lg:mt-[12%] shadow-lg sm:p-2 md:p-5">
+        <span class="text-[18px]">Hello <b>{{pseudo}}</b></span><br>
+        <p class="text-[18px]">Ces quelques lignes sont ce qui vous sépare de vos prochains BTC</p>
         <div class="w-full pt-5">
             <hr class="w-full border-green-400">
         </div>
-        <div class="w-full flex flex-row space-x-[40%] lg:space-x-[60%] pt-5">
-            <div class="lg:text-subtitle text-[12px] font-bold">
+        <div class="w-full flex flex-row space-x-[10%] lg:space-x-[60%] pt-5">
+            <div class="w-[50%] text-[18px] font-bold">
                     Prix actuel d'1 BTC
             </div>
-            <div class="w-[40%] lg:text-[20px]  md:text-[12px] font-bold text-green-600">
+            <div class="w-[50%] text-[18px] font-bold text-green-600">
                 {{rate}}
             </div>
         </div>
     </div>
- <form [formGroup]="announceForm" (ngSubmit)="addAnnounce()" class="lg:w-[80%] md:w-[100%] sm:w-[100%] flex sm:mt-[15%] md:mt-[10%] items-center justify-center">
+ <form [formGroup]="announceForm" (ngSubmit)="addAnnounce()" class="lg:w-[80%] md:w-[100%] sm:w-[100%] flex sm:mt-[15%] md:mt-[3%] items-center justify-center">
         <div class="lg:w-full shadow-lg flex flex-col items-center justify-center lg:p-5 md:p-3 sm:p-2">
-            <div class="lg:w-[70%] md:w-[90%] cacher  lg:text-[12px]  items-center flex sm:flex-col md:flex-col lg:flex-row justify-center text-gray-400">
-                <div class="w-[19%] text-center"><label for="">Quantité à acheter</label></div>
+            <div class="lg:w-[75%] md:w-[90%] cacher text-[18px]  items-center flex sm:flex-col md:flex-col lg:flex-row justify-center text-gray-400">
+              <div class="w-[19%]  text-center"><label for="">Sens</label></div>
+                <div class="w-[19%] text-center" ><label for="">Quantité <span *ngIf="this.announceForm.value.sens=='V'">à vendre</span> <span *ngIf="this.announceForm.value.sens=='A'">à acheter</span> </label></div>
                 <div class="w-[19%]  text-center"><label for="">Prix</label></div>
                 <div class="w-[19%]  text-center"><label for="">Marge</label></div>
-                <div class="w-[19%]  text-center"><label for="">Sens</label></div>
                 <div class="w-[19%]  text-center"><label for="">Moyen de Paiement</label></div>
             </div>
-            
-            <div class="hide text-center text-[30px] font-bold"><h1>Formulaire d'ajout annonces</h1></div>   
-            <div class=" lg:w-[75%] md:w-[95%] sm:w-[100%]  lg:text-[12px] bg-[#E7F5ED] border border-green-400 flex sm:flex-col md:flex-col lg:flex-row justify-around items-center lg:p-5 lg:m-2 md:p-3 sm:p-2" >
-                <div class="lg:w-[8%] md:w-[50%] sm:w-[50%] lg:relative lg:right-[40%] sm:m-[2%] md:m-[2%] lg:m-[0%]">
-                    <div class="hide text-center text-gray-400"><label for="">Quantité</label></div>
-                    <select formControlName="quantityType" id="" (change)="hideInputQuantityAmount()" class="w-full rounded-l-lg px-2 py-2 border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
+
+            <div class="hide text-center text-green-design m-2 text-[18px] font-bold"><h1>Créer une annonce</h1></div>
+            <div class=" lg:w-[75%] md:w-[95%] sm:w-[100%] text-[18px] bg-[#E7F5ED] border border-green-400 flex sm:flex-col md:flex-col lg:flex-row justify-around items-center lg:p-5 lg:m-2 md:p-3 sm:p-2" >
+
+              <div class="sm:w-[50%] md:w-[50%] lg:w-[10%] lg:relative lg:right-[40%] sm:m-[2%] md:m-[0%]">
+                <div class="hide text-center text-gray-400"><label for="">Sens</label></div>
+                <select formControlName="sens" id="" class="w-full rounded px-2 py-2 border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
+
+                    <option value="V">Vente</option>
+                    <option value="A" >Achat</option>
+                </select>
+              </div>
+                <div class="lg:w-[5%] md:w-[50%] sm:w-[50%] lg:absolute lg:right-[63%] sm:m-[2%] md:m-[2%] lg:m-[0%]">
+                    <div class="hide text-center text-gray-400"><label for="">Quantité <span *ngIf="this.announceForm.value.sens=='V'">à vendre</span> <span *ngIf="this.announceForm.value.sens=='A'">à acheter</span> </label></div>
+                    <select formControlName="quantityType" id="" (change)="hideInputQuantityAmount()" class="w-full px-2 py-2 border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
                         <option value="" >Choisir...</option>
                         <option value="F">Fixe</option>
                         <option value="R" >Range</option>
-                    </select>   
+                    </select>
                 </div>
-                <div *ngIf="rangeHidden" class="lg:w-[16%] md:w-[50%] sm:w-[50%] lg:absolute lg:left-[29.8%]  flex sm:flex-col md:flex-col lg:flex-row sm:m-[2%] md:m-[2%] lg:m-[0%]">
-                    <div class="hide text-center text-gray-400"><label for="">Quantité à acheter</label></div>
-                    <input type="text" formControlName="quantityMin" value="" placeholder="Min" class="lg:w-[50%] sm:m-[2%] md:m-[2%] lg:m-[0%] border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
-                    <input type="text" formControlName="quantityMax" value="" placeholder="Max" class="lg:w-[50%]  sm:m-[2%] md:m-[2%] lg:m-[0%] border border-green-400 rounded-r-lg focus:outline-none focus:ring-1 focus:ring-green-design">
+                <div *ngIf="rangeHidden" class="lg:w-[20%] md:w-[50%] sm:w-[50%] lg:absolute lg:left-[37.2%]  flex sm:flex-col md:flex-col lg:flex-row sm:m-[2%] md:m-[2%] lg:m-[0%]">
+                    <div class="hide text-center text-gray-400"><label for="">Quantité <span *ngIf="this.announceForm.value.sens=='V'">à vendre</span> <span *ngIf="this.announceForm.value.sens=='A'">à acheter</span> </label></div>
+                    <input type="text" formControlName="quantityMin" (input)="inputCalcule($any($event.target).value)" value="" placeholder="Min" class="lg:w-[50%] sm:m-[2%] md:m-[2%] lg:m-[0%] border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
+                    <input type="text" formControlName="quantityMax" (input)="inputCalcule($any($event.target).value)" value="" placeholder="Max" class="lg:w-[50%]  sm:m-[2%] md:m-[2%] lg:m-[0%] border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
                     <div class="lg:ml-5">
                         <div class="hide text-center text-gray-400"><label for="">Prix</label></div>
-                        <input type="text" formControlName="amountMin" value="" placeholder="Min" class="lg:w-[50%] sm:w-full sm:m-[2%] md:m-[2%] lg:m-[0%] border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
-                        <input type="text" formControlName="amountMax" value="" placeholder="Max" class="lg:w-[50%] sm:w-full sm:m-[2%] md:m-[2%] lg:m-[0%] border border-green-400 rounded-r-lg focus:outline-none focus:ring-1 focus:ring-green-design">
+                        <input type="text" formControlName="amountMin" value="{{prixMin}}" placeholder="{{prixMin}}" class="lg:w-[50%] sm:w-full sm:m-[2%] md:m-[2%] lg:m-[0%] border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
+                        <input type="text" formControlName="amountMax" value="{{prixMax}}" placeholder="{{prixMax}}" class="lg:w-[50%] sm:w-full sm:m-[2%] md:m-[2%] lg:m-[0%] border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
                     </div>
                 </div>
-                <div *ngIf="fixeHidden" class="lg:w-[16%] md:w-[50%] sm:w-[50%] lg:absolute lg:left-[29.8%] flex sm:flex-col md:flex-col lg:flex-row sm:m-[2%] md:m-[2%] lg:m-[0%]">
-                    <div class="w-full hide text-center text-gray-400"><label for="">Quantité à acheter</label></div>
-                    <input type="text" formControlName="quantityFixe" value="" placeholder="Fixe" class="lg:w-[50%] rounded-r-lg border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
+                <div *ngIf="fixeHidden" class="lg:w-[20%] md:w-[50%] sm:w-[50%] lg:absolute lg:left-[37.2%] flex sm:flex-col md:flex-col lg:flex-row sm:m-[2%] md:m-[2%] lg:m-[0%]">
+                    <div class="w-full hide text-center text-gray-400"><label for="">Quantité <span *ngIf="this.announceForm.value.sens=='V'">à vendre</span> <span *ngIf="this.announceForm.value.sens=='A'">à acheter</span> </label></div>
+                    <input type="text" formControlName="quantityFixe" (input)="inputCalcule($any($event.target).value)" value="" placeholder="Fixe" class="lg:w-[50%] border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
                     <div class="lg:ml-5  lg:w-[50%]">
                         <div class="hide text-center text-gray-400"><label for="">Prix</label></div>
-                        <input type="text" formControlName="amountFixe" value="" placeholder="Fixe" class="w-full  rounded-r-lg border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
+                        <input type="text" formControlName="amountFixe" readonly value="{{prixfixe}}" placeholder="{{prixfixe}}" class="w-full border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
                     </div>
                 </div>
-                <div class="sm:w-[50%] md:w-[50%] lg:w-[8%] lg:absolute sm:m-[2%] md:m-[2%] lg:m-[0%]">
+                <!-- <div class="mt-2 text-red-600" *ngIf="formControlsAnnounce['quantityFixe'].errors?.['pattern']">!</div> -->
+                <div class="sm:w-[50%] md:w-[50%] lg:w-[5%] lg:absolute lg:right-[37%] sm:m-[2%] md:m-[2%] lg:m-[0%]">
                     <div class="hide text-center text-gray-400"><label for="">Marge</label></div>
                     <input type="number" formControlName="marge" value="" placeholder="-10%" class="w-full text-center  rounded border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
                 </div>
-                
-                <div class="sm:w-[50%] md:w-[50%] lg:w-[7%] lg:absolute lg:right-[35%] sm:m-[2%] md:m-[0%]">
-                    <div class="hide text-center text-gray-400"><label for="">Sens</label></div>                    
-                    <select formControlName="sens" id="" class="w-full rounded px-2 py-2 border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
-                        
-                        <option value="V">Vente</option>
-                        <option value="A" >Achat</option>
-                    </select>
-                </div>
+
                 <div *ngIf="!fieldActive" class="lg:w-[10%] md:w-[50%] sm:w-[50%] lg:absolute lg:right-[23%]  sm:m-[2%] md:m-[2%] lg:m-[0%]">
                     <div class="hide text-center text-gray-400"><label for="">Méthode de paiement</label></div>
-                    <button routerLink="/user/profil/methode-paiement" class="w-full rounded  lg:text-[12px] px-2 py-2 border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">Veillez ajouter un moyen de paiement</button>
+                    <button (click)="toggleModal()"  class="w-full rounded  lg:text-[12px] px-2 py-2 border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">Veillez ajouter un moyen de paiement</button>
                 </div>
-                
+
                 <div class="hide text-center text-gray-400"><label for="">Méthode de paiement</label></div>
                 <div *ngIf="fieldActive" class="lg:w-[10%] md:w-[50%] sm:w-[50%] lg:absolute lg:right-[23%]">
-                    
-                    <select formControlName="provider" id="" class="w-full  lg:text-[12px] md:text-[10px]  rounded px-2 py-2 border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
-                        
+                    <select formControlName="provider" id="" class="w-full rounded px-2 py-2 border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
+
                         <optgroup *ngFor="let paiement of datas">
                             <option *ngIf="paiement.name === 'OM'" value="{{paiement.name}}">Orange Money</option>
                             <option *ngIf="paiement.name === 'WAVE'" value="{{paiement.name}}">Wave</option>
                             <option *ngIf="paiement.name === 'FREE'" value="{{paiement.name}}">Free Money</option>
                         </optgroup>
-                        
+
                     </select>
                 </div>
             </div>
-            
+            <div class="row">
+              <div class="text-red-600" *ngIf="formControlsAnnounce['quantityFixe'].errors?.['pattern']">Veuillez saisir un entier ou décimal</div>
+              <div class="text-red-600" *ngIf="formControlsAnnounce['quantityMin'].errors?.['pattern']">Veuillez saisir un entier ou décimal</div>
+              <div class="text-red-600" *ngIf="formControlsAnnounce['quantityMax'].errors?.['pattern']">Veuillez saisir un entier ou décimal</div>
+            </div>
             <div class="mt-2 flex justify-center lg:text-[12px] md:text-[10px] sm:text-[6px] font-bold text-red-600" *ngIf="errorMessage">
                 {{errorMessage}}
             </div>
             <div class="w-[50%] sm:w-[95%] mt-[3%] flex justify-content-center  justify-items-start ">
                 <p class="text-link w-[70%] text-[18px]">
-                    Vous souhaitez donc <span *ngIf="announceForm.value.sens==='A'">&nbsp; acheter</span><span *ngIf="announceForm.value.sens==='V'">&nbsp; vendre</span> 
+                    Vous souhaitez donc<span *ngIf="announceForm.value.sens==='A'"> acheter </span><span *ngIf="announceForm.value.sens==='V'"> vendre </span>
                     <b *ngIf="announceForm.value.quantityType==='F'">{{announceForm.value.quantityFixe}} BTC </b>
                     <b *ngIf="announceForm.value.quantityType==='R'">{{announceForm.value.quantityMin}} à {{announceForm.value.quantityMax}} BTC </b>
-                    pour une valeur de 
-                    <b *ngIf="announceForm.value.quantityType==='F'">{{announceForm.value.amountFixe}} BTC </b>
-                    <b *ngIf="announceForm.value.quantityType==='R'">{{announceForm.value.amountMin}} à {{announceForm.value.amountMax}} BTC </b>
-                    , en payant via 
+                    pour une valeur de
+                    <b *ngIf="announceForm.value.quantityType==='F'">{{prixfixe | number}} FCFA </b>
+                    <b *ngIf="announceForm.value.quantityType==='R'">{{prixMin | number}} à {{prixMax | number}} FCFA </b>
+                    , en utilisant
                     <b *ngIf="announceForm.value.provider==='OM'">Orange Money.</b>
                     <b *ngIf="announceForm.value.provider==='FREE'">Free Money.</b>
                     <b *ngIf="announceForm.value.provider==='WAVE'">Wave.</b>
@@ -110,30 +115,56 @@
                     A cela, il faudra ajouter des frais de <b>5% </b>prélevés sur les BTC que vous recevrez, ainsi que les frais de transaction du réseau Bitcoin.
                 </p>
             </div>
-            <div class="flex justify-center w-[45%] mt-[3%]">
-                <button type="submit" (click)="showMessage()" class="lg:w-[70%] md:w-[50%] text-[20px]  sm:w-[90%] md:w-full px-6 py-3 text-green-design bg-white border-2 border-green-design rounded-[40px] font-bold hover:text-white hover:bg-green-800">Confirmer</button>
+            <div class="flex justify-center  mt-[3%]">
+                <button type="submit" class="text-[20px]  sm:w-[90%] md:w-full px-4 py-2 text-green-design bg-white border-2 border-green-design rounded-[40px] font-bold  hover:bg-green-800">Confirmer</button>
             </div>
 
         </div>
     </form>
 </div>
-<!-- <div class="">
-    <form action="">
-        <div class="row d-flex justify-content-center">
-            <div class="d-flex flex-sm-column flex-md-column flex-lg-row justify-content-center col-12">
-                    <div class="col"><label for="">Quantité à acheter</label></div>
-                    <div class=" "><label for="">Prix</label></div>
-                    <div class=""><label for="">Marge</label></div>
-                    <div class=""><label for="">Sens</label></div>
-                    <div class=""><label for="">Moyen de Paiement</label></div>
-                
-            </div>
-        </div>
-    </form>
-</div> -->
 
-<p-toast 
-position="top-right" 
+<p-dialog header="Formulaire" [(visible)]="hidden">
+
+  <form [formGroup]="paymentForm" (ngSubmit)="setPaymentMethod()">
+      <div class="mt-4">
+          <label class="block font-bold" for="name">Nom</label>
+          <select formControlName="name" class="form-select appearance-none
+            block
+            w-full
+            px-4
+            py-2
+            border border-green-design
+            bg-white bg-clip-padding bg-no-repeat
+            focus:outline-none focus:ring-1 focus:ring-green-design
+            rounded
+            transition
+            ease-in-out
+            m-0
+            " aria-label="Default select example">
+              <option selected>Choisir une methode de paiement</option>
+              <option value="OM">Orange Money</option>
+              <option value="WAVE">Wave</option>
+              <option value="FREE">Free Money</option>
+          </select>
+      </div>
+      <div class="mt-4">
+          <div class="mt-2 flex justify-center font-bold text-red-600" *ngIf="errorMessage">
+             {{errorMessage}}
+          </div>
+          <label class="block font-bold" for="name">Numéro de téléphone</label>
+          <input type="text" formControlName="phone" mask="00 000 00 00" placeholder="77 000 00 00" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design">
+              <div class="mt-2 text-red-600" *ngIf="formControls['phone'].errors?.['required'] && formControls['phone']?.touched">Numéro de téléphone est obligatoire</div>
+              <div class="mt-2 text-red-600" *ngIf="formControls['phone'].errors?.['pattern']">Le numéro de téléphone est invalide</div>
+      </div>
+
+      <div class="mt-10 grid w-full justify-center">
+          <button class="w-full shadow-xl border border-green-design flex-row bg-green-design hover:bg-green-800 text-white font-bold lg:px-12 lg:py-4 md:px-8 md:py-2 sm:px-4 sm:py-2 rounded">Ajouter</button>
+      </div>
+  </form>
+
+</p-dialog>
+<p-toast
+position="top-right"
 key="bottomright">
 </p-toast>
 <app-footer></app-footer>

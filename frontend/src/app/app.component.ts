@@ -19,23 +19,25 @@ export class AppComponent {
     private router: Router,
     private localStorage: LocalStorageService
     ) {
- 
+
     this.checkTimeOut();
     // this.userInactive.subscribe((message) => {
- 
+
     //   alert(message);
     // }
     // );
   }
- 
+
+  
+
   checkTimeOut() {
- 
+
     this.timeoutId = setTimeout(
- 
+
       () => this.router.navigate(['connexion']), 900000
     );
- 
- 
+
+
   }
 
   isDisconnected(){
@@ -44,7 +46,7 @@ export class AppComponent {
       if (this.status.message == "Nouvelle Connexion !") {
         this.router.navigate(['connexion'])
       }
-      
+
     }
   }
 
@@ -52,9 +54,9 @@ export class AppComponent {
   @HostListener('window:keydown')
   @HostListener('window:mousedown')
   checkUserActivity() {
- 
+
     clearTimeout(this.timeoutId);
-    
+
     this.checkTimeOut();
   }
 

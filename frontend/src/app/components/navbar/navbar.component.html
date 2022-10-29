@@ -1,268 +1,117 @@
-<nav *ngIf="!token" ngxNavbarDynamicExpand  id="size" class="navbar navbar-expand-lg nav1 fixed-top text-start bg-green-design" aria-label="Main navigation">
-  <div class="container">    
-          <a class="navbar-brand logo-text" href="accueil">
-            <img src="../../../assets/logo.png" style="width: 200px;" class="align-items-right" alt="logo">
-          </a> 
-          <button class="navbar-toggler" type="button" (click)="collapse.toggle()" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="sr-only">Menu</span>
-              <svg class="w-6 h-6" style="color: white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
-              <svg class="hidden w-6 h-6" fill="currentColor" style="color: white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-          </button>
-          <ngx-navbar-collapse #collapse="ngxNavbarCollapse" id="main-nav">
-            <ul class="navbar-nav ms-auto navbar-nav-scrollml-lg-5 mb-lg-0">
-                <li class="nav-item m-1">
-                    <a class="nav-link text-white text-[18px] " routerLink="/documentation">Documentation</a>
-                </li>
-                <li class="nav-item m-1">
-                    <a class="nav-link text-white text-[18px]" routerLink="/aide_et_support"> Aide</a>
-                </li>
-                <li class="nav-item m-1">
-                    <a class="nav-link d-none d-lg-block" >&nbsp;</a>
-                </li>
-                <li class="nav-item m-1">
-                    <a class="nav-link d-none d-lg-block"> &nbsp;</a>
-                </li>
-                <li class="nav-item m-1">
-                    <a class="nav-link d-none d-lg-block"> &nbsp;</a>
-                </li>
-                <li class="nav-item m-1">
-                    <a class="nav-link d-none d-lg-block"> &nbsp;</a>
-                </li>
-                <li class="nav-item m-1">
-                    <a class="nav-link d-none d-lg-block"> &nbsp;</a>
-                </li>
-                <li class="nav-item m-1">
-                    <a class="nav-link btn_nav px-4 py-2 text-white text-[16px] bg-green-design rounded-3xl border-2 lg:mx-5 sm:mx-5 sm:mx-0 font-bold hover:text-green-design hover:bg-white" routerLink="/connexion">Se Connecter</a>
-                </li>
-                <li class="nav-item m-1">
-                    <a class="nav-link btn_nav px-4 py-2 text-green-design text-[16px] rounded-3xl bg-white  border-2 font-bold hover:text-white hover:bg-green-design " routerLink="/register">Créer un compte</a>
-                </li>
-            </ul>
-  </ngx-navbar-collapse>
-  </div> 
+<nav *ngIf="!token" ngxNavbarDynamicExpand id="size"
+  class="navbar navbar-expand-lg fixed-top text-start bg-green-design" aria-label="Main navigation">
+  <div class="container-lg container-fluid">
+    <a class="navbar-brand logo-text" href="accueil">
+      <img src="../../../assets/logo1.png" style="width: 150px;" class="p-2 align-items-right" alt="logo">
+    </a>
+    <button class="navbar-toggler" type="button" (click)="collapse.toggle()" aria-controls="main-nav"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="sr-only">Menu</span>
+      <svg class="w-6 h-6" style="color: white" fill="currentColor" viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd"
+          d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+          clip-rule="evenodd"></path>
+      </svg>
+      <svg class="hidden w-6 h-6" fill="currentColor" style="color: white" viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd"
+          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+          clip-rule="evenodd"></path>
+      </svg>
+    </button>
+    <ngx-navbar-collapse #collapse="ngxNavbarCollapse" id="main-nav">
+      <ul class="navbar-nav ms-auto navbar-nav-scrollml-lg-5 mb-lg-0">
+        <li class="nav-item m-1">
+          <a class="nav-link text-white text-[18px] " routerLink="/documentation">Documentation</a>
+        </li>
+        <li class="nav-item m-1">
+          <a class="nav-link text-white text-[18px]" routerLink="/aide_et_support"> Aide</a>
+        </li>
+        <li class="nav-item m-1">
+          <a class="nav-link d-none d-lg-block">&nbsp;</a>
+        </li>
+        <li class="nav-item m-1">
+          <a class="nav-link d-none d-lg-block"> &nbsp;</a>
+        </li>
+        <li class="nav-item m-1">
+          <a class="nav-link d-none d-lg-block"> &nbsp;</a>
+        </li>
+        <li class="nav-item m-1">
+          <a class="nav-link d-none d-lg-block"> &nbsp;</a>
+        </li>
+        <li class="nav-item m-1">
+          <a class="nav-link d-none d-lg-block"> &nbsp;</a>
+        </li>
+        <li class="nav-item m-1 ">
+          <button class="nav-link btn_nav sm:px-0.5 sm:py-1 md:px-4 md:py-2 px-4 py-2 text-white text-[16px] bg-green-design rounded-3xl border-2 lg:mx-5 sm:mx-5 sm:mx-0 font-bold "
+            routerLink="/connexion">Se Connecter</button>
+        </li>
+        <li class="nav-item m-1">
+          <button class="nav-link btn_nav sm:px-0.5 sm:py-1 md:px-4 md:py-2 px-4 py-2 text-green-design text-[16px] bg-white rounded-3xl border-2 lg:mx-5 sm:mx-5 sm:mx-0 font-bold"
+            routerLink="/register">Créer un compte </button>
+        </li>
+      </ul>
+    </ngx-navbar-collapse>
+  </div>
 </nav>
 
-<nav *ngIf="token" ngxNavbarDynamicExpand  id="size" class="navbar navbar-expand-lg nav1 fixed-top text-start bg-green-design" aria-label="Main navigation">
-  <div class="container">  
-      <a class="navbar-brand logo-text" href="user/home">
-        <img src="../../../assets/logo.png" style="width: 200px;" class="align-items-right" alt="logo">
-      </a> 
-          <button class="navbar-toggler" type="button" (click)="collapse.toggle()" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="sr-only">Menu</span>
-              <svg class="w-6 h-6" style="color: white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
-              <svg class="hidden w-6 h-6" fill="currentColor" style="color: white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-          </button>
-          <ngx-navbar-collapse #collapse="ngxNavbarCollapse" id="main-nav">
-            <ul class="navbar-nav ms-auto navbar-nav-scrollml-lg-5 mb-lg-0">
-              <li class="nav-item m-1">
-                  <a class="nav-link text-white text-[18px] " href="user/historique_transactions">Historique des transactions</a>
-              </li>
-                <li class="nav-item m-1">
-                    <a class="nav-link text-white text-[18px] " routerLink="/documentation">Documentation</a>
-                </li>
-                <li class="nav-item m-1">
-                    <a class="nav-link text-white text-[18px]" routerLink="/aide_et_support"> Aide</a>
-                </li>
-                <li class="nav-item m-1">
-                    <a class="nav-link lg:px-4 lg:py-2 text-green-design text-[18px] rounded-3xl bg-white  border-2 font-bold hover:text-white hover:bg-green-800" routerLink="/acheter">Acheter/Vendre du BTC</a>
-                </li>
-                <li class="nav-item m-1">
-                    <a (click)="isListProfil = !isListProfil" class="nav-link text-[18px] ml-4 rounded bg-green-design text-link leading-none text-white flex items-center justify-between cursor-pointer">
-                      {{pseudo}}
-                            <div class="mx-2">
-                                <div class="hidden" id="close">
-                                    <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M5.00016 0.666664L9.66683 5.33333L0.333496 5.33333L5.00016 0.666664Z" fill="white" />
-                                    </svg>
-                                </div>
-                                <div id="open">
-                                    <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M5.00016 5.33333L0.333496 0.666664H9.66683L5.00016 5.33333Z" fill="white" />
-                                    </svg>
-                                </div>
-                            </div>
-                    </a>
-                    
-                    <div *ngIf="isListProfil" class="bg-white  rounded" id="dropdown">
-                      <ul class="list-none">
-                          <a href="user/profil" class=""><li class="rounded text-green-design">profil</li></a>
-                      </ul>
-                  </div>
-                </li>
-                <li class="nav-item m-1">
-                      
-                    <form class="" novalidate [formGroup]="currencyForm"> 
-                      <select formControlName="currency" (change)="setCurrency()" [value]='devise' class="w-[80px] rounded px-2 py-2 border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
-                          <option value="FCFA">FCFA</option>
-                          <option value="EUR">EUR</option>
-                          <option value="USD" >USD</option>
-                      </select>
-                    </form>
-                </li>
-            </ul>
-  </ngx-navbar-collapse>
-  </div> 
+<nav *ngIf="token" ngxNavbarDynamicExpand id="size"
+  class="navbar navbar-expand-lg nav1 fixed-top text-start bg-green-design" aria-label="Main navigation">
+  <div class="container-lg container-fluid">
+    <a class="navbar-brand logo-text" href="user/home">
+      <img src="../../../assets/logo1.png" style="width: 150px;" class="p-2 align-items-right" alt="logo">
+    </a>
+    <button class="navbar-toggler" type="button" (click)="collapse.toggle()" aria-controls="main-nav"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="sr-only">Menu</span>
+      <svg class="w-6 h-6" style="color: white" fill="currentColor" viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd"
+          d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+          clip-rule="evenodd"></path>
+      </svg>
+      <svg class="hidden w-6 h-6" fill="currentColor" style="color: white" viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd"
+          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+          clip-rule="evenodd"></path>
+      </svg>
+    </button>
+    <ngx-navbar-collapse #collapse="ngxNavbarCollapse" id="main-nav">
+      <ul class="navbar-nav ms-auto navbar-nav-scrollml-lg-5 mb-lg-0">
+        <li class="nav-item m-2">
+          <a class="nav-link text-white text-[18px] " href="user/historique_transactions">Historique des
+            transactions</a>
+        </li>
+        <li class="nav-item m-2">
+          <a class="nav-link text-white text-[18px] " routerLink="/documentation">Documentation</a>
+        </li>
+        <li class="nav-item m-2">
+          <a class="nav-link text-white text-[18px]" routerLink="/aide_et_support"> Aide</a>
+        </li>
+        <li class="nav-item m-2">
+          <a class=" nav-link px-4 btn_sell py-2 text-green-design text-[18px] rounded-3xl bg-white  border-2 font-bold"
+            style="text-decoration: none;" routerLink="/acheter">Acheter/Vendre du BTC</a>
+        </li>
+        <li class="nav-item m-2 btn_profil">
+            <select class="text-black w-full nav-link text-[18px]" (click)="urlProfil($any($event.target).value)">
+              <!-- <option value=""></option> -->
+              <option value="profil" selected>{{pseudo}}</option>
+              <!-- <option value=""></option> -->
+            </select>
+
+        </li>
+        <li class="nav-item m-2 lg:ml-[10%]">
+          <a href="/connexion" class="nav-link btn_profil text-white" data-toggle="tooltip" data-placement="bottom" title="Déconnexion">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-power" viewBox="0 0 16 16">
+              <path d="M7.5 1v7h1V1h-1z"/>
+              <path d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z"/>
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </ngx-navbar-collapse>
+  </div>
 </nav>
-
-
-
-<!-- <nav *ngIf="!token"  class="navbar-toggler container-fluid w-full bg-green-design sm:px-4 ">
-    <div class="flex justify-between items-center lg:ml-[8%]  mx-auto">
-      <a href="" class="flex w-[25%] md:w-[25%] max-h-full">
-          <img src="../../../assets/logo.png" class="w-full md:w-[50%] align-items-right max-h-full" alt="Flowbite Logo" />
-          
-      </a>
-      <button type="button"  class=" items-center p-2 ml-3 text-sm text-white rounded-lg md:hidden hover:bg-green-design focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-white  dark:hover:bg-white-700 dark:focus:ring-white-600" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="sr-only">Menu</span>
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
-        <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-      </button>
-        <div class="hidden md:block w-full md:w-[75%]">
-          <ngx-navbar-collapse #collapse="ngxNavbarCollapse" id="main-nav">
-            <ul class="navbar-nav flex flex-col md:flex-row md:space-x-4 lg:space-x-[10%] md:mt-0 md:text-sm lg:ml-[0%] md:font-medium ">
-              <li class="flex md:justify-center lg:w-[50%] md:w-[40%]">
-                <div class="items-center md:justify-center sm:ml-[75%] md:ml-0 md:mt-0  flex sm:flex-col md:flex-row w-full md:w-[100%] space-x-[20%] lg:flex ">
-                  <button routerLink="/documentation" class="text-white sm:text-[10px] md:text-[14px] lg:text-[18px]">Documentation</button>
-                  <button routerLink="/aide_et_support" class="text-white sm:text-[10px] md:text-[14px] lg:text-[18px] sm:mt-4 md:mt-0" >Aide</button>
-                  <button routerLink="/aide_et_support" class="text-white sm:text-[10px] md:text-[14px] lg:text-[16px]" >&nbsp;</button>
-                  <button routerLink="/aide_et_support" class="text-white sm:text-[10px] md:text-[14px] lg:text-[16px]" >&nbsp;</button>
-                </div>
-              </li>
-              <li class="flex lg:w-[50%] md:w-[60%]">
-                <div class="flex sm:flex-col  lg:w-[80%] md:w-full sm:ml-[75%] ml-[50%] md:ml-[5%]  md:flex-row md:mt-0  items-center space-x-[5%]">
-                  <button class="px-4 py-2 text-white sm:text-[10px] md:text-[12px] lg:text-[16px] bg-green-design rounded-3xl border-2 lg:mx-5 md:mx-5 sm:mx-0 font-bold hover:text-green-800 hover:bg-white "  routerLink="/connexion">
-                    Se Connecter
-                  </button>
-                  <button class="px-4 py-2 text-green-design sm:text-[10px] md:text-[12px] lg:text-[16px] rounded-3xl bg-white  border-2 font-bold hover:text-white hover:bg-green-800 sm:mt-4 sm:mb-1 md:mt-0 md:mb-0" routerLink="/register">
-                    Créer un compte
-                  </button>
-                </div>
-              </li>
-              
-            </ul>
-          </ngx-navbar-collapse>
-        </div>
-    </div>
-  </nav>
-
-
-  <nav *ngIf="token"  class="navbar-toggler container-fluid w-full bg-green-design sm:px-4 ">
-    <div class="flex justify-between items-center mx-auto">
-      <a href="" class="flex w-[25%] md:w-[25%] max-h-full">
-          <img src="../../../assets/logo.png" class="w-full md:w-[50%] lg:ml-[25%] align-items-right max-h-full" alt="Flowbite Logo" />
-  
-      </a>
-      <button type="button" class=" items-center p-2 ml-3 text-sm text-white rounded-lg md:hidden hover:bg-green-design focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-white  dark:hover:bg-white-700 dark:focus:ring-white-600" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="sr-only">Menu</span>
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
-        <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-      </button>
-      <div class="hidden  w-full md:block md:w-[75%]">
-        <ngx-navbar-collapse #collapse="ngxNavbarCollapse" id="main-nav">
-          <ul class=" navbar-nav flex flex-col mt-4 md:flex-row md:space-x-2 justify-center md:mt-0 md:text-sm md:font-medium">
-            <li class="flex md:justify-center lg:w-[35%] md:w-[30%]">
-              <div class="items-center md:justify-center sm:ml-[75%] md:ml-0 mt-5 md:mt-0 md:space-y-[0%] md:mr-[30%] lg:mr-[0%] sm:mr-[0%] flex sm:flex-col sm:space-y-[5%] md:flex-row w-full md:w-[100%] space-x-8 lg:flex">
-                <button class="text-white sm:text-[10px] md:text-[14px] lg:text-[16px]" routerLink="historique_transactions">Historique des transactions</button>
-                <button class="text-white sm:text-[10px] md:text-[14px] lg:text-[16px]" routerLink="documentation">Documentation</button>
-                <button class="text-white sm:text-[10px] md:text-[14px] lg:text-[16px]" routerLink="aide_et_support" >Aide</button>
-              </div>
-            </li>
-            <li class="flex justify-center lg:w-[20%] md:w-[20%] lg:relative left-[2%]">
-              <div class="flex sm:flex-col sm:ml-[75%] md:ml-0 sm:space-y-[10%] md:space-y-[0%] md:flex-row md:flex-row w-full justify-center mt-5 md:mt-0 md:w-[100%] items-center space-x-2">
-                
-                <button class="lg:px-4 lg:py-2 text-green-design sm:text-[10px] md:text-[12px] lg:text-[14px] rounded-3xl bg-white  border-2 font-bold hover:text-white hover:bg-green-800" routerLink="/acheter">
-                  Acheter/Vendre du BTC
-                </button>
-              </div>
-            </li>
-            <li class="flex lg:w-[30%] md:w-[35%] lg:relative">
-              <div class="mt-5 sm:mt-5 md:mt-0 sm:ml-[75%] md:ml-0 sm:space-y-[7%] md:space-y-[0%] lg:w-full md:w-[100%] flex sm:flex-col  md:flex-row justify-center items-center">
-                  <div class="sm:w-[60%] lg:w-[20%] md:w-[25%] justify-center flex">
-                      <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-full w-[50%]" alt="Avatar"/>
-                  </div>
-                  <div class="lg:w-[70%] ml-0 flex sm:flex-col md:flex-row justify-around">
-                      <div class="md:w-[50%] lg:w-[35%] md:mx-2 lg:mx-5 lg:mt-1 md:mt-1 sm:mt-1 lg:ml-3  md:ml-2">
-                          <div (click)="isListProfil = !isListProfil " class="p-3 rounded bg-green-design text-link leading-none text-white flex items-center justify-between cursor-pointer">
-                              {{pseudo}}
-                              <div class="mx-2">
-                                  <div class="hidden" id="close">
-                                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                          <path d="M5.00016 0.666664L9.66683 5.33333L0.333496 5.33333L5.00016 0.666664Z" fill="white" />
-                                      </svg>
-                                  </div>
-                                  <div id="open">
-                                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                          <path d="M5.00016 5.33333L0.333496 0.666664H9.66683L5.00016 5.33333Z" fill="white" />
-                                      </svg>
-                                  </div>
-                              </div>
-                          </div>
-                          <div *ngIf="isListProfil" class="lg:w-[25%] p-2 bg-white shadow-xl rounded absolute lg:top-[80%]" id="dropdown">
-                              <ul class="list-none">
-                                  <a routerLink="profil" class=""><li class="rounded hover:text-white hover:bg-green-design text-green-design">profil</li></a>
-                              </ul>
-                          </div>
-                      </div>
-                      
-                      
-                      <div class="md: lg:w-[80%] flex flex-col justify-center mb-5">
-                          <form novalidate [formGroup]="currencyForm">
-                             
-                              <select formControlName="currency" (change)="setCurrency()" [value]='devise' class="lg:w-[50%] md:w-[100%] sm:w-[100%] mt-1.5 rounded px-2 py-2 border border-green-400 focus:outline-none focus:ring-1 focus:ring-green-design">
-                                  <option value="FCFA">FCFA</option>
-                                  <option value="EUR">EUR</option>
-                                  <option value="USD" >USD</option>
-                              </select>
-                          </form>
-                      </div>
-                  </div>
-              </div>
-            </li>
-          </ul>
-        </ngx-navbar-collapse>
-      </div>
-    </div>
-  </nav> -->
-  
-<!-- <nav class="navbar navbar-expand-lg nav1 text-start" aria-label="Main navigation">
-  <div class="container-fluid bg-dark">    
-          <a class="navbar-brand logo-text" href="#">
-          <img src="../../../assets/logo.png" alt="logo" style="width: 100px;">
-          </a> 
-          <button class="navbar-toggler" type="button" (click)="collapse.toggle()" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-          </button>
-          <ngx-navbar-collapse #collapse="ngxNavbarCollapse" id="main-nav">
-            <ul class="navbar-nav ms-auto navbar-nav-scroll ml-lg-5 mb-lg-0">
-                <li class="nav-item active m-1">
-                    <a class="nav-link" href="accueil">A</a>
-                </li>
-                <li class="nav-item m-1">
-                    <a class="nav-link " href="about" >B</a>
-                </li>
-                <li class="nav-item m-1">
-                    <a class="nav-link " href="speakers">C</a>
-                </li>
-                <li class="nav-item m-1" id="redirection">
-                    <a class="nav-link" href="program">D</a>
-                </li>
-                <li class="nav-item m-1">
-                    <a class="nav-link" href="hackathon">E</a>
-                </li>
-                <li class="nav-item m-1">
-                    <select class="nav-link">
-                    <option value="fr">F</option>
-                    <option value="en">G</option>
-                    </select>
-                </li>
-                <li class="nav-item ms-lg-5 m-1">
-                    <button type="button" class="btn btn_participer rounded btn-dark"><a target="_blank" rel="noopener noreferrer" href="https://docs.google.com/forms/d/e/1FAIpQLSfZvsX9aViGHepwqAKdUtnhS33eVr--BZRhFzSMR47qWNzMOg/viewform?usp=sf_link">1</a></button>
-                </li>
-                <li class="nav-item ms-lg-5 m-1">
-                    <button type="button" class="btn btn_participer2 rounded btn-dark"><a target="_blank" rel="noopener noreferrer" href="https://pay.senebtc.com/apps/24h3zv5xfrSCjVEwi2DBv9rzEdDc/crowdfund">1</a></button>
-                </li>
-            </ul>
-      </ngx-navbar-collapse>
-  </div> 
-</nav> -->
 

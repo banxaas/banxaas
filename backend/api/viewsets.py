@@ -101,7 +101,7 @@ class ConnexionRoomName(APIView):
             return Response({"status": "FAILED", 'message': "Erreur non identifié"},status=status.HTTP_400_BAD_REQUEST)
 
 
-class Disconnect(APIView):
+class   Disconnect(APIView):
     permission_classes = [IsAuthenticatedPermission, CheckApiKeyAuth]
     def post(self, request):
         """ Cette fonction permet de déconecter l'utilisateur

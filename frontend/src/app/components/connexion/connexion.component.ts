@@ -37,7 +37,7 @@ export class ConnexionComponent implements OnInit, OnDestroy {
     private router: Router,
     private wsService: WebsocketService
   ) {
-    
+
     this.localStorage.get('dataSocketConnexion').subscribe(
       data => {
         this.status = JSON.parse(data)
@@ -46,7 +46,7 @@ export class ConnexionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    
+
 
     this.localStorage.remove('data')
   }
@@ -65,7 +65,7 @@ export class ConnexionComponent implements OnInit, OnDestroy {
             const status = data.status;
 
             if (status === 'SUCCESSFUL') {
-              this.progress = true;  
+              this.progress = true;
               this.localStorage.set('token', data.token);
               this.localStorage.set('signature', data.signature);
               this.localStorage.set('currency', data.user.currency);
@@ -75,7 +75,7 @@ export class ConnexionComponent implements OnInit, OnDestroy {
                 JSON.stringify(data.user.paymentMethods)
               );
               this.localStorage.set('data', JSON.stringify(data));
-              
+
               const webSocketUrl = 'ws://localhost:9000/ws/connexion/';
               this.wsSubscription = this.wsService.createObservableSocketConnexion(webSocketUrl).subscribe(
                 data => {
@@ -88,13 +88,13 @@ export class ConnexionComponent implements OnInit, OnDestroy {
                       }
                     }
                   )
-                  
+
                 }
               )
               console.log(this.status);
                 setTimeout(() => {
                   if (data.user.currentTrade.length>0) {
-                    
+
 
                     if (data.user.pseudo == data.user.currentTrade[0].ad.user.pseudo && data.user.currentTrade[0].ad.sens == 'V') {
 
@@ -107,13 +107,13 @@ export class ConnexionComponent implements OnInit, OnDestroy {
                       this.router.navigate(['user/transaction/acheteur']);
 
                     }
-                    
+
                     if (data.user.pseudo == data.user.currentTrade[0].trader.pseudo && data.user.currentTrade[0].ad.sens == 'A') {
 
                       this.router.navigate(['user/transaction/vendeur']);
 
                     }
-                    
+
                     if (data.user.pseudo == data.user.currentTrade[0].ad.user.pseudo && data.user.currentTrade[0].ad.sens == 'A') {
 
                       this.router.navigate(['user/transaction/acheteur']);
@@ -123,7 +123,7 @@ export class ConnexionComponent implements OnInit, OnDestroy {
                   else {
                     this.router.navigate(['user']);
                   }
-                  
+
                 }, 1500)
             }
 
@@ -133,8 +133,12 @@ export class ConnexionComponent implements OnInit, OnDestroy {
             }
             if (status === 'FAILED') {
               this.failed_message = data.message;
-              this.progress = false;  
+              this.progress = false;
             }
+          },
+          error => {
+            this.progress = false;
+            this.failed_message = "Erreur Serveur"
           }
       );
   }

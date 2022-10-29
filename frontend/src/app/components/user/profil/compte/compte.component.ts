@@ -43,7 +43,7 @@ export class CompteComponent implements OnInit {
     this.messageService.add({severity:'success', summary: 'Successully', detail:'Compte modifié, veuillez-vous reconnecter'});
   }
   ngOnInit(): void {
- 
+
     this.localStorage.get('data').subscribe(
       data => {
         this.datauser = JSON.parse(data)
@@ -78,11 +78,11 @@ export class CompteComponent implements OnInit {
 
       }
     );
-    
+
     const dataForm = this.formCompte.value;
     dataForm.token = this.datauser.token;
     dataForm.signature = this.datauser.signature;
-    
+
     if (dataForm.pseudo == null) {
       delete dataForm.pseudo
     }
@@ -93,11 +93,11 @@ export class CompteComponent implements OnInit {
       delete dataForm.phone
     }
     console.log(dataForm);
-    
+
     this.customeService.setUserAccount(dataForm).subscribe(
       response => {
         console.log(response);
-        
+
         const status = response.status
         if (status === "SUCCESSFUL") {
           this.localStorage.remove('token_validation')
@@ -112,7 +112,7 @@ export class CompteComponent implements OnInit {
           // this.authService.uniqConnexion(dataForm.token, dataForm.signature).subscribe(
           //   reponse => {
           //     console.log(reponse);
-              
+
           //     if (reponse.status == true && reponse.motif === "New Connexion") {
           //       this.alerte.onAlert('test')
           //       this.router.navigate(['connexion']);
@@ -123,7 +123,7 @@ export class CompteComponent implements OnInit {
           //     }
           //   }
           // )
-          
+
         }
         else{
           this.errorMessage = "Erreur";
@@ -134,4 +134,3 @@ export class CompteComponent implements OnInit {
   }
 
 }
- 

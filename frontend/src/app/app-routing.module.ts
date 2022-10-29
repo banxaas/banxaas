@@ -66,7 +66,7 @@ const routes: Routes = [
             ]
         },
         { path: 'offre', component: OfferComponent },
-        { path: 'profil', redirectTo:'profil/securite' },
+        { path: 'profil', redirectTo:'profil/compte' },
         { path: 'profil', component: ProfilComponent,
             children: [
               { path: 'profil', component: HomeComponent },
