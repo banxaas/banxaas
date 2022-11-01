@@ -44,10 +44,11 @@ class ConnexionViewset(APIView):
                 phone = user.phone
                 code = sendVerificationCodeBySms(phone)
                 payload = createValidationTokenPayload(code, phone, "phone")
-            return Response({
-                'status': "INACTIVATED",
-                'token': createToken(payload)
+            response = Response({
+                'status': "INACTIVATED"
             },status=status.HTTP_200_OK)
+            response['set-authorization'] = createToken(payload)
+            return response
 
         # Déconnexion de l'utilisateur s'il est connecté autre part
         if user.isAuthenticated:
@@ -71,13 +72,14 @@ class ConnexionViewset(APIView):
         # Sérialisation
         serializer = UserDetailSerializer(user)
 
-        return Response({
+        response = Response({
             'status': "SUCCESSFUL",
             'user': serializer.data,
             'numberOfAds': Ad.get_num_of_ads_available(),
-            'token': jwt,
-            'signature': signature.key
         },status=status.HTTP_200_OK)
+        response['set-authorization'] = jwt
+        response['set-signature'] = signature.key
+        return response
 
 
 class ConnexionRoomName(APIView):
@@ -169,10 +171,11 @@ class CreateAccountViewset(APIView):
             else:
                 code = sendVerificationCodeBySms(phone)
                 payload = createValidationTokenPayload(code, phone, "phone")
-            return Response({
+            response = Response({
                 'status': "SUCCESSFUL",
-                'token': createToken(payload)
             },status=status.HTTP_201_CREATED)
+            response['set-authorization'] = createToken(payload)
+            return response
         except:
             return Response(
                 {'status': 'FAILED', 'message': "Vérifier votre connexion, Si l'erreur persiste, contactez moi!"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -203,10 +206,11 @@ class SendValidationCode(APIView):
                 phone = data['phone']
                 code = sendVerificationCodeBySms(phone)
                 payload = createValidationTokenPayload(code, phone, "phone")
-            return Response({
+            response = Response({
                 'status': "SUCCESSFUL",
-                'token': createToken(payload)
             },status=status.HTTP_201_CREATED)
+            response['set-authorization'] = createToken(payload)
+            return response
         except:
             return Response(
                 {'status': 'FAILED', 'message': "Vérifier votre connexion, Si l'erreur persiste, contactez moi!"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -393,11 +397,12 @@ class UserViewset(APIView):
                 serializer.save()
                 user.is_active = False
                 user.save()
-                return Response({
+                response = Response({
                     'status': "SUCCESSFUL",
-                    'token': createToken(payload),
                     'motif': 'Validate Code'
                 },status=status.HTTP_201_CREATED)
+                response['set-authorisation'] = createToken(payload)
+                return response
             if (('pseudo' in keys) and (user.pseudo != data['pseudo'])) or ('password' in keys):
                 serializer.save()
                 Token.objects.filter(user=user)[0].delete()
@@ -564,7 +569,7 @@ class InitTradeViewset(APIView):
  
         try:
             # Vérifie si l'utilisateur est connecté
-            if not isAuthenticated(request.headers.get('Authorization').split()[1], request.headers.get('AuthorizationSign')):
+            if not isAuthenticated(request.headers.get('Authorization').split()[1], request.headers.get('Signature')):
                 return Response({"status": "FAILED", "message": "Vous devez vous connecter"},status=status.HTTP_401_UNAUTHORIZED)
 
             # Vérifie si l'utilisateur ne trade pas son propre offre
@@ -666,7 +671,7 @@ class TradeViewset(APIView):
     def post(self, request, tradeHash):
         try:
         # Vérification du trade et de la signature
-            verification = self.verification(request.headers.get('Authorization').split()[1], request.headers.get('AuthorizationSign'), request.data['tradeId' ], tradeHash)
+            verification = self.verification(request.headers.get('Authorization').split()[1], request.headers.get('Signature'), request.data['tradeId' ], tradeHash)
             if verification['status'] == "FAILED":
                 return Response(verification)
             serializer = TradeSerializer(verification['trade'])
@@ -677,7 +682,7 @@ class TradeViewset(APIView):
 
     def patch(self, request, tradeHash):
         #try:
-        verification = self.verification(request.headers.get('Authorization').split()[1], request.headers.get('AuthorizationSign'), request.data['tradeId'], tradeHash)
+        verification = self.verification(request.headers.get('Authorization').split()[1], request.headers.get('Signature'), request.data['tradeId'], tradeHash)
         if verification['status'] == "FAILED":
             return Response(verification)
 

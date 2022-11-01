@@ -8,7 +8,7 @@ class IsAuthenticatedPermission(BasePermission):
     def has_permission(self, request, view):
         try:
             auth_token=request.headers.get('Authorization').split()[1]
-            auth_sign=request.headers.get('AuthorizationSign')
+            auth_sign=request.headers.get('Signature')
 
             return isAuthenticated(auth_token,auth_sign)
         except:

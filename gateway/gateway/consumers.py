@@ -26,7 +26,7 @@ class ConnexionConsumer(WebsocketConsumer):
         try:
             
             data = json.loads(text_data)
-            auth_headers={'Authorization':f"Bearer {data['token']}",'AuthorizationSign':data['signature']}
+            auth_headers={'Authorization':f"Bearer {data['token']}",'Signature':data['signature']}
             request = requests.post(
                 'http://backend:27543/api/connexionRoomName/',headers=set_headers(auth_headers=auth_headers)).json()
             status = request['status']
@@ -92,7 +92,7 @@ class TransactionConsumer(WebsocketConsumer):
         tradeId = data['tradeId']
         if (len(keys) == 3) and ('token' in keys) and ('signature' in keys) and ('tradeId' in keys):
             data_ = {'tradeId':tradeId}
-            auth_headers={'Authorization':f"Bearer {data['token']}",'AuthorizationSign':data['signature']}
+            auth_headers={'Authorization':f"Bearer {data['token']}",'Signature':data['signature']}
             request = requests.post(f'http://backend:27543/api/trade/{self.tradeHash}/', data=data_,headers=set_headers(auth_headers=auth_headers))
             if request.json()['status'] == 'FAILED':
                 pprint(request.json()['message'])
@@ -107,7 +107,7 @@ class TransactionConsumer(WebsocketConsumer):
         else:
             step = data['step']
             data_ = {'tradeId':tradeId}
-            auth_headers={'Authorization':f"Bearer {data['token']}",'AuthorizationSign':data['signature']}
+            auth_headers={'Authorization':f"Bearer {data['token']}",'Signature':data['signature']}
             request = requests.post(f'http://backend:27543/api/trade/{self.tradeHash}/', data=data_,headers=set_headers(auth_headers=auth_headers))
             if request.json()['status'] == 'FAILED':
                 pprint(request.json()['message'])

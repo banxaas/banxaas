@@ -12,7 +12,7 @@ services:
       - 50001:50001
 
   database:
-    image: postgres
+    image: postgres:15.0
     container_name: database
     volumes:
       - ./data/postgres/pgdata:/var/lib/postgresql/data/pgdata
@@ -38,7 +38,7 @@ services:
       - bdk
   
   redis:
-    image: redis
+    image: redis:7.0.5
     container_name: redis
     command: redis-server
     ports:
