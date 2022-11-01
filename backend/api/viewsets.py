@@ -82,18 +82,14 @@ class ConnexionViewset(APIView):
 
 class ConnexionRoomName(APIView):
     permission_classes = [IsAuthenticatedPermission, CheckApiKeyAuth]
-    def post(self, request):
+    def get(self, request):
         """ Cette fonction permet de récupérer le chat room de l'utilisateur
-            Méthode Autorisée: POST,
-            JSON à soumettre: {
-                "token": "...", // Type String/Str
-                "signature": "..." // Type String/Str
-            }
+            Méthode Autorisée: GET,
         """
         try:
           
             id_user = User.objects.get(pseudo=jwt.decode(
-                request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub']).id
+                request.headers.get('Authorization').split()[1], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub']).id
 
             roomName = hashlib.sha256(str(id_user).encode('utf-8')).hexdigest()
             return Response({"status": "SUCCESFUL", "room_name": roomName},status=status.HTTP_200_OK)
@@ -106,15 +102,10 @@ class   Disconnect(APIView):
     def post(self, request):
         """ Cette fonction permet de déconecter l'utilisateur
             Méthode Autorisée: POST,
-            JSON à soumettre: {
-                "token": "...", // Type String/Str
-                "signature": "..." // Type String/Str
-            }
-
         """
         try:
             user = User.objects.get(pseudo=jwt.decode(
-                request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+                request.headers.get('Authorization').split()[1], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
             user.disconnect()
             Token.objects.filter(user=user)[0].delete()
             return Response({"status": "SUCCESSFUL", 'message': "Déconnecté avec succès !"},status=status.HTTP_200_OK)
@@ -123,7 +114,7 @@ class   Disconnect(APIView):
 
 
 class CreateAccountViewset(APIView):
-    permission_classes = [CheckApiKeyAuth]
+    permission_classes = [CheckApiKeyAuth,]
 
     def post(self, request):
         """ Cette fonction, permet de creer un compte utilisateur
@@ -209,7 +200,7 @@ class SendValidationCode(APIView):
                 code = sendVerificationCodeByMail(email)
                 payload = createValidationTokenPayload(code, email, "email")
             else:
-                email = data['phone']
+                phone = data['phone']
                 code = sendVerificationCodeBySms(phone)
                 payload = createValidationTokenPayload(code, phone, "phone")
             return Response({
@@ -235,13 +226,13 @@ class ValidateCodeViewset(APIView):
         """
         try:
             isValid, userId = verifyCodeValidation(
-                request.data['code'], request.data['token'])
+                request.data['code'],request.data['token'])
             if not isValid:
                 return Response({'status': "FAILED", 'message': 'Token ou Code Invalide'},status=status.HTTP_400_BAD_REQUEST)
             if User.objects.filter(email=userId):
-                user = User.objects.filter(email=userId)[0]
+                user = User.objects.filter(email=userId).first()
             if User.objects.filter(phone=userId):
-                user = User.objects.filter(phone=userId)[0]
+                user = User.objects.filter(phone=userId).first()
             user.is_active = True
             user.save()
             return Response({'status': "SUCCESSFUL"},status=status.HTTP_200_OK)
@@ -262,17 +253,15 @@ class PaymentMethodViewset(APIView):
         """ Permet d'ajouter une méthode de paiement
         Méthode: POST,
         JSON: {
-        'token': '...', // Type String/str
-        'signature': '...',  // Type string/str
         'name':'...', // Type String/str | Valeurs (WAVE, OM, FREE)
         'phone': ... // Type Number/Int
         }
         """
         try:
             # Validité des éléments
-            if len(request.data) != 4:
+            if len(request.data) != 2:
                 return Response({'status': "FAILED", 'message': "JSON invalide"},status=status.HTTP_400_BAD_REQUEST)
-            token = request.data['token']
+            token = request.headers.get('Authorization').split()[1]
 
             # Vérifie si l'utilisateur est connecté
           
@@ -301,14 +290,12 @@ class PaymentMethodViewset(APIView):
         Méthode: POST,
         JSON:
         {
-        'token': '...', // Type String/str
-        'signature': '...', // Type String/str
         'id':... // Type Number/int
         }
         """
         try:
             # Validité des éléments
-            if len(request.data) != 3:
+            if len(request.data) != 1:
                 return Response({'status': "FAILED", "message": "JSON invalide"})
             # Vérifie si l'utilisateur est connecté
             pm = PaymentMethod.objects.get(id=int(request.data['id']))
@@ -326,8 +313,6 @@ class UserViewset(APIView):
         Permet de modifier les informations de l'utilisateurs
         Méthode: PATCH,
         JSON: {
-            "token": "...", // Type String/str
-            "signature":"...", // Type String/str
             "pseudo":"...", // Type String/str
             "email":"...", // Type String/str
             "password": "...", // Type String/str
@@ -340,10 +325,10 @@ class UserViewset(APIView):
             keys = list(data.keys())
 
             # Validité des éléments
-            if len(data) > 7:
+            if len(data) > 5:
                 return Response({'status': "FAILED", "message": "JSON invalide"},status=status.HTTP_400_BAD_REQUEST)
 
-            token = data['token']  # Récupération du Token
+            token = request.headers.get('Authorization').split()[1]  # Récupération du Token
 
             # Vérifie si l'utilisateur est connecté
            
@@ -387,9 +372,7 @@ class UserViewset(APIView):
                     return Response({'status': "FAILED", 'message': "Mot de passe incorrect !"},status=status.HTTP_400_BAD_REQUEST)
 
             # Nettoyage de data
-            data.pop('token')
-            data.pop('signature')
-
+            
             # sérialisation
             serializer = SetAccountSerializer(user, data=data, partial=True)
             if not serializer.is_valid():
@@ -443,8 +426,6 @@ class AdViewset(APIView):
         Méthode: PATCH,
         JSON: {
             // Obligatoire
-            "token": "...", // Type String/str
-            "signature":"...", // Type String/str
             "sens":"...", // Type String/str | values(A ou V)
             "quantityType":"...", // Type String/str | values(F ou R)
             "amountType": "...", // Type String/str | values(F ou R)
@@ -462,15 +443,13 @@ class AdViewset(APIView):
         """
         try:
             data = request.data.copy()
-            token = data['token']  # Récupération du Token
+            token = request.headers.get('Authorization').split()[1]  # Récupération du Token
 
             # Vérifie si l'utilisateur est connecté
           
 
             # Nettoyage de data
-            data.pop('token')
-            data.pop('signature')
-
+      
             keys = list(data.keys())
             fields = ['sens', 'quantityType', 'quantityFixe', 'quantityMin', 'quantityMax', 'amountType', 'amountFixe',
                       'amountMin', 'amountMax', 'marge', 'provider', 'phone']
@@ -534,23 +513,19 @@ class AdViewset(APIView):
         Permet de supprimer une annonce
         Méthode: DELETE,
         JSON: {
-            'token': '...',
-            'signature':'...',
             'id':... // (Il s'agit de l'id de l'annonce) Type Number/int
         }
         """
         try:
             data = request.data.copy()
-            if len(data) != 3:
+            if len(data) != 1:
                 return Response({"status": "FAILED", "message": "JSON invalide"})
 
-            token = data['token']  # Récupération du Token
+            token = request.headers.get('Authorization').split()[1]  # Récupération du Token
             # Vérifie si l'utilisateur est connecté
           
 
             # Nettoyage de data
-            data.pop('token')
-            data.pop('signature')
             user = User.objects.get(pseudo=jwt.decode(
                 token, os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
             ad = Ad.objects.get(id=int(request.data['id']), user=user.id)
@@ -564,7 +539,7 @@ class AdsViewset(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generi
     queryset = Ad.objects.filter(status="I")
     serializer_class = AdsSerializer
     permission_classes = [IsAuthenticatedPermission, CheckApiKeyAuth]
-    def post(self, request, page):
+    def get(self, request, page):
         # try:
         if page < 1:
             return Response({"status": "FAILED", "message": "L'iindice de page minimal est 1"},status=status.HTTP_400_BAD_REQUEST)
@@ -583,20 +558,18 @@ class InitTradeViewset(APIView):
         Permet d'initialiser un trade
         Méthode: POST,
         JSON: {
-            "token": "...", // Type String/str
-            "signature":"...", // Type String/str
             "adId": ... // Type Interger/Int
         }
         """
-
+ 
         try:
             # Vérifie si l'utilisateur est connecté
-            if not isAuthenticated(request.data['token'], request.data['signature']):
+            if not isAuthenticated(request.headers.get('Authorization').split()[1], request.headers.get('AuthorizationSign')):
                 return Response({"status": "FAILED", "message": "Vous devez vous connecter"},status=status.HTTP_401_UNAUTHORIZED)
 
             # Vérifie si l'utilisateur ne trade pas son propre offre
             trader = User.objects.get(pseudo=jwt.decode(
-                request.data['token'], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+                request.headers.get('Authorization').split()[1], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
             ad = Ad.objects.get(id=request.data['adId'])
 
             if ad.user == trader:
@@ -693,7 +666,7 @@ class TradeViewset(APIView):
     def post(self, request, tradeHash):
         try:
         # Vérification du trade et de la signature
-            verification = self.verification(request.data['token'], request.data['signature'], request.data['tradeId' ], tradeHash)
+            verification = self.verification(request.headers.get('Authorization').split()[1], request.headers.get('AuthorizationSign'), request.data['tradeId' ], tradeHash)
             if verification['status'] == "FAILED":
                 return Response(verification)
             serializer = TradeSerializer(verification['trade'])
@@ -704,7 +677,7 @@ class TradeViewset(APIView):
 
     def patch(self, request, tradeHash):
         #try:
-        verification = self.verification(request.data['token'], request.data['signature'], request.data['tradeId'], tradeHash)
+        verification = self.verification(request.headers.get('Authorization').split()[1], request.headers.get('AuthorizationSign'), request.data['tradeId'], tradeHash)
         if verification['status'] == "FAILED":
             return Response(verification)
 
@@ -714,8 +687,11 @@ class TradeViewset(APIView):
         role = verification['role']
         trade = verification['trade']
         # Vérification de la légitimité de l'envoie et traitement associé
+        if(verification['trade'].step>step):
+            return Response({'status':'FAILED', 'message':"Cette étape est inférieure à l'étape actuel!"},status=status.HTTP_400_BAD_REQUEST)
+            
+                    
         step = int(request.data['step'])
-
         if role == "Vendeur" and step == 2:
             trade.txId = request.data['txId']
             montant = float(trade.ad.quantityFixe) * 100000000
