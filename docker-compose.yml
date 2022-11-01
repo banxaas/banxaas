@@ -12,7 +12,7 @@ services:
       - 50001:50001
 
   database:
-    image: postgres:15.0
+    image: postgres:14
     container_name: database
     volumes:
       - ./data/postgres/pgdata:/var/lib/postgresql/data/pgdata
