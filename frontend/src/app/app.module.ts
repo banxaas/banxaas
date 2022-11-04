@@ -58,8 +58,9 @@ import { HistoryTradeComponent } from './components/user/history-trade/history-t
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { WebsocketService } from './parameters/websocket.service';
 import { ClipboardModule } from 'ngx-clipboard';
-import { NgxNavbarModule } from 'ngx-bootstrap-navbar';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { HamburgerComponent } from './components/navbar/hamburger/hamburger.component';
+import { MenuComponent } from './components/navbar/menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -95,12 +96,13 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
     PowComponent,
     HelpComponent,
     HistoryTradeComponent,
-    NavbarComponent
+    NavbarComponent,
+    HamburgerComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    NgxNavbarModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

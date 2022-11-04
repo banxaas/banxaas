@@ -1,41 +1,37 @@
-ul{
-    width: 80%;
-    margin-left: 20%;
-}
+// ul {
+//   width: 80%;
+//   margin-left: 20%;
+// }
 
-.btn_profil{
-  width: 70%;
-}
+// .btn_profil {
+//   width: 70%;
+// }
 
-@media screen and (max-width: 770px) {
-    ul {
-        width: 95%;
-    }
-    .btn_nav, .btn_profil {
-        width: 30%;
-        margin-bottom: 5%;
+// @media screen and (max-width: 770px) {
+//   ul {
+//     width: 95%;
+//   }
+//   .btn_nav,
+//   .btn_profil {
+//     width: 30%;
+//     margin-bottom: 5%;
+//   }
+//   .btn_sell {
+//     width: 35%;
+//   }
+// }
 
-    }
-    .btn_sell {
-        width: 35%;
+// @media screen and (max-width: 400px) {
+//   ul {
+//     width: 90%;
+//   }
+//   .btn_nav,
+//   .btn_profil {
+//     width: 55%;
+//     margin-bottom: 5%;
+//   }
 
-    }
-    
-}
-
-@media screen and (max-width: 400px) {
-    ul {
-        width: 90%;
-    }
-    .btn_nav, .btn_profil{
-        width: 55%;
-        margin-bottom: 5%;
-
-    }
-
-    .btn_sell {
-        width: 70%;
-
-    }
-}
-
+//   .btn_sell {
+//     width: 70%;
+//   }
+// }
