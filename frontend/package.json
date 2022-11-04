@@ -28,7 +28,6 @@
     "ngx-mask": "^13.1.12",
     "primeicons": "^5.0.0",
     "primeng": "^13.4.1",
-    "ngx-bootstrap-navbar": "1.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
