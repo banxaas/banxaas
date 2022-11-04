@@ -19,10 +19,10 @@ module.exports = {
       },
     },
     screens: {
-      'sm': '300px',
+      'sm': '576px',
       // => @media (min-width: 576px) { ... }
 
-      'md': '768px',
+      'md': '992px',
       // => @media (min-width: 960px) { ... }
 
       'lg': '1280px',
