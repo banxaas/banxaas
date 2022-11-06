@@ -61,6 +61,9 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { HamburgerComponent } from './components/navbar/hamburger/hamburger.component';
 import { MenuComponent } from './components/navbar/menu/menu.component';
+import { UserDropdownComponent } from './components/navbar/user-dropdown/user-dropdown.component';
+import { CurrencyDropdownComponent } from './components/navbar/currency-dropdown/currency-dropdown.component';
+import { NavbarControlsComponent } from './components/navbar/controls/controls.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +101,10 @@ import { MenuComponent } from './components/navbar/menu/menu.component';
     HistoryTradeComponent,
     NavbarComponent,
     HamburgerComponent,
-    MenuComponent
+    MenuComponent,
+    UserDropdownComponent,
+    CurrencyDropdownComponent,
+    NavbarControlsComponent
   ],
   imports: [
     BrowserModule,

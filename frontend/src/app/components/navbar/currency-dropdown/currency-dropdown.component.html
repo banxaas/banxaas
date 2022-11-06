@@ -1,0 +1,71 @@
+<button
+  id="states-button"
+  data-dropdown-toggle="dropdown-states"
+  class="flex-shrink-0 z-10 h-100 inline-flex items-center px-3 py-1.5 text-[12px] text-center text-green-100 bg-green-800 border border-green-600 rounded-3xl hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-green-600 ml-3"
+  type="button"
+>
+  FCFA
+  <svg
+    aria-hidden="true"
+    class="ml-1 w-4 h-4"
+    fill="currentColor"
+    viewBox="0 0 20 20"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+      clip-rule="evenodd"
+    ></path>
+  </svg>
+</button>
+<span class="sr-only">Devise</span>
+<div id="dropdown-states" class="hidden z-10 w-35 bg-white rounded divide-y divide-gray-100 shadow">
+  <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="states-button">
+    <li>
+      <button
+        type="button"
+        class="inline-flex py-2 px-4 w-full text-sm text-gray-700 hover:bg-gray-100"
+      >
+        <div class="inline-flex items-center">
+          <img
+            src="../../../assets/flag-senegal.webp"
+            class="h-3.5 w-3.5 rounded-full mr-2"
+            aria-hidden="true"
+          />
+          FCFA
+        </div>
+      </button>
+    </li>
+    <li>
+      <button
+        type="button"
+        class="inline-flex py-2 px-4 w-full text-sm text-gray-700 hover:bg-gray-100"
+      >
+        <div class="inline-flex items-center">
+          <img
+            src="../../../assets/flag-europe.webp"
+            class="h-3.5 w-3.5 rounded-full mr-2"
+            aria-hidden="true"
+          />
+          EUR
+        </div>
+      </button>
+    </li>
+    <li>
+      <button
+        type="button"
+        class="inline-flex py-2 px-4 w-full text-sm text-gray-700 hover:bg-gray-100"
+      >
+        <div class="inline-flex items-center">
+          <img
+            src="../../../assets/flag-usa.webp"
+            class="h-3.5 w-3.5 rounded-full mr-2"
+            aria-hidden="true"
+          />
+          USD
+        </div>
+      </button>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,67 @@
+<button
+  data-dropdown-toggle="userDropdown"
+  class="flex items-center text-sm font-medium text-white rounded-full hover:text-green-100 md:mr-0 focus:ring-4 focus:ring-green-600 ml-3"
+>
+  <span class="sr-only">Open user menu</span>
+  <img
+    class="mr-2 w-8 h-8 rounded-full"
+    src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+    alt="user photo"
+  />
+  Username
+  <svg
+    class="w-4 h-4 ml-1.5"
+    aria-hidden="true"
+    fill="currentColor"
+    viewBox="0 0 20 20"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+      clip-rule="evenodd"
+    ></path>
+  </svg>
+</button>
+
+<!-- Dropdown menu -->
+<div
+  id="userDropdown"
+  class="hidden z-10 w-60 bg-white rounded divide-y divide-gray-100 shadow-xl"
+  style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 10px)"
+  data-popper-reference-hidden=""
+  data-popper-escaped=""
+  data-popper-placement="bottom"
+>
+  <div class="py-3 px-4 text-sm text-gray-900">
+    <div class="flex items-center">
+      <img
+        class="mr-3 w-10 h-10 rounded-full"
+        src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+        alt="user photo"
+      />
+      <div>
+        <div class="font-medium">Username</div>
+        <div class="truncate text-sm text-gray-500">name@email.com</div>
+      </div>
+    </div>
+  </div>
+  <ul class="py-2 text-sm text-gray-700">
+    <li>
+      <a href="#" class="block py-2 px-4 hover:bg-gray-100">Tableau de bord</a>
+    </li>
+    <li>
+      <a routerLink="/user/profil/compte" class="block py-2 px-4 hover:bg-gray-100">Compte</a>
+    </li>
+  </ul>
+  <ul class="py-2 text-sm text-gray-700">
+    <li>
+      <a routerLink="/user/historique_transactions" class="block py-2 px-4 hover:bg-gray-100"
+        >Historique</a
+      >
+    </li>
+    <li>
+      <a href="#" class="block py-2 px-4 hover:bg-gray-100">Déconnexion</a>
+    </li>
+  </ul>
+</div>
