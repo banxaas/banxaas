@@ -7,8 +7,8 @@
       <img src="../../../assets/logo1.png" class="mr-3 h-8 sm:h-10 md:h-12" alt="logo" />
     </a>
     <div app-navbar-controls class="hidden sm:flex md:order-2 ml-auto md:ml-0">
-      <app-currency-dropdown *ngIf="token" class="hidden md:flex"></app-currency-dropdown>
       <app-user-dropdown *ngIf="token" class="hidden md:flex my-auto"></app-user-dropdown>
+      <app-currency-dropdown *ngIf="token" class="hidden md:flex"></app-currency-dropdown>
     </div>
     <button app-hamburger></button>
     <div app-menu class="md:flex md:order-1">
