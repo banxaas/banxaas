@@ -1,0 +1,25 @@
+.footer {
+  position: relative;
+
+  &::before,
+  &::after {
+    $height: 215px;
+    $width: 80px;
+
+    content: '';
+    background-image: url('../../../assets/footer-accent.jpg');
+    background-size: $width $height;
+    width: $width;
+    height: $height;
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    bottom: 0;
+  }
+
+  &::after {
+    right: 0;
+    left: auto;
+    transform: scaleX(-1);
+  }
+}
