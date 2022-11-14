@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { Subject } from 'rxjs';
 import { LocalStorageService } from './parameters/local-storage.service';
 
@@ -21,6 +21,19 @@ export class AppComponent {
     ) {
 
     this.checkTimeOut();
+    
+    this.router.events.subscribe((ev) => {
+      if (ev instanceof NavigationEnd) {
+        // Manually dispatch DOMLoad event when navigating as Flowbite inits the objects when the DOM loads
+        setTimeout( function() { 
+          window.document.dispatchEvent(new Event('DOMContentLoaded', {
+            bubbles: true,
+            cancelable: true
+          }));
+        }, 500);
+      }
+    });
+
     // this.userInactive.subscribe((message) => {
 
     //   alert(message);
