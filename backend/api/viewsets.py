@@ -44,11 +44,10 @@ class ConnexionViewset(APIView):
                 phone = user.phone
                 code = sendVerificationCodeBySms(phone)
                 payload = createValidationTokenPayload(code, phone, "phone")
-            response = Response({
-                'status': "INACTIVATED"
+            return Response({
+                'status': "INACTIVATED",
+                'set-authorization': createToken(payload)
             },status=status.HTTP_200_OK)
-            response['set-authorization'] = createToken(payload)
-            return response
 
         # Déconnexion de l'utilisateur s'il est connecté autre part
         if user.isAuthenticated:
@@ -72,14 +71,13 @@ class ConnexionViewset(APIView):
         # Sérialisation
         serializer = UserDetailSerializer(user)
 
-        response = Response({
+        return Response({
+            'set-authorization': jwt,
+            'set-signature': signature.key,
             'status': "SUCCESSFUL",
             'user': serializer.data,
             'numberOfAds': Ad.get_num_of_ads_available(),
         },status=status.HTTP_200_OK)
-        response['set-authorization'] = jwt
-        response['set-signature'] = signature.key
-        return response
 
 
 class ConnexionRoomName(APIView):
@@ -171,11 +169,10 @@ class CreateAccountViewset(APIView):
             else:
                 code = sendVerificationCodeBySms(phone)
                 payload = createValidationTokenPayload(code, phone, "phone")
-            response = Response({
+            return Response({
                 'status': "SUCCESSFUL",
+                'set-authorization': createToken(payload)
             },status=status.HTTP_201_CREATED)
-            response['set-authorization'] = createToken(payload)
-            return response
         except:
             return Response(
                 {'status': 'FAILED', 'message': "Vérifier votre connexion, Si l'erreur persiste, contactez moi!"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -206,11 +203,10 @@ class SendValidationCode(APIView):
                 phone = data['phone']
                 code = sendVerificationCodeBySms(phone)
                 payload = createValidationTokenPayload(code, phone, "phone")
-            response = Response({
+            return Response({
                 'status': "SUCCESSFUL",
+                'set-authorization': createToken(payload)
             },status=status.HTTP_201_CREATED)
-            response['set-authorization'] = createToken(payload)
-            return response
         except:
             return Response(
                 {'status': 'FAILED', 'message': "Vérifier votre connexion, Si l'erreur persiste, contactez moi!"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
