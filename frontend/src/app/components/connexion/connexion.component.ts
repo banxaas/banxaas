@@ -62,15 +62,11 @@ export class ConnexionComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscription$))
         .subscribe(
           data => {
-
-            console.log(data);
             const status = data.status;
-
-
             if (status === 'SUCCESSFUL') {
               this.progress = true;
-              // this.localStorage.set('token', data.headers.Authorization);
-              // this.localStorage.set('signature', data.headers.Signature);
+              this.localStorage.set('token', data.token);
+              this.localStorage.set('signature', data.signature);
               this.localStorage.set('declencheur', false);
               this.localStorage.set(
                 'paymentMethods',

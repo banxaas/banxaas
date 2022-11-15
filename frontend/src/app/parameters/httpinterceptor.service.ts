@@ -14,6 +14,7 @@ import { LocalStorageService } from './local-storage.service';
 export class HTTPInterceptorService implements HttpInterceptor{
 
   token: any
+  signature: any
   constructor( private jwtService: JWTTokenService, private router: Router, private localStorage:LocalStorageService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
@@ -22,12 +23,16 @@ export class HTTPInterceptorService implements HttpInterceptor{
         this.token = data
       }
     );
-    const signature =  this.jwtService.getSignature();
+    this.localStorage.get('signature').subscribe(
+      data => {
+        this.signature = data
+      }
+    );
     if (this.token != null) {
       if (this.jwtService.tokenExpired(this.token)) {
         this.router.navigateByUrl('connexion');
       }
-      request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + this.token).set('Signature', ''+signature).set('Access-Control-Allow-Headers', '*') });
+      request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + this.token).set('Signature', ''+this.signature).set('Access-Control-Allow-Headers', '*') });
 
     }
     request = request.clone({ headers: request.headers.set('Accept', 'application/json')})

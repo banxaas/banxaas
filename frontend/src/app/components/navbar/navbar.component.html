@@ -1,117 +1,129 @@
-<nav *ngIf="!token" ngxNavbarDynamicExpand id="size"
-  class="navbar navbar-expand-lg fixed-top text-start bg-green-design" aria-label="Main navigation">
-  <div class="container-lg container-fluid">
-    <a class="navbar-brand logo-text" href="accueil">
-      <img src="../../../assets/logo1.png" style="width: 150px;" class="p-2 align-items-right" alt="logo">
+<nav
+  class="bg-green-design px-2 sm:px-4 py-4 sm:py-5 sticky w-full z-20 top-0 left-0"
+  aria-label="Main navigation"
+>
+  <div class="sm:container-fluid md:container flex flex-wrap justify-between items-center mx-auto">
+    <a href="{{ token ? 'user/home' : 'accueil' }}" class="flex items-center">
+      <img src="../../../assets/logo1.png" class="mr-3 h-8 sm:h-10 md:h-12" alt="logo" />
     </a>
-    <button class="navbar-toggler" type="button" (click)="collapse.toggle()" aria-controls="main-nav"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="sr-only">Menu</span>
-      <svg class="w-6 h-6" style="color: white" fill="currentColor" viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd"
-          d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-          clip-rule="evenodd"></path>
-      </svg>
-      <svg class="hidden w-6 h-6" fill="currentColor" style="color: white" viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd"
-          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-          clip-rule="evenodd"></path>
-      </svg>
-    </button>
-    <ngx-navbar-collapse #collapse="ngxNavbarCollapse" id="main-nav">
-      <ul class="navbar-nav ms-auto navbar-nav-scrollml-lg-5 mb-lg-0">
-        <li class="nav-item m-1">
-          <a class="nav-link text-white text-[18px] " routerLink="/documentation">Documentation</a>
-        </li>
-        <li class="nav-item m-1">
-          <a class="nav-link text-white text-[18px]" routerLink="/aide_et_support"> Aide</a>
-        </li>
-        <li class="nav-item m-1">
-          <a class="nav-link d-none d-lg-block">&nbsp;</a>
-        </li>
-        <li class="nav-item m-1">
-          <a class="nav-link d-none d-lg-block"> &nbsp;</a>
-        </li>
-        <li class="nav-item m-1">
-          <a class="nav-link d-none d-lg-block"> &nbsp;</a>
-        </li>
-        <li class="nav-item m-1">
-          <a class="nav-link d-none d-lg-block"> &nbsp;</a>
-        </li>
-        <li class="nav-item m-1">
-          <a class="nav-link d-none d-lg-block"> &nbsp;</a>
-        </li>
-        <li class="nav-item m-1 ">
-          <button class="nav-link btn_nav sm:px-0.5 sm:py-1 md:px-4 md:py-2 px-4 py-2 text-white text-[16px] bg-green-design rounded-3xl border-2 lg:mx-5 sm:mx-5 sm:mx-0 font-bold "
-            routerLink="/connexion">Se Connecter</button>
-        </li>
-        <li class="nav-item m-1">
-          <button class="nav-link btn_nav sm:px-0.5 sm:py-1 md:px-4 md:py-2 px-4 py-2 text-green-design text-[16px] bg-white rounded-3xl border-2 lg:mx-5 sm:mx-5 sm:mx-0 font-bold"
-            routerLink="/register">Créer un compte </button>
-        </li>
-      </ul>
-    </ngx-navbar-collapse>
+    <div app-navbar-controls class="hidden sm:flex md:order-2 ml-auto md:ml-0">
+      <app-user-dropdown *ngIf="token" class="hidden md:flex my-auto"></app-user-dropdown>
+      <app-currency-dropdown *ngIf="token" class="hidden md:flex"></app-currency-dropdown>
+    </div>
+    <button app-hamburger></button>
+    <div app-menu class="md:flex md:order-1">
+      <li>
+        <a
+          routerLink="/documentation"
+          class="block py-2 px-4 md:p-0 text-gray-900 hover:text-black md:text-white md:hover:text-green-100 hover:bg-gray-100 md:hover:bg-transparent rounded"
+          >Documentation</a
+        >
+      </li>
+      <li>
+        <a
+          routerLink="/aide_et_support"
+          class="block py-2 px-4 md:p-0 text-gray-900 hover:text-black md:text-white md:hover:text-green-100 hover:bg-gray-100 md:hover:bg-transparent rounded"
+          >Aide</a
+        >
+      </li>
+      <li *ngIf="token" class="md:hidden">
+        <button
+          type="button"
+          class="flex items-center w-full py-2 px-4 text-base text-gray-900 transition duration-75 rounded group hover:bg-gray-100"
+          aria-controls="dropdown-moi"
+          data-collapse-toggle="dropdown-moi"
+        >
+          <span class="flex-1 text-left whitespace-nowrap">Moi</span>
+          <svg
+            class="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </button>
+        <ul id="dropdown-moi" class="hidden py-2 space-y-2">
+          <li>
+            <a
+              href="#"
+              class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group"
+              >Tableau de bord</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/user/profil/compte"
+              class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group"
+              >Compte</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/user/historique_transactions"
+              class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group"
+              >Historique</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group"
+              >Déconnexion</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li *ngIf="token" class="md:hidden">
+        <button
+          type="button"
+          class="flex items-center w-full py-2 px-4 text-base text-gray-900 transition duration-75 rounded group hover:bg-gray-100"
+          aria-controls="dropdown-devise"
+          data-collapse-toggle="dropdown-devise"
+        >
+          <span class="flex-1 text-left whitespace-nowrap">Devise</span>
+          <svg
+            class="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </button>
+        <ul id="dropdown-devise" class="hidden py-2 space-y-2">
+          <li>
+            <a
+              href="#"
+              class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group"
+              >FCFA</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group"
+              >EUR</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group"
+              >USD</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li app-navbar-controls class="sm:hidden px-4 pt-4"></li>
+    </div>
   </div>
 </nav>
-
-<nav *ngIf="token" ngxNavbarDynamicExpand id="size"
-  class="navbar navbar-expand-lg nav1 fixed-top text-start bg-green-design" aria-label="Main navigation">
-  <div class="container-lg container-fluid">
-    <a class="navbar-brand logo-text" href="user/home">
-      <img src="../../../assets/logo1.png" style="width: 150px;" class="p-2 align-items-right" alt="logo">
-    </a>
-    <button class="navbar-toggler" type="button" (click)="collapse.toggle()" aria-controls="main-nav"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="sr-only">Menu</span>
-      <svg class="w-6 h-6" style="color: white" fill="currentColor" viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd"
-          d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-          clip-rule="evenodd"></path>
-      </svg>
-      <svg class="hidden w-6 h-6" fill="currentColor" style="color: white" viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd"
-          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-          clip-rule="evenodd"></path>
-      </svg>
-    </button>
-    <ngx-navbar-collapse #collapse="ngxNavbarCollapse" id="main-nav">
-      <ul class="navbar-nav ms-auto navbar-nav-scrollml-lg-5 mb-lg-0">
-        <li class="nav-item m-2">
-          <a class="nav-link text-white text-[18px] " href="user/historique_transactions">Historique des
-            transactions</a>
-        </li>
-        <li class="nav-item m-2">
-          <a class="nav-link text-white text-[18px] " routerLink="/documentation">Documentation</a>
-        </li>
-        <li class="nav-item m-2">
-          <a class="nav-link text-white text-[18px]" routerLink="/aide_et_support"> Aide</a>
-        </li>
-        <li class="nav-item m-2">
-          <a class=" nav-link px-4 btn_sell py-2 text-green-design text-[18px] rounded-3xl bg-white  border-2 font-bold"
-            style="text-decoration: none;" routerLink="/acheter">Acheter/Vendre du BTC</a>
-        </li>
-        <li class="nav-item m-2 btn_profil">
-            <select class="text-black w-full nav-link text-[18px]" (click)="urlProfil($any($event.target).value)">
-              <!-- <option value=""></option> -->
-              <option value="profil" selected>{{pseudo}}</option>
-              <!-- <option value=""></option> -->
-            </select>
-
-        </li>
-        <li class="nav-item m-2 lg:ml-[10%]">
-          <a href="/connexion" class="nav-link btn_profil text-white" data-toggle="tooltip" data-placement="bottom" title="Déconnexion">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-power" viewBox="0 0 16 16">
-              <path d="M7.5 1v7h1V1h-1z"/>
-              <path d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z"/>
-            </svg>
-          </a>
-        </li>
-      </ul>
-    </ngx-navbar-collapse>
-  </div>
-</nav>
-

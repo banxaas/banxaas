@@ -56,6 +56,8 @@ export class AnnounceComponent implements OnInit {
   prixfixe: any;
   prixMax: any;
   prixMin: any;
+  token: any;
+  signature: any;
 
   constructor(
     private customerService : CustomerService,
@@ -66,6 +68,17 @@ export class AnnounceComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    this.localStorage.get('token').subscribe(
+      data => {
+        this.token = data
+      }
+    );
+    this.localStorage.get('signature').subscribe(
+      data => {
+        this.signature = data
+      }
+    );
 
     this.fixeHidden = true;
 
@@ -156,8 +169,8 @@ inputCalcule(val: string) {
 
   addAnnounce(){
     const dataForm = this.announceForm.value;
-    dataForm.token = this.dataUser.token;
-    dataForm.signature = this.dataUser.signature;
+    dataForm.token = this.token;
+    dataForm.signature = this.signature;
 
     if (dataForm.quantityType === "R") {
       dataForm.amountType = "R"
