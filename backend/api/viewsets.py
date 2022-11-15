@@ -76,9 +76,12 @@ class ConnexionViewset(APIView):
             'status': "SUCCESSFUL",
             'user': serializer.data,
             'numberOfAds': Ad.get_num_of_ads_available(),
+            'token': jwt,
+            'signature': signature.key
         },status=status.HTTP_200_OK)
-        response['set-authorization'] = jwt
-        response['set-signature'] = signature.key
+        # J'ai commenté ça pour pouvoir recuperer le token et la signature coté front
+        # response['set-authorization'] = jwt
+        # response['set-signature'] = signature.key
         return response
 
 

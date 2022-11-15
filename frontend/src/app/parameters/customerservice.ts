@@ -70,7 +70,7 @@ export class CustomerService {
   getRateBitcoin() {
     return this.http.get<any>(this.urlBitcoin, this.httpOptions);
   }
- 
+
 // Déclencher une transaction en appuyant sur le btn accepter
   initTrade(data: any): Observable<any> {
     return this.http.post<any>(this.tradeInitUrl, data);

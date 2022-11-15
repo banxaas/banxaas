@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment'
@@ -16,25 +16,25 @@ export class  AuthService {
   private registerUrl = environment.apiUrl + 'createAccount/';
   private codeUrl = environment.apiUrl + 'validateCode/';
   private sendNewCodeUrl = environment.apiUrl + 'sendNewCodeValidation/';
-
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json'})
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
+
 
   /** POST Connexion*/
   login(login: string, password: string): Observable<any>{
 
-    return this.http.post<any>(this.authUrl, {login, password}, this.httpOptions)
+    return this.http.post<HttpResponse<Object>>(this.authUrl, {login, password})
   }
 
   /** POST Create Account*/
   createAccount(data:any): Observable<any>{
-    return this.http.post<any>(this.registerUrl, data, this.httpOptions)
+    return this.http.post<any>(this.registerUrl, data)
   }
 
   /** POST Valid Account*/
   validAccount(code: string, token: string): Observable<any>{
-    return this.http.post<any>(this.codeUrl, {code, token}, this.httpOptions)
+    return this.http.post<any>(this.codeUrl, {code, token})
   }
 
   /** POST Valid Account*/
@@ -43,5 +43,5 @@ export class  AuthService {
   }
 
   /** POST */
- 
+
 }

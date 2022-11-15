@@ -7,7 +7,7 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ConnexionComponent } from './components/connexion/connexion.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxMaskModule } from 'ngx-mask';
 import { CodeValidationComponent } from './components/register/code-validation/code-validation.component';
 import { UserComponent } from './components/user/user.component';
@@ -22,18 +22,18 @@ import { AnnounceComponent } from './components/user/announce/announce.component
 import { OfferComponent } from './components/user/offer/offer.component';
 
 
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {TableModule} from 'primeng/table';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TableModule } from 'primeng/table';
 import { CalendarModule } from 'primeng/calendar';
-import {SliderModule} from 'primeng/slider';
-import {DialogModule} from 'primeng/dialog';
-import {MultiSelectModule} from 'primeng/multiselect';
-import {ContextMenuModule} from 'primeng/contextmenu';
-import {ButtonModule} from 'primeng/button';
-import {ToastModule} from 'primeng/toast';
-import {InputTextModule} from 'primeng/inputtext';
-import {ProgressBarModule} from 'primeng/progressbar';
-import {DropdownModule} from 'primeng/dropdown';
+import { SliderModule } from 'primeng/slider';
+import { DialogModule } from 'primeng/dialog';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
+import { InputTextModule } from 'primeng/inputtext';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { DropdownModule } from 'primeng/dropdown';
 import { StepsModule } from 'primeng/steps';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TooltipModule } from "primeng/tooltip";
@@ -60,6 +60,7 @@ import { WebsocketService } from './parameters/websocket.service';
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgxNavbarModule } from 'ngx-bootstrap-navbar';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { HTTPInterceptorService } from './parameters/httpinterceptor.service';
 
 @NgModule({
   declarations: [
@@ -109,12 +110,12 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
     CalendarModule,
     SliderModule,
     DialogModule,
-		MultiSelectModule,
-		ContextMenuModule,
-		DropdownModule,
+    MultiSelectModule,
+    ContextMenuModule,
+    DropdownModule,
     StepsModule,
-		ButtonModule,
-		ToastModule,
+    ButtonModule,
+    ToastModule,
     InputTextModule,
     ProgressBarModule,
     ProgressSpinnerModule,
@@ -123,7 +124,13 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
     NgxMaskModule.forRoot()
   ],
   providers: [
-    CustomerService, MessageService, WebsocketService,{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    CustomerService, MessageService, WebsocketService, { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HTTPInterceptorService,
+      multi: true
+    },
+
     JwtHelperService
   ],
   bootstrap: [AppComponent]

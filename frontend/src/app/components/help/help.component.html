@@ -5,7 +5,7 @@
         <div class="sm:w-[70%] md:w-[40%] lg:w-[30%] bg-white shadow-xl border border-2 border-green-design text-center p-5 flex flex-col  ">
             <h1 class="text-green-design sm:text-[8px] md:text-[12px] lg:text-[16px]">Bienvenue sur le support</h1>
             <p class="text-justify sm:text-[6px] md:text-[8px] lg:text-[10px] ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure voluptatum quisquam est unde quibusdam
-                consequatur quae reprehenderit deleniti facere deserunt tempore doloremque exercitationem eos, 
+                consequatur quae reprehenderit deleniti facere deserunt tempore doloremque exercitationem eos,
                 eius odit natus, officiis amet porro!
             </p>
         </div>
@@ -16,86 +16,86 @@
                     <div *ngIf="profil">
                         <svg xmlns="http://www.w3.org/2000/svg" class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4 " viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
-                        </svg> 
+                        </svg>
                     </div>
                     <div *ngIf="!profil">
                         <svg xmlns="http://www.w3.org/2000/svg" class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-                        </svg> 
+                        </svg>
                     </div>
                 </div>
             </div>
             <div *ngIf="profil" class="lg:w-full rounded-b-lg bg-[#cde0d5]" id="dropdown">
                 <div class="w-full p-[2%] w-[90%]">
                     <p class="text-justify sm:text-[6px] md:text-[10px] lg:text-[14px]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure voluptatum quisquam est unde quibusdam
-                        consequatur quae reprehenderit deleniti facere deserunt tempore doloremque exercitationem eos, 
+                        consequatur quae reprehenderit deleniti facere deserunt tempore doloremque exercitationem eos,
                         eius odit natus, officiis amet porro!
                     </p>
                 </div>
             </div>
         </div>
 
-        
+
         <div class="sm:w-[80%] md:w-[50%] lg:w-[60%] sm:mt-[6%] md:mt-[4%] lg:mt-[2%]">
             <div (click)="password = !password " class="p-[2%] rounded-t-lg bg-[#cde0d5] text-link leading-none text-white flex items-center justify-between cursor-pointer" onclick="dropdownHandler()">
                 <h1 class="text-black font-bold sm:text-[8px] md:text-[12px] lg:text-[16px]"> Changer de mot de passe </h1>
                 <div class="mx-2 text-black font-bold">
                     <div *ngIf="password">
-                        
+
                         <svg xmlns="http://www.w3.org/2000/svg" class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4 " viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
-                        </svg> 
+                        </svg>
                     </div>
                     <div *ngIf="!password">
                         <svg xmlns="http://www.w3.org/2000/svg" class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-                        </svg> 
+                        </svg>
                     </div>
                 </div>
             </div>
             <div *ngIf="password" class="lg:w-full rounded-b-lg bg-[#cde0d5]" id="dropdown">
                 <div class="w-full p-[2%] w-[90%]">
                     <p class="text-justify sm:text-[6px] md:text-[10px] lg:text-[14px]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure voluptatum quisquam est unde quibusdam
-                        consequatur quae reprehenderit deleniti facere deserunt tempore doloremque exercitationem eos, 
+                        consequatur quae reprehenderit deleniti facere deserunt tempore doloremque exercitationem eos,
                         eius odit natus, officiis amet porro!
                     </p>
                 </div>
             </div>
         </div>
 
-        
-        
+
+
         <div class="sm:w-[80%] md:w-[50%] lg:w-[60%] sm:mt-[6%] md:mt-[4%] lg:mt-[2%]">
             <div (click)="trade = !trade " class="p-[2%] rounded-t-lg bg-[#cde0d5] text-link leading-none text-white flex items-center justify-between cursor-pointer" onclick="dropdownHandler()">
                 <h1 class="text-black font-bold sm:text-[8px] md:text-[12px] lg:text-[16px]"> Probléme avec un trade </h1>
                 <div class="mx-2 text-black font-bold">
                     <div *ngIf="trade">
-                        
+
                         <svg xmlns="http://www.w3.org/2000/svg" class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4 " viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
-                        </svg> 
+                        </svg>
                     </div>
                     <div *ngIf="!trade">
                         <svg xmlns="http://www.w3.org/2000/svg" class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-                        </svg> 
+                        </svg>
                     </div>
                 </div>
             </div>
             <div *ngIf="trade" class="lg:w-full rounded-b-lg bg-[#cde0d5]" id="dropdown">
                 <div class="w-full p-[2%] w-[90%]">
                     <p class="text-justify sm:text-[6px] md:text-[10px] lg:text-[14px]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure voluptatum quisquam est unde quibusdam
-                        consequatur quae reprehenderit deleniti facere deserunt tempore doloremque exercitationem eos, 
+                        consequatur quae reprehenderit deleniti facere deserunt tempore doloremque exercitationem eos,
                         eius odit natus, officiis amet porro!
                     </p>
                 </div>
             </div>
         </div>
 
-        
+
         <div class="sm:w-[60%] lg:w-[30%] text-center p-5 flex flex-col sm:mt-[6%] md:mt-[4%] lg:mt-[2%]">
             <p class="text-center sm:text-[8px] md:text-[12px] lg:text-[16px]">
-                Vous ne trouvez pas de réponse à votre probléme ? <br> Merci de créer un ticket.
+                Vous ne trouvez pas de réponse à votre probléme? <br> Merci de créer un ticket.
             </p>
         </div>
 
@@ -152,7 +152,7 @@
 
             <ng-template pTemplate="body" let-ticket>
                 <tr class="p-selectable-row">
-                    
+
                     <td>{{ticket.objet}}</td>
                     <td>{{ticket.type}}</td>
                     <td>{{ticket.statut}}</td>
@@ -169,9 +169,9 @@
                     <td colspan="8">Pas de tickets.</td>
                 </tr>
             </ng-template>
-         
+
         </p-table>
-        
+
         <p-dialog header="Ticket #16542: Trade" style="width:30px" [(visible)]="hiddenTicket">
             <div class="mt-[2%]">
                 <b>mass</b> a crée ce ticket le 20/07/2002 à 20:30:00 UTC
@@ -192,7 +192,7 @@
                         <label for="" class="flex items-center w-[10%] font-bold">Message</label>
                         <textarea name="" id="" cols="60" rows="10" class="w-[90%] px-4 py-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design"></textarea>
                     </div>
-                    
+
                     <div class="flex flex-row-reverse w-[60%] ml-[40%] mt-[1%]">
                         <button class="w-[15%] px-3 py-2 md:px-6 md:py-4 lg:px-2 lg:py-2 mt-4 text-green-design bg-white rounded-3xl font-bold border-green-design border-2 hover:text-white  hover:bg-green-design">
                             Répondre

@@ -22,6 +22,9 @@ export class JWTTokenService {
   getToken(){
     return localStorage.getItem('token');
   }
+  getSignature(){
+    return localStorage.getItem('signature');
+  }
 
   decodedeToken(jwtToken: string){
     if (jwtToken) {
@@ -43,7 +46,7 @@ export class JWTTokenService {
     return false;
   }
 
-  isTokenExpired(jwtToken: string): boolean{
+  tokenExpired(jwtToken: string): boolean{
     if (jwtToken) {
       return this.helper.isTokenExpired(jwtToken);
     }

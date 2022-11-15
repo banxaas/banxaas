@@ -1,3 +1,4 @@
+import { HttpRequest, HttpResponse } from '@angular/common/http';
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -27,8 +28,8 @@ export class ConnexionComponent implements OnInit, OnDestroy {
 
   tokenCcreation = new EventEmitter<RegisterComponent>();
   signin = new FormGroup({
-    login: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9-_]+$')]),
-    password: new FormControl('', [Validators.required]),
+    login: new FormControl('mass', [Validators.required, Validators.pattern('^[a-zA-Z0-9-_]+$')]),
+    password: new FormControl('L@coste90', [Validators.required]),
   });
 
   constructor(
@@ -60,15 +61,16 @@ export class ConnexionComponent implements OnInit, OnDestroy {
       .login(dataFormSignin.login.trim(), dataFormSignin.password.trim())
       .pipe(takeUntil(this.unsubscription$))
         .subscribe(
-          (data) => {
+          data => {
 
+            console.log(data);
             const status = data.status;
+
 
             if (status === 'SUCCESSFUL') {
               this.progress = true;
-              this.localStorage.set('token', data.token);
-              this.localStorage.set('signature', data.signature);
-              this.localStorage.set('currency', data.user.currency);
+              // this.localStorage.set('token', data.headers.Authorization);
+              // this.localStorage.set('signature', data.headers.Signature);
               this.localStorage.set('declencheur', false);
               this.localStorage.set(
                 'paymentMethods',
@@ -78,11 +80,11 @@ export class ConnexionComponent implements OnInit, OnDestroy {
 
               const webSocketUrl = 'ws://localhost:9000/ws/connexion/';
               this.wsSubscription = this.wsService.createObservableSocketConnexion(webSocketUrl).subscribe(
-                data => {
-                  console.log(data);
+                response => {
+                  console.log(response);
                   this.localStorage.get('dataSocketConnexion').subscribe(
-                    data => {
-                      this.status = JSON.parse(data)
+                    response => {
+                      this.status = JSON.parse(response)
                       if (this.status.message && this.status.message == "Nouvelle Connexion !") {
                         this.router.navigate(['connexion'])
                       }
@@ -122,6 +124,8 @@ export class ConnexionComponent implements OnInit, OnDestroy {
                   }
                   else {
                     this.router.navigate(['user']);
+                    console.log('user');
+
                   }
 
                 }, 1500)
@@ -138,7 +142,8 @@ export class ConnexionComponent implements OnInit, OnDestroy {
           },
           error => {
             this.progress = false;
-            this.failed_message = "Erreur Serveur"
+            console.log(error);
+
           }
       );
   }

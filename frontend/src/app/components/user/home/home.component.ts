@@ -17,9 +17,9 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+
     // this.pseudo = this.localStorage.get('user');
-    
+
     this.localStorage.get('data').subscribe(
       data => {
         this.datatauser = JSON.parse(data);
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
       currency: 'XOF',
       minimumFractionDigits: 2
     });
-    
+
     this.customerService.getRateBitcoin().subscribe(
       response => {
         this.rate = cfa.format(response.data.rate)
