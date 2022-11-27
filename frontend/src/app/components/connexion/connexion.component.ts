@@ -53,7 +53,6 @@ export class ConnexionComponent implements OnInit, OnDestroy {
   }
 
   connected() {
-
     const dataFormSignin = this.signin.value;
     this.authService
       .login(dataFormSignin.login.trim(), dataFormSignin.password.trim())

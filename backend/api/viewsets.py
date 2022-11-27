@@ -393,12 +393,11 @@ class UserViewset(APIView):
                 serializer.save()
                 user.is_active = False
                 user.save()
-                response = Response({
+                return Response({
                     'status': "SUCCESSFUL",
-                    'motif': 'Validate Code'
+                    'motif': 'Validate Code',
+                    'token': createToken(payload)
                 },status=status.HTTP_201_CREATED)
-                response['set-authorisation'] = createToken(payload)
-                return response
             if (('pseudo' in keys) and (user.pseudo != data['pseudo'])) or ('password' in keys):
                 serializer.save()
                 Token.objects.filter(user=user)[0].delete()
