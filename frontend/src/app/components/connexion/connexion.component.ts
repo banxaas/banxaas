@@ -46,20 +46,13 @@ export class ConnexionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-<<<<<<< HEAD
     this.localStorage.remove('data');
-=======
-
-
-    this.localStorage.clear()
->>>>>>> 5c51e29b0126296e912f65ab723a042214820f45
   }
   get formControls() {
     return this.signin.controls;
   }
 
   connected() {
-
     const dataFormSignin = this.signin.value;
     this.authService
       .login(dataFormSignin.login.trim(), dataFormSignin.password.trim())
