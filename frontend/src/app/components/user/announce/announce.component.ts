@@ -22,8 +22,6 @@ export class AnnounceComponent implements OnInit {
   fieldActive!: boolean;
 
   announceForm = new FormGroup({
-      token: new FormControl(''),
-      signature: new FormControl(''),
       sens: new FormControl(''),
       quantityType: new FormControl(''),
       amountType: new FormControl(''),
@@ -40,8 +38,6 @@ export class AnnounceComponent implements OnInit {
   hidden!: boolean;
 
   paymentForm = new FormGroup({
-    token: new FormControl('', [Validators.required]),
-    signature: new FormControl('', [Validators.required]),
     name: new FormControl('', [Validators.required]),
     phone: new FormControl('', [Validators.required, Validators.pattern('^(77|78|75|70|76)[0-9]{7}$')]),
   })
@@ -120,6 +116,7 @@ export class AnnounceComponent implements OnInit {
 
         this.rate = cfa.format(response.data.rate)
         console.log(this.rate);
+
       }
     )
     this.primengConfig.ripple = true;
@@ -169,8 +166,6 @@ inputCalcule(val: string) {
 
   addAnnounce(){
     const dataForm = this.announceForm.value;
-    dataForm.token = this.token;
-    dataForm.signature = this.signature;
 
     if (dataForm.quantityType === "R") {
       dataForm.amountType = "R"
@@ -230,8 +225,9 @@ inputCalcule(val: string) {
 
 
     const dataForm = this.paymentForm.value;
-    dataForm.token = this.dataUser.token;
-    dataForm.signature = this.dataUser.signature;
+    dataForm.phone = parseInt(dataForm.phone)
+    console.log(dataForm);
+
     this.customerService.addPaymentMethod(dataForm).subscribe(
       response => {
         console.log(dataForm);

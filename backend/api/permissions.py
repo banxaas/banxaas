@@ -9,6 +9,7 @@ class IsAuthenticatedPermission(BasePermission):
         try:
             auth_token=request.headers.get('Authorization').split()[1]
             auth_sign=request.headers.get('Signature')
+            pprint(request.headers)
 
             return isAuthenticated(auth_token,auth_sign)
         except:

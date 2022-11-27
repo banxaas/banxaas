@@ -18,8 +18,6 @@ export class PaymentMethodComponent implements OnInit {
   hidden!: boolean;
 
   paymentForm = new FormGroup({
-    token: new FormControl('', [Validators.required]),
-    signature: new FormControl('', [Validators.required]),
     name: new FormControl('', [Validators.required]),
     phone: new FormControl('', [Validators.required, Validators.pattern('^(77|78|75|70|76)[0-9]{7}$')]),
   })
@@ -94,8 +92,7 @@ export class PaymentMethodComponent implements OnInit {
 
 
     const dataForm = this.paymentForm.value;
-    dataForm.token = this.datauser.token;
-    dataForm.signature = this.datauser.signature;
+    dataForm.phone = parseInt(dataForm.phone)
     this.customerService.addPaymentMethod(dataForm).subscribe(
       response => {
         console.log(dataForm);

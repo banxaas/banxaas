@@ -49,13 +49,14 @@ export class ConnexionComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
 
-    this.localStorage.remove('data')
+    this.localStorage.clear()
   }
   get formControls() {
     return this.signin.controls;
   }
 
   connected() {
+
     const dataFormSignin = this.signin.value;
     this.authService
       .login(dataFormSignin.login.trim(), dataFormSignin.password.trim())
@@ -63,6 +64,8 @@ export class ConnexionComponent implements OnInit, OnDestroy {
         .subscribe(
           data => {
             const status = data.status;
+            console.log("test");
+
             if (status === 'SUCCESSFUL') {
               this.progress = true;
               this.localStorage.set('token', data.token);

@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { JWTTokenService } from './jwt-helper.service';
 import { LocalStorageService } from './local-storage.service';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -32,8 +33,11 @@ export class HTTPInterceptorService implements HttpInterceptor{
       if (this.jwtService.tokenExpired(this.token)) {
         this.router.navigateByUrl('connexion');
       }
-      request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + this.token).set('Signature', ''+this.signature).set('Access-Control-Allow-Headers', '*') });
+      if (request.url!="https://bitpay.com/rates/BTC/XOF") {
+        request = request.clone({ headers: request.headers.set('Access-Control-Allow-Headers', "X-Signature").append('Authorization', 'Bearer ' + this.token).append('X-Signature', ''+this.signature) });
+        console.log(request);
 
+      }
     }
     request = request.clone({ headers: request.headers.set('Accept', 'application/json')})
 
@@ -42,11 +46,9 @@ export class HTTPInterceptorService implements HttpInterceptor{
         if (event instanceof HttpResponse) {
 
         }
-        console.log(event);
 
         return event
       })
     )
-
   }
 }
