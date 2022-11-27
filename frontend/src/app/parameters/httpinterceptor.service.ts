@@ -15,6 +15,7 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { JWTTokenService } from './jwt-helper.service';
 import { LocalStorageService } from './local-storage.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -57,7 +58,6 @@ export class HTTPInterceptorService implements HttpInterceptor {
       map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
         }
-        console.log(event);
 
         return event;
       })

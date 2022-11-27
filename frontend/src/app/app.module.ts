@@ -65,6 +65,7 @@ import { UserDropdownComponent } from './components/navbar/user-dropdown/user-dr
 import { CurrencyDropdownComponent } from './components/navbar/currency-dropdown/currency-dropdown.component';
 import { NavbarControlsComponent } from './components/navbar/controls/controls.component';
 import { HTTPInterceptorService } from './parameters/httpinterceptor.service';
+// import { InterceptorService } from './parameters/interceptor.service';
 
 @NgModule({
   declarations: [
@@ -138,6 +139,11 @@ import { HTTPInterceptorService } from './parameters/httpinterceptor.service';
       useClass: HTTPInterceptorService,
       multi: true
     },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: InterceptorService,
+    //   multi: true
+    // },
 
     JwtHelperService
   ],

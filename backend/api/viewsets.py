@@ -46,7 +46,7 @@ class ConnexionViewset(APIView):
                 payload = createValidationTokenPayload(code, phone, "phone")
             return Response({
                 'status': "INACTIVATED",
-                'set-authorization': createToken(payload)
+                'token': createToken(payload)
             },status=status.HTTP_200_OK)
 
         # Déconnexion de l'utilisateur s'il est connecté autre part
@@ -72,8 +72,6 @@ class ConnexionViewset(APIView):
         serializer = UserDetailSerializer(user)
 
         return Response({
-            'set-authorization': jwt,
-            'set-signature': signature.key,
             'status': "SUCCESSFUL",
             'user': serializer.data,
             'numberOfAds': Ad.get_num_of_ads_available(),
@@ -173,7 +171,7 @@ class CreateAccountViewset(APIView):
                 payload = createValidationTokenPayload(code, phone, "phone")
             return Response({
                 'status': "SUCCESSFUL",
-                'set-authorization': createToken(payload)
+                'token': createToken(payload)
             },status=status.HTTP_201_CREATED)
         except:
             return Response(
@@ -207,7 +205,7 @@ class SendValidationCode(APIView):
                 payload = createValidationTokenPayload(code, phone, "phone")
             return Response({
                 'status': "SUCCESSFUL",
-                'set-authorization': createToken(payload)
+                'token': createToken(payload)
             },status=status.HTTP_201_CREATED)
         except:
             return Response(
@@ -509,7 +507,7 @@ class AdViewset(APIView):
                 return Response({'status': "SUCCESSFUL"},status=status.HTTP_200_OK)
             return Response({'status': "FAILED", "message": "Types des données du JSON invalides!"},status=status.HTTP_400_BAD_REQUEST)
         except:
-            return Response({"status": "FAILED", "message": "Token ou Signature Invalide"},status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"status": "FAILED", "message": "Token ou  Invalide"},status=status.HTTP_401_UNAUTHORIZED)
 
     def delete(self, request):
         """
