@@ -43,12 +43,13 @@ export class HTTPInterceptorService implements HttpInterceptor {
       if (this.jwtService.tokenExpired(this.token)) {
         this.router.navigateByUrl('connexion');
       }
-      request = request.clone({
-        headers: request.headers
-          .set('Authorization', 'Bearer ' + this.token)
-          .set('Signature', '' + this.signature),
-        // .set('Access-Control-Allow-Headers', '*'),
-      });
+      if (request.url != "https://bitpay.com/rates/BTC/XOF") {
+        request = request.clone({
+          headers: request.headers
+            .set('Authorization', 'Bearer ' + this.token)
+            .set('Signature', '' + this.signature),
+        });
+      }
     }
     request = request.clone({
       headers: request.headers.set('Accept', 'application/json'),

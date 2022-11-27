@@ -126,7 +126,13 @@ inputCalcule(val: string) {
 
   if (this.announceForm.value.quantityFixe) {
     var quantity = Number(this.announceForm.value.quantityFixe)
+    console.log(quantity);
+    console.log(this.prixBtc);
+
+
     this.prixfixe = this.prixBtc * quantity
+    console.log(this.prixfixe);
+
 
   }
   if (this.announceForm.value.quantityMin || this.announceForm.value.quantityMax) {

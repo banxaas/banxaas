@@ -73,7 +73,6 @@ export class VenteComponent implements OnInit, OnDestroy {
     private router: Router,
     private _clipboardService: ClipboardService
   ) {
-  
       this.localStorage.get('data').subscribe(
         data => {
           this.dataCurrentTrades = JSON.parse(data)
@@ -100,8 +99,8 @@ export class VenteComponent implements OnInit, OnDestroy {
     // RECUPERATION DES DONNEES POUR LES AFFICHER DANS LA VUE
 
 
-    
-    
+
+
     if (this.dataCurrentTrades.user.currentTrade.length > 0) {
       if (this.dataCurrentTrades.user.currentTrade[0].ad.sens === 'V') {
         this.pseudoVendeur = this.dataCurrentTrades.user.currentTrade[0].ad.user.pseudo
@@ -110,14 +109,14 @@ export class VenteComponent implements OnInit, OnDestroy {
         this.pseudoAcheteur = this.dataCurrentTrades.user.currentTrade[0].ad.user.pseudo
         this.pseudoVendeur = this.dataCurrentTrades.user.currentTrade[0].trader.pseudo
       }
-      
+
       if (this.dataCurrentTrades.user.currentTrade[0].ad.amountType === 'F') {
-        this.montant = this.dataCurrentTrades.user.currentTrade[0].ad.amountFixe    
+        this.montant = this.dataCurrentTrades.user.currentTrade[0].ad.amountFixe
       }else{
         this.montant = this.dataCurrentTrades.user.currentTrade[0].ad.amountMin +' - '+this.dataCurrentTrades.user.currentTrade[0].ad.amountMax
       }
       if (this.dataCurrentTrades.user.currentTrade[0].ad.quantityType === 'F') {
-        this.quantityBtc = this.dataCurrentTrades.user.currentTrade[0].ad.quantityFixe    
+        this.quantityBtc = this.dataCurrentTrades.user.currentTrade[0].ad.quantityFixe
       }else{
         this.quantityBtc = this.dataCurrentTrades.user.currentTrade[0].ad.quantityMin +' - '+this.dataCurrentTrades.user.currentTrade[0].ad.quantityMax
       }
@@ -145,24 +144,27 @@ export class VenteComponent implements OnInit, OnDestroy {
       this.signature = this.dataCurrentTrades.signature
       this.tradeHash = this.dataCurrentTrades.user.currentTrade[0].tradeHash
       this.tradeId = this.dataCurrentTrades.user.currentTrade[0].id
+      console.log(this.tradeHash);
+      console.log(this.tradeId);
+
       const webSocketUrl = environment.webSocketUrl + 'transaction/'+ this.tradeHash + '/';
-      
+
     this.wsSubscription = this.wsService.createObservableSocket(webSocketUrl).subscribe(
       data => {
         console.log(data);
-        
+
 
         if (this.etape.type === "trade") {
           this.stepss = this.etape.step
         } else {
           console.log(this.etape);
-          
+
           this.stepss = this.etape.trade.steps
         }
         console.log(this.stepss);
-        
+
         // console.log(this.etape.trade.steps);
-        
+
         if (this.stepss == 2) {
           this.showNotification()
           // this.disableBtn = false
@@ -175,10 +177,10 @@ export class VenteComponent implements OnInit, OnDestroy {
           this.showClose()
           this.wsService.closeSocket();
         }
-        
+
       }
     )
-    
+
 
     // APRES RECONNXION REDIRIGER VERS L'ETAPE ACTUELLE
     if (this.dataCurrentTrades.user.currentTrade[0].steps === '1') {
@@ -189,7 +191,7 @@ export class VenteComponent implements OnInit, OnDestroy {
       this.showNotification()
       this.localStorage.set('dataSocket', JSON.stringify({'type':'trade', 'step': 2}))
     }
-    
+
     if (this.dataCurrentTrades.user.currentTrade[0].steps === '3') {
       this.showEnvoiFonds()
       this.localStorage.set('dataSocket', JSON.stringify({'type':'trade', 'step': 3}))
@@ -204,7 +206,7 @@ export class VenteComponent implements OnInit, OnDestroy {
     }
 
 
-    if (this.dataCurrentTrades.user.currentTrade.length == 0) {  
+    if (this.dataCurrentTrades.user.currentTrade.length == 0) {
 
       if (this.dataCurrentTrade.currentTrade.ad.sens === 'V') {
         this.pseudoVendeur = this.dataCurrentTrade.currentTrade.ad.user.pseudo
@@ -213,38 +215,38 @@ export class VenteComponent implements OnInit, OnDestroy {
         this.pseudoAcheteur = this.dataCurrentTrade.currentTrade.ad.user.pseudo
         this.pseudoVendeur = this.dataCurrentTrade.currentTrade.trader.pseudo
       }
-      
+
       if (this.dataCurrentTrade.currentTrade.ad.amountType === 'F') {
-        this.montant = this.dataCurrentTrade.currentTrade.ad.amountFixe    
+        this.montant = this.dataCurrentTrade.currentTrade.ad.amountFixe
       }else{
         this.montant = this.dataCurrentTrade.currentTrade.ad.amountMin +' - '+this.dataCurrentTrade.currentTrade.ad.amountMax
       }
       if (this.dataCurrentTrade.currentTrade.ad.quantityType === 'F') {
-        this.quantityBtc = this.dataCurrentTrade.currentTrade.ad.quantityFixe    
+        this.quantityBtc = this.dataCurrentTrade.currentTrade.ad.quantityFixe
       }else{
         this.quantityBtc = this.dataCurrentTrade.currentTrade.ad.quantityMin +' - '+this.dataCurrentTrade.currentTrade.ad.quantityMax
       }
       this.paymentMethod = this.dataCurrentTrade.currentTrade.ad.provider
       this.phone = this.dataCurrentTrade.currentTrade.ad.phone
       this.currency = this.dataCurrentTrades.user.currency
-  
-  
+
+
       this.timeLeft = new Date(this.dataCurrentTrade.currentTrade.startingDate)
       console.log(this.timeLeft);
       this.timeLeft = Math.floor(this.timeLeft.getTime());
       this.timeExp = this.timeLeft + 86400000
       this.time = new Date()
       this.time = Math.floor(this.time.getTime());
-  
+
       if (this.timeExp > this.time) {
         this.timer = this.timeExp - this.time
       }
       console.log(this.timer);
-  
-  
-  
-  
-  
+
+
+
+
+
       // DONNEES UTILES POUR DECLENCHER LA CONNEXION WEBSOCKET
       this.tradeHash = this.dataCurrentTrade.tradeHash
       this.tradeId = this.dataCurrentTrade.currentTrade.id
@@ -255,7 +257,7 @@ export class VenteComponent implements OnInit, OnDestroy {
       this.signature = this.dataCurrentTrades.signature
       // this.step = this.localStorage.get('step')
       const webSocketUrl = environment.webSocketUrl + 'transaction/'+ this.tradeHash + '/';
-      
+
       this.wsSubscription = this.wsService.createObservableSocket(webSocketUrl).subscribe(
       data => {
         console.log(data);
@@ -263,13 +265,13 @@ export class VenteComponent implements OnInit, OnDestroy {
           this.stepss = this.etape.step
         } else {
           console.log(this.etape);
-          
+
           this.stepss = this.etape.trade.steps
         }
         console.log(this.stepss);
-        
+
         // console.log(this.etape.trade.steps);
-        
+
         if (this.stepss == 2) {
           this.showNotification()
           // this.disableBtn = false
@@ -282,7 +284,7 @@ export class VenteComponent implements OnInit, OnDestroy {
           this.showClose()
           this.wsService.closeSocket();
         }
-        
+
       }
     )
     if (this.dataCurrentTrade.steps === '1') {
@@ -293,7 +295,7 @@ export class VenteComponent implements OnInit, OnDestroy {
       this.showNotification()
       this.localStorage.set('dataSocket', JSON.stringify({'type':'trade', 'step': 2}))
     }
-    
+
     if (this.dataCurrentTrade.steps === '3') {
       this.showEnvoiFonds()
       this.localStorage.set('dataSocket', JSON.stringify({'type':'trade', 'step': 3}))
@@ -304,17 +306,16 @@ export class VenteComponent implements OnInit, OnDestroy {
       this.wsService.closeSocket();
 
     }
-    
-      
+
+
     }
-    
+
     this.notif = true;
     this.myTimer()
-    
-    this.stop = setInterval(() => {
+
       this.localStorage.get('dataSocket').subscribe(
         data => {
-          
+
           this.etape = JSON.parse(data)
           if (this.etape.type) {
             if (this.etape.type == 'trade') {
@@ -327,7 +328,7 @@ export class VenteComponent implements OnInit, OnDestroy {
               if (this.etape.step == 4) {
                 this.showClose()
               }
-              
+
             }
             if (this.etape.type == 'verification') {
               if (this.etape.trade.steps == '2') {
@@ -340,20 +341,19 @@ export class VenteComponent implements OnInit, OnDestroy {
                 this.showClose()
                 this.wsService.closeSocket();
               }
-              
+
             }
           }
         }
       )
-      }, 2000);
-    
-    
-    
+
+
+
   }
 
-  
+
   get formControls(){
-    
+
     return this.formAdresseBtc.controls;
   }
 
@@ -368,24 +368,24 @@ export class VenteComponent implements OnInit, OnDestroy {
     this.updateSubscription = interval(1000).subscribe(
       (val) => {
         // console.log(this.timer);
-        
+
         this.seconds = Math.floor(this.timer / 1000);
         this.minutes = Math.floor(this.seconds / 60);
         this.hours = Math.floor(this.minutes / 60);
         // console.log(this.hours);
-        
+
         this.hours = parseInt(this.hours);
         // this.hours = 24-this.hours;
         this.minutes %= 60;
         this.seconds %= 60;
-        
+
         this.idhours = this.hours < 10 ? '0' + this.hours : this.hours;
         this.idMinutes = this.minutes < 10 ? '0' + this.minutes : this.minutes;
         this.idSeconds = this.seconds < 10 ? '0' + this.seconds : this.seconds;
         this.progress = (this.timer*100)/86400000
         this.progress = parseInt(this.progress)
         this.progress = 100 - this.progress
-        
+
         this.timer = this.timer - 1000;
 
       }
@@ -404,8 +404,8 @@ export class VenteComponent implements OnInit, OnDestroy {
     this.fonds = true;
     this.notif = false;
     this.adresseBtc = false;
-    this.close = false;    
-    
+    this.close = false;
+
 
   }
 
@@ -459,7 +459,7 @@ export class VenteComponent implements OnInit, OnDestroy {
 
   progressSpinner(){
       this.spinner = true
-    
+
   }
 
 
