@@ -1,21 +1,38 @@
- <!--   HOME BODY   -->
+<!--   HOME BODY   -->
 
-  <div class="flex flex-row">
-    <div class="sm:w-[0%] md:w-[30%] lg:w-[30%] md:mt-[40%] lg:mt-[15%] sm:ml-10 lg:ml-[10%]">
-      <img src="../../../../assets/Illustration_sans_titre-4-removebg-preview.png" class="md:h-[200px] lg:h-[350px]" alt="rocket">
+<div class="mx-auto w-full max-w-xl px-4 py-24 md:py-32 flex-auto flex flex-col">
+  <div class="md:pb-48 relative my-auto">
+    <div class="hidden md:inline-block absolute w-96 -left-72 bottom-0">
+      <img
+        src="../../../assets/Illustration_sans_titre-4-removebg-preview.png"
+        alt="rocket"
+        class="w-full"
+      />
     </div>
-    <div class="sm:w-full md:w-[37%] lg:w-[35%] lg:ml-10 mt-[55%] md:mt-[30%] lg:mt-[15%]">
-      <h1 class="sm:text-[10px] md:text-[15px] lg:text-title"><b>Bienvenue sur Banxass</b> {{pseudo}}</h1>
-      <p class="mt-4 md:mt-8 lg:mt-8 sm:text-[10px] md:text-[13px] lg:text-paragraphe">Aujourd'hui, le Bitcoin vaut <b>{{rate}}.</b> Il en hausse de  <b>18%</b> depuis la dernière fois que vous êtes connectés <br>
-          Il y'a actuellement <b>25 annonces d'achats </b> et <b>44 annonces de ventes</b> de <b>BTC</b>.
-          <br><br>
-          Vous n'avez pas encore réalisé d'échange. Souhaitez-vous commencer?
-      </p>
-      <div class="flex flex-row justify-center items-center sm:mt-8 md:mt-8 lg:mt-16">
-        <button class="sm:px-2 sm:py-2 md:px-2 md:py-3 shadow-xl text-center lg:w-[40%] md:w-[50%] rounded-[10px] sm:text-[10px] md:text-[12px] lg:text-[18px] text-white bg-green-design border-green-design sm:rounded-[40px] md:rounded-[40px] border-2 font-bold hover:text-green-800" routerLink="/acheter">Acheter / Vendre</button>
-      </div>
+    <h1 class="text-center text-min-title sm:text-5xl font-bold mb-6 md:mb-8">
+      Bienvenue sur Banxass {{ pseudo }}
+    </h1>
+    <p class="text-center lg:text-paragraphe mb-4">
+      Aujourd'hui, le Bitcoin vaut <b>{{ rate }}.</b> Il en hausse de <b>18%</b> depuis la dernière
+      fois que vous êtes connectés <br />
+      Il y'a actuellement <b>25 annonces d'achats </b> et <b>44 annonces de ventes</b> de
+      <b>BTC</b>. <br /><br />
+      Vous n'avez pas encore réalisé d'échange. Souhaitez-vous commencer?
+    </p>
+    <div class="mx-auto max-w-xs md:w-60 md:absolute md:-right-72 md:-bottom-0">
+      <img
+        src="../../../../assets/Illustration3.png"
+        alt="illustration_personne_3"
+        class="w-full"
+      />
     </div>
-    <div class="sm:w-[0%] md:w-[30%] lg:w-[27%] md:mt-[40%] lg:mt-[15%] flex pl-10 flex-row justify-center lg:mr-[10%] md:mr-30">
-      <img src="../../../../assets/Illustration3.png" alt="illustration_personne_3" class="md:h-[200px] lg:h-[350px]">
+    <div class="flex justify-center mt-4 md:mt-10">
+      <button
+        class="inline-block text-white bg-green-design hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-200 font-medium rounded-3xl px-4 md:px-6 py-3 text-center"
+        routerLink="/acheter"
+      >
+        Acheter / Vendre
+      </button>
     </div>
   </div>
+</div>

@@ -13,6 +13,9 @@ import { RegisterComponent } from '../register/register.component';
   selector: 'app-connexion',
   templateUrl: './connexion.component.html',
   styleUrls: ['./connexion.component.scss'],
+  host: {
+    'class': 'min-h-screen flex flex-col'
+  }
 })
 export class ConnexionComponent implements OnInit, OnDestroy {
   fieldTextType: boolean = false;
