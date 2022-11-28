@@ -10,7 +10,7 @@ module.exports = {
       'link': '16px',
       'petit': '12px',
       'heading': '80px',
-      'min-title': '1.5rem',
+      'min-title': '1.875rem',
       'min-para': '.5rem',
       'sm': '0.875rem',
       'base': '1rem',
