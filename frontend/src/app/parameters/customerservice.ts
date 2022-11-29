@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Ticket } from './ticket';
 import { WebsocketService } from './websocket.service';
 import { LocalStorageService } from './local-storage.service';
@@ -17,6 +17,8 @@ export class CustomerService {
   private getAdsUrl = environment.apiUrl + 'ads/';
   private tradeInitUrl = environment.apiUrl + 'trade/init/';
   private urlBitcoin = 'https://bitpay.com/rates/BTC/XOF';
+  token: any
+  signature: any
   httpOptions = {
     headers: new HttpHeaders({
       'X-Accept-Version': '2.0.0',
@@ -28,16 +30,10 @@ export class CustomerService {
     private http: HttpClient,
     private localStorage: LocalStorageService
     ) {
-      // this.messages = <Subject<Message>>this.wsService
-      // .connect(this.webSocketUrl)
-      // .pipe(
-      //   map((response: MessageEvent): Message => {
-      //     let data = JSON.parse(response.data);
-      //     return data
-      //   })
-      // )
-
     }
+
+
+
 
   /** PATCH Set data Account*/
   setUserAccount(data: any): Observable<any> {
@@ -45,7 +41,10 @@ export class CustomerService {
   }
   /** ADD Payment Method Account*/
   addPaymentMethod(data: any): Observable<any> {
-    return this.http.post<any>(this.paymentUrl, data);
+    return this.http.post<any>(this.paymentUrl, data).pipe(
+      tap(response => {console.log(response);
+      })
+    )
   }
 
   /** ADD Payment Method Account*/
@@ -62,13 +61,16 @@ export class CustomerService {
   }
 
   /** LIST Announce*/
-  getAds(data: any, id: any): Observable<any> {
-    return this.http.post<any>(this.getAdsUrl + id + '/', data);
+  getAds(id: any): Observable<any> {
+    return this.http.get<any>(this.getAdsUrl + id + '/');
   }
 
   // Prix actuel d'un Bitcoin
   getRateBitcoin() {
-    return this.http.get<any>(this.urlBitcoin, this.httpOptions);
+    return this.http.get<any>(this.urlBitcoin, this.httpOptions).pipe(
+      tap(response => {console.log(response)}
+      )
+    )
   }
 
 // Déclencher une transaction en appuyant sur le btn accepter

@@ -24,14 +24,16 @@ export class ConnexionComponent implements OnInit, OnDestroy {
   status: any;
   wsSubscription!: Subscription;
 
-
   private unsubscription$ = new Subject<void>();
 
   failed_message!: string;
 
   tokenCcreation = new EventEmitter<RegisterComponent>();
   signin = new FormGroup({
-    login: new FormControl('mass', [Validators.required, Validators.pattern('^[a-zA-Z0-9-_]+$')]),
+    login: new FormControl('mass', [
+      Validators.required,
+      Validators.pattern('^[a-zA-Z0-9-_]+$'),
+    ]),
     password: new FormControl('L@coste90', [Validators.required]),
   });
 
@@ -41,18 +43,13 @@ export class ConnexionComponent implements OnInit, OnDestroy {
     private router: Router,
     private wsService: WebsocketService
   ) {
-
-    this.localStorage.get('dataSocketConnexion').subscribe(
-      data => {
-        this.status = JSON.parse(data)
-      }
-    )
+    this.localStorage.get('dataSocketConnexion').subscribe((data) => {
+      this.status = JSON.parse(data);
+    });
   }
 
   ngOnInit(): void {
-
-
-    this.localStorage.remove('data')
+    this.localStorage.remove('data');
   }
   get formControls() {
     return this.signin.controls;
@@ -63,95 +60,99 @@ export class ConnexionComponent implements OnInit, OnDestroy {
     this.authService
       .login(dataFormSignin.login.trim(), dataFormSignin.password.trim())
       .pipe(takeUntil(this.unsubscription$))
-        .subscribe(
-          data => {
-            const status = data.status;
-            if (status === 'SUCCESSFUL') {
-              this.progress = true;
-              this.localStorage.set('token', data.token);
-              this.localStorage.set('signature', data.signature);
-              this.localStorage.set('declencheur', false);
-              this.localStorage.set(
-                'paymentMethods',
-                JSON.stringify(data.user.paymentMethods)
-              );
-              this.localStorage.set('data', JSON.stringify(data));
+      .subscribe(
+        (data) => {
+          const status = data.status;
+          if (status === 'SUCCESSFUL') {
+            console.log(data.token);
+            console.log(data.signature);
+            this.progress = true;
+            this.localStorage.set('token', data.token);
+            this.localStorage.set('signature', data.signature);
+            this.localStorage.set('declencheur', false);
+            this.localStorage.set(
+              'paymentMethods',
+              JSON.stringify(data.user.paymentMethods)
+            );
+            this.localStorage.set('data', JSON.stringify(data));
 
-              const webSocketUrl = 'ws://localhost:9000/ws/connexion/';
-              this.wsSubscription = this.wsService.createObservableSocketConnexion(webSocketUrl).subscribe(
-                response => {
-                  console.log(response);
-                  this.localStorage.get('dataSocketConnexion').subscribe(
-                    response => {
-                      this.status = JSON.parse(response)
-                      if (this.status.message && this.status.message == "Nouvelle Connexion !") {
-                        this.router.navigate(['connexion'])
-                      }
+            const webSocketUrl = 'ws://localhost:9000/ws/connexion/';
+            this.wsSubscription = this.wsService
+              .createObservableSocketConnexion(webSocketUrl)
+              .subscribe((response) => {
+                console.log(response);
+                this.localStorage
+                  .get('dataSocketConnexion')
+                  .subscribe((response) => {
+                    this.status = JSON.parse(response);
+                    if (
+                      this.status.message &&
+                      this.status.message == 'Nouvelle Connexion !'
+                    ) {
+                      this.router.navigate(['connexion']);
                     }
-                  )
-
+                  });
+              });
+            console.log(this.status);
+            setTimeout(() => {
+              if (data.user.currentTrade.length > 0) {
+                if (
+                  data.user.pseudo ==
+                    data.user.currentTrade[0].ad.user.pseudo &&
+                  data.user.currentTrade[0].ad.sens == 'V'
+                ) {
+                  this.router.navigate(['user/transaction/vendeur']);
                 }
-              )
-              console.log(this.status);
-                setTimeout(() => {
-                  if (data.user.currentTrade.length>0) {
 
+                if (
+                  data.user.pseudo == data.user.currentTrade[0].trader.pseudo &&
+                  data.user.currentTrade[0].ad.sens == 'V'
+                ) {
+                  this.router.navigate(['user/transaction/acheteur']);
+                }
 
-                    if (data.user.pseudo == data.user.currentTrade[0].ad.user.pseudo && data.user.currentTrade[0].ad.sens == 'V') {
+                if (
+                  data.user.pseudo == data.user.currentTrade[0].trader.pseudo &&
+                  data.user.currentTrade[0].ad.sens == 'A'
+                ) {
+                  this.router.navigate(['user/transaction/vendeur']);
+                }
 
-                      this.router.navigate(['user/transaction/vendeur']);
-
-                    }
-
-                    if (data.user.pseudo == data.user.currentTrade[0].trader.pseudo && data.user.currentTrade[0].ad.sens == 'V') {
-
-                      this.router.navigate(['user/transaction/acheteur']);
-
-                    }
-
-                    if (data.user.pseudo == data.user.currentTrade[0].trader.pseudo && data.user.currentTrade[0].ad.sens == 'A') {
-
-                      this.router.navigate(['user/transaction/vendeur']);
-
-                    }
-
-                    if (data.user.pseudo == data.user.currentTrade[0].ad.user.pseudo && data.user.currentTrade[0].ad.sens == 'A') {
-
-                      this.router.navigate(['user/transaction/acheteur']);
-
-                    }
-                  }
-                  else {
-                    this.router.navigate(['user']);
-                    console.log('user');
-
-                  }
-
-                }, 1500)
-            }
-
-            if (status === 'INACTIVATED') {
-              this.failed_message = data.message;
-              this.progress = false;
-            }
-            if (status === 'FAILED') {
-              this.failed_message = data.message;
-              this.progress = false;
-            }
-          },
-          error => {
-            this.progress = false;
-            console.log(error);
-
+                if (
+                  data.user.pseudo ==
+                    data.user.currentTrade[0].ad.user.pseudo &&
+                  data.user.currentTrade[0].ad.sens == 'A'
+                ) {
+                  this.router.navigate(['user/transaction/acheteur']);
+                }
+              } else {
+                this.router.navigate(['user']);
+                console.log('user');
+              }
+            }, 1500);
           }
+
+          if (status === 'INACTIVATED') {
+            this.failed_message = data.message;
+            this.progress = false;
+          }
+          if (status === 'FAILED') {
+            this.failed_message = data.message;
+            this.progress = false;
+          }
+        },
+        (error) => {
+          this.progress = false;
+          console.log(error);
+        }
       );
   }
 
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
   }
-  progressSpinner(){
-    this.progress = true
+  progressSpinner() {
+    this.progress = true;
   }
 
   ngOnDestroy(): void {
