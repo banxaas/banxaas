@@ -8,7 +8,10 @@ import { LocalStorageService } from 'src/app/parameters/local-storage.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
+  host: {
+    'class': 'sticky top-0 w-full z-20'
+  }
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 

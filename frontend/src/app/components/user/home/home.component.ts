@@ -5,7 +5,10 @@ import { LocalStorageService } from 'src/app/parameters/local-storage.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  host: {
+    'class': 'my-auto'
+  }
 })
 export class HomeComponent implements OnInit {
   pseudo!: string | null;

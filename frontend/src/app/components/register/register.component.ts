@@ -8,7 +8,10 @@ import { LocalStorageService } from 'src/app/parameters/local-storage.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.scss'],
+  host: {
+    'class': 'min-h-screen flex flex-col'
+  }
 })
 export class RegisterComponent implements OnInit, OnDestroy {
 

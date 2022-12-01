@@ -6,7 +6,10 @@ import { LocalStorageService } from 'src/app/parameters/local-storage.service';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  styleUrls: ['./user.component.scss'],
+  host: {
+    'class': 'min-h-screen flex flex-col'
+  }
 })
 export class UserComponent implements OnInit {
 
