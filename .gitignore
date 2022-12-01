@@ -8,3 +8,5 @@ node_modules
 data
 runtime
 ci
+prod.env
+.env
