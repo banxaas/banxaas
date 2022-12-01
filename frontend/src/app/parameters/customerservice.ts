@@ -61,8 +61,8 @@ export class CustomerService {
   }
 
   /** LIST Announce*/
-  getAds(data: any, id: any): Observable<any> {
-    return this.http.post<any>(this.getAdsUrl + id + '/', data);
+  getAds(id: any): Observable<any> {
+    return this.http.get<any>(this.getAdsUrl + id + '/');
   }
 
   // Prix actuel d'un Bitcoin

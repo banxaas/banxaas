@@ -55,42 +55,42 @@ export class OfferComponent implements OnInit {
 
   })
 
-  
+
     status: any
     datauser: any;
     progress!: boolean;
 
   constructor(
-    private customerService: CustomerService, 
+    private customerService: CustomerService,
     private primengConfig: PrimeNGConfig,
     private messageService: MessageService,
     private localStorage:LocalStorageService,
     private router: Router
-    ) { 
-        
+    ) {
+
         this.localStorage.get('data').subscribe(
             data => {
             this.datauser = JSON.parse(data)
-    
+
             }
         );
     }
-    
+
   @ViewChild('dt') table!: Table;
 
   ngOnInit(): void {
-    
+
     this.reset();
     this.range_quantity = [];
     this.range_amount = [];
     this.tabSeniority = [];
     console.log(this.datauser);
-    
+
     this.pseudo = this.datauser.user.pseudo;
     const dataForm = this.announceForm.value;
     dataForm.token = this.datauser.token;
     dataForm.signature = this.datauser.signature;
-    
+
     // this.customerService.getAds(dataForm, this.id).subscribe(
     //     response => {
     //         this.customers = response;
@@ -101,21 +101,21 @@ export class OfferComponent implements OnInit {
     //                 this.range_quantity.push([Number(element.quantityMin),Number(element.quantityMax)])
     //             }else {
     //                 this.range_quantity.push([Number((element.quantityFixe))])
-    //             } 
+    //             }
     //             if (element.amountType==="R") {
     //                 this.range_amount.push([Number(element.amountMin),Number(element.amountMax)])
     //             }else {
     //                 this.range_amount.push([Number(element.amountFixe)])
-    //             } 
-                
+    //             }
+
     //         });
-            
+
     //         this.loading = false;
 
-            
+
     //     }
     // )
-    
+
     this.paiementMethode = [
         {name: "Orange", value: 'orange'},
         {name: "Wave", value: 'wave'},
@@ -130,34 +130,34 @@ export class OfferComponent implements OnInit {
     this.primengConfig.ripple = true;
 
 
-    
+
   }
 
   filtreRangeQuantity(event: { target: any; }){
 
     let quantite = event.target.value;
-    quantite = Number(quantite)  
-      
+    quantite = Number(quantite)
+
     this.range_quantity.forEach(element => {
-        
+
         switch (element.length) {
 
             case 2:
-                
+
                 if (element[0]<=quantite && quantite<=element[1]) {
-                    
+
                     this.table.filter(quantite, 'quantityMin', 'lte');
                     this.table.filter(quantite, 'quantityMax', 'gte');
                 }
                 break;
-        
+
             default:
 
                 break;
         }
 
-        
-        
+
+
     });
 
   }
@@ -165,57 +165,57 @@ export class OfferComponent implements OnInit {
   filtreFixeQuantity(event: { target: any; }){
 
     let quantite = event.target.value;
-    quantite = Number(quantite)  
-      
+    quantite = Number(quantite)
+
     this.range_quantity.forEach(element => {
-        
+
         switch (element.length) {
 
             case 1:
-                
+
                 if (element[0] === quantite ) {
-                    
+
                     this.table.filter(quantite, 'quantityFixe', 'equals');
                 }
                 break;
-        
+
             default:
 
                 break;
         }
 
-        
-        
+
+
     });
 
   }
 
-  
+
   filtreRangeAmount(event: { target: any; }){
 
     let amount = event.target.value;
-    amount = Number(amount)  
-      
+    amount = Number(amount)
+
     this.range_amount.forEach(element => {
-        
+
         switch (element.length) {
 
             case 2:
-                
+
                 if (element[0]<=amount && amount<=element[1]) {
-                    
+
                     this.table.filter(amount, 'amountMin', 'lte');
                     this.table.filter(amount, 'amountMax', 'gte');
                 }
                 break;
-        
+
             default:
 
                 break;
         }
 
-        
-        
+
+
     });
 
   }
@@ -223,56 +223,53 @@ export class OfferComponent implements OnInit {
   filtreFixeAmount(event: { target: any; }){
 
     let amount = event.target.value;
-    amount = Number(amount)  
-      
+    amount = Number(amount)
+
     this.range_amount.forEach(element => {
-        
+
         switch (element.length) {
 
             case 1:
-                
+
                 if (element[0] === amount ) {
-                    
+
                     this.table.filter(amount, 'amountFixe', 'equals');
                 }
                 break;
-        
+
             default:
 
                 break;
         }
 
-        
-        
+
+
     });
 
   }
 
   filtreSeniority(event: { target: any; }){
     let senior = event.target.value;
-    
+
     this.tabSeniority.forEach(element => {
         if (senior != element) {
-            
+
             this.table.filter(senior, 'user.seniority', 'startsWith');
-            
+
         }
     })
 
   }
 
     listAnnonce(id:number){
-        
-        const dataForm = this.announceForm.value;
-        dataForm.token = this.datauser.token;
-        dataForm.signature = this.datauser.signature;
-        this.customerService.getAds(dataForm, id).subscribe(
+
+        this.customerService.getAds(id).subscribe(
             response => {
                 console.log(response);
-                
+
                 // this.customers = response;
                 // console.log(this.customers);
-                
+
                 response.forEach((element: any) => {
                     if (element.status === 'I' ) {
                         if (response.length > 10) {
@@ -286,25 +283,25 @@ export class OfferComponent implements OnInit {
                     // }
                     // else {
                     //     this.seniority = Math.trunc(element.user.seniority / 86400) + ' jour(s)'
-        
+
                     // }
                     if (element.quantityType==="R") {
                         this.range_quantity.push([Number(element.quantityMin),Number(element.quantityMax)])
                     }else {
                         this.range_quantity.push([Number(element.quantityFixe)])
-                    } 
+                    }
                     if (element.amountType==="R") {
                         this.range_amount.push([Number(element.amountMin),Number(element.amountMax)])
                     }else {
                         this.range_amount.push([Number(element.amountMixe)])
-                    } 
-                
+                    }
+
                 });
                 console.log(this.customers);
-                
-                
+
+
                 this.loading = false;
-                
+
             }
         )
     }
@@ -319,10 +316,10 @@ export class OfferComponent implements OnInit {
             this.disableButtonNext = false
             this.disableButtonPrev = false
             if (this.customers.length != 10) {
-                
+
                 this.disableButtonNext = true
             }
-        } 
+        }
         else {
             this.disableButtonNext = true
             this.disableButtonPrev = false
@@ -345,11 +342,9 @@ export class OfferComponent implements OnInit {
         this.progress  = true;
       }
     accepter(id:number){
-        
+
         this.progress = true;
         const dataInitTradeForm = this.initTradeForm.value
-        dataInitTradeForm.token = this.datauser.token;
-        dataInitTradeForm.signature = this.datauser.signature;
         dataInitTradeForm.adId = id;
         // console.log(dataInitTradeForm);
         this.customerService.initTrade(dataInitTradeForm).subscribe(
@@ -357,7 +352,7 @@ export class OfferComponent implements OnInit {
                 // console.log(response);
 
                 if (response.status === "SUCCESSFUL") {
-                    
+
                     this.localStorage.set('currentTrade', JSON.stringify(response))
 
                     if (response.currentTrade.ad.sens === "V") {
@@ -365,9 +360,9 @@ export class OfferComponent implements OnInit {
                     }
                     else {
                         this.router.navigate(['/user/transaction/vendeur'])
-                        
+
                     }
-                    
+
                     // const webSocketUrl = environment.webSocketUrl + 'transaction/'+ response.tradeHash + '/';
                     // this.wsService.createObservableSocket(webSocketUrl).subscribe(
                     //     data => {
@@ -378,41 +373,41 @@ export class OfferComponent implements OnInit {
                     //         });
                     //         console.log(this.status);
                     //         ;
-                            
-                    //     } 
+
+                    //     }
                     // )
-                    
+
                         // data => {
-                            
-                            
+
+
                         //     // console.log(data.onmessage.message);
-                            
+
                         //     // console.log("data");
-                            
+
                         //     this.wsService.sendMessage(dataSocket);
                         //     console.log(data);
 
                         //     // console.log(this.messageFromServer.onmessage);
-                            
+
                         // }
 
                     // const valueTest = this.wsService.openSocket(webSocketUrl)
                     // const test = this.wsService.envoiMessage(dataSocket)
                     // console.log(test);
-                    
+
                     // console.log(valueTest);
-                    
-                    
+
+
                 }
                 if (response.status === "FAILED") {
                     this.progress = false
                 }
-                
+
             }
-        ) 
-        
+        )
+
     }
-    
+
   showMessage() {
     this.messageService.add({key: 'bottomright', severity:'warn', summary: 'Successully', detail:'Veuillez patienter quelques instants pour l\'initialisation d\'une transaction!'});
   }

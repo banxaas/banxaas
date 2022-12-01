@@ -70,14 +70,14 @@ export class AchatComponent implements OnInit, OnDestroy {
     private wsService: WebsocketService,
     private router: Router
   ) {
-    
+
         this.localStorage.get('data').subscribe(
           data => {
             this.dataCurrentTrades = JSON.parse(data)
 
           }
         );
-              
+
         this.localStorage.get('currentTrade').subscribe(
           data => {
             this.dataCurrentTrade = JSON.parse(data)
@@ -96,8 +96,8 @@ export class AchatComponent implements OnInit, OnDestroy {
     // RECUPERATION DES DONNEES POUR LES AFFICHER DANS LA VUE
 
 
-    
-    
+
+
     if (this.dataCurrentTrades.user.currentTrade.length > 0) {
 
       if (this.dataCurrentTrades.user.currentTrade[0].ad.sens === 'V') {
@@ -109,13 +109,13 @@ export class AchatComponent implements OnInit, OnDestroy {
       }
 
       if (this.dataCurrentTrades.user.currentTrade[0].ad.amountType === 'F') {
-        this.montant = this.dataCurrentTrades.user.currentTrade[0].ad.amountFixe    
+        this.montant = this.dataCurrentTrades.user.currentTrade[0].ad.amountFixe
       }else{
         this.montant = this.dataCurrentTrades.user.currentTrade[0].ad.amountMin +' - '+this.dataCurrentTrades.user.currentTrade[0].ad.amountMax
       }
 
       if (this.dataCurrentTrades.user.currentTrade[0].ad.quantityType === 'F') {
-        this.quantityBtc = this.dataCurrentTrades.user.currentTrade[0].ad.quantityFixe    
+        this.quantityBtc = this.dataCurrentTrades.user.currentTrade[0].ad.quantityFixe
       }else{
         this.quantityBtc = this.dataCurrentTrades.user.currentTrade[0].ad.quantityMin +' - '+this.dataCurrentTrades.user.currentTrade[0].ad.quantityMax
       }
@@ -140,7 +140,7 @@ export class AchatComponent implements OnInit, OnDestroy {
 
       // this.tradeHash = this.localStorage.get('tradeHash')
       // this.tradeId = this.localStorage.get('tradeId')
-      
+
       this.token = this.dataCurrentTrades.token
       this.signature = this.dataCurrentTrades.signature
       // this.tradeHash = this.localStorage.get('tradeHash')
@@ -153,7 +153,7 @@ export class AchatComponent implements OnInit, OnDestroy {
       this.tradeId = this.dataCurrentTrades.user.currentTrade[0].id
       // console.log(this.tradeId);
       // this.tradeId = dataCurrentTrade.user.currentTrade[0].
-      
+
       // this.step = this.localStorage.get('step')
       const webSocketUrl = environment.webSocketUrl + 'transaction/'+ this.tradeHash + '/';
       this.wsSubscription = this.wsService.createObservableSocket(webSocketUrl).subscribe(
@@ -164,11 +164,11 @@ export class AchatComponent implements OnInit, OnDestroy {
               this.etape = JSON.parse(data)
             }
           )
-          
+
           if (this.etape.type === "trade") {
             this.stepss = this.etape.step
-          } 
-          else {          
+          }
+          else {
             this.stepss = this.etape.trade.steps
           }
 
@@ -176,7 +176,7 @@ export class AchatComponent implements OnInit, OnDestroy {
             this.diasbleBtnConfirmSend = true
             this.showEnvoiFonds()
           }
-                  
+
           if (this.stepss == '3') {
             // this.disableBtn = true
             this.showEnvoiFonds()
@@ -190,12 +190,12 @@ export class AchatComponent implements OnInit, OnDestroy {
             this.showClose()
             this.wsService.closeSocket();
           }
-          
+
           console.log(this.stepss);
-          
+
         }
       )
-      
+
       if (this.dataCurrentTrades.user.currentTrade[0].steps === '1') {
         this.showNotification()
 
@@ -204,7 +204,7 @@ export class AchatComponent implements OnInit, OnDestroy {
         this.showEnvoiFonds()
         this.localStorage.set('dataSocket', JSON.stringify({'type':'trade', 'step': '2'}))
       }
-      
+
       if (this.dataCurrentTrades.user.currentTrade[0].steps === '3') {
         this.showEnvoiFonds()
         this.localStorage.set('dataSocket', JSON.stringify({'type':'trade', 'step': '3'}))
@@ -236,42 +236,42 @@ export class AchatComponent implements OnInit, OnDestroy {
       }
 
       if (this.dataCurrentTrade.currentTrade.ad.amountType === 'F') {
-        this.montant = this.dataCurrentTrade.currentTrade.ad.amountFixe    
+        this.montant = this.dataCurrentTrade.currentTrade.ad.amountFixe
       }else{
         this.montant = this.dataCurrentTrade.currentTrade.ad.amountMin +' - '+this.dataCurrentTrade.currentTrade.ad.amountMax
       }
       if (this.dataCurrentTrade.currentTrade.ad.quantityType === 'F') {
-        this.quantityBtc = this.dataCurrentTrade.currentTrade.ad.quantityFixe    
+        this.quantityBtc = this.dataCurrentTrade.currentTrade.ad.quantityFixe
       }else{
         this.quantityBtc = this.dataCurrentTrade.currentTrade.ad.quantityMin +' - '+this.dataCurrentTrade.currentTrade.ad.quantityMax
       }
       this.paymentMethod = this.dataCurrentTrade.currentTrade.ad.provider
       this.phone = this.dataCurrentTrade.currentTrade.ad.phone
       this.currency = this.dataCurrentTrades.user.currency
-  
-  
+
+
       this.timeLeft = new Date(this.dataCurrentTrade.currentTrade.startingDate)
       console.log(this.timeLeft);
       this.timeLeft = Math.floor(this.timeLeft.getTime());
       this.timeExp = this.timeLeft + 86400000
       this.time = new Date()
       this.time = Math.floor(this.time.getTime());
-  
+
       if (this.timeExp > this.time) {
         this.timer = this.timeExp - this.time
       }
       console.log(this.timer);
-  
-  
+
+
       // this.tradeHash = this.localStorage.get('tradeHash')
       // this.tradeId = this.localStorage.get('tradeId')
       // this.token = this.localStorage.get('token')
       // this.signature = this.localStorage.get('signature')
       // this.tradeHash = this.localStorage.get('tradeHash')
       // this.step = this.localStorage.get('step')
-  
-  
-  
+
+
+
       // DONNEES UTILES POUR DECLENCHER LA CONNEXION WEBSOCKET
       this.tradeHash = this.dataCurrentTrade.tradeHash
       this.tradeId = this.dataCurrentTrade.currentTrade.id
@@ -285,20 +285,20 @@ export class AchatComponent implements OnInit, OnDestroy {
         data => {
           console.log(data);
           console.log(this.etape);
-          
+
           if (this.etape.type === "trade") {
             this.stepss = this.etape.step
-          } 
-          if(this.etape.type === "verification") {          
+          }
+          if(this.etape.type === "verification") {
             this.stepss = this.etape.trade.steps
           }
           console.log(this.stepss);
-  
+
           if (this.stepss == 2) {
             this.diasbleBtnConfirmSend = true
             this.showEnvoiFonds()
           }
-                  
+
           if (this.stepss == 3) {
             // this.disableBtn = true
             this.showEnvoiFonds()
@@ -311,9 +311,9 @@ export class AchatComponent implements OnInit, OnDestroy {
             // this.disableBtn = true
             this.showClose();
             this.wsService.closeSocket();
-            
+
           }
-          
+
         }
       )
       if (this.dataCurrentTrades.steps === '1') {
@@ -324,7 +324,7 @@ export class AchatComponent implements OnInit, OnDestroy {
         this.showEnvoiFonds()
         this.localStorage.set('dataSocket', JSON.stringify({'type':'trade', 'step': 2}))
       }
-      
+
       if (this.dataCurrentTrades.steps === '3') {
         this.showEnvoiFonds()
         this.localStorage.set('dataSocket', JSON.stringify({'type':'trade', 'step': 3}))
@@ -340,15 +340,14 @@ export class AchatComponent implements OnInit, OnDestroy {
         this.wsService.closeSocket();
 
       }
-    
-      
+
+
     }
-    
+
     this.notif = true;
     this.myTimer()
-    
-    this.stop = setInterval(() => {
-      this.localStorage.get('dataSocket').subscribe(
+
+    this.stop = this.localStorage.get('dataSocket').subscribe(
         data => {
           this.etape = JSON.parse(data)
           if (this.etape.type) {
@@ -365,7 +364,7 @@ export class AchatComponent implements OnInit, OnDestroy {
               if (this.etape.step == 5) {
                 this.showClose()
               }
-              
+
             }
             if (this.etape.type == 'verification') {
               if (this.etape.trade.steps == '2') {
@@ -380,16 +379,15 @@ export class AchatComponent implements OnInit, OnDestroy {
               if (this.etape.trade.steps == '5') {
                 this.showClose()
               }
-              
+
             }
           }
         }
       )
-      }, 2000);
   }
 
   get formControls(){
-    
+
     return this.formAdresseBtc.controls;
   }
 
@@ -399,24 +397,24 @@ export class AchatComponent implements OnInit, OnDestroy {
     this.updateSubscription = interval(1000).subscribe(
       (val) => {
         // console.log(this.timer);
-        
+
         this.seconds = Math.floor(this.timer / 1000);
         this.minutes = Math.floor(this.seconds / 60);
         this.hours = Math.floor(this.minutes / 60);
         // console.log(this.hours);
-        
+
         this.hours = parseInt(this.hours);
         // this.hours = 24-this.hours;
         this.minutes %= 60;
         this.seconds %= 60;
-        
+
         this.idhours = this.hours < 10 ? '0' + this.hours : this.hours;
         this.idMinutes = this.minutes < 10 ? '0' + this.minutes : this.minutes;
         this.idSeconds = this.seconds < 10 ? '0' + this.seconds : this.seconds;
         this.progress = (this.timer*100)/86400000
         this.progress = parseInt(this.progress)
         this.progress = 100 - this.progress
-        
+
         this.timer = this.timer - 1000;
 
       }

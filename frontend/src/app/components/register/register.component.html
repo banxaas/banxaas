@@ -1,121 +1,193 @@
-<div class="flex relative flex-col items-center justify-center min-h-screen bg-gray-100">
-  <div class="w-[30%] md:w-1/6 absolute top-2">
+<div class="flex flex-col justify-center m-auto w-full max-w-xl py-8 md:py-24 flex-auto">
+  <div class="mb-8 text-center">
     <button routerLink="/accueil">
-      <img src="../../../assets/logo_banxass_vert.png" />
+      <img src="../../../assets/logo_banxass_vert.png" class="h-10 md:h-12" alt="logo" />
     </button>
   </div>
-  <div
-    class="px-10 md:py-12 py-2 mx-4 mt-[20%] md:mt-[8%] text-left shadow-xl bg-white md:w-1/2 lg:w-1/3 sm:w-[95%] rounded-md">
-    <div class="flex justify-center">
-      <h1 class="md:text-title font-bold uppercase mt-[5%]">crée ton compte</h1>
-    </div>
+  <div class="p-8 sm:p-12 mx-4 text-left shadow-xl bg-white rounded-md">
+    <h1 class="sm:text-title font-bold uppercase text-center">crée ton compte</h1>
     <div class="mt-2 flex justify-center font-bold text-red-600" *ngIf="failed">
-      {{failed}}
+      {{ failed }}
     </div>
     <div class="mt-2 flex justify-center font-bold text-red-600" *ngIf="errorMessage">
-      {{errorMessage}}
+      {{ errorMessage }}
     </div>
     <form [formGroup]="registerForm" novalidate (ngSubmit)="create()">
       <div class="mt-4">
         <div *ngIf="!inputVisisble">
           <label class="block font-bold" for="email">Email</label>
-          <input type="text" formControlName="email" placeholder="Merci de renseigner votre email"
-            class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" />
+          <input
+            type="text"
+            formControlName="email"
+            placeholder="Merci de renseigner votre email"
+            class="w-full px-4 py-2 mt-2 border-2 border-green-design rounded-md focus:outline-none focus:ring-4 focus:ring-green-200"
+          />
           <div *ngIf="!submitted && formControls['email']">
-            <div class="mt-2 text-red-600"
-              *ngIf="formControls['email'].errors?.['required'] && formControls['email']?.touched">L'email est
-              obligatoire</div>
-            <div class="mt-2 text-red-600" *ngIf="formControls['email'].errors?.['pattern']">L'email est invalide</div>
+            <div
+              class="mt-2 text-red-600"
+              *ngIf="formControls['email'].errors?.['required'] && formControls['email']?.touched"
+            >
+              L'email est obligatoire
+            </div>
+            <div class="mt-2 text-red-600" *ngIf="formControls['email'].errors?.['pattern']">
+              L'email est invalide
+            </div>
           </div>
-          <div class="flex"><button class="mt-2 text-right w-full underline text-green-design"
-              (click)="inputHidden()">Utiliser un numéro de téléphone</button></div>
-
+          <div class="flex">
+            <button
+              class="mt-2 text-right w-full underline text-green-design"
+              (click)="inputHidden()"
+            >
+              Utiliser un numéro de téléphone
+            </button>
+          </div>
         </div>
         <div class="mt-4" *ngIf="inputVisisble">
           <label class="block font-bold" for="name">Numéro de téléphone</label>
-          <input type="text" formControlName="phone" mask="00 000 00 00"
+          <input
+            type="text"
+            formControlName="phone"
+            mask="00 000 00 00"
             placeholder="Merci de renseigner votre numéro de téléphone"
-            class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" />
+            class="w-full px-4 py-2 mt-2 border-2 border-green-design rounded-md focus:outline-none focus:ring-4 focus:ring-green-200"
+          />
 
-          <div class="mt-2 text-red-600"
-            *ngIf="formControls['phone'].errors?.['required'] && formControls['phone']?.touched">Le numéro de téléphone
-            est obligatoire</div>
-          <div class="mt-2 text-red-600" *ngIf="formControls['phone'].errors?.['pattern']">Le numéro de téléphone est
-            invalide</div>
-          <div class="flex"><button class="mt-2 text-right w-full underline text-green-design"
-              (click)="inputHidden()">Utiliser un email</button></div>
-
+          <div
+            class="mt-2 text-red-600"
+            *ngIf="formControls['phone'].errors?.['required'] && formControls['phone']?.touched"
+          >
+            Le numéro de téléphone est obligatoire
+          </div>
+          <div class="mt-2 text-red-600" *ngIf="formControls['phone'].errors?.['pattern']">
+            Le numéro de téléphone est invalide
+          </div>
+          <div class="flex">
+            <button
+              class="mt-2 text-right w-full underline text-green-design"
+              (click)="inputHidden()"
+            >
+              Utiliser un email
+            </button>
+          </div>
         </div>
         <div class="mt-4">
           <label class="block font-bold" for="name">Pseudo</label>
-          <input type="text" placeholder="Quel est votre pseudo ?" formControlName="pseudo"
-            class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" />
-          <div class="mt-2 text-red-600"
-            *ngIf="formControls['pseudo'].errors?.['required'] && formControls['pseudo']?.touched">Le pseudo est
-            obligatoire</div>
+          <input
+            type="text"
+            placeholder="Quel est votre pseudo ?"
+            formControlName="pseudo"
+            class="w-full px-4 py-2 mt-2 border-2 border-green-design rounded-md focus:outline-none focus:ring-4 focus:ring-green-200"
+          />
+          <div
+            class="mt-2 text-red-600"
+            *ngIf="formControls['pseudo'].errors?.['required'] && formControls['pseudo']?.touched"
+          >
+            Le pseudo est obligatoire
+          </div>
         </div>
-        <div class="mt-4 relative">
+        <div class="mt-4">
           <label class="block font-bold" for="password">Mot de passe</label>
-          <input [type]="fieldTextType ? 'text' : 'password'" formControlName="password" placeholder="*******"
-            id="password"
-            class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design" />
-          <a class="absolute top-10 right-5 z-20" (click)="toggleFieldTextType()">
-            <svg class="h-5 w-5 text-green-600 z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-              <circle cx="12" cy="12" r="3" />
-            </svg>
-
-          </a>
-          <svg class="h-5 w-5 text-green-600 absolute top-10 right-5 z-10" *ngIf="!fieldTextType" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-            <circle cx="12" cy="12" r="3" />
-          </svg>
-          <svg class="h-5 w-5 text-green-500 absolute top-10 right-5 z-10" *ngIf="fieldTextType" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path
-              d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
-            <line x1="1" y1="1" x2="23" y2="23" />
-          </svg>
+          <div class="relative">
+            <input
+              [type]="fieldTextType ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="*******"
+              id="password"
+              class="w-full px-4 py-2 mt-2 border-2 border-green-design rounded-md focus:outline-none focus:ring-4 focus:ring-green-200"
+            />
+            <a class="absolute top-[50%] -mt-1.5 right-4 z-20" (click)="toggleFieldTextType()">
+              <svg
+                class="h-5 w-5 text-green-600 z-10"
+                *ngIf="!fieldTextType"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <svg
+                class="h-5 w-5 text-green-600 z-10"
+                *ngIf="fieldTextType"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"
+                />
+                <line x1="1" y1="1" x2="23" y2="23" />
+              </svg>
+            </a>
+          </div>
         </div>
-        <div class="mt-2 text-red-600"
-          *ngIf="formControls['password'].errors?.['required'] && formControls['password']?.touched">Le mot de passe est
-          obligatoire</div>
-        <div class="mt-2 text-red-600" *ngIf="formControls['password'].errors?.['pattern']">8 caractères au minimum,
-          lettre majuscule, lettre miniscule, un chiffre et un caractère spécial</div>
+        <div
+          class="mt-2 text-red-600"
+          *ngIf="formControls['password'].errors?.['required'] && formControls['password']?.touched"
+        >
+          Le mot de passe est obligatoire
+        </div>
+        <div class="mt-2 text-red-600" *ngIf="formControls['password'].errors?.['pattern']">
+          8 caractères au minimum, lettre majuscule, lettre miniscule, un chiffre et un caractère
+          spécial
+        </div>
 
         <div class="mt-6 inline-flex w-full">
-          <input type="checkbox" formControlName="box"
-            class="w-5 h-5 border-1 border-green-design rounded-md focus:outline-none focus:ring-0" id="btn-check-outlined" />
-          <label class="ml-2 text-petit">En cochant cette case, j'accepte les conditions d'utilisation et les régles de
-            confidentialité</label>
+          <input
+            type="checkbox"
+            formControlName="box"
+            class="w-5 h-5 border-1 border-green-design rounded-md focus:outline-none focus:ring-0"
+            id="btn-check-outlined"
+          />
+          <label class="ml-2 text-petit"
+            >En cochant cette case, j'accepte les conditions d'utilisation et les régles de
+            confidentialité</label
+          >
           <span class="text-red-600" *ngIf="formControls['box'].errors?.['required']">!</span>
         </div>
 
         <div class="flex justify-center mb-3">
-          <button (click)="progressSpinner()"
-            [disabled]="(formControls['pseudo'].invalid || formControls['box'].invalid || formControls['password'].invalid)||(formControls['email'].invalid && formControls['phone'].invalid)"
-            class="px-4 py-2 mt-4 text-white bg-green-design rounded-3xl font-bold hover:bg-green-800">
+          <button
+            (click)="progressSpinner()"
+            [disabled]="
+              formControls['pseudo'].invalid ||
+              formControls['box'].invalid ||
+              formControls['password'].invalid ||
+              (formControls['email'].invalid && formControls['phone'].invalid)
+            "
+            class="mt-4 inline-block text-white bg-green-design hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-200 font-medium rounded-3xl px-4 md:px-6 py-3 text-center"
+          >
             Créer le compte
           </button>
         </div>
 
         <div *ngIf="progress" class="flex justify-center">
           <div class="sm:w-[75%] lg:w-[50%] mt-4 text-center">
-            <p-progressSpinner styleClass="custom-spinner" strokeWidth="2" fill="#FFFFFF" animationDuration=".5s">
+            <p-progressSpinner
+              styleClass="custom-spinner"
+              strokeWidth="2"
+              fill="#FFFFFF"
+              animationDuration=".5s"
+            >
             </p-progressSpinner>
           </div>
         </div>
-
       </div>
     </form>
   </div>
 
-  <div class="mt-6 text-link">
+  <div class="mt-6 text-link text-center">
     Vous avez déjà un compte?
-    <a routerLink="/connexion"
-      class="text-green-design font-bold underline decoration-green-design hover:text-green-800">
+    <a
+      routerLink="/connexion"
+      class="text-green-design font-bold underline decoration-green-design hover:text-green-800"
+    >
       Se connecter
     </a>
   </div>
