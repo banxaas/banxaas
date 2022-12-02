@@ -8,8 +8,8 @@ services:
     stdin_open: true
     tty: true
     ports: 
-      - '2222:22'
-      - 50001:50001
+      - ${BDK_MAP_PORT}:${BDK_MAP_PORT}
+      - ${BDK_ELECTRUM_PORT}:${BDK_ELECTRUM_PORT}
 
   database:
     image: postgres:15
@@ -42,7 +42,7 @@ services:
     container_name: redis
     command: redis-server
     ports:
-      - 6379:6379
+      - ${REDIS_PORT}:${REDIS_PORT}
     depends_on:
       - backend
 
@@ -64,13 +64,13 @@ services:
   frontend:
     build: ./frontend
     container_name: frontend
-    command: ng serve --host 0.0.0.0 --port 32145 --disable-host-check
+    command: ng serve --host ${FRONTEND_HOST} --port ${FRONTEND_SERVER_PORT} --disable-host-check
     volumes: 
       - ./frontend:/frontend
       - /frontend/node_modules
       - /frontend/.angular
     ports: 
-      - 4200:32145
+      - ${FRONTEND_MAP_PORT}:${FRONTEND_SERVER_PORT}
     depends_on:
       - gateway
 
