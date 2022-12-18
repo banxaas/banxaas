@@ -126,7 +126,6 @@ export class VenteComponent implements OnInit, OnDestroy {
 
 
       this.timeLeft = new Date(this.dataCurrentTrades.user.currentTrade[0].startingDate)
-      console.log(this.timeLeft);
       this.timeLeft = Math.floor(this.timeLeft.getTime());
       this.timeExp = this.timeLeft + 86400000
       this.time = new Date()
@@ -135,7 +134,6 @@ export class VenteComponent implements OnInit, OnDestroy {
       if (this.timeExp > this.time) {
         this.timer = this.timeExp - this.time
       }
-      console.log(this.timer);
 
 
 
@@ -144,26 +142,17 @@ export class VenteComponent implements OnInit, OnDestroy {
       this.signature = this.dataCurrentTrades.signature
       this.tradeHash = this.dataCurrentTrades.user.currentTrade[0].tradeHash
       this.tradeId = this.dataCurrentTrades.user.currentTrade[0].id
-      console.log(this.tradeHash);
-      console.log(this.tradeId);
-
       const webSocketUrl = environment.webSocketUrl + 'transaction/'+ this.tradeHash + '/';
 
     this.wsSubscription = this.wsService.createObservableSocket(webSocketUrl).subscribe(
       data => {
-        console.log(data);
-
 
         if (this.etape.type === "trade") {
           this.stepss = this.etape.step
         } else {
-          console.log(this.etape);
 
           this.stepss = this.etape.trade.steps
         }
-        console.log(this.stepss);
-
-        // console.log(this.etape.trade.steps);
 
         if (this.stepss == 2) {
           this.showNotification()
@@ -232,7 +221,6 @@ export class VenteComponent implements OnInit, OnDestroy {
 
 
       this.timeLeft = new Date(this.dataCurrentTrade.currentTrade.startingDate)
-      console.log(this.timeLeft);
       this.timeLeft = Math.floor(this.timeLeft.getTime());
       this.timeExp = this.timeLeft + 86400000
       this.time = new Date()
@@ -241,17 +229,11 @@ export class VenteComponent implements OnInit, OnDestroy {
       if (this.timeExp > this.time) {
         this.timer = this.timeExp - this.time
       }
-      console.log(this.timer);
-
-
-
-
 
       // DONNEES UTILES POUR DECLENCHER LA CONNEXION WEBSOCKET
       this.tradeHash = this.dataCurrentTrade.tradeHash
       this.tradeId = this.dataCurrentTrade.currentTrade.id
       this.localStorage.set('tradeId', this.tradeId)
-      // console.log(this.tradeId);
       // this.tradeId = dataCurrentTrade.user.currentTrade[0].
       this.token = this.dataCurrentTrades.token
       this.signature = this.dataCurrentTrades.signature
@@ -260,17 +242,12 @@ export class VenteComponent implements OnInit, OnDestroy {
 
       this.wsSubscription = this.wsService.createObservableSocket(webSocketUrl).subscribe(
       data => {
-        console.log(data);
         if (this.etape.type === "trade") {
           this.stepss = this.etape.step
         } else {
-          console.log(this.etape);
 
           this.stepss = this.etape.trade.steps
         }
-        console.log(this.stepss);
-
-        // console.log(this.etape.trade.steps);
 
         if (this.stepss == 2) {
           this.showNotification()
@@ -367,12 +344,9 @@ export class VenteComponent implements OnInit, OnDestroy {
   myTimer(){
     this.updateSubscription = interval(1000).subscribe(
       (val) => {
-        // console.log(this.timer);
-
         this.seconds = Math.floor(this.timer / 1000);
         this.minutes = Math.floor(this.seconds / 60);
         this.hours = Math.floor(this.minutes / 60);
-        // console.log(this.hours);
 
         this.hours = parseInt(this.hours);
         // this.hours = 24-this.hours;
@@ -431,8 +405,8 @@ export class VenteComponent implements OnInit, OnDestroy {
 
   step2(){
     this.wsService.sendMessage({
-      'token': this.token,
-      'signature': this.signature,
+      'Authorization': this.token,
+      'Signature': this.signature,
       'step' : 2,
       'tradeId': this.tradeId,
       'txId': this.formAdresseBtc.value.txid
@@ -445,8 +419,8 @@ export class VenteComponent implements OnInit, OnDestroy {
 
   step4(){
     this.wsService.sendMessage({
-      'token': this.token,
-      'signature': this.signature,
+      'Authorization': this.token,
+      'Signature': this.signature,
       'step' : 4,
       'tradeId': this.tradeId,
     })

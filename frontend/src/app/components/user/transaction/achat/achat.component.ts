@@ -126,7 +126,6 @@ export class AchatComponent implements OnInit, OnDestroy {
 
 
       this.timeLeft = new Date(this.dataCurrentTrades.user.currentTrade[0].startingDate)
-      console.log(this.timeLeft);
       this.timeLeft = Math.floor(this.timeLeft.getTime());
       this.timeExp = this.timeLeft + 86400000
       this.time = new Date()
@@ -135,9 +134,6 @@ export class AchatComponent implements OnInit, OnDestroy {
       if (this.timeExp > this.time) {
         this.timer = this.timeExp - this.time
       }
-      console.log(this.timer);
-
-
       // this.tradeHash = this.localStorage.get('tradeHash')
       // this.tradeId = this.localStorage.get('tradeId')
 
@@ -151,14 +147,9 @@ export class AchatComponent implements OnInit, OnDestroy {
       // DONNEES UTILES POUR DECLENCHER LA CONNEXION WEBSOCKET
       this.tradeHash = this.dataCurrentTrades.user.currentTrade[0].tradeHash
       this.tradeId = this.dataCurrentTrades.user.currentTrade[0].id
-      // console.log(this.tradeId);
-      // this.tradeId = dataCurrentTrade.user.currentTrade[0].
-
-      // this.step = this.localStorage.get('step')
       const webSocketUrl = environment.webSocketUrl + 'transaction/'+ this.tradeHash + '/';
       this.wsSubscription = this.wsService.createObservableSocket(webSocketUrl).subscribe(
         data => {
-          console.log(data);
           this.localStorage.get('dataSocket').subscribe(
             data => {
               this.etape = JSON.parse(data)
@@ -190,9 +181,6 @@ export class AchatComponent implements OnInit, OnDestroy {
             this.showClose()
             this.wsService.closeSocket();
           }
-
-          console.log(this.stepss);
-
         }
       )
 
@@ -251,7 +239,6 @@ export class AchatComponent implements OnInit, OnDestroy {
 
 
       this.timeLeft = new Date(this.dataCurrentTrade.currentTrade.startingDate)
-      console.log(this.timeLeft);
       this.timeLeft = Math.floor(this.timeLeft.getTime());
       this.timeExp = this.timeLeft + 86400000
       this.time = new Date()
@@ -260,31 +247,15 @@ export class AchatComponent implements OnInit, OnDestroy {
       if (this.timeExp > this.time) {
         this.timer = this.timeExp - this.time
       }
-      console.log(this.timer);
-
-
-      // this.tradeHash = this.localStorage.get('tradeHash')
-      // this.tradeId = this.localStorage.get('tradeId')
-      // this.token = this.localStorage.get('token')
-      // this.signature = this.localStorage.get('signature')
-      // this.tradeHash = this.localStorage.get('tradeHash')
-      // this.step = this.localStorage.get('step')
-
-
 
       // DONNEES UTILES POUR DECLENCHER LA CONNEXION WEBSOCKET
       this.tradeHash = this.dataCurrentTrade.tradeHash
       this.tradeId = this.dataCurrentTrade.currentTrade.id
-      // console.log(this.tradeId);
-      // this.tradeId = dataCurrentTrade.user.currentTrade[0].
       this.token = this.dataCurrentTrades.token
       this.signature = this.dataCurrentTrades.signature
-      // this.step = this.localStorage.get('step')
       const webSocketUrl = environment.webSocketUrl + 'transaction/'+ this.tradeHash + '/';
       this.wsSubscription = this.wsService.createObservableSocket(webSocketUrl).subscribe(
         data => {
-          console.log(data);
-          console.log(this.etape);
 
           if (this.etape.type === "trade") {
             this.stepss = this.etape.step
@@ -292,8 +263,6 @@ export class AchatComponent implements OnInit, OnDestroy {
           if(this.etape.type === "verification") {
             this.stepss = this.etape.trade.steps
           }
-          console.log(this.stepss);
-
           if (this.stepss == 2) {
             this.diasbleBtnConfirmSend = true
             this.showEnvoiFonds()
@@ -396,13 +365,9 @@ export class AchatComponent implements OnInit, OnDestroy {
   myTimer(){
     this.updateSubscription = interval(1000).subscribe(
       (val) => {
-        // console.log(this.timer);
-
         this.seconds = Math.floor(this.timer / 1000);
         this.minutes = Math.floor(this.seconds / 60);
         this.hours = Math.floor(this.minutes / 60);
-        // console.log(this.hours);
-
         this.hours = parseInt(this.hours);
         // this.hours = 24-this.hours;
         this.minutes %= 60;
@@ -452,8 +417,8 @@ export class AchatComponent implements OnInit, OnDestroy {
 
   step3(){
     this.wsService.sendMessage({
-      'token': this.token,
-      'signature': this.signature,
+      'Authorization': this.token,
+      'Signature': this.signature,
       'step' : 3,
       'tradeId': this.tradeId,
       'transactionId': this.formAdresseBtc.value.transactionId
@@ -464,8 +429,8 @@ export class AchatComponent implements OnInit, OnDestroy {
 
   step5(){
     this.wsService.sendMessage({
-      'token': this.token,
-      'signature': this.signature,
+      'Authorization': this.token,
+      'Signature': this.signature,
       'step' : 5,
       'tradeId': this.tradeId,
       'buyerWalletAdress': this.formAdresseBtc.value.buyerWalletAdress

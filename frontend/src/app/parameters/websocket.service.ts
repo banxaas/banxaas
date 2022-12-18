@@ -48,7 +48,7 @@ export class WebsocketService {
 
   createObservableSocket(url: string): Observable<any> {
     console.log(this.datauser);
-    
+
     return new Observable(
       (subscriber: Subscriber<WebSocket>): TeardownLogic => {
         this.ws = new WebSocket(url);
@@ -57,8 +57,8 @@ export class WebsocketService {
           // subscriber.complete();
           this.ws.send(JSON.stringify(
             {
-              'token': this.datauser.token,
-              'signature': this.datauser.signature,
+              'Authorization': this.datauser.token,
+              'Signature': this.datauser.signature,
               'tradeId': this.trade.id
             }
           ))
@@ -83,11 +83,11 @@ export class WebsocketService {
   sendMessage(message: any): any {
     if (this.ws.readyState === WebSocket.OPEN) {
       console.log(this.ws.readyState);
-      
+
         this.ws.send(JSON.stringify(
           message
          ));
-       
+
        return `Sent to server `;
     } else {
       return 'Message was not sent - the socket is closed';
@@ -95,11 +95,11 @@ export class WebsocketService {
   }
 
 
-  
+
 
   createObservableSocketConnexion(url: string): Observable<any> {
     console.log(this.datauser);
-    
+
     return new Observable(
       (subscriber: Subscriber<WebSocket>): TeardownLogic => {
         this.ws = new WebSocket(url);
@@ -108,8 +108,8 @@ export class WebsocketService {
           // subscriber.complete();
           this.ws.send(JSON.stringify(
             {
-              'token': this.token,
-              'signature': this.signature
+              'Authoriation': this.token,
+              'Signature': this.signature
             }
           ))
         };
@@ -130,9 +130,9 @@ export class WebsocketService {
       }
     );
   }
-  closeSocket(){  
+  closeSocket(){
     console.log('testeuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuur');
-    
+
     this.ws.close = e => {console.log(e)}
   }
 
