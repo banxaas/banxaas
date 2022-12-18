@@ -562,67 +562,67 @@ class InitTradeViewset(APIView):
         }
         """
  
-        try:
-            # Vérifie si l'utilisateur est connecté
-            if not isAuthenticated(request.headers.get('Authorization').split()[1], request.headers.get('Signature')):
-                return Response({"status": "FAILED", "message": "Vous devez vous connecter"},status=status.HTTP_401_UNAUTHORIZED)
+        #try:
+        # Vérifie si l'utilisateur est connecté
+        if not isAuthenticated(request.headers.get('Authorization').split()[1], request.headers.get('Signature')):
+            return Response({"status": "FAILED", "message": "Vous devez vous connecter"},status=status.HTTP_401_UNAUTHORIZED)
 
-            # Vérifie si l'utilisateur ne trade pas son propre offre
-            trader = User.objects.get(pseudo=jwt.decode(
-                request.headers.get('Authorization').split()[1], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
-            ad = Ad.objects.get(id=request.data['adId'])
+        # Vérifie si l'utilisateur ne trade pas son propre offre
+        trader = User.objects.get(pseudo=jwt.decode(
+            request.headers.get('Authorization').split()[1], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+        ad = Ad.objects.get(id=request.data['adId'])
 
-            if ad.user == trader:
-                return Response({"status": "FAILED", "message": "Il s'agit de votre propre offre !"},status=status.HTTP_400_BAD_REQUEST)
+        if ad.user == trader:
+            return Response({"status": "FAILED", "message": "Il s'agit de votre propre offre !"},status=status.HTTP_400_BAD_REQUEST)
 
-            # Mise à jour de l'état de l'annonce
-            ad = Ad.objects.get(id=request.data['adId'])
-            if ad.status != "I":
-                return Response({"status": "FAILED", "message": "Désolé cet annonce n'est plus disponible !"},status=status.HTTP_404_NOT_FOUND)
-            ad.status = "C"
-            ad.save()
+        # Mise à jour de l'état de l'annonce
+        ad = Ad.objects.get(id=request.data['adId'])
+        if ad.status != "I":
+            return Response({"status": "FAILED", "message": "Désolé cet annonce n'est plus disponible !"},status=status.HTTP_404_NOT_FOUND)
+        ad.status = "C"
+        ad.save()
 
-            # Récupération des élements du trade
-            walletAddress = bdk_generate_address()
-            pprint('The wallet address is: ' + walletAddress)
-            pprint('Amount in banxaas wallet: ' + str(bdk_get_balance()))
+        # Récupération des élements du trade
+        walletAddress = bdk_generate_address()
+        pprint('The wallet address is: ' + walletAddress)
+        pprint('Amount in banxaas wallet: ' + str(bdk_get_balance()))
 
-            # Initialisation du trade
-            trade = Trade.objects.create(
-                trader=trader, ad=ad, walletAddress=walletAddress)
+        # Initialisation du trade
+        trade = Trade.objects.create(
+            trader=trader, ad=ad, walletAddress=walletAddress)
 
-            # Mise à jour du tradeHash
-            startingDate = math.log2(int(str(trade.startingDate.day) + str(trade.startingDate.month) + str(trade.startingDate.year) + str(
-                trade.startingDate.hour) + str(trade.startingDate.minute) + str(trade.startingDate.second) + str(trade.startingDate.microsecond))-1)
-            traderHash = hashlib.sha256(
-                str(trader.id).encode('utf-8')).hexdigest()
-            adHash = hashlib.sha256(str(ad.id).encode('utf-8')).hexdigest()
-            walletAddressHash = hashlib.sha256(
-                str(walletAddress).encode('utf-8')).hexdigest()
-            startingDateHash = hashlib.sha256(
-                str(startingDate).encode('utf-8')).hexdigest()
-            tradeHash = hashlib.sha256(str(
-                traderHash + adHash + walletAddressHash + startingDateHash).encode('utf-8')).hexdigest()
-            trade.tradeHash = tradeHash
-            trade.save()
+        # Mise à jour du tradeHash
+        startingDate = math.log2(int(str(trade.startingDate.day) + str(trade.startingDate.month) + str(trade.startingDate.year) + str(
+            trade.startingDate.hour) + str(trade.startingDate.minute) + str(trade.startingDate.second) + str(trade.startingDate.microsecond))-1)
+        traderHash = hashlib.sha256(
+            str(trader.id).encode('utf-8')).hexdigest()
+        adHash = hashlib.sha256(str(ad.id).encode('utf-8')).hexdigest()
+        walletAddressHash = hashlib.sha256(
+            str(walletAddress).encode('utf-8')).hexdigest()
+        startingDateHash = hashlib.sha256(
+            str(startingDate).encode('utf-8')).hexdigest()
+        tradeHash = hashlib.sha256(str(
+            traderHash + adHash + walletAddressHash + startingDateHash).encode('utf-8')).hexdigest()
+        trade.tradeHash = tradeHash
+        trade.save()
 
-            # Envoie de la notification
-            if ad.user.email:
-                sellerMail = ad.user.email
-                sellerPseudo = ad.user.pseudo
-                sendNotificationByMailToSeller(sellerMail, sellerPseudo)
-            else:
-                sellerPhone = ad.user.phone
-                sellerPseudo = ad.user.pseudo
-                sendNotificationByPhoneToSeller(sellerPhone, sellerPseudo)
-            
-            serializer = TradeSerializer(trade)
+        # Envoie de la notification
+        if ad.user.email:
+            sellerMail = ad.user.email
+            sellerPseudo = ad.user.pseudo
+            sendNotificationByMailToSeller(sellerMail, sellerPseudo)
+        else:
+            sellerPhone = ad.user.phone
+            sellerPseudo = ad.user.pseudo
+            sendNotificationByPhoneToSeller(sellerPhone, sellerPseudo)
+        
+        serializer = TradeSerializer(trade)
 
-            # Reponse
-            return Response({'status': 'SUCCESSFUL', 'tradeHash': tradeHash, 'currentTrade': serializer.data, "step": 1},status=status.HTTP_201_CREATED)
+        # Reponse
+        return Response({'status': 'SUCCESSFUL', 'tradeHash': tradeHash, 'currentTrade': serializer.data, "step": 1},status=status.HTTP_201_CREATED)
 
-        except:
-            return Response({'status': 'FAILED', 'message': 'JSON invalide, si le problème persiste contacte moi !'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        # except:
+        #     return Response({'status': 'FAILED', 'message': 'JSON invalide, si le problème persiste contacte moi !'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class TradeViewset(APIView):
