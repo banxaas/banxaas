@@ -26,7 +26,7 @@ class ConnexionConsumer(WebsocketConsumer):
         try:
             
             data = json.loads(text_data)
-            auth_headers={'Authorization':f"Bearer {data['token']}",'Signature':data['signature']}
+            auth_headers={'Authorization':data['Authorization'],'Signature':data['Signature']}
             request = requests.post(
                 'http://backend:27543/api/connexionRoomName/',headers=set_headers(auth_headers=auth_headers)).json()
             status = request['status']
