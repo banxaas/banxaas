@@ -24,13 +24,11 @@ class ConnexionConsumer(WebsocketConsumer):
 
     def receive(self, text_data):
         try:
-            
             data = json.loads(text_data)
             auth_headers={'Authorization':data['Authorization'],'Signature':data['Signature']}
             request = requests.post(
                 'http://backend:27543/api/connexionRoomName/',headers=set_headers(auth_headers=auth_headers)).json()
             status = request['status']
-
             if status == "FAILED":
                 self.send(text_data=json.dumps({'message': "FAILED"}))
                 self.close(code=4004)
@@ -87,13 +85,10 @@ class TransactionConsumer(WebsocketConsumer):
     def receive(self, text_data):
         data = json.loads(text_data)
         keys = list(data.keys())
-        token = data['token']
-        signature = data['signature']
         tradeId = data['tradeId']
-        if (len(keys) == 3) and ('token' in keys) and ('signature' in keys) and ('tradeId' in keys):
-            data_ = {'tradeId':tradeId}
-            auth_headers={'Authorization':f"Bearer {data['token']}",'Signature':data['signature']}
-            request = requests.post(f'http://backend:27543/api/trade/{self.tradeHash}/', data=data_,headers=set_headers(auth_headers=auth_headers))
+        auth_headers={'Authorization':data['Authorization'],'Signature':data['Signature']}
+        if (len(keys) == 3) and ('Authorization' in keys) and ('Signature' in keys) and ('tradeId' in keys):
+            request = requests.post(f'http://backend:27543/api/trade/{self.tradeHash}/', data={'tradeId':tradeId},headers=set_headers(auth_headers=auth_headers))
             if request.json()['status'] == 'FAILED':
                 pprint(request.json()['message'])
                 self.close(code=4004)
@@ -107,7 +102,6 @@ class TransactionConsumer(WebsocketConsumer):
         else:
             step = data['step']
             data_ = {'tradeId':tradeId}
-            auth_headers={'Authorization':f"Bearer {data['token']}",'Signature':data['signature']}
             request = requests.post(f'http://backend:27543/api/trade/{self.tradeHash}/', data=data_,headers=set_headers(auth_headers=auth_headers))
             if request.json()['status'] == 'FAILED':
                 pprint(request.json()['message'])
@@ -116,7 +110,7 @@ class TransactionConsumer(WebsocketConsumer):
                 self.role = request.json()['role']
 
             if (self.role == "Vendeur" and (step == 2 or step == 4)) or (self.role == "Acheteur" and (step==3 or step==5)):
-                data_ = {'token':token, 'signature':signature, 'step':step, 'tradeId':tradeId, 'role':self.role}
+                data_ = {'step':step, 'tradeId':tradeId, 'role':self.role}
                 if step == 2:
                     data_['txId'] = data['txId']
                 if step == 3:
