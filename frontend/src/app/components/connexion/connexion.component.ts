@@ -84,6 +84,8 @@ export class ConnexionComponent implements OnInit, OnDestroy {
                 this.localStorage
                   .get('dataSocketConnexion')
                   .subscribe((response) => {
+                    console.log(response);
+
                     this.status = JSON.parse(response);
                     if (
                       this.status.message &&

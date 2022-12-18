@@ -57,7 +57,7 @@ export class WebsocketService {
           // subscriber.complete();
           this.ws.send(JSON.stringify(
             {
-              'Authorization': this.datauser.token,
+              'Authorization': 'Bearer '+this.datauser.token,
               'Signature': this.datauser.signature,
               'tradeId': this.trade.id
             }
