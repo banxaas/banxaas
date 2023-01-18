@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService, PrimeNGConfig } from 'primeng/api';
-import { AlertService } from 'src/app/parameters/alert/alert.service';
-import { AuthService } from 'src/app/parameters/auth.service';
-import { CustomerService } from 'src/app/parameters/customerservice';
-import { LocalStorageService } from 'src/app/parameters/local-storage.service';
+import { AlertService } from 'app/parameters/alert/alert.service';
+import { AuthService } from 'app/parameters/auth.service';
+import { CustomerService } from 'app/parameters/customerservice';
+import { LocalStorageService } from 'app/parameters/local-storage.service';
 
 @Component({
   selector: 'app-compte',

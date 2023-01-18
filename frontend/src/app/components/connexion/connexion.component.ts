@@ -3,10 +3,10 @@ import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, Subscription, takeUntil } from 'rxjs';
-import { AlertService } from 'src/app/parameters/alert/alert.service';
-import { AuthService } from 'src/app/parameters/auth.service';
-import { LocalStorageService } from 'src/app/parameters/local-storage.service';
-import { WebsocketService } from 'src/app/parameters/websocket.service';
+import { AlertService } from 'app/parameters/alert/alert.service';
+import { AuthService } from 'app/parameters/auth.service';
+import { LocalStorageService } from 'app/parameters/local-storage.service';
+import { WebsocketService } from 'app/parameters/websocket.service';
 import { RegisterComponent } from '../register/register.component';
 
 @Component({

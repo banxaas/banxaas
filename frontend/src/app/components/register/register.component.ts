@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { AuthService } from 'src/app/parameters/auth.service';
-import { LocalStorageService } from 'src/app/parameters/local-storage.service';
+import { AuthService } from 'app/parameters/auth.service';
+import { LocalStorageService } from 'app/parameters/local-storage.service';
 
 @Component({
   selector: 'app-register',

@@ -15,7 +15,7 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { JWTTokenService } from './jwt-helper.service';
 import { LocalStorageService } from './local-storage.service';
-import { environment } from 'src/environments/environment';
+import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root',

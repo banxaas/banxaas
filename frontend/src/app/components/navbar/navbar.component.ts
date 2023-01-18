@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { CustomerService } from 'src/app/parameters/customerservice';
-import { LocalStorageService } from 'src/app/parameters/local-storage.service';
+import { CustomerService } from 'app/parameters/customerservice';
+import { LocalStorageService } from 'app/parameters/local-storage.service';
 
 @Component({
   selector: 'app-navbar',

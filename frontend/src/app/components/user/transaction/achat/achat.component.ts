@@ -2,10 +2,10 @@ import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
-import { CustomerService } from 'src/app/parameters/customerservice';
-import { LocalStorageService } from 'src/app/parameters/local-storage.service';
-import { WebsocketService } from 'src/app/parameters/websocket.service';
-import { environment } from 'src/environments/environment';
+import { CustomerService } from 'app/parameters/customerservice';
+import { LocalStorageService } from 'app/parameters/local-storage.service';
+import { WebsocketService } from 'app/parameters/websocket.service';
+import { environment } from 'environments/environment';
 
 
 @Component({

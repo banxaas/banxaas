@@ -3,8 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { interval } from 'rxjs';
-import { CustomerService } from 'src/app/parameters/customerservice';
-import { LocalStorageService } from 'src/app/parameters/local-storage.service';
+import { CustomerService } from 'app/parameters/customerservice';
+import { LocalStorageService } from 'app/parameters/local-storage.service';
 
 @Component({
   selector: 'app-announce',

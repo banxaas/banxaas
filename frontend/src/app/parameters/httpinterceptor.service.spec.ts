@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HttpinterceptorService } from './httpinterceptor.service';
+import { HTTPInterceptorService } from './httpinterceptor.service';
 
 describe('HttpinterceptorService', () => {
-  let service: HttpinterceptorService;
+  let service: HTTPInterceptorService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(HttpinterceptorService);
+    service = TestBed.inject(HTTPInterceptorService);
   });
 
   it('should be created', () => {

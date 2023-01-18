@@ -8,8 +8,8 @@ import  jwt_decode from 'jwt-decode'
 import jwtDecode from 'jwt-decode';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
-import { AuthService } from 'src/app/parameters/auth.service';
-import { LocalStorageService } from 'src/app/parameters/local-storage.service';
+import { AuthService } from 'app/parameters/auth.service';
+import { LocalStorageService } from 'app/parameters/local-storage.service';
 
 @Component({
   selector: 'app-code-validation',

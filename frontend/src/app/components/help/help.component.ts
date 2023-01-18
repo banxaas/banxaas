@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomerService } from 'src/app/parameters/customerservice';
-import { Ticket } from 'src/app/parameters/ticket';
+import { CustomerService } from 'app/parameters/customerservice';
+import { Ticket } from 'app/parameters/ticket';
 
 @Component({
   selector: 'app-help',

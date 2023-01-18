@@ -5,12 +5,12 @@ import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Customer, User } from 'src/app/parameters/customer';
-import { CustomerService } from 'src/app/parameters/customerservice';
-import { LocalStorageService } from 'src/app/parameters/local-storage.service';
-import { WebsocketService } from 'src/app/parameters/websocket.service';
+import { Customer, User } from 'app/parameters/customer';
+import { CustomerService } from 'app/parameters/customerservice';
+import { LocalStorageService } from 'app/parameters/local-storage.service';
+import { WebsocketService } from 'app/parameters/websocket.service';
 
-import { environment } from 'src/environments/environment';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-offer',
