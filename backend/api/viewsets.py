@@ -626,7 +626,8 @@ class InitTradeViewset(APIView):
 
 
 class TradeViewset(APIView):
-    permission_classes = [IsAuthenticatedPermission, CheckApiKeyAuth]
+    # permission_classes = [IsAuthenticatedPermission, CheckApiKeyAuth]
+    permission_classes = []
     
     def verification(self, token, signature, tradeId, tradeHash):
         try:
@@ -638,7 +639,9 @@ class TradeViewset(APIView):
             
             # Récupération du trade associé
             trade = Trade.objects.get(tradeHash=tradeHash, id=tradeId)
-
+            print("trade.ad ", trade.ad.sens)
+            print("trade.ad.user ", trade.ad.user)
+            print("trade.trader ", trade.trader)
             # Identification du sens du trade et du role de l'utilisateur
             sens = trade.ad.sens
             if sens == 'V' and user == trade.ad.user:
@@ -653,7 +656,7 @@ class TradeViewset(APIView):
                 return Response({'status':'FAILED', 'message': 'Vous n etes pas un acteur !'},status=status.HTTP_401_UNAUTHORIZED)
             return Response({'status':'SUCCESSFUL', 'role': role, 'trade':trade},status=status.HTTP_200_OK)
         except:
-            return Response({'status':'FAILED', 'message':'Transaction inexistante'},status=status.HTTP_404_NOT_FOUND)
+            return Response({'status':'FAILED', 'message':'Transaction inexistante Verif'},status=status.HTTP_404_NOT_FOUND)
 
 
     def get(self, request, tradeHash):
@@ -667,6 +670,9 @@ class TradeViewset(APIView):
         try:
         # Vérification du trade et de la signature
             verification = self.verification(request.headers.get('Authorization').split()[1], request.headers.get('Signature'), request.data['tradeId' ], tradeHash)
+            print("verification post", verification.data)
+            if verification.data:
+                verification = verification.data
             if verification['status'] == "FAILED":
                 return Response(verification)
             serializer = TradeSerializer(verification['trade'])
@@ -676,49 +682,55 @@ class TradeViewset(APIView):
 
 
     def patch(self, request, tradeHash):
-        #try:
-        verification = self.verification(request.headers.get('Authorization').split()[1], request.headers.get('Signature'), request.data['tradeId'], tradeHash)
-        if verification['status'] == "FAILED":
-            return Response(verification)
+        try:
+            print("patch ")
+            verification = self.verification(request.headers.get('Authorization').split()[0], request.headers.get('Signature'), request.data['tradeId'], tradeHash)
+            if verification.data:
+                verification = verification.data
+            if verification['status'] == "FAILED":
+                return Response(verification)
 
-        if request.data['role'] != verification['role']:
-            return Response({'status':'FAILED', 'message': 'Les roles ne correspondent pas!'},status=status.HTTP_401_UNAUTHORIZED)
-        
-        role = verification['role']
-        trade = verification['trade']
-        # Vérification de la légitimité de l'envoie et traitement associé
-        if(verification['trade'].step>step):
-            return Response({'status':'FAILED', 'message':"Cette étape est inférieure à l'étape actuel!"},status=status.HTTP_400_BAD_REQUEST)
+            if request.data['role'] != verification['role']:
+                return Response({'status':'FAILED', 'message': 'Les roles ne correspondent pas!'},status=status.HTTP_401_UNAUTHORIZED)
             
-                    
-        step = int(request.data['step'])
-        if role == "Vendeur" and step == 2:
-            trade.txId = request.data['txId']
-            montant = float(trade.ad.quantityFixe) * 100000000
-            pprint("Le montant de la transaction est de: " + str(montant))
-            montant_to_check = montant + (montant * 0.02)
-            pprint("Le montant à vérifier est de: " + str(montant_to_check))
-            verify = mempool_check_transaction(trade.txId, trade.walletAddress, montant_to_check)
-            if not verify[0]:
-                return Response({'status':'FAILED', 'message': verify[1]},status=status.HTTP_400_BAD_REQUEST)
-        elif role == "Acheteur" and step == 3:
-            trade.transactionId = request.data['transactionId']
-        elif role == "Vendeur" and step == 4:
-            pprint("Légitime")
-        elif role == "Acheteur" and step == 5:
-            trade.buyerWalletAdress = request.data['buyerWalletAdress']
-            montant = float(trade.ad.quantityFixe) * 100000000
-            pprint("Le montant de la transaction est de: " + str(montant))
-            montant_to_send = montant - (montant * 0.03)
-            pprint("Le montant à envoyer est de: " + str(montant_to_send))
-            print(bdk_do_transaction(trade.buyerWalletAdress, montant_to_send))
-            trade.ad.status = 'F'
-            trade.status = 'F'
-        else:
-            return Response({'status':'FAILED', 'message': 'Cette action ne vous correspond pas!'},status=status.HTTP_400_BAD_REQUEST)
-        
-        trade.steps = step
-        trade.save()
-        return Response({'status': 'SUCCESSFUL', 'message': 'Trade mis à jour avec succès !', 'role':role},status=status.HTTP_200_OK)
-        #except:
-        #    return Response({'status': 'FAILED', 'message': 'Pas encore identifié'})
+            role = verification['role']
+            trade = verification['trade']
+            # Vérification de la légitimité de l'envoie et traitement associé
+            
+            step = int(request.data['step'])
+             
+            if(int(trade.steps) > step):
+                return Response({'status':'FAILED', 'message':"Cette étape est inférieure à l'étape actuel!"},status=status.HTTP_400_BAD_REQUEST)
+            
+
+            if role == "Vendeur" and step == 2:
+                trade.txId = request.data['txId']
+                montant = float(trade.ad.quantityFixe) * 100000000
+                pprint("Le montant de la transaction est de: " + str(montant))
+                montant_to_check = montant + (montant * 0.02)
+                pprint("Le montant à vérifier est de: " + str(montant_to_check))
+                verify = mempool_check_transaction(trade.txId, trade.walletAddress, montant_to_check)
+                print("XXXXXXXXX ", verify)       
+                if not verify[0]:
+                    return Response({'status':'FAILED', 'message': verify[1]},status=status.HTTP_400_BAD_REQUEST)
+            elif role == "Acheteur" and step == 3:
+                trade.transactionId = request.data['transactionId']
+            elif role == "Vendeur" and step == 4:
+                pprint("Légitime")
+            elif role == "Acheteur" and step == 5:
+                trade.buyerWalletAdress = request.data['buyerWalletAdress']
+                montant = float(trade.ad.quantityFixe) * 100000000
+                pprint("Le montant de la transaction est de: " + str(montant))
+                montant_to_send = montant - (montant * 0.03)
+                pprint("Le montant à envoyer est de: " + str(montant_to_send))
+                print(bdk_do_transaction(trade.buyerWalletAdress, montant_to_send))
+                trade.ad.status = 'F'
+                trade.status = 'F'
+            else:
+                return Response({'status':'FAILED', 'message': 'Cette action ne vous correspond pas!'},status=status.HTTP_400_BAD_REQUEST)
+            
+            trade.steps = step
+            trade.save()
+            return Response({'status': 'SUCCESSFUL', 'message': 'Trade mis à jour avec succès !', 'role':role},status=status.HTTP_200_OK)
+        except:
+           return Response({'status': 'FAILED', 'message': 'Pas encore identifié'})

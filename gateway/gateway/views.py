@@ -11,12 +11,16 @@ def set_headers(auth_headers={}):
     return httpHeaders
 
 def setResponse(request):
-    body = request.json()
-    headers = request.headers
-    response = Response(body)
-    response.headers = headers
-    response['Content-Type'] = 'application/json'
-    return response
+    try: 
+        print(" request ", request)
+        body = request.json()
+        headers = request.headers
+        response = Response(body)
+        response.headers = headers
+        response['Content-Type'] = 'application/json'
+        return response
+    except:
+        print("error")
 
 @api_view(['POST'])
 def Connexion(request):

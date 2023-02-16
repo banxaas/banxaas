@@ -48,6 +48,8 @@ export class WebsocketService {
 
   createObservableSocket(url: string): Observable<any> {
     console.log(this.datauser);
+    console.log("init websocket ", url)
+    console.log("this.datauser.token ", this.datauser.token)
 
     return new Observable(
       (subscriber: Subscriber<WebSocket>): TeardownLogic => {
@@ -82,7 +84,6 @@ export class WebsocketService {
   }
   sendMessage(message: any): any {
     if (this.ws.readyState === WebSocket.OPEN) {
-      console.log(this.ws.readyState);
 
         this.ws.send(JSON.stringify(
           message

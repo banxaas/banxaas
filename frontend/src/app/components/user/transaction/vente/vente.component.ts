@@ -39,7 +39,7 @@ export class VenteComponent implements OnInit, OnDestroy {
 
   formAdresseBtc = new FormGroup({
     adresse: new FormControl('bc1qn0r06gtwlamffet49fph9jnm9u2e2ylx5ns7qc', [Validators.required, Validators.pattern('^([13]{1}[a-km-zA-HJ-NP-Z1-9]{26,33}|bc1[a-z0-9]{39,59})$')]),
-    txid: new FormControl('', [Validators.required, Validators.pattern('([A-Za-z0-9]){2,}')])
+    txid: new FormControl('', [Validators.required, Validators.pattern('([A-Za-z0-9]){64,}')])
   })
   adresseBtc: boolean = false;
   close: boolean = false;
@@ -148,13 +148,17 @@ export class VenteComponent implements OnInit, OnDestroy {
       data => {
 
         if (this.etape.type === "trade") {
+          console.log("step trade")
           this.stepss = this.etape.step
         } else {
+          console.log("step no trade")
 
           this.stepss = this.etape.trade.steps
         }
 
         if (this.stepss == 2) {
+          console.log("step 2")
+
           this.showNotification()
           // this.disableBtn = false
         }
@@ -294,6 +298,7 @@ export class VenteComponent implements OnInit, OnDestroy {
         data => {
 
           this.etape = JSON.parse(data)
+          console.log("etape ", this.etape)
           if (this.etape.type) {
             if (this.etape.type == 'trade') {
               if (this.etape.step == 2) {
@@ -404,7 +409,9 @@ export class VenteComponent implements OnInit, OnDestroy {
   // }
 
   step2(){
-    this.wsService.sendMessage({
+    console.log("step 2 clicked")
+    console.log(this.token,this.signature, this.tradeId, this.formAdresseBtc.value.txid)
+    let response = this.wsService.sendMessage({
       'Authorization': this.token,
       'Signature': this.signature,
       'step' : 2,
@@ -413,6 +420,7 @@ export class VenteComponent implements OnInit, OnDestroy {
     });
     this.showNotification()
     this.spinner = true
+    console.log("response server : ", response)
     // this.disableBtn = true
 
   }

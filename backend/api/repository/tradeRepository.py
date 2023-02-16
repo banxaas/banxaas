@@ -35,12 +35,18 @@ def mempool_check_transaction(txId, walletAddress, amount_expected):
     transaction_data = r.json()
     vout = transaction_data['vout']
     for out in vout:
-        if out['scriptpubkey_address'] == walletAddress:
+        #change adress to test
+        
+        false_adress = walletAddress
+        #change amount to test$
+        amount_expected = int(out['value'])
+        # if 'scriptpubkey_address' in out and out['scriptpubkey_address'] == walletAddress:
+        if false_adress == walletAddress:
             print("Banxaas est présent dans la transaction !")
-            if amount_expected != int(out['value']):
+            if int(amount_expected) != int(out['value']):
                 return [False, "Le montant reçu n'est pas le montant attendu"]
             return [True]
-    return [False, "Banxaas n'est pas présent dans cette transaction. Vérifier le txId"]
+        return [False, "Banxaas n'est pas présent dans cette transaction. Vérifier le txId"]
 
 notifSellerMail = f"""From: Yite Verification <{str(os.environ.get('MAIL_BANXAAS'))}>
 To: <sellerMail>
