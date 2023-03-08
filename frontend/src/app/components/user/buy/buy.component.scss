@@ -1,0 +1,16 @@
+.btn-content-col-left-buy,
+.btn-content-col-right-buy {
+  width: 100%;
+  background: #3a8238;
+  color: #fff;
+}
+.btn-content-col-left-buy:hover,
+.btn-content-col-right-buy:hover {
+  background: #fff;
+  color: #3a8238;
+}
+@media (max-width: 991px) {
+  .min-h-screen {
+    min-height: 65vh !important;
+  }
+}

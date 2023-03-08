@@ -1,23 +1,30 @@
-.section1{
+.section1 {
   overflow-y: scroll;
-  height: 750px;
 }
 
 @media screen and (max-width: 800px) {
-  .section1{
-      margin: 0;
-      padding: 0;
-      height: 200px;
+  .section1 {
+    margin: 0;
+    padding: 0;
+    height: 200px;
   }
-  .img_doc{
+  .img_doc {
     display: none;
+  }
+  .container-app-banxass {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
 
-a:hover{
+a:hover {
   color: black;
 }
 // .test
 // {
 //   background-color: green;
 // }
+.container-app-banxass {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}

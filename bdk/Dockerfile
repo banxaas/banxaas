@@ -1,8 +1,8 @@
 FROM ubuntu:latest
 SHELL ["/bin/bash", "-c"]
 
-RUN apt update && apt install
-RUN apt install openssh-server ufw curl nano build-essential -y
+RUN apt-get update && apt-get install
+RUN apt-get install openssh-server ufw curl nano build-essential -y
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 RUN cp /root/.cargo/bin/* /bin/

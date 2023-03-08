@@ -6,8 +6,8 @@
     $height: 215px;
     $width: 80px;
 
-    content: '';
-    background-image: url('../../../assets/footer-accent.jpg');
+    content: "";
+    background-image: url("../../../assets/footer-accent.jpg");
     background-size: $width $height;
     width: $width;
     height: $height;
@@ -21,5 +21,14 @@
     right: 0;
     left: auto;
     transform: scaleX(-1);
+  }
+}
+.container-app-footer {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+@media (max-width: 1024px) {
+  .text-copyright {
+    margin-top: 20px;
   }
 }

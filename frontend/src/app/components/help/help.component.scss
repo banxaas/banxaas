@@ -1,0 +1,20 @@
+@media (max-width: 991px) {
+  .collapse-help-page {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  .form-create-ticket {
+    flex-direction: column !important;
+  }
+  .form-control-create-ticket {
+    width: 100% !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1024px) {
+  .collapse-help-page {
+    width: 80% !important;
+  }
+  .btn-action-table {
+    display: flex;
+  }
+}
