@@ -1,210 +1,210 @@
 <app-navbar></app-navbar>
 
-<div
-  class="w-full flex justify-center sm:mt-[40%] sm:mt-[20%] lg:mt-[10%] mb-5"
->
+<div class="w-full flex justify-center my-5">
   <div class="flex flex-col justify-center items-center lg:w-[80%]">
+    <div class="container">
+      <div class="row row-helpage">
+        <div class="col-lg-5 col-md-12 mb-3 col-left-help-page">
+          <div
+            class="bg-white shadow-xl border border-2 border-green-design text-center p-5 flex flex-col"
+          >
+            <h1 class="text-green-design text-[16px]">
+              Bienvenue sur le support
+            </h1>
+            <p class="text-justify [12px]">
+              Bienvenue sur la page de support de Banxaas ! Nous sommes heureux
+              de vous accueillir et de vous offrir l'assistance dont vous avez
+              besoin. Notre équipe est à votre disposition pour répondre à
+              toutes vos questions et vous aider à tirer le meilleur parti de
+              notre service. Nous espérons que vous apprécierez votre expérience
+              sur notre site et que vous trouverez ce dont vous avez besoin.
+              N'hésitez pas à nous contacter si vous avez des questions ou des
+              commentaires. Merci de faire partie de notre communauté !
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-7 col-md-12 mb-3 col-right-help-page">
+          <div class="collapse-help-page mb-3">
+            <div
+              (click)="profil = !profil"
+              class="p-[2%] rounded-t-lg bg-[#cde0d5] text-link leading-none text-white flex items-center justify-between cursor-pointer"
+              onclick="dropdownHandler()"
+            >
+              <h1 class="text-black font-bold text-[16px]">
+                Modification du profil
+              </h1>
+              <div class="mx-2 text-black font-bold">
+                <div *ngIf="profil">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div *ngIf="!profil">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div
+              *ngIf="profil"
+              class="lg:w-full rounded-b-lg bg-[#cde0d5]"
+              id="dropdown"
+            >
+              <div class="w-full p-[2%] w-[90%]">
+                <p class="text-justify text-[14px]">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure
+                  voluptatum quisquam est unde quibusdam consequatur quae
+                  reprehenderit deleniti facere deserunt tempore doloremque
+                  exercitationem eos, eius odit natus, officiis amet porro!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="collapse-help-page mb-3">
+            <div
+              (click)="password = !password"
+              class="p-[2%] rounded-t-lg bg-[#cde0d5] text-link leading-none text-white flex items-center justify-between cursor-pointer"
+              onclick="dropdownHandler()"
+            >
+              <h1 class="text-black font-bold text-[16px]">
+                Changer de mot de passe
+              </h1>
+              <div class="mx-2 text-black font-bold">
+                <div *ngIf="password">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div *ngIf="!password">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div
+              *ngIf="password"
+              class="lg:w-full rounded-b-lg bg-[#cde0d5]"
+              id="dropdown"
+            >
+              <div class="w-full p-[2%] w-[90%]">
+                <p class="text-justify text-[14px]">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure
+                  voluptatum quisquam est unde quibusdam consequatur quae
+                  reprehenderit deleniti facere deserunt tempore doloremque
+                  exercitationem eos, eius odit natus, officiis amet porro!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="collapse-help-page mb-3">
+            <div
+              (click)="trade = !trade"
+              class="p-[2%] rounded-t-lg bg-[#cde0d5] text-link leading-none text-white flex items-center justify-between cursor-pointer"
+              onclick="dropdownHandler()"
+            >
+              <h1 class="text-black font-bold text-[16px]">
+                Probléme avec un trade
+              </h1>
+              <div class="mx-2 text-black font-bold">
+                <div *ngIf="trade">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div *ngIf="!trade">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div
+              *ngIf="trade"
+              class="lg:w-full rounded-b-lg bg-[#cde0d5]"
+              id="dropdown"
+            >
+              <div class="w-full p-[2%] w-[90%]">
+                <p class="text-justify text-[14px]">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure
+                  voluptatum quisquam est unde quibusdam consequatur quae
+                  reprehenderit deleniti facere deserunt tempore doloremque
+                  exercitationem eos, eius odit natus, officiis amet porro!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div
-      class="sm:w-[70%] md:w-[40%] lg:w-[30%] bg-white shadow-xl border border-2 border-green-design text-center p-5 flex flex-col"
+      class="lg:w-[60%] text-center py-5 flex flex-col sm:mt-[6%] md:mt-[4%] lg:mt-[2%] collapse-help-page"
     >
-      <h1 class="text-green-design sm:text-[8px] md:text-[12px] lg:text-[16px]">
-        Bienvenue sur le support
-      </h1>
-      <p class="text-justify sm:text-[6px] md:text-[8px] lg:text-[10px]">
-        Bienvenue sur la page de support de Banxaas ! Nous sommes heureux de
-        vous accueillir et de vous offrir l'assistance dont vous avez besoin.
-        Notre équipe est à votre disposition pour répondre à toutes vos
-        questions et vous aider à tirer le meilleur parti de notre service. Nous
-        espérons que vous apprécierez votre expérience sur notre site et que
-        vous trouverez ce dont vous avez besoin. N'hésitez pas à nous contacter
-        si vous avez des questions ou des commentaires. Merci de faire partie de
-        notre communauté !
-      </p>
-    </div>
-    <div class="lg:w-[60%] sm:mt-[7%] md:mt-[5%] lg:mt-[3%] collapse-help-page">
-      <div
-        (click)="profil = !profil"
-        class="p-[2%] rounded-t-lg bg-[#cde0d5] text-link leading-none text-white flex items-center justify-between cursor-pointer"
-        onclick="dropdownHandler()"
-      >
-        <h1
-          class="text-black font-bold sm:text-[8px] md:text-[12px] lg:text-[16px]"
-        >
-          Modification du profil
-        </h1>
-        <div class="mx-2 text-black font-bold">
-          <div *ngIf="profil">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </div>
-          <div *ngIf="!profil">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
-      <div
-        *ngIf="profil"
-        class="lg:w-full rounded-b-lg bg-[#cde0d5]"
-        id="dropdown"
-      >
-        <div class="w-full p-[2%] w-[90%]">
-          <p class="text-justify sm:text-[6px] md:text-[10px] lg:text-[14px]">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure
-            voluptatum quisquam est unde quibusdam consequatur quae
-            reprehenderit deleniti facere deserunt tempore doloremque
-            exercitationem eos, eius odit natus, officiis amet porro!
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="lg:w-[60%] sm:mt-[6%] md:mt-[4%] lg:mt-[2%] collapse-help-page">
-      <div
-        (click)="password = !password"
-        class="p-[2%] rounded-t-lg bg-[#cde0d5] text-link leading-none text-white flex items-center justify-between cursor-pointer"
-        onclick="dropdownHandler()"
-      >
-        <h1
-          class="text-black font-bold sm:text-[8px] md:text-[12px] lg:text-[16px]"
-        >
-          Changer de mot de passe
-        </h1>
-        <div class="mx-2 text-black font-bold">
-          <div *ngIf="password">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </div>
-          <div *ngIf="!password">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
-      <div
-        *ngIf="password"
-        class="lg:w-full rounded-b-lg bg-[#cde0d5]"
-        id="dropdown"
-      >
-        <div class="w-full p-[2%] w-[90%]">
-          <p class="text-justify sm:text-[6px] md:text-[10px] lg:text-[14px]">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure
-            voluptatum quisquam est unde quibusdam consequatur quae
-            reprehenderit deleniti facere deserunt tempore doloremque
-            exercitationem eos, eius odit natus, officiis amet porro!
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="lg:w-[60%] sm:mt-[6%] md:mt-[4%] lg:mt-[2%] collapse-help-page">
-      <div
-        (click)="trade = !trade"
-        class="p-[2%] rounded-t-lg bg-[#cde0d5] text-link leading-none text-white flex items-center justify-between cursor-pointer"
-        onclick="dropdownHandler()"
-      >
-        <h1
-          class="text-black font-bold sm:text-[8px] md:text-[12px] lg:text-[16px]"
-        >
-          Probléme avec un trade
-        </h1>
-        <div class="mx-2 text-black font-bold">
-          <div *ngIf="trade">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </div>
-          <div *ngIf="!trade">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
-      <div
-        *ngIf="trade"
-        class="lg:w-full rounded-b-lg bg-[#cde0d5]"
-        id="dropdown"
-      >
-        <div class="w-full p-[2%] w-[90%]">
-          <p class="text-justify sm:text-[6px] md:text-[10px] lg:text-[14px]">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure
-            voluptatum quisquam est unde quibusdam consequatur quae
-            reprehenderit deleniti facere deserunt tempore doloremque
-            exercitationem eos, eius odit natus, officiis amet porro!
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="lg:w-[30%] text-center py-5 flex flex-col sm:mt-[6%] md:mt-[4%] lg:mt-[2%] collapse-help-page"
-    >
-      <p class="text-center sm:text-[8px] md:text-[12px] lg:text-[16px]">
+      <p class="text-center text-[16px]">
         Vous ne trouvez pas de réponse à votre probléme? <br />
         Merci de créer un ticket.
       </p>
     </div>
 
-    <div class="flex justify-center mt-[2%] lg:w-[20%] md:w-[30%] sm:w-[50%]">
+    <div class="flex justify-center mt-[2%] w-[50%]">
       <button
         (click)="toggleModal()"
         class="w-[80%] px-3 py-2 md:px-6 md:py-4 lg:px-6 lg:py-4 text-white bg-green-design rounded-lg font-bold hover:bg-green-800"
@@ -270,7 +270,7 @@
     <p-table
       #dt
       [value]="ticket"
-      class="w-[96%] mt-[1%]"
+      class="w-[100%] mt-[1%]"
       styleClass="p-datatable-customers"
       [rowHover]="true"
       [rows]="10"

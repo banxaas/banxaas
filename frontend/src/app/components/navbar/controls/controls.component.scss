@@ -1,0 +1,27 @@
+@media (max-width: 991px) {
+  .btn-buy-or-seller-mobile {
+    text-align: left !important;
+    margin-left: 8px;
+    margin-bottom: 10px;
+  }
+}
+.btn-register-app {
+  color: white !important;
+  background: transparent !important;
+  border: 2px solid white !important;
+}
+.btn-register-app:hover {
+  color: #3a8238 !important;
+  background: #fff !important;
+  border: 2px solid #3a8238 !important;
+}
+.btn-login-app {
+  color: #3a8238 !important;
+  background: #fff !important;
+  border: 2px solid #3a8238 !important;
+}
+.btn-login-app:hover {
+  color: white !important;
+  background: transparent !important;
+  border: 2px solid white !important;
+}

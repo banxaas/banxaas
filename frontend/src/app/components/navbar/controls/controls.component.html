@@ -1,21 +1,21 @@
 <button
   *ngIf="!token"
   routerLink="/connexion"
-  class="inline-block w-full sm:w-auto text-green-design sm:text-white sm:hover:text-white bg-transparent sm:hover:bg-green-100 border-2 border-green-design sm:border-white sm:hover:border-green-100 focus:ring-4 focus:outline-none focus:ring-gray-200 sm:focus:ring-green-600 font-medium rounded-3xl px-3 py-1.5 md:px-5 md:py-2.5 text-center mb-2 sm:mb-0 sm:mr-3"
+  class="inline-block w-full sm:w-auto btn-login-app text-green-design hover:text-white bg-white hover:bg-transparent border-2 border-green-design hover:border-white focus:ring-4 focus:outline-none focus:ring-gray-200 sm:focus:ring-green-600 font-medium rounded-3xl p-3 text-center btn-buy-or-seller-mobile m-2"
 >
   Se Connecter
 </button>
 <button
   *ngIf="!token"
   routerLink="/register"
-  class="inline-block w-full sm:w-auto text-white sm:text-green-design bg-green-design sm:hover:bg-green focus:ring-4 focus:outline-none focus:ring-gray-200 sm:focus:ring-green-600 font-medium rounded-3xl px-3 py-1.5 md:px-5 md:py-2.5 text-center mr-3 md:mr-0"
+  class="inline-block w-full sm:w-auto btn-register-app focus:ring-4 focus:outline-none focus:ring-gray-200 sm:focus:ring-green-600 font-medium rounded-3xl p-3 text-center btn-buy-or-seller-mobile m-2"
 >
   Créer un compte
 </button>
 <button
   *ngIf="token"
   routerLink="/acheter"
-  class="inline-block w-full sm:w-auto text-white sm:text-green-design bg-green-design sm:hover:bg-green-100 focus:ring-4 focus:outline-none focus:ring-gray-200 sm:focus:ring-green-600 font-medium rounded-3xl px-3 py-1.5 md:px-5 md:py-2.5 text-center mr-3 md:mr-0"
+  class="inline-block w-full sm:w-auto focus:ring-4 focus:outline-none focus:ring-gray-200 sm:focus:ring-green-600 font-medium rounded-3xl px-3 py-1.5 md:px-5 md:py-2.5 btn-buy-or-seller-mobile"
 >
   Acheter/Vendre du BTC
 </button>

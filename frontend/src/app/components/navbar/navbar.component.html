@@ -258,7 +258,7 @@
             </li>
           </ul>
         </li>
-        <li *ngIf="token" class="nav-item md:hidden dropdown">
+        <li *ngIf="token" class="nav-item hidden dropdown">
           <button
             type="button"
             class="flex items-center dropdown-toggle w-full nav-link-custom py-2 px-4 text-base text-gray-900 transition duration-75 rounded group hover:bg-gray-100"
@@ -296,17 +296,14 @@
           </ul>
         </li>
       </ul>
-      <div
-        app-navbar-controls
-        class="hidden sm:flex md:order-2 ml-auto md:ml-0"
-      >
+      <div app-navbar-controls class="sm:flex md:order-2 ml-auto md:ml-0">
         <app-user-dropdown
           *ngIf="token"
-          class="hidden md:flex my-auto"
+          class="md:flex my-auto"
         ></app-user-dropdown>
         <app-currency-dropdown
           *ngIf="token"
-          class="hidden md:flex"
+          class="md:flex"
         ></app-currency-dropdown>
       </div>
     </div>

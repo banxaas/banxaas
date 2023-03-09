@@ -1,27 +1,22 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { LocalStorageService } from 'app/parameters/local-storage.service';
 
 @Component({
   selector: 'app-user-dropdown',
-  templateUrl: './user-dropdown.component.html'
+  templateUrl: './user-dropdown.component.html',
+  styleUrls: ['./user-dropdown.component.scss'],
 })
-
 export class UserDropdownComponent {
   datatauser: any;
   pseudo: any;
   email: any;
-  constructor(
-    private localStorage: LocalStorageService,
-  ) {
-
-    this.localStorage.get('data').subscribe(
-      data => {
-        this.datatauser = JSON.parse(data);
-        if (this.datatauser) {
-          this.pseudo = this.datatauser.user.pseudo;
-          this.email = this.datatauser.user.email;
-        }
+  constructor(private localStorage: LocalStorageService) {
+    this.localStorage.get('data').subscribe((data) => {
+      this.datatauser = JSON.parse(data);
+      if (this.datatauser) {
+        this.pseudo = this.datatauser.user.pseudo;
+        this.email = this.datatauser.user.email;
       }
-    )
+    });
   }
 }
