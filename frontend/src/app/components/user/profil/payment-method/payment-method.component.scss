@@ -1,0 +1,26 @@
+@media (max-width: 991px) {
+  .conainer-mode-paiement-mobile {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
+  .conainer-mode-paiement-mobile img {
+    width: 50%;
+  }
+  .btn-cancelled-mobile {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  .btn-cancelled-mobile button {
+    padding: 10px;
+  }
+  .btn-submit-form-mode-paiement {
+    padding: 10px;
+  }
+  .btn-cancelled-mobile-jc {
+    justify-content: flex-start !important;
+  }
+  .btn-cancelled-mobile-jc button {
+    width: 100% !important;
+  }
+}

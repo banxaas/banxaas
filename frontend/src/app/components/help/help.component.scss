@@ -9,6 +9,13 @@
   .form-control-create-ticket {
     width: 100% !important;
   }
+  .width-content-mobile {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+  .btn-create-ticket-mobile-help {
+    width: 50% !important;
+  }
 }
 @media (min-width: 992px) and (max-width: 1024px) {
   .collapse-help-page {
