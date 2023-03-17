@@ -1,0 +1,32 @@
+@media (max-width: 991px) {
+  .collapse-help-page {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  .form-create-ticket {
+    flex-direction: column !important;
+  }
+  .form-control-create-ticket {
+    width: 100% !important;
+  }
+  .width-content-mobile {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+  .btn-create-ticket-mobile-help {
+    width: 50% !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1024px) {
+  .collapse-help-page {
+    width: 80% !important;
+  }
+  .btn-action-table {
+    display: flex;
+  }
+}
+@media (min-width: 1200px) and (max-width: 1300px) {
+  .btn-action-table {
+    display: flex;
+  }
+}

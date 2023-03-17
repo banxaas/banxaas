@@ -1,0 +1,72 @@
+.container-trade-page {
+  flex-direction: row;
+}
+@media (max-width: 991px) {
+  .container-trade-page {
+    flex-direction: column !important;
+    margin-top: 40px;
+  }
+  .trade-container-step-nav-seller {
+    width: 100% !important;
+  }
+  .trade-container-step-content {
+    width: 100% !important;
+  }
+  .line-nav-step-trade {
+    height: 50px !important;
+  }
+  .btn-rouded-nav-step {
+    margin-top: 50px !important;
+  }
+  .text-notif-step-content {
+    padding-left: 0 !important;
+  }
+  .btn-cancelled-offer {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  .text-info-step-content {
+    padding: 0 !important;
+  }
+  .text-last-step-content {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    width: 100% !important;
+    text-align: center;
+    margin-top: 10px;
+  }
+  .container-text-last-step-content {
+    width: 100% !important;
+    align-items: center;
+    margin-left: 0 !important;
+  }
+  .container-img-last-step {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+  .height-mobile-vente {
+    height: 50px !important;
+  }
+  .t-a-mobile {
+    text-align: left !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1200px) {
+  .trade-container-step-content {
+    width: 65% !important;
+  }
+  .trade-container-step-nav-seller {
+    width: 40% !important;
+  }
+  .text-notif-step-content {
+    padding: 0 !important;
+    width: 100% !important;
+  }
+  .content-last-step-tablet {
+    margin-left: 0 !important;
+  }
+  .container-img-last-step-tablet {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

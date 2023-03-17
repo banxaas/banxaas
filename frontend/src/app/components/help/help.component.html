@@ -1,208 +1,402 @@
 <app-navbar></app-navbar>
 
-<div class="w-full flex justify-center sm:mt-[40%] sm:mt-[20%] lg:mt-[10%]">
-    <div class="flex flex-col justify-center items-center lg:w-[80%]">
-        <div class="sm:w-[70%] md:w-[40%] lg:w-[30%] bg-white shadow-xl border border-2 border-green-design text-center p-5 flex flex-col  ">
-            <h1 class="text-green-design sm:text-[8px] md:text-[12px] lg:text-[16px]">Bienvenue sur le support</h1>
-            <p class="text-justify sm:text-[6px] md:text-[8px] lg:text-[10px] ">Bienvenue sur la page de support de Banxaas ! Nous sommes heureux de vous accueillir et de vous offrir l'assistance dont vous avez besoin. Notre équipe est à votre disposition pour répondre à toutes vos questions et vous aider à tirer le meilleur parti de notre service. Nous espérons que vous apprécierez votre expérience sur notre site et que vous trouverez ce dont vous avez besoin. N'hésitez pas à nous contacter si vous avez des questions ou des commentaires. Merci de faire partie de notre communauté !
+<div class="w-full flex justify-center my-5">
+  <div class="flex flex-col justify-center items-center lg:w-[80%]">
+    <div class="container">
+      <div class="row row-helpage">
+        <div class="col-lg-5 col-md-12 mb-3 col-left-help-page">
+          <div
+            class="bg-white shadow-xl border border-2 border-green-design text-center p-5 flex flex-col"
+          >
+            <h1 class="text-green-design text-[16px]">
+              Bienvenue sur le support
+            </h1>
+            <p class="text-justify [12px]">
+              Bienvenue sur la page de support de Banxaas ! Nous sommes heureux
+              de vous accueillir et de vous offrir l'assistance dont vous avez
+              besoin. Notre équipe est à votre disposition pour répondre à
+              toutes vos questions et vous aider à tirer le meilleur parti de
+              notre service. Nous espérons que vous apprécierez votre expérience
+              sur notre site et que vous trouverez ce dont vous avez besoin.
+              N'hésitez pas à nous contacter si vous avez des questions ou des
+              commentaires. Merci de faire partie de notre communauté !
             </p>
+          </div>
         </div>
-        <div class="sm:w-[80%] md:w-[50%] lg:w-[60%]  sm:mt-[7%] md:mt-[5%] lg:mt-[3%]">
-            <div (click)="profil = !profil " class="p-[2%] rounded-t-lg bg-[#cde0d5] text-link leading-none text-white flex items-center justify-between cursor-pointer" onclick="dropdownHandler()">
-                <h1 class="text-black font-bold sm:text-[8px] md:text-[12px] lg:text-[16px]"> Modification du profil </h1>
-                <div class="mx-2 text-black font-bold">
-                    <div *ngIf="profil">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4 " viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <div *ngIf="!profil">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
+        <div class="col-lg-7 col-md-12 mb-3 col-right-help-page">
+          <div class="collapse-help-page mb-3">
+            <div
+              (click)="profil = !profil"
+              class="p-[2%] rounded-t-lg bg-[#cde0d5] text-link leading-none text-white flex items-center justify-between cursor-pointer"
+              onclick="dropdownHandler()"
+            >
+              <h1 class="text-black font-bold text-[16px]">
+                Modification du profil
+              </h1>
+              <div class="mx-2 text-black font-bold">
+                <div *ngIf="profil">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
                 </div>
-            </div>
-            <div *ngIf="profil" class="lg:w-full rounded-b-lg bg-[#cde0d5]" id="dropdown">
-                <div class="w-full p-[2%] w-[90%]">
-                    <p class="text-justify sm:text-[6px] md:text-[10px] lg:text-[14px]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure voluptatum quisquam est unde quibusdam
-                        consequatur quae reprehenderit deleniti facere deserunt tempore doloremque exercitationem eos,
-                        eius odit natus, officiis amet porro!
-                    </p>
+                <div *ngIf="!profil">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
                 </div>
+              </div>
             </div>
+            <div
+              *ngIf="profil"
+              class="lg:w-full rounded-b-lg bg-[#cde0d5]"
+              id="dropdown"
+            >
+              <div class="w-full p-[2%] w-[90%]">
+                <p class="text-justify text-[14px]">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure
+                  voluptatum quisquam est unde quibusdam consequatur quae
+                  reprehenderit deleniti facere deserunt tempore doloremque
+                  exercitationem eos, eius odit natus, officiis amet porro!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="collapse-help-page mb-3">
+            <div
+              (click)="password = !password"
+              class="p-[2%] rounded-t-lg bg-[#cde0d5] text-link leading-none text-white flex items-center justify-between cursor-pointer"
+              onclick="dropdownHandler()"
+            >
+              <h1 class="text-black font-bold text-[16px]">
+                Changer de mot de passe
+              </h1>
+              <div class="mx-2 text-black font-bold">
+                <div *ngIf="password">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div *ngIf="!password">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div
+              *ngIf="password"
+              class="lg:w-full rounded-b-lg bg-[#cde0d5]"
+              id="dropdown"
+            >
+              <div class="w-full p-[2%] w-[90%]">
+                <p class="text-justify text-[14px]">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure
+                  voluptatum quisquam est unde quibusdam consequatur quae
+                  reprehenderit deleniti facere deserunt tempore doloremque
+                  exercitationem eos, eius odit natus, officiis amet porro!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="collapse-help-page mb-3">
+            <div
+              (click)="trade = !trade"
+              class="p-[2%] rounded-t-lg bg-[#cde0d5] text-link leading-none text-white flex items-center justify-between cursor-pointer"
+              onclick="dropdownHandler()"
+            >
+              <h1 class="text-black font-bold text-[16px]">
+                Probléme avec un trade
+              </h1>
+              <div class="mx-2 text-black font-bold">
+                <div *ngIf="trade">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div *ngIf="!trade">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div
+              *ngIf="trade"
+              class="lg:w-full rounded-b-lg bg-[#cde0d5]"
+              id="dropdown"
+            >
+              <div class="w-full p-[2%] w-[90%]">
+                <p class="text-justify text-[14px]">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure
+                  voluptatum quisquam est unde quibusdam consequatur quae
+                  reprehenderit deleniti facere deserunt tempore doloremque
+                  exercitationem eos, eius odit natus, officiis amet porro!
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-
-
-        <div class="sm:w-[80%] md:w-[50%] lg:w-[60%] sm:mt-[6%] md:mt-[4%] lg:mt-[2%]">
-            <div (click)="password = !password " class="p-[2%] rounded-t-lg bg-[#cde0d5] text-link leading-none text-white flex items-center justify-between cursor-pointer" onclick="dropdownHandler()">
-                <h1 class="text-black font-bold sm:text-[8px] md:text-[12px] lg:text-[16px]"> Changer de mot de passe </h1>
-                <div class="mx-2 text-black font-bold">
-                    <div *ngIf="password">
-
-                        <svg xmlns="http://www.w3.org/2000/svg" class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4 " viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <div *ngIf="!password">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            <div *ngIf="password" class="lg:w-full rounded-b-lg bg-[#cde0d5]" id="dropdown">
-                <div class="w-full p-[2%] w-[90%]">
-                    <p class="text-justify sm:text-[6px] md:text-[10px] lg:text-[14px]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure voluptatum quisquam est unde quibusdam
-                        consequatur quae reprehenderit deleniti facere deserunt tempore doloremque exercitationem eos,
-                        eius odit natus, officiis amet porro!
-                    </p>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="sm:w-[80%] md:w-[50%] lg:w-[60%] sm:mt-[6%] md:mt-[4%] lg:mt-[2%]">
-            <div (click)="trade = !trade " class="p-[2%] rounded-t-lg bg-[#cde0d5] text-link leading-none text-white flex items-center justify-between cursor-pointer" onclick="dropdownHandler()">
-                <h1 class="text-black font-bold sm:text-[8px] md:text-[12px] lg:text-[16px]"> Probléme avec un trade </h1>
-                <div class="mx-2 text-black font-bold">
-                    <div *ngIf="trade">
-
-                        <svg xmlns="http://www.w3.org/2000/svg" class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4 " viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <div *ngIf="!trade">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="lg:h-8 lg:w-8 md:h-6 md:w-6 sm:h-4 sm:w-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            <div *ngIf="trade" class="lg:w-full rounded-b-lg bg-[#cde0d5]" id="dropdown">
-                <div class="w-full p-[2%] w-[90%]">
-                    <p class="text-justify sm:text-[6px] md:text-[10px] lg:text-[14px]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure voluptatum quisquam est unde quibusdam
-                        consequatur quae reprehenderit deleniti facere deserunt tempore doloremque exercitationem eos,
-                        eius odit natus, officiis amet porro!
-                    </p>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="sm:w-[60%] lg:w-[30%] text-center p-5 flex flex-col sm:mt-[6%] md:mt-[4%] lg:mt-[2%]">
-            <p class="text-center sm:text-[8px] md:text-[12px] lg:text-[16px]">
-                Vous ne trouvez pas de réponse à votre probléme? <br> Merci de créer un ticket.
-            </p>
-        </div>
-
-        <div class="flex justify-center mt-[2%] lg:w-[20%] md:w-[30%] sm:w-[50%]">
-            <button (click)="toggleModal()" class="w-[80%] px-3 py-2 md:px-6 md:py-4 lg:px-6 lg:py-4 text-white bg-green-design rounded-lg font-bold hover:bg-green-800">
-                Créer un ticket
-            </button>
-        </div>
-        <p-dialog header="Création de ticket" [(visible)]="hidden">
-            <form action="">
-                <div class="flex flex-row mt-4">
-                    <label for="" class="flex items-center font-bold w-[20%]">Categorie</label>
-                    <select name="" id="" class="w-[80%] px-4 py-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design">
-                        <option value="">Problémes techniques</option>
-                        <option value="">Connexion et accès au compte</option>
-                        <option value="">Trade</option>
-                        <option value="">Autres</option>
-                    </select>
-                </div>
-                <div class="flex flex-row mt-4">
-                    <label for="" class="flex items-center font-bold w-[20%]">Sujet</label>
-                    <input type="text" name="" placeholder="test" id="" class="w-[80%] px-4 py-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design">
-                </div>
-                <div class="flex flex-row mt-4">
-                    <label for="" class="flex items-center w-[20%] font-bold">Message</label>
-                    <textarea name="" id="" cols="60" rows="10" class="w-[80%] px-4 py-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design"></textarea>
-                </div>
-                <div class="flex justify-center mt-4">
-                    <button class="w-[30%] px-3 py-2 md:px-6 md:py-4 lg:px-4 lg:py-4 mt-4 text-white bg-green-design rounded-3xl font-bold hover:bg-green-800">
-                        Créer
-                    </button>
-                </div>
-            </form>
-        </p-dialog>
-        <div class="w-[96%] mt-[3%]">
-            <b class="sm:text-[10px] md:text-[14px] lg:text-[18px]">Historique des tickets</b>
-        </div>
-        <p-table #dt [value]="ticket" class="w-[96%] mt-[1%]" styleClass="p-datatable-customers" [rowHover]="true"
-            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-            [paginator]="false" currentPageReportTemplate="Voir {first} à {last} {totalRecords} entries"
-            [filterDelay]="0">
-              <ng-template pTemplate="header">
-                  <tr>
-                      <!-- <th style="width: 3rem"></th> -->
-                      <th pSortableColumn="id text-center"><b>Objet</b>  <p-sortIcon ></p-sortIcon></th>
-                      <th pSortableColumn="quantite"><b>Type</b><p-sortIcon></p-sortIcon></th>
-                      <th pSortableColumn="montant"><b>Statut</b> <p-sortIcon></p-sortIcon></th>
-                      <th pSortableColumn="marge"><b>Date de création</b> <p-sortIcon></p-sortIcon></th>
-                      <th pSortableColumn="sens"><b>Derniére mis à jour</b> <p-sortIcon></p-sortIcon></th>
-                      <th pSortableColumn=""><b>Action</b></th>
-                      <!-- <th style="width: 8rem"></th> -->
-                  </tr>
-              </ng-template>
-
-            <ng-template pTemplate="body" let-ticket>
-                <tr class="p-selectable-row">
-
-                    <td>{{ticket.objet}}</td>
-                    <td>{{ticket.type}}</td>
-                    <td>{{ticket.statut}}</td>
-                    <td>{{ticket.dateCreation}}</td>
-                    <td>{{ticket.update}}</td>
-                  <td>
-                      <button type="button" (click)="toggleModalTicket()" class="text-white bg-green-design px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-design hover:text-green-design  hover:bg-white">Suivre</button>
-                      <button type="button" class="text-green-design px-6 py-1 rounded-[20px] mx-3 shadow-lg border-2 font-bold border-green-design hover:text-white  hover:bg-green-design">Fermer le ticket</button>
-                  </td>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="emptymessage">
-                <tr>
-                    <td colspan="8">Pas de tickets.</td>
-                </tr>
-            </ng-template>
-
-        </p-table>
-
-        <p-dialog header="Ticket #16542: Trade" style="width:30px" [(visible)]="hiddenTicket">
-            <div class="mt-[2%]">
-                <b>mass</b> a crée ce ticket le 20/07/2002 à 20:30:00 UTC
-            </div>
-            <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam saepe, animi perspiciatis laboriosam fugiat repudiandae excepturi, voluptates enim obcaecati harum sunt sed vero distinctio itaque sapiente in debitis voluptas consectetur.
-            </div>
-            <div class="mt-[2%]">
-                <b>Banxaas</b> a répondu le 20/07/2002 à 21:00:00 UTC
-            </div>
-            <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, repudiandae reiciendis, voluptatum hic veniam facere nobis accusamus animi maxime sunt quam veritatis quos nemo eum? Voluptas maiores hic voluptate eligendi!
-            </div>
-            <div class="mt-[2%]">
-                <form action="">
-                    <div ><b>Ce ticket est marqué comme résolu. Si vous avez d'autres questions ou préoccupations, vous pouvez rouvrir le ticket et soumettre une réponse ci-dessous</b></div>
-                    <div class="flex flex-row mt-[1%]">
-                        <label for="" class="flex items-center w-[10%] font-bold">Message</label>
-                        <textarea name="" id="" cols="60" rows="10" class="w-[90%] px-4 py-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design"></textarea>
-                    </div>
-
-                    <div class="flex flex-row-reverse w-[60%] ml-[40%] mt-[1%]">
-                        <button class="w-[15%] px-3 py-2 md:px-6 md:py-4 lg:px-2 lg:py-2 mt-4 text-green-design bg-white rounded-3xl font-bold border-green-design border-2 hover:text-white  hover:bg-green-design">
-                            Répondre
-                        </button>
-                        <button class="w-[15%] mx-2 px-3 py-2 md:px-6 md:py-4 lg:px-2 lg:py-2 mt-4 text-white bg-green-design rounded-3xl border-green-design border-2 font-bold hover:text-green-800 hover:bg-white ">
-                            Fermer le ticket
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </p-dialog>
+      </div>
     </div>
+
+    <div
+      class="lg:w-[60%] text-center py-5 flex flex-col sm:mt-[6%] md:mt-[4%] lg:mt-[2%] collapse-help-page"
+    >
+      <p class="text-center text-[16px]">
+        Vous ne trouvez pas de réponse à votre probléme? <br />
+        Merci de créer un ticket.
+      </p>
+    </div>
+
+    <div class="flex justify-center mt-[2%] w-[50%]">
+      <button
+        (click)="toggleModal()"
+        class="w-[80%] px-3 py-2 md:px-6 md:py-4 lg:px-6 lg:py-4 text-white bg-green-design rounded-lg font-bold hover:bg-green-800"
+      >
+        Créer un ticket
+      </button>
+    </div>
+    <p-dialog header="Création de ticket" [(visible)]="hidden">
+      <form action="">
+        <div class="flex flex-row mt-4 form-create-ticket">
+          <label for="" class="flex items-center font-bold w-[20%]"
+            >Categorie</label
+          >
+          <select
+            name=""
+            id=""
+            class="form-control form-control-create-ticket w-[80%] px-4 py-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design"
+          >
+            <option value="">Problémes techniques</option>
+            <option value="">Connexion et accès au compte</option>
+            <option value="">Trade</option>
+            <option value="">Autres</option>
+          </select>
+        </div>
+        <div class="flex flex-row mt-4 form-create-ticket">
+          <label for="" class="flex items-center font-bold w-[20%]"
+            >Sujet</label
+          >
+          <input
+            type="text"
+            name=""
+            placeholder="test"
+            id=""
+            class="form-control form-control-create-ticket w-[80%] px-4 py-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design"
+          />
+        </div>
+        <div class="flex flex-row mt-4 form-create-ticket">
+          <label for="" class="flex items-center w-[20%] font-bold"
+            >Message</label
+          >
+          <textarea
+            name=""
+            id=""
+            cols="60"
+            rows="10"
+            class="form-control form-control-create-ticket w-[80%] px-4 py-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design"
+          ></textarea>
+        </div>
+        <div class="flex justify-center mt-4">
+          <button
+            class="w-[30%] px-3 py-2 md:px-6 md:py-4 lg:px-4 lg:py-4 mt-4 text-white bg-green-design rounded-3xl font-bold hover:bg-green-800"
+          >
+            Créer
+          </button>
+        </div>
+      </form>
+    </p-dialog>
+    <div class="w-[96%] mt-[3%]">
+      <b class="sm:text-[10px] md:text-[14px] lg:text-[18px]"
+        >Historique des tickets</b
+      >
+    </div>
+    <p-table
+      #dt
+      [value]="ticket"
+      class="w-[100%] mt-[1%]"
+      styleClass="p-datatable-customers"
+      [rowHover]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [paginator]="false"
+      currentPageReportTemplate="Voir {first} à {last} {totalRecords} entries"
+      [filterDelay]="0"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <!-- <th style="width: 3rem"></th> -->
+          <th pSortableColumn="id text-center">
+            <b>Objet</b> <p-sortIcon></p-sortIcon>
+          </th>
+          <th pSortableColumn="quantite">
+            <b>Type</b><p-sortIcon></p-sortIcon>
+          </th>
+          <th pSortableColumn="montant">
+            <b>Statut</b> <p-sortIcon></p-sortIcon>
+          </th>
+          <th pSortableColumn="marge">
+            <b>Date de création</b> <p-sortIcon></p-sortIcon>
+          </th>
+          <th pSortableColumn="sens">
+            <b>Derniére mis à jour</b> <p-sortIcon></p-sortIcon>
+          </th>
+          <th pSortableColumn=""><b>Action</b></th>
+          <!-- <th style="width: 8rem"></th> -->
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-ticket>
+        <tr class="p-selectable-row">
+          <td>{{ ticket.objet }}</td>
+          <td>{{ ticket.type }}</td>
+          <td>{{ ticket.statut }}</td>
+          <td>{{ ticket.dateCreation }}</td>
+          <td>{{ ticket.update }}</td>
+          <td class="btn-action-table">
+            <button
+              type="button"
+              (click)="toggleModalTicket()"
+              class="text-white bg-green-design px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-design hover:text-green-design"
+            >
+              Suivre
+            </button>
+            <button
+              type="button"
+              class="text-green-design px-6 py-1 rounded-[20px] mx-3 shadow-lg border-2 font-bold border-green-design hover:text-white hover:bg-green-design"
+            >
+              Fermer le ticket
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8">Pas de tickets.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <p-dialog
+      header="Ticket #16542: Trade"
+      style="width: 30px"
+      [(visible)]="hiddenTicket"
+    >
+      <div class="mt-[2%]">
+        <b>mass</b> a crée ce ticket le 20/07/2002 à 20:30:00 UTC
+      </div>
+      <div>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam saepe,
+        animi perspiciatis laboriosam fugiat repudiandae excepturi, voluptates
+        enim obcaecati harum sunt sed vero distinctio itaque sapiente in debitis
+        voluptas consectetur.
+      </div>
+      <div class="mt-[2%]">
+        <b>Banxaas</b> a répondu le 20/07/2002 à 21:00:00 UTC
+      </div>
+      <div>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis,
+        repudiandae reiciendis, voluptatum hic veniam facere nobis accusamus
+        animi maxime sunt quam veritatis quos nemo eum? Voluptas maiores hic
+        voluptate eligendi!
+      </div>
+      <div class="mt-[2%]">
+        <form action="">
+          <div>
+            <b
+              >Ce ticket est marqué comme résolu. Si vous avez d'autres
+              questions ou préoccupations, vous pouvez rouvrir le ticket et
+              soumettre une réponse ci-dessous</b
+            >
+          </div>
+          <div class="flex flex-row mt-[1%] form-create-ticket">
+            <label for="" class="flex items-center w-[10%] font-bold"
+              >Message</label
+            >
+            <textarea
+              name=""
+              id=""
+              cols="60"
+              rows="10"
+              class="form-control form-control-create-ticket w-[90%] px-4 py-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design"
+            ></textarea>
+          </div>
+
+          <div
+            class="flex flex-row-reverse w-[60%] ml-[40%] mt-[1%] width-content-mobile"
+          >
+            <button
+              class="w-[15%] px-3 py-2 md:px-6 md:py-4 lg:px-2 lg:py-2 mt-4 text-green-design bg-white rounded-3xl font-bold border-green-design border-2 hover:text-green-design hover:bg-green-design btn-create-ticket-mobile-help"
+            >
+              Répondre
+            </button>
+            <button
+              class="w-[15%] mx-2 px-3 py-2 md:px-6 md:py-4 lg:px-2 lg:py-2 mt-4 text-white bg-green-design rounded-3xl border-green-design border-2 font-bold hover:text-green btn-create-ticket-mobile-help"
+            >
+              Fermer le ticket
+            </button>
+          </div>
+        </form>
+      </div>
+    </p-dialog>
+  </div>
 </div>
 
 <app-footer></app-footer>

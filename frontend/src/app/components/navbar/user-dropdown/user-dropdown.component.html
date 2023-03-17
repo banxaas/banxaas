@@ -1,6 +1,6 @@
 <button
   data-dropdown-toggle="userDropdown"
-  class="flex items-center font-medium text-white rounded-full hover:text-green-100 focus:ring-4 focus:ring-green-600 ml-5"
+  class="flex items-center btn-pseudo-mail-mobile font-medium text-white rounded-full hover:text-green-100 focus:ring-4 focus:ring-green-600 ml-5"
 >
   <span class="sr-only">Open user menu</span>
   <img
@@ -8,7 +8,7 @@
     src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
     alt="user photo"
   />
-  {{pseudo}}
+  {{ pseudo }}
   <svg
     class="w-4 h-4 ml-1.5"
     aria-hidden="true"
@@ -27,8 +27,13 @@
 <!-- Dropdown menu -->
 <div
   id="userDropdown"
-  class="hidden z-10 w-60 bg-white rounded divide-y divide-gray-100 shadow-xl"
-  style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 10px)"
+  class="hidden z-10 bg-white rounded divide-y divide-gray-100 shadow-xl"
+  style="
+    position: absolute;
+    inset: 0px auto auto 0px;
+    margin: 0px;
+    transform: translate(0px, 10px);
+  "
   data-popper-reference-hidden=""
   data-popper-escaped=""
   data-popper-placement="bottom"
@@ -40,9 +45,9 @@
         src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
         alt="user photo"
       />
-      <div>
-        <div class="font-medium">{{pseudo}}</div>
-        <div class="truncate text-gray-500">{{email}}</div>
+      <div class="">
+        <div class="font-medium">{{ pseudo }}</div>
+        <div class="truncate text-gray-500">{{ email }}</div>
       </div>
     </div>
   </div>
@@ -51,12 +56,18 @@
       <a href="#" class="block py-2 px-4 hover:bg-gray-100">Tableau de bord</a>
     </li>
     <li>
-      <a routerLink="/user/profil/compte" class="block py-2 px-4 hover:bg-gray-100">Compte</a>
+      <a
+        routerLink="/user/profil/compte"
+        class="block py-2 px-4 hover:bg-gray-100"
+        >Compte</a
+      >
     </li>
   </ul>
   <ul class="py-2 text-gray-700">
     <li>
-      <a routerLink="/user/historique_transactions" class="block py-2 px-4 hover:bg-gray-100"
+      <a
+        routerLink="/user/historique_transactions"
+        class="block py-2 px-4 hover:bg-gray-100"
         >Historique</a
       >
     </li>

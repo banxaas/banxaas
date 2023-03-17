@@ -1,3 +1,12 @@
 a {
-    text-decoration: none;
+  text-decoration: none;
+}
+@media (max-width: 991px) {
+  .container-page-mobile {
+    display: block !important;
+    padding: 15px;
+  }
+  .p-content-page-profil-mobile {
+    padding: 15px;
+  }
 }

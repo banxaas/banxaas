@@ -1,87 +1,150 @@
 <div class="flex flex-col ml-10 mb-10">
-    <div class="mt-10">
-        <h3 class="sm:text-[8px] md:text-[10px] lg:text-[14px] uppercase font-bold">Modifier le mode de paiement</h3>
-        <hr class="sm:w-[90%] md:w-[95%] lg:w-[99%] mt-5 border-green-design">
-    </div>
-    <div class="mt-10 flex flex-col">
-        <h4 class="sm:text-[8px] md:text-[10px] lg:text-[14px] uppercase text-gray-400 font-bold">actif</h4>
-        <div *ngIf="fieldActive">
-            <div *ngFor="let paiement of datas" class="w-[90%] md:w-1/2 bg-white flex mt-5 border border-b-4 border-green-design rounded-t-lg">
-                <div class="w-full flex items-center">
-                    <div class="lg:w-[20%] md:w-[20%] sm:w-[30%] mt-2 mb-2 flex">
-                        <div *ngIf="paiement.name=='OM'" class="flex flex-col ml-5 lg:p-4 md:p-2 sm:p-3 mt-3 mb-3 justify-center">
-                            <img src="../../../../../assets/logo_sans_text_Orange_Money.png" alt="">
-                        </div>
-                        <div *ngIf="paiement.name=='WAVE'" class="flex flex-col ml-5 lg:p-7 md:p-5 sm:p-3 mt-3 mb-3 justify-center">
-                            <img src="../../../../../assets/wave-logo-sans-text.png" alt="">
-                        </div>
-                        <div *ngIf="paiement.name=='FREE'" class="flex flex-col ml-5 lg:p-7 md:p-5 sm:p-3 mt-3 mb-3 justify-center">
-                            <img src="../../../../../assets/freemoney.png" alt="">
-                        </div>
-                    </div>
-                    <div class="lg:w-[50%] md:w-[50%] sm:w-[45%] flex flex-col">
-                        <div *ngIf="paiement.name=='OM'" class="uppercase font-bold sm:text-[8px] md:text-[10px] lg:text-[14px]">Orange Money</div>
-                        <div *ngIf="paiement.name=='WAVE'" class="uppercase font-bold sm:text-[8px] md:text-[10px] lg:text-[14px]">Wave</div>
-                        <div *ngIf="paiement.name=='FREE'" class="uppercase font-bold sm:text-[8px] md:text-[10px] lg:text-[14px]">Free Money</div>
-                        <div class="sm:text-[6px] md:text-[8px] lg:text-[12px] mt-2 text-gray-400">Numéro de téléphone: {{paiement.phone}}</div>
-                    </div>
-                    <div class="lg:w-[25%] md:w-[25%] sm:w-[25%] flex justify-center">
-                        <button (click)="deletePayment(paiement.id)" class="sm:text-[8px] md:text-[10px] lg:text-[14px] flex border border-green-design flex-row bg-white text-green-design font-bold lg:px-12 lg:py-4 md:px-8 md:py-2 sm:px-4 sm:py-2 rounded">
-                            Retirer
-                        </button>
-                    </div>
-                </div>
+  <div class="mt-10">
+    <h3 class="sm:text-[8px] md:text-[10px] lg:text-[14px] uppercase font-bold">
+      Modifier le mode de paiement
+    </h3>
+    <hr class="sm:w-[90%] md:w-[95%] lg:w-[99%] mt-5 border-green-design" />
+  </div>
+  <div class="mt-10 flex flex-col">
+    <h4
+      class="sm:text-[8px] md:text-[10px] lg:text-[14px] uppercase text-gray-400 font-bold"
+    >
+      actif
+    </h4>
+    <div *ngIf="fieldActive">
+      <div
+        *ngFor="let paiement of datas"
+        class="w-[90%] md:w-1/2 bg-white flex mt-5 border border-b-4 border-green-design rounded-t-lg"
+      >
+        <div class="w-full flex items-center conainer-mode-paiement-mobile">
+          <div class="lg:w-[20%] md:w-[20%] sm:w-[30%] mt-2 mb-2 flex">
+            <div
+              *ngIf="paiement.name == 'OM'"
+              class="flex flex-col ml-5 lg:p-4 md:p-2 sm:p-3 mt-3 mb-3 justify-center"
+            >
+              <img
+                src="../../../../../assets/logo_sans_text_Orange_Money.png"
+                alt=""
+              />
             </div>
+            <div
+              *ngIf="paiement.name == 'WAVE'"
+              class="flex flex-col ml-5 lg:p-7 md:p-5 sm:p-3 mt-3 mb-3 justify-center"
+            >
+              <img src="../../../../../assets/wave-logo-sans-text.png" alt="" />
+            </div>
+            <div
+              *ngIf="paiement.name == 'FREE'"
+              class="flex flex-col ml-5 lg:p-7 md:p-5 sm:p-3 mt-3 mb-3 justify-center"
+            >
+              <img src="../../../../../assets/freemoney.png" alt="" />
+            </div>
+          </div>
+          <div class="lg:w-[50%] md:w-[50%] sm:w-[45%] flex flex-col">
+            <div
+              *ngIf="paiement.name == 'OM'"
+              class="uppercase font-bold sm:text-[8px] md:text-[10px] lg:text-[14px]"
+            >
+              Orange Money
+            </div>
+            <div
+              *ngIf="paiement.name == 'WAVE'"
+              class="uppercase font-bold sm:text-[8px] md:text-[10px] lg:text-[14px]"
+            >
+              Wave
+            </div>
+            <div
+              *ngIf="paiement.name == 'FREE'"
+              class="uppercase font-bold sm:text-[8px] md:text-[10px] lg:text-[14px]"
+            >
+              Free Money
+            </div>
+            <div
+              class="sm:text-[6px] md:text-[8px] lg:text-[12px] mt-2 text-gray-400"
+            >
+              Numéro de téléphone: {{ paiement.phone }}
+            </div>
+          </div>
+          <div class="lg:w-[25%] btn-cancelled-mobile flex justify-center">
+            <button
+              (click)="deletePayment(paiement.id)"
+              class="sm:text-[8px] md:text-[10px] lg:text-[14px] flex border border-green-design flex-row bg-white text-green-design font-bold lg:px-12 lg:py-4 md:px-8 md:py-2 sm:px-4 sm:py-2 rounded"
+            >
+              Retirer
+            </button>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
-    <p-dialog header="Formulaire" [(visible)]="hidden">
+  <p-dialog header="Formulaire" [(visible)]="hidden">
+    <form [formGroup]="paymentForm" (ngSubmit)="setPaymentMethod()">
+      <div class="mt-4">
+        <label class="block font-bold" for="name">Nom</label>
+        <select
+          formControlName="name"
+          class="form-select appearance-none block w-full px-4 py-2 border border-green-design bg-white bg-clip-padding bg-no-repeat focus:outline-none focus:ring-1 focus:ring-green-design rounded transition ease-in-out m-0"
+          aria-label="Default select example"
+        >
+          <option selected>Choisir une methode de paiement</option>
+          <option value="OM">Orange Money</option>
+          <option value="WAVE">Wave</option>
+          <option value="FREE">Free Money</option>
+        </select>
 
-        <form [formGroup]="paymentForm" (ngSubmit)="setPaymentMethod()">
-            <div class="mt-4">
-                <label class="block font-bold" for="name">Nom</label>
-                <select formControlName="name" class="form-select appearance-none
-                  block
-                  w-full
-                  px-4
-                  py-2
-                  border border-green-design
-                  bg-white bg-clip-padding bg-no-repeat
-                  focus:outline-none focus:ring-1 focus:ring-green-design
-                  rounded
-                  transition
-                  ease-in-out
-                  m-0
-                  " aria-label="Default select example">
-                    <option selected>Choisir une methode de paiement</option>
-                    <option value="OM">Orange Money</option>
-                    <option value="WAVE">Wave</option>
-                    <option value="FREE">Free Money</option>
-                </select>
-
-                <!-- <label class="block font-bold" for="name">Nom</label>
+        <!-- <label class="block font-bold" for="name">Nom</label>
                 <input type="text" formControlName="username" placeholder="di_aissatu" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design"> -->
-                <!-- <div class="mt-2 text-red-600" *ngIf="formControls['username'].errors?.['required']">Nom d'utilisateur est obligatoire</div> -->
-            </div>
-            <div class="mt-4">
-                <div class="mt-2 flex justify-center font-bold text-red-600" *ngIf="errorMessage">
-                   {{errorMessage}}
-                </div>
-                <label class="block font-bold" for="name">Numéro de téléphone</label>
-                <input type="text" formControlName="phone" mask="00 000 00 00" placeholder="77 000 00 00" class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design">
-                    <div class="mt-2 text-red-600" *ngIf="formControls['phone'].errors?.['required'] && formControls['phone']?.touched">Numéro de téléphone est obligatoire</div>
-                    <div class="mt-2 text-red-600" *ngIf="formControls['phone'].errors?.['pattern']">Le numéro de téléphone est invalide</div>
-                    <!-- <div class="mt-2 text-red-600" *ngIf="formControls['username'].errors?.['required']">Nom d'utilisateur est obligatoire</div> -->
-            </div>
+        <!-- <div class="mt-2 text-red-600" *ngIf="formControls['username'].errors?.['required']">Nom d'utilisateur est obligatoire</div> -->
+      </div>
+      <div class="mt-4">
+        <div
+          class="mt-2 flex justify-center font-bold text-red-600"
+          *ngIf="errorMessage"
+        >
+          {{ errorMessage }}
+        </div>
+        <label class="block font-bold" for="name">Numéro de téléphone</label>
+        <input
+          type="text"
+          formControlName="phone"
+          mask="00 000 00 00"
+          placeholder="77 000 00 00"
+          class="w-full px-4 py-2 mt-2 border border-green-design rounded-md focus:outline-none focus:ring-1 focus:ring-green-design"
+        />
+        <div
+          class="mt-2 text-red-600"
+          *ngIf="formControls['phone'].errors?.['required'] && formControls['phone']?.touched"
+        >
+          Numéro de téléphone est obligatoire
+        </div>
+        <div
+          class="mt-2 text-red-600"
+          *ngIf="formControls['phone'].errors?.['pattern']"
+        >
+          Le numéro de téléphone est invalide
+        </div>
+        <!-- <div class="mt-2 text-red-600" *ngIf="formControls['username'].errors?.['required']">Nom d'utilisateur est obligatoire</div> -->
+      </div>
 
-            <div class="mt-10 grid w-full justify-center">
-                <button class="w-full shadow-xl border border-green-design flex-row bg-green-design hover:bg-green-800 text-white font-bold lg:px-12 lg:py-4 md:px-8 md:py-2 sm:px-4 sm:py-2 rounded">Ajouter</button>
-            </div>
-        </form>
+      <div class="mt-10 grid w-full justify-center">
+        <button
+          class="w-full shadow-xl btn-submit-form-mode-paiement border border-green-design flex-row bg-green-design hover:bg-green-800 text-white font-bold lg:px-12 lg:py-4 md:px-8 md:py-2 sm:px-4 sm:py-2 rounded"
+        >
+          Ajouter
+        </button>
+      </div>
+    </form>
+  </p-dialog>
 
-    </p-dialog>
-
-    <div class="mt-10 grid w-[50%] justify-items-end">
-        <button (click)="toggleModal()" class="w-[40%] shadow-xl border border-green-design flex-row bg-green-design hover:bg-green-800 text-white font-bold sm:text-[8px] md:text-[10px] lg:text-[14px]  lg:px-8 lg:py-4 md:px-4 md:py-2 sm:py-2 rounded">Ajouter un mode de paiement</button>
-    </div>
+  <div
+    class="mt-10 grid w-[50%] justify-items-end btn-cancelled-mobile btn-cancelled-mobile-jc"
+  >
+    <button
+      (click)="toggleModal()"
+      class="w-[40%] shadow-xl border border-green-design flex-row bg-green-design hover:bg-green-800 text-white font-bold sm:text-[8px] md:text-[10px] lg:text-[14px] lg:px-8 lg:py-4 md:px-4 md:py-2 sm:py-2 rounded"
+    >
+      Ajouter un mode de paiement
+    </button>
+  </div>
 </div>

@@ -67,6 +67,7 @@ class TransactionConsumer(WebsocketConsumer):
 
     def connect(self):
         self.tradeHash = self.scope["url_route"]["kwargs"]["tradeHash"]
+        print("self.tradeHash", self.tradeHash)
         # Je dois aussi vérifier les tokens à faire plus tard et identifier l'acteur qui entre en jeu
         # Vérifier le nombre d'acteur dans le group channel
         request = requests.get(

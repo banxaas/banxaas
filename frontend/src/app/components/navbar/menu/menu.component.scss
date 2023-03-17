@@ -1,0 +1,13 @@
+@media (max-width: 991px) {
+  #btn-close-menu {
+    background: rgb(58 130 56) !important;
+  }
+  #btn-close-menu svg {
+    color: #fff !important;
+  }
+  #ul-list-menu-mobile {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0;
+  }
+}

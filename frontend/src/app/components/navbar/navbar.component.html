@@ -1,11 +1,26 @@
-<nav class="bg-green-design px-2 sm:px-4 py-4 sm:py-5" aria-label="Main navigation">
-  <div class="sm:container-fluid md:container flex flex-wrap justify-between items-center mx-auto">
+<!-- <nav
+  class="bg-green-design px-2 sm:px-4 py-4 sm:py-5"
+  aria-label="Main navigation"
+>
+  <div
+    class="sm:container-fluid md:container flex flex-wrap justify-between items-center mx-auto"
+  >
     <a href="{{ token ? 'user/home' : 'accueil' }}" class="flex items-center">
-      <img src="../../../assets/logo1.png" class="mr-3 h-8 sm:h-10 md:h-12" alt="logo" />
+      <img
+        src="../../../assets/logo1.png"
+        class="mr-3 h-8 sm:h-10 md:h-12"
+        alt="logo"
+      />
     </a>
     <div app-navbar-controls class="hidden sm:flex md:order-2 ml-auto md:ml-0">
-      <app-user-dropdown *ngIf="token" class="hidden md:flex my-auto"></app-user-dropdown>
-      <app-currency-dropdown *ngIf="token" class="hidden md:flex"></app-currency-dropdown>
+      <app-user-dropdown
+        *ngIf="token"
+        class="hidden md:flex my-auto"
+      ></app-user-dropdown>
+      <app-currency-dropdown
+        *ngIf="token"
+        class="hidden md:flex"
+      ></app-currency-dropdown>
     </div>
     <button app-hamburger></button>
     <div app-menu class="md:flex md:order-1">
@@ -121,6 +136,176 @@
         </ul>
       </li>
       <li app-navbar-controls class="sm:hidden px-4 pt-4"></li>
+    </div>
+  </div>
+</nav> -->
+
+<nav
+  class="navbar navbar-expand-lg navbar-light px-2 sm:px-4 py-4 sm:py-5 bg-theme-nav"
+>
+  <div class="container-fluid container-fluid-nav">
+    <a class="navbar-brand" href="{{ token ? 'user/home' : 'accueil' }}">
+      <img
+        src="../../../assets/logo1.png"
+        class="mr-3 h-8 sm:h-10 md:h-12"
+        alt="logo"
+      />
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-4 h-4"
+        fill="currentColor"
+        viewBox="0 0 38 32"
+      >
+        <g id="Group_1" data-name="Group 1" transform="translate(-1075 -548)">
+          <rect
+            id="Rectangle_1"
+            data-name="Rectangle 1"
+            width="27"
+            height="5"
+            rx="1"
+            transform="translate(1086 562)"
+          />
+          <rect
+            id="Rectangle_2"
+            data-name="Rectangle 2"
+            width="38"
+            height="5"
+            rx="1"
+            transform="translate(1075 548)"
+          />
+          <rect
+            id="Rectangle_3"
+            data-name="Rectangle 3"
+            width="38"
+            height="5"
+            rx="1"
+            transform="translate(1075 575)"
+          />
+        </g>
+      </svg>
+    </button>
+    <div
+      class="collapse navbar-collapse navbar-collap-custom"
+      id="navbarSupportedContent"
+    >
+      <ul class="navbar-nav ms-auto me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a
+            class="nav-link block py-2 px-4 md:p-0 nav-link-custom rounded"
+            routerLink="/documentation"
+            >Documentation</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link block py-2 px-4 md:p-0 nav-link-custom rounded"
+            routerLink="/aide_et_support"
+            >Aide</a
+          >
+        </li>
+        <li class="nav-item dropdown md:hidden" *ngIf="token">
+          <a
+            class="nav-link dropdown-toggle flex nav-link-custom items-center w-full py-2 px-4 text-base text-gray-900 transition duration-75 rounded group hover:bg-gray-100"
+            href="#"
+            id="dropdown-moi"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <span class="flex-1 text-left whitespace-nowrap">Moi</span>
+          </a>
+          <ul
+            class="dropdown-menu hidden py-2 space-y-2"
+            aria-labelledby="dropdown-moi"
+          >
+            <li>
+              <a
+                class="dropdown-item flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group"
+                href="#"
+                >Tableau de bord</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group"
+                routerLink="/user/profil/compte"
+                >Compte</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group"
+                routerLink="/user/historique_transactions"
+                >Historique</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group"
+                href="#"
+                >Déconnexion</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li *ngIf="token" class="nav-item hidden dropdown">
+          <button
+            type="button"
+            class="flex items-center dropdown-toggle w-full nav-link-custom py-2 px-4 text-base text-gray-900 transition duration-75 rounded group hover:bg-gray-100"
+            aria-expanded="false"
+            id="dropdown-devise"
+            data-bs-toggle="dropdown"
+          >
+            <span class="flex-1 text-left whitespace-nowrap">Devise</span>
+          </button>
+          <ul
+            class="hidden py-2 space-y-2 dropdown-menu"
+            aria-labelledby="dropdown-devise"
+          >
+            <li>
+              <a
+                href="#"
+                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group"
+                >FCFA</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group"
+                >EUR</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group"
+                >USD</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <div app-navbar-controls class="sm:flex md:order-2 ml-auto md:ml-0">
+        <app-user-dropdown
+          *ngIf="token"
+          class="md:flex my-auto"
+        ></app-user-dropdown>
+        <app-currency-dropdown
+          *ngIf="token"
+          class="md:flex"
+        ></app-currency-dropdown>
+      </div>
     </div>
   </div>
 </nav>

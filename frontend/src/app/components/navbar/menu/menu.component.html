@@ -2,7 +2,8 @@
   type="button"
   data-drawer-dismiss="menu-container"
   aria-controls="menu-container"
-  class="md:hidden text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg p-1.5 absolute top-2.5 left-2.5 inline-flex items-center"
+  class="md:hidden text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg p-1.5 absolute top-2.5 left-2.5 inline-flex items-center"
+  id="btn-close-menu"
 >
   <svg
     aria-hidden="true"
@@ -19,9 +20,10 @@
   </svg>
   <span class="sr-only">Close menu</span>
 </button>
-<div class="py-4 md:py-0 overflow-y-auto divide-y divide-gray-100">
+<div class="md:py-0 overflow-y-auto divide-y divide-gray-100">
   <ul
-    class="flex flex-col py-4 px-2 mt-4 bg-white rounded-lg md:flex-row md:space-x-8 md:mt-0 md:font-medium md:bg-transparent space-y-2 md:space-y-0"
+    class="flex px-2 md:space-x-8 md:mt-0 md:font-medium md:bg-transparent space-y-2 md:space-y-0"
+    id="ul-list-menu-mobile"
   >
     <ng-content></ng-content>
   </ul>

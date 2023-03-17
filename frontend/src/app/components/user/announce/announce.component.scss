@@ -1,10 +1,92 @@
-@media screen and (max-width: 800px) {
-    .cacher{
-        display: none   ;
-    }
+@media (max-width: 767px) {
+  .price-marge-gap {
+    display: block !important;
+    width: 100% !important;
+  }
+  .form-control-sm-price {
+    width: 100% !important;
+  }
 }
-@media screen and (min-width: 801px){
-    .hide{
-        display: none;
-    }
+@media screen and (max-width: 991px) {
+  .cacher {
+    display: none;
+  }
+  .img-logo-buy-page {
+    width: 40%;
+    padding-left: 10px;
+    margin: auto;
+  }
+  .bloc-intro-announce {
+    margin: 100px 20px 20px;
+    padding: 20px;
+  }
+  .bloc-content-announce {
+    width: 100%;
+    padding: 20px;
+  }
+  .form-content-announce {
+    flex-direction: column;
+    align-items: inherit !important;
+    padding: 20px;
+  }
+  .form-announce-item {
+    width: 100% !important;
+  }
+  .btn-submit-form {
+    padding: 15px;
+  }
+  .bloc-text-form {
+    width: 100% !important;
+    padding-bottom: 20px;
+  }
+  .container-bloc-right-form {
+    padding-bottom: 20px;
+  }
+  .quantite-prix-content {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .announce-price-container-mobile {
+    display: block !important;
+  }
+  .announce-price-container-mobile > div {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+  .form-control-sm-price {
+    width: 50%;
+  }
+}
+@media screen and (min-width: 992px) {
+  .hide {
+    display: none;
+  }
+}
+@media (min-width: 992px) and (max-width: 1200px) {
+  .bloc-intro-announce {
+    margin: 150px 0px 20px;
+    padding: 20px !important;
+  }
+  .form-announce-item {
+    width: 50% !important;
+  }
+  .form-control-sm-price {
+    width: 50%;
+  }
+  .form-content-announce {
+    align-items: center;
+  }
+}
+.label-form-create-announce {
+  white-space: nowrap;
+}
+.form-content-announce {
+  justify-content: space-between;
+}
+.price-marge-gap {
+  display: flex;
+  gap: 0.5rem;
+}
+.price-marge-gap input {
+  margin-bottom: 10px;
 }

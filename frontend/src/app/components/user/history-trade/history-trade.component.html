@@ -1,13 +1,22 @@
-<div class="text-title uppercase font-bold text-center mt-10 underline sm:mt-[40%] sm:mt-[20%] lg:mt-[10%]">
-    Historique des transactions
-  </div>
-  <div class="flex w-full mt-5 justify-center items-center bg-white-700">
-      <div class="w-[85%] flex flex-col shadow-lg">
-          <p-table #dt styleClass="p-datatable-customers" [rowHover]="true"
-              [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
-              [paginator]="false" currentPageReportTemplate="Voir {first} à {last} {totalRecords} entries"
-              [filterDelay]="0">
-              <!-- <ng-template pTemplate="caption">
+<div
+  class="text-title uppercase font-bold text-center mt-10 underline sm:mt-[40%] sm:mt-[20%] lg:mt-[7%]"
+>
+  Historique des transactions
+</div>
+<div class="flex w-full mt-5 justify-center items-center bg-white-700 mb-5">
+  <div class="w-[85%] flex flex-col shadow-lg content-table-historik-tablet">
+    <p-table
+      #dt
+      styleClass="p-datatable-customers"
+      [rowHover]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [paginator]="false"
+      currentPageReportTemplate="Voir {first} à {last} {totalRecords} entries"
+      [filterDelay]="0"
+    >
+      <!-- <ng-template pTemplate="caption">
                   <div class="table-header">
                       List of Customers
                       <span class="p-input-icon-left">
@@ -16,21 +25,39 @@
                       </span>
                   </div>
               </ng-template> -->
-                <ng-template pTemplate="header">
-                    <tr>
-                        <!-- <th style="width: 3rem"></th> -->
-                        <th pSortableColumn="id text-center"><b>TardeId</b>  <p-sortIcon field="user.pseudo"></p-sortIcon></th>
-                        <th pSortableColumn="id text-center"><b>Date de publication</b>  <p-sortIcon field="user.pseudo"></p-sortIcon></th>
-                        <th pSortableColumn="quantite"><b>Quantité(min-max)</b><p-sortIcon field="quantiteType"></p-sortIcon></th>
-                        <th pSortableColumn="montant"><b>Montant(min-max)</b> <p-sortIcon field="amoutType"></p-sortIcon></th>
-                        <th pSortableColumn="marge"><b>Marge</b> <p-sortIcon field="marge"></p-sortIcon></th>
-                        <th pSortableColumn="sens"><b>Sens</b> <p-sortIcon field="sens"></p-sortIcon></th>
-                        <th pSortableColumn="paiement"><b>Méthode paiement</b> <p-sortIcon field="provider"></p-sortIcon></th>
-                        <th pSortableColumn="anciennete"><b>Statut</b> <p-sortIcon field="user.seniority"></p-sortIcon></th>
-                        <th pSortableColumn=""><b>Action</b></th>
-                        <!-- <th style="width: 8rem"></th> -->
-                    </tr>
-                    <!-- <tr>
+      <ng-template pTemplate="header">
+        <tr>
+          <!-- <th style="width: 3rem"></th> -->
+          <th pSortableColumn="id text-center">
+            <b>TardeId</b> <p-sortIcon field="user.pseudo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="id text-center">
+            <b>Date de publication</b>
+            <p-sortIcon field="user.pseudo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="quantite">
+            <b>Quantité(min-max)</b
+            ><p-sortIcon field="quantiteType"></p-sortIcon>
+          </th>
+          <th pSortableColumn="montant">
+            <b>Montant(min-max)</b> <p-sortIcon field="amoutType"></p-sortIcon>
+          </th>
+          <th pSortableColumn="marge">
+            <b>Marge</b> <p-sortIcon field="marge"></p-sortIcon>
+          </th>
+          <th pSortableColumn="sens">
+            <b>Sens</b> <p-sortIcon field="sens"></p-sortIcon>
+          </th>
+          <th pSortableColumn="paiement">
+            <b>Méthode paiement</b> <p-sortIcon field="provider"></p-sortIcon>
+          </th>
+          <th pSortableColumn="anciennete">
+            <b>Statut</b> <p-sortIcon field="user.seniority"></p-sortIcon>
+          </th>
+          <th pSortableColumn=""><b>Action</b></th>
+          <!-- <th style="width: 8rem"></th> -->
+        </tr>
+        <!-- <tr>
                         <th>
                             <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'user.pseudo', 'startsWith')" placeholder="Filtrer par Id user" class="p-column-filter w-[90%]">
                         </th>
@@ -60,78 +87,95 @@
                         </th>
                         <th></th>
                     </tr> -->
-                </ng-template>
-  
-              <ng-template pTemplate="body" let-customer>
-                  <tr class="p-selectable-row">
-                      <!-- <td>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-customer>
+        <tr class="p-selectable-row">
+          <!-- <td>
                           <p-tableCheckbox [value]="customer"></p-tableCheckbox>
                       </td> -->
-                      <td>
-                          <span class="p-column-title">TradeId</span>
-                          {{customer.user.pseudo}}
-                      </td>
-                      <td>
-                          <span class="p-column-title">Date de publication</span>
-                      </td>
-                      <td>
-                          <span class="p-column-title">quantite</span>
-                          <span *ngIf="customer.quantityType=='R'" class="text-center">{{customer.quantityMin}}-{{customer.quantityMax}}</span>
-                          <span *ngIf="customer.quantityType=='F'" class="text-center">{{customer.quantityFixe}}</span>
-                      </td>
-                      <td>
-                          <span class="p-column-title">Montant</span>
-                          <span  *ngIf="customer.amountType=='R'" class="image-text">{{customer.amountMin}}-{{customer.amountMax}}</span>
-                          <span *ngIf="customer.amountType=='F'" class="image-text">{{customer.amountFixe}}</span>
-                      </td>
-                      <td>
-                          <span class="p-column-title">Marge</span>
-                          {{customer.marge}}%
-                      </td>
-                      <td>
-                          <span class="p-column-title">Sens</span>
-                          <!-- <span [class]="'customer-badge status-' + customer.sens">{{customer.sens}}</span> -->
-                          <span *ngIf="customer.sens=='A'" [class]="'customer-badge status-' + customer.sens">Achat</span>
-                          <span *ngIf="customer.sens=='V'" [class]="'customer-badge status-' + customer.sens">Vente</span>
-                      </td>
-                      <td>
-                          <span class="p-column-title">Méthode de paiement</span>
-                          <!-- <p-progressBar [value]="customer.activity" [showValue]="false"></p-progressBar> -->
-                          <!-- <span [class]="'customer-badge activity-' + customer.provider">{{customer.provider}}</span> -->
-                          <span *ngIf="customer.provider=='OM'">Orange Money</span>
-                          <span *ngIf="customer.provider=='FREE'">Free Money</span>
-                          <span *ngIf="customer.provider=='WAVE'">Wave</span>
-                      </td>
-                      <!-- <td style="text-align: center">
+          <td>
+            <span class="p-column-title">TradeId</span>
+            {{ customer.user.pseudo }}
+          </td>
+          <td>
+            <span class="p-column-title">Date de publication</span>
+          </td>
+          <td>
+            <span class="p-column-title">quantite</span>
+            <span *ngIf="customer.quantityType == 'R'" class="text-center"
+              >{{ customer.quantityMin }}-{{ customer.quantityMax }}</span
+            >
+            <span *ngIf="customer.quantityType == 'F'" class="text-center">{{
+              customer.quantityFixe
+            }}</span>
+          </td>
+          <td>
+            <span class="p-column-title">Montant</span>
+            <span *ngIf="customer.amountType == 'R'" class="image-text"
+              >{{ customer.amountMin }}-{{ customer.amountMax }}</span
+            >
+            <span *ngIf="customer.amountType == 'F'" class="image-text">{{
+              customer.amountFixe
+            }}</span>
+          </td>
+          <td>
+            <span class="p-column-title">Marge</span>
+            {{ customer.marge }}%
+          </td>
+          <td>
+            <span class="p-column-title">Sens</span>
+            <!-- <span [class]="'customer-badge status-' + customer.sens">{{customer.sens}}</span> -->
+            <span
+              *ngIf="customer.sens == 'A'"
+              [class]="'customer-badge status-' + customer.sens"
+              >Achat</span
+            >
+            <span
+              *ngIf="customer.sens == 'V'"
+              [class]="'customer-badge status-' + customer.sens"
+              >Vente</span
+            >
+          </td>
+          <td>
+            <span class="p-column-title">Méthode de paiement</span>
+            <!-- <p-progressBar [value]="customer.activity" [showValue]="false"></p-progressBar> -->
+            <!-- <span [class]="'customer-badge activity-' + customer.provider">{{customer.provider}}</span> -->
+            <span *ngIf="customer.provider == 'OM'">Orange Money</span>
+            <span *ngIf="customer.provider == 'FREE'">Free Money</span>
+            <span *ngIf="customer.provider == 'WAVE'">Wave</span>
+          </td>
+          <!-- <td style="text-align: center">
                           <button pButton type="button" class="p-button-secondary" icon="pi pi-cog"></button>
                       </td> -->
-                      <td>
-                        <span class="p-column-title">Statut</span>
-                    </td>
-                      <td>
-                        <span class="p-column-title">Anciennete</span>
-                        
-                    </td>
-                    <td style="text-align: center">
-                        <button type="button" class="text-green-600 px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-600 hover:text-white  hover:bg-green-600" routerLink="/user/transaction">Accepter</button>
-                    </td>
-                  </tr>
-              </ng-template>
-              <ng-template pTemplate="emptymessage">
-                  <tr>
-                      <td colspan="8">Pas d'historiques.</td>
-                  </tr>
-              </ng-template>
-           
-  </p-table>
-  
-  <!-- <div class="p-mb-3 flex justify-center">
+          <td>
+            <span class="p-column-title">Statut</span>
+          </td>
+          <td>
+            <span class="p-column-title">Anciennete</span>
+          </td>
+          <td style="text-align: center">
+            <button
+              type="button"
+              class="text-green-600 px-6 py-1 rounded-[20px] shadow-lg border-2 font-bold border-green-600 hover:text-white hover:bg-green-600"
+              routerLink="/user/transaction"
+            >
+              Accepter
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8">Pas d'historiques.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <!-- <div class="p-mb-3 flex justify-center">
     <p-button *ngIf="disableButtonPrev===false" type="button" icon="pi pi-chevron-left" (click)="prev()" styleClass="p-button-text"></p-button>
     <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text"></p-button>
     <p-button *ngIf="disableButtonNext === false" type="button" icon="pi pi-chevron-right" (click)="next()"  styleClass="p-button-text"></p-button>
   </div> -->
-          
-      </div>
   </div>
-  
-  
+</div>
