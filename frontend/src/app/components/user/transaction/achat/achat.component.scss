@@ -1,6 +1,9 @@
 .container-trade-page {
   flex-direction: row;
 }
+.btn-tab-list {
+  text-align: left;
+}
 @media (max-width: 991px) {
   .container-trade-page {
     flex-direction: column !important;
@@ -42,6 +45,9 @@
   .container-img-last-step {
     width: 100% !important;
     margin-left: 0 !important;
+  }
+  .bloc-head-tabs {
+    width: 80% !important;
   }
 }
 @media (min-width: 992px) and (max-width: 1200px) {

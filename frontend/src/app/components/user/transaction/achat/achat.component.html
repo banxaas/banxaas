@@ -6,8 +6,8 @@
     <!-- Notification -->
     <div class="w-full flex justify-items-start completed">
       <div class="w-full relative flex flex-row">
-        <div class="lg:mt-[10%] md:mt-[20%] sm:mt-[25%] w-[50%] text-[18px]">
-          <button>
+        <div class="lg:mt-[10%] md:mt-[20%] w-[60%] text-[18px] bloc-head-tabs">
+          <button class="btn-tab-list">
             <b
               class="text-green-design"
               *ngIf="notif || fonds || adresseBtc || close"
@@ -30,8 +30,8 @@
 
     <div class="w-full flex justify-items-start completed">
       <div class="w-full relative flex flex-row">
-        <div class="lg:mt-[10%] md:mt-[20%] sm:mt-[25%] w-[50%] text-[18px]">
-          <button>
+        <div class="lg:mt-[10%] md:mt-[20%] w-[60%] text-[18px] bloc-head-tabs">
+          <button class="btn-tab-list">
             <b class="text-green-design" *ngIf="fonds || adresseBtc || close"
               >2. Envoi des fonds</b
             ><span class="text-gray-400" *ngIf="!fonds && notif"
@@ -60,8 +60,8 @@
 
     <div class="w-full flex justify-items-start completed">
       <div class="w-full relative flex flex-row">
-        <div class="lg:mt-[10%] md:mt-[20%] sm:mt-[25%] w-[50%] text-[18px]">
-          <button>
+        <div class="lg:mt-[10%] md:mt-[20%] w-[60%] text-[18px] bloc-head-tabs">
+          <button class="btn-tab-list">
             <b class="text-green-design" *ngIf="adresseBtc || close"
               >3. Adresse Bitcoin</b
             ><span
@@ -92,8 +92,8 @@
 
     <div class="w-full flex justify-items-start completed">
       <div class="w-full relative flex flex-row">
-        <div class="lg:mt-[10%] md:mt-[20%] sm:mt-[25%] w-[50%] text-[18px]">
-          <button>
+        <div class="lg:mt-[10%] md:mt-[20%] w-[60%] text-[18px] bloc-head-tabs">
+          <button class="btn-tab-list">
             <b class="text-green-design" *ngIf="close">4. Clôture</b
             ><span class="text-gray-400" *ngIf="!close">4. Clôture</span>
           </button>
@@ -116,7 +116,7 @@
     *ngIf="notif"
     class="w-[75%] flex flex-col min-h-screen trade-container-step-content"
   >
-    <div class="lg:w-[90%] lg:mt-[10%] md:mt-[20%] sm:mt-[45%] p-[5%]">
+    <div class="lg:w-[90%] lg:mt-[10%] md:mt-[20%] p-[5%]">
       <p class="lg:text-link text-[16px] pl-[10%] text-notif-step-content">
         Bonjour <b>{{ pseudoAcheteur }}</b
         ><br />
@@ -178,7 +178,7 @@
     class="w-[75%] flex flex-col min-h-screen trade-container-step-content"
   >
     <form [formGroup]="formAdresseBtc" class="w-full">
-      <div class="lg:w-[90%] lg:mt-[10%] md:mt-[20%] sm:mt-[45%] p-[5%]">
+      <div class="lg:w-[90%] lg:mt-[10%] md:mt-[20%] p-[5%]">
         <p
           class="lg:text-link sm:text-[8px] md:text-[12px] pl-[10%] text-notif-step-content"
         >
@@ -217,7 +217,6 @@
             Veuillez patienter que {{ pseudoVendeur }} confirme la réception des
             fonds
           </div>
-
           <!-- <img src="../../../assets/banxaas_logo_animation.gif" class="" alt="banxaas_logo_animation" srcset=""> -->
           <!-- <p-progressSpinner></p-progressSpinner> -->
           <!-- <p-progressSpinner styleClass="custom-spinner" strokeWidth="2" fill="#F1F1F1" animationDuration=".5s"></p-progressSpinner> -->
@@ -231,7 +230,7 @@
     *ngIf="adresseBtc"
     class="w-[75%] flex flex-col min-h-screen trade-container-step-content"
   >
-    <div class="lg:w-[90%] lg:mt-[10%] md:mt-[20%] sm:mt-[45%] p-[5%]">
+    <div class="lg:w-[90%] lg:mt-[10%] md:mt-[20%] p-[5%]">
       <p class="lg:text-link sm:text-[8px] md:text-[12px] pl-[10%]">
         <b>{{ pseudoVendeur }}</b> a confirmé la réception des fonds.<br />
         Merci de communiquer une adresse bitcoin valide pour y recevoir les BTC
