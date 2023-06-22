@@ -26,7 +26,6 @@ export class UserDropdownComponent {
   private unsubscription$ = new Subject<void>();
 
   logout(){
-    console.log("logout inside user dropdown")
     const dataFormSignin = {};
     this.authService
       .logout(dataFormSignin)
