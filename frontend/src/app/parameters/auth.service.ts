@@ -16,6 +16,7 @@ export class  AuthService {
   private registerUrl = environment.apiUrl + 'createAccount/';
   private codeUrl = environment.apiUrl + 'validateCode/';
   private sendNewCodeUrl = environment.apiUrl + 'sendNewCodeValidation/';
+  private logoutUrl = environment.apiUrl + 'disconnect/';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
@@ -40,6 +41,9 @@ export class  AuthService {
   /** POST Valid Account*/
   sendNewValidationCode(data: any): Observable<any>{
     return this.http.post<any>(this.sendNewCodeUrl, data)
+  }
+  logout(data: any): Observable<any>{
+    return this.http.post<any>(this.logoutUrl, data)
   }
 
   /** POST */
