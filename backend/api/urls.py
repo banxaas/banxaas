@@ -16,4 +16,5 @@ urlpatterns = [
     # path('trades/' Trade)
     path('trade/init/', InitTradeViewset.as_view()),
     path('trade/<str:tradeHash>/', TradeViewset.as_view()),
+    path('deleteInactiveAccounts/', DeleteInactiveAccounts.as_view()),
 ]

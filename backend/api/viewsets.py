@@ -11,6 +11,7 @@ from rest_framework import status
 from api.repository.authRepository import *
 from api.repository.tradeRepository import *
 from .serializers import *
+from django.utils import timezone
 
 
 class ConnexionViewset(APIView):
@@ -739,3 +740,14 @@ class TradeViewset(APIView):
             return Response({'status': 'SUCCESSFUL', 'message': 'Trade mis à jour avec succès !', 'role':role},status=status.HTTP_200_OK)
         except:
            return Response({'status': 'FAILED', 'message': 'Pas encore identifié'})
+
+
+class DeleteInactiveAccounts(APIView):
+    def get(self, request):
+        try:
+            cutoff_time = timezone.now() - timedelta(minutes=5)
+            users_to_delete = User.objects.filter(date_joined__lt=cutoff_time, is_active=False)
+            users_to_delete.delete()
+            return Response({'status': 'SUCCESSFUL', 'message': 'Les comptes non activés ont été supprimés avec succès'}, status=status.HTTP_200_OK)
+        except TypeError:
+            return Response({'status': 'FAILED'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

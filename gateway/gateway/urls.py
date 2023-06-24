@@ -29,5 +29,6 @@ urlpatterns = [
     path('paymentMethod/', PaymentMethod),
     path('ad/', Ad),
     path('ads/<int:page>/', Ads),
-    path('trade/init/', InitTrade)
+    path('trade/init/', InitTrade),
+    path('deleteInactiveAccounts/', DeleteInactiveAccounts)
 ]
