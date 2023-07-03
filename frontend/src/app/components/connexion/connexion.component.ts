@@ -128,7 +128,7 @@ export class ConnexionComponent implements OnInit, OnDestroy {
                   this.router.navigate(['user/transaction/acheteur']);
                 }
               } else {
-                this.router.navigate(['user']);
+                this.router.navigate(['user/profil/compte']);
                 console.log('user');
               }
             }, 1500);

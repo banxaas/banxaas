@@ -97,6 +97,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   }
   logout(){
+    console.log("logout")
   }
 
   ngOnDestroy(): void {

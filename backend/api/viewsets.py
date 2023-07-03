@@ -248,6 +248,13 @@ class PaymentMethodViewset(APIView):
         if PaymentMethod.objects.filter(name=name, phone=phone):
             return True
         return False
+    
+    def verifyExistingPmOnUser(self, user, phone):
+        """ Permet de vérifier si le PM existe déja avec un autre utilisateur """
+        paymentMethod = PaymentMethod.objects.filter(~Q(user=user), phone=phone)
+        if paymentMethod.count() > 0:
+            return True
+        return False
 
     def post(self, request):
         """ Permet d'ajouter une méthode de paiement
@@ -265,12 +272,18 @@ class PaymentMethodViewset(APIView):
 
             # Vérifie si l'utilisateur est connecté
           
+            
+            
+            user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")[
+                'sub']).id 
+            if self.verifyExistingPmOnUser(user, request.data['phone']):
+                return Response({'status': "FAILED", "message": "This number already added by another user!"},status=status.HTTP_400_BAD_REQUEST)
+            
             # Verification existence PM
             if self.verifyExistingPm(request.data['name'], request.data['phone']):
                 return Response({'status': "FAILED", "message": "Payment Method already exists!"},status=status.HTTP_400_BAD_REQUEST)
 
-            user = User.objects.get(pseudo=jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms="HS256")[
-                'sub']).id  # Récupération du User
+             # Récupération du User
             data = {
                 'user': user, 'name': request.data['name'], 'phone': request.data['phone']}
             # Sérialisation

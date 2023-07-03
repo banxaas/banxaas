@@ -36,14 +36,14 @@ export class UserDropdownComponent {
           if (status === 'SUCCESSFUL') {
             this.router.navigate(['']);
             this.localStorage.clear()
-            window.location.reload()
+            //window.location.reload()
           }
         },
         (error:any) => {
           console.log(error);
           this.router.navigate(['']);
           this.localStorage.clear()
-          window.location.reload()
+          //window.location.reload()
         }
       );
    

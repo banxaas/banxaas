@@ -251,6 +251,11 @@ inputCalcule(val: string) {
           this.messageService.add({key: 'bottomright', severity:'error', summary: 'Erreur', detail:'Cet moyen de paiement exiiste déjà'});
 
         }
+        if (status === 'FAILED' && response.message === 'This number already added by another user!') {
+          this.errorMessage = response.message
+          this.messageService.add({key: 'bottomright', severity:'error', summary: 'Erreur', detail:'Ce numéro existe déjà avec un autre utilisateur '});
+
+        }
 
       }
     )
