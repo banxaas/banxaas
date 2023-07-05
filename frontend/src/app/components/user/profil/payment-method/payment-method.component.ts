@@ -113,6 +113,10 @@ export class PaymentMethodComponent implements OnInit {
           this.errorMessage = response.message
         }
 
+        if (status === 'FAILED' && response.message === 'This number already added by another user!') {
+          this.errorMessage = response.message
+        }
+
       }
     )
 

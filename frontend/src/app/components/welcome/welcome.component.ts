@@ -14,7 +14,7 @@ export class WelcomeComponent implements OnInit {
   constructor(private localStorage: LocalStorageService ) { }
 
   ngOnInit(): void {
-    this.localStorage.clear()
+    //this.localStorage.clear()
   }
 
 }
