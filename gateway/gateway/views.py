@@ -86,3 +86,9 @@ def Ads(request, page):
 def InitTrade(request):
     auth_headers={'Authorization':request.headers.get('Authorization'),'Signature':request.headers.get('Signature')}
     return setResponse(requests.post(os.getenv('BACKEND_URL')+'api/trade/init/', data=request.data, headers=set_headers(auth_headers=auth_headers)))
+
+
+@api_view(['GET'])
+def DeleteInactiveAccounts(request):
+    auth_headers={'Authorization':request.headers.get('Authorization'),'Signature':request.headers.get('Signature')}
+    return setResponse(requests.get(os.getenv('BACKEND_URL')+f'api/deleteInactiveAccounts/',headers=set_headers(auth_headers=auth_headers)))

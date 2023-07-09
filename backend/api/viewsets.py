@@ -11,6 +11,7 @@ from rest_framework import status
 from api.repository.authRepository import *
 from api.repository.tradeRepository import *
 from .serializers import *
+from django.utils import timezone
 
 
 class ConnexionViewset(APIView):
@@ -36,18 +37,23 @@ class ConnexionViewset(APIView):
 
         # Vérification de l'état du compte de l'utilisateur
         if not user.is_active:
-            email = user.email
-            if email != None:
-                code = sendVerificationCodeByMail(email)
-                payload = createValidationTokenPayload(code, email, "email")
-            else:
-                phone = user.phone
-                code = sendVerificationCodeBySms(phone)
-                payload = createValidationTokenPayload(code, phone, "phone")
-            return Response({
-                'status': "INACTIVATED",
-                'token': createToken(payload)
-            },status=status.HTTP_200_OK)
+            deltaTime = datetime.now(timezone.utc) - user.date_joined
+            pprint(deltaTime.total_seconds())
+            # Verifier si le code de validation a expiré
+            if deltaTime.total_seconds() > 300:
+                # Supprimer le token
+                if Token.objects.filter(user=user):
+                    Token.objects.filter(user=user)[0].delete()
+                # Supprimer l'utilisateur
+                user.delete()
+                return Response({'status': "INACTIVATED", 
+                             'message': "Compte supprimé car il n'a pas été activé avant l'expiration du code."
+                             }, status=status.HTTP_400_BAD_REQUEST)
+            
+            return Response({'status': "INACTIVATED", 
+                             'message': "Veillez activer votre compte avant l'expiration du code."
+                             }, status=status.HTTP_400_BAD_REQUEST)
+
 
         # Déconnexion de l'utilisateur s'il est connecté autre part
         if user.isAuthenticated:
@@ -747,3 +753,14 @@ class TradeViewset(APIView):
             return Response({'status': 'SUCCESSFUL', 'message': 'Trade mis à jour avec succès !', 'role':role},status=status.HTTP_200_OK)
         except:
            return Response({'status': 'FAILED', 'message': 'Pas encore identifié'})
+
+
+class DeleteInactiveAccounts(APIView):
+    def get(self, request):
+        try:
+            cutoff_time = timezone.now() - timedelta(minutes=5)
+            users_to_delete = User.objects.filter(date_joined__lt=cutoff_time, is_active=False)
+            users_to_delete.delete()
+            return Response({'status': 'SUCCESSFUL', 'message': 'Les comptes non activés ont été supprimés avec succès'}, status=status.HTTP_200_OK)
+        except TypeError:
+            return Response({'status': 'FAILED'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
