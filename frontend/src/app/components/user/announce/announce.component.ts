@@ -191,7 +191,7 @@ inputCalcule(val: string) {
 
     if (this.datas.length > 0) {
       this.datas.forEach((element: any) => {
-        if (element.id = dataForm.provider) {
+        if (element.name = dataForm.provider) {
           dataForm.provider = element.name;
           dataForm.phone = element.phone
         }
