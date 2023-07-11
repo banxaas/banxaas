@@ -98,7 +98,7 @@ DATABASES = {
 
 #Config Sentry
 sentry_sdk.init(
-    dsn="https://7f9020d9f8e246e7821aa61ec5639dc6@o4505500257026048.ingest.sentry.io/4505509884919808",
+    dsn=os.environ.get('SENTRY_DNS'),
     integrations=[
         DjangoIntegration(),
     ],
