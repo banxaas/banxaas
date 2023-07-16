@@ -113,3 +113,12 @@ class UserDetailSerializer(serializers.ModelSerializer):
         fields = ['pseudo', 'email', 'phone', 'is_active', 'isAuthenticated',
                   'currency', 'seniority', 'paymentMethods', 'currentTrade']
         depth = 1
+
+
+class TransactionDetailSerializer(serializers.ModelSerializer):
+    ad = AdsSerializer()
+    trader = UserForAdSerializer()
+
+    class Meta:
+        model = Trade
+        fields = '__all__'

@@ -31,4 +31,6 @@ urlpatterns = [
     path('ads/<int:page>/', Ads),
     path('trade/init/', InitTrade),
     path('deleteInactiveAccounts/', DeleteInactiveAccounts)
+    ,path('transactions/<int:page>', Transactions),
+    path('transactions/<str:tradeHash>', TransactionDetail),
 ]
