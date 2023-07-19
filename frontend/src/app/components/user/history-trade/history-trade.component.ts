@@ -54,7 +54,7 @@ export class HistoryTradeComponent implements OnInit {
     this.reset();
     this.range_quantity = [];
     this.range_amount = [];
-    this.tabSeniority = [];
+    // this.tabSeniority = [];
     this.pseudo = this.datauser.user.pseudo
 
 
