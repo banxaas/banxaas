@@ -19,8 +19,6 @@ export class HistoryTradeComponent implements OnInit {
   paiementMethode!: any[];
   range_quantity: any[] = [];
   range_amount: any[] = [];
-  tabSeniority: User[] = [];
-  seniority:any
   pseudo: any
 
 
@@ -54,7 +52,6 @@ export class HistoryTradeComponent implements OnInit {
     this.reset();
     this.range_quantity = [];
     this.range_amount = [];
-    // this.tabSeniority = [];
     this.pseudo = this.datauser.user.pseudo
 
 
