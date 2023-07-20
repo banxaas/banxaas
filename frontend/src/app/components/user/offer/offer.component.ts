@@ -412,4 +412,8 @@ export class OfferComponent implements OnInit {
     this.messageService.add({key: 'bottomright', severity:'warn', summary: 'Successully', detail:'Veuillez patienter quelques instants pour l\'initialisation d\'une transaction!'});
   }
 
+  formatAmount(amount: any) {
+    return new Intl.NumberFormat('fr-FR').format(amount);
+  }
+
 }
