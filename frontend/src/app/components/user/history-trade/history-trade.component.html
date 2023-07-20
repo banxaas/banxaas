@@ -81,10 +81,10 @@
           <td>
             <span class="p-column-title">Montant</span>
             <span *ngIf="transaction.ad.amountType == 'R'" class="image-text"
-              >{{ transaction.ad.amountMin }}-{{ transaction.ad.amountMax }}</span
+              >{{ formatAmount(transaction.ad.amountMin) }}-{{ formatAmount(transaction.ad.amountMax) }}</span
             >
             <span *ngIf="transaction.ad.amountType == 'F'" class="image-text">{{
-              transaction.ad.amountFixe
+              formatAmount(transaction.ad.amountFixe)
             }}</span>
           </td>
           <td>

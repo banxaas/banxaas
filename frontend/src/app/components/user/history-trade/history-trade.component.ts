@@ -135,4 +135,8 @@ export class HistoryTradeComponent implements OnInit {
         }
     }
 
+    formatAmount(amount: any) {
+      return new Intl.NumberFormat('fr-FR').format(amount);
+    }
+
 }
