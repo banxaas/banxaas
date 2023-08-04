@@ -11,5 +11,5 @@ export const environment = {
 
   // URL WebSocket
   // webSocketUrl: 'ws://localhost:9000/ws/',
-  webSocketUrl: 'ws://tests.banxaas.com:9000/ws/',
+  webSocketUrl: 'ws://test.banxaas.com:9000/ws/',
 };
