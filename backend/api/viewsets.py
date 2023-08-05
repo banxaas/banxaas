@@ -745,6 +745,9 @@ class TradeViewset(APIView):
                 print(bdk_do_transaction(trade.buyerWalletAdress, montant_to_send))
                 trade.ad.status = 'F'
                 trade.status = 'F'
+                trade.ad.save()
+                # ad = Ad.objects.get(id = trade.ad)
+                # ad.status = 'F'
             else:
                 return Response({'status':'FAILED', 'message': 'Cette action ne vous correspond pas!'},status=status.HTTP_400_BAD_REQUEST)
             
