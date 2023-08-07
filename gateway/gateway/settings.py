@@ -31,6 +31,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['localhost', 'gateway',
                  '192.168.1.10', '149.56.200.27', 'test.banxaas.com','backend.banxaas.com']
 
+CSRF_TRUSTED_ORIGINS = ['https://backend.banxaas.com']
 
 # Application definition
 
