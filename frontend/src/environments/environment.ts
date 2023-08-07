@@ -6,10 +6,10 @@ export const environment = {
   production: false,
   // URL GATEWAY
   // apiUrl: 'http://localhost:9000/',
-  apiUrl: 'https://test.banxaas.com:9000/',
+  apiUrl: 'https://backend.banxaas.com/',
 
 
   // URL WebSocket
   // webSocketUrl: 'ws://localhost:9000/ws/',
-  webSocketUrl: 'ws://test.banxaas.com:9000/ws/',
+  webSocketUrl: 'ws://backend.banxaas.com//ws/',
 };
