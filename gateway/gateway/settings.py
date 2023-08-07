@@ -29,7 +29,7 @@ SECRET_KEY ='oit5-hvs-rho806%grwssz-n=n8&rwo#wrqubf+=5qa7ztp9zg'
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', 'gateway',
-                 '192.168.1.10', '149.56.200.27', 'test.banxaas.com']
+                 '192.168.1.10', '149.56.200.27', 'test.banxaas.com','backend.banxaas.com']
 
 
 # Application definition
