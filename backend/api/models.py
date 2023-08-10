@@ -167,4 +167,4 @@ class Trade(models.Model):
     status = models.CharField(max_length=1, choices=STATUS, default="C")
     steps = models.CharField(max_length=2, choices=[(
         str(i), "step " + str(i)) for i in range(1, 14)], default="1")
-    stepHash = models.CharField(max_length=256, default="")
+    stepHash = models.CharField(max_length=256, default="", null=True)
