@@ -56,7 +56,7 @@ class PaymentMethodForConnSerializer(serializers.ModelSerializer):
 
 
 class UserForAdSerializer(serializers.ModelSerializer):
-    seniority = serializers.ReadOnlyField(source='get_seniority')
+    seniority = serializers.ReadOnlyField(source='get_seniority_for_ad')
 
     class Meta:
         model = User
@@ -113,3 +113,16 @@ class UserDetailSerializer(serializers.ModelSerializer):
         fields = ['pseudo', 'email', 'phone', 'is_active', 'isAuthenticated',
                   'currency', 'seniority', 'paymentMethods', 'currentTrade']
         depth = 1
+
+
+class TransactionSerializer(serializers.ModelSerializer):
+    ad = AdsSerializer()
+    trader = TraderSerializer()
+    startingDate = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Trade
+        fields = '__all__'
+
+    def get_startingDate(self, obj):
+        return obj.startingDate.strftime("%Y-%m-%d %H:%M:%S")
