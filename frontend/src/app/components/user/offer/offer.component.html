@@ -171,10 +171,10 @@
           <td>
             <span class="p-column-title">Montant</span>
             <span *ngIf="customer.amountType == 'R'" class="image-text"
-              >{{ customer.amountMin }}-{{ customer.amountMax }}</span
+              >{{ formatAmount(customer.amountMin) }}-{{ formatAmount(customer.amountMax) }}</span
             >
             <span *ngIf="customer.amountType == 'F'" class="image-text">{{
-              customer.amountFixe
+              formatAmount(customer.amountFixe)
             }}</span>
           </td>
           <td>
