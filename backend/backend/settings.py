@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 from corsheaders.defaults import default_headers
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +29,8 @@ SECRET_KEY = str(os.environ.get('SECRET_KEY'))
 DEBUG = int(os.environ.get('DEBUG'))
 
 ALLOWED_HOSTS = ['localhost', 'backend',
-                 '192.168.1.10', '149.56.200.27', 'test.banxaas.com']
+                 '192.168.1.10', '149.56.200.27', 'test.banxaas.com','backend.banxaas.com']
+CSRF_TRUSTED_ORIGINS = ['https://backend.banxaas.com']
 
 # Application definition
 
@@ -93,6 +96,23 @@ DATABASES = {
         'PORT': os.environ.get('DATABASE_SERVER_PORT'),
     }
 }
+
+#Config Sentry
+sentry_sdk.init(
+    dsn=os.environ.get('SENTRY_DNS'),
+    integrations=[
+        DjangoIntegration(),
+    ],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
