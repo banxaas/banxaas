@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   // URL GATEWAY
 
+
   // apiUrl: 'http://localhost:9000/',
   apiUrl: 'https://backend.banxaas.com/',
 
