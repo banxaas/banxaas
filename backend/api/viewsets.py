@@ -750,6 +750,18 @@ class TradeViewset(APIView):
                 return Response({'status':'FAILED', 'message': 'Cette action ne vous correspond pas!'},status=status.HTTP_400_BAD_REQUEST)
             
             trade.steps = step
+             # Mise à jour du stepHash
+            startingDate = math.log2(int(str(trade.startingDate.day) + str(trade.startingDate.month) + str(trade.startingDate.year) + str(
+                trade.startingDate.hour) + str(trade.startingDate.minute) + str(trade.startingDate.second) + str(trade.startingDate.microsecond))-1)
+            traderHash = hashlib.sha256(
+                str(trade.id).encode('utf-8')).hexdigest()
+            stepHash = hashlib.sha256(str(step).encode('utf-8')).hexdigest()
+            startingDateHash = hashlib.sha256(
+                str(startingDate).encode('utf-8')).hexdigest()
+            stepHash = hashlib.sha256(str(
+                traderHash + stepHash  + startingDateHash).encode('utf-8')).hexdigest()
+            trade.stepHash = stepHash
+
             trade.save()
             return Response({'status': 'SUCCESSFUL', 'message': 'Trade mis à jour avec succès !', 'role':role},status=status.HTTP_200_OK)
         except:
