@@ -54,6 +54,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
   // Fonction pour le choix du champ entre email ou numéro de téléphone
   inputHidden(){
     this.inputVisisble = !this.inputVisisble
+    if (this.inputVisisble)
+      this.registerForm.get('email')?.reset();
+    else
+      this.registerForm.get('phone')?.reset();
   }
 
   // Fonction pour l'envoi des données pour la création de l'utulisateur

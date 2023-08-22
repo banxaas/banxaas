@@ -130,7 +130,7 @@ inputCalcule(val: string) {
     console.log(this.prixBtc);
 
 
-    this.prixfixe = this.prixBtc * quantity
+    this.prixfixe = Math.round(this.prixBtc * quantity)
     console.log(this.prixfixe);
 
 
@@ -138,8 +138,8 @@ inputCalcule(val: string) {
   if (this.announceForm.value.quantityMin || this.announceForm.value.quantityMax) {
     var quantiteMin = Number(this.announceForm.value.quantityMin);
     var quantiteMax = Number(this.announceForm.value.quantityMax);
-    this.prixMin = this.prixBtc * quantiteMin
-    this.prixMax = this.prixBtc * quantiteMax
+    this.prixMin = Math.round(this.prixBtc * quantiteMin)
+    this.prixMax = Math.round(this.prixBtc * quantiteMax)
 
 
 

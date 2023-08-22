@@ -92,3 +92,14 @@ def InitTrade(request):
 def DeleteInactiveAccounts(request):
     auth_headers={'Authorization':request.headers.get('Authorization'),'Signature':request.headers.get('Signature')}
     return setResponse(requests.get(os.getenv('BACKEND_URL')+f'api/deleteInactiveAccounts/',headers=set_headers(auth_headers=auth_headers)))
+
+
+@api_view(['GET'])
+def Transactions(request, page):
+    auth_headers={'Authorization':request.headers.get('Authorization'),'Signature':request.headers.get('Signature')}
+    return setResponse(requests.get(os.getenv('BACKEND_URL')+f'api/transactions/{page}',headers=set_headers(auth_headers=auth_headers)))
+
+@api_view(['GET'])
+def TransactionDetail(request, tradeHash):
+    auth_headers={'Authorization':request.headers.get('Authorization'),'Signature':request.headers.get('Signature')}
+    return setResponse(requests.get(os.getenv('BACKEND_URL')+f'api/transactions/{tradeHash}',headers=set_headers(auth_headers=auth_headers)))

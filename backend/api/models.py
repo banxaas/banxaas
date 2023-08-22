@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import uuid
 
 from django.contrib.auth.base_user import BaseUserManager
@@ -96,6 +96,28 @@ class User(AbstractBaseUser, PermissionsMixin):
                 strings.append("%s %s%s" % (period_value, period_name, has_s))
 
         return ", ".join(strings)
+    
+    def get_seniority_for_ad(self):
+      """
+      Retourne l'ancienneté de l'utilisateur sous forme de chaine de caractère.
+      Utilisé pour l'affichage des annonces (UserForAdSerializer)
+      """
+      seniority = datetime.now(timezone.utc) - self.date_joined
+      if seniority < timedelta(hours=1):
+        return "< 1 heure"
+      elif seniority < timedelta(days=1):
+        period_value = seniority.seconds // 3600  # Nombre d'heures complètes
+        period_name = "heure"
+      elif seniority < timedelta(days=30):
+        period_value = seniority.days
+        period_name = "jour"
+      else:
+        period_value = seniority.days // 30
+        period_name = "mois"
+        
+      has_s = 's' if period_value > 1 else ''
+      return "%s %s%s" % (period_value, period_name, has_s)
+        
     def get_payment_methods(self):
         return list(PaymentMethod.objects.filter(user=self))
 

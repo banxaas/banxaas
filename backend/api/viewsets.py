@@ -12,6 +12,7 @@ from api.repository.authRepository import *
 from api.repository.tradeRepository import *
 from .serializers import *
 from django.utils import timezone
+from operator import attrgetter
 
 
 class ConnexionViewset(APIView):
@@ -776,3 +777,44 @@ class DeleteInactiveAccounts(APIView):
             return Response({'status': 'SUCCESSFUL', 'message': 'Les comptes non activés ont été supprimés avec succès'}, status=status.HTTP_200_OK)
         except TypeError:
             return Response({'status': 'FAILED'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class TransactionsViewset(APIView):
+    """
+    Permet de lister les transactions d'un utilisateur
+    Méthode: GET,
+    """
+    permission_classes = [IsAuthenticatedPermission, CheckApiKeyAuth]
+
+    def get(self, request, page):
+        # Vérifie si l'utilisateur est connecté
+        if not isAuthenticated(request.headers.get('Authorization').split()[1], request.headers.get('Signature')):
+            return Response({"status": "FAILED", "message": "Vous devez vous connecter"},status=status.HTTP_401_UNAUTHORIZED)
+        #Recuperer l'utilisateur
+        user = User.objects.get(pseudo=jwt.decode(
+            request.headers.get('Authorization').split()[1], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+        trades = Trade.objects.filter(trader=user, status="F")
+        ads = Trade.objects.filter(ad__user=user, status="F")
+        transactions = sorted(list(trades) + list(ads), key=attrgetter('startingDate'))[(page - 1) * 10:10 * page]
+        serializer = TransactionSerializer(transactions, many=True)
+        return Response({'status': 'SUCCESSFUL', 'transactions': serializer.data}, status=status.HTTP_200_OK)
+    
+
+class TransactionViewset(APIView):
+    """
+    Permet de recuperer une transaction en particulier à l'aide de son tradeHash
+    """
+    permission_classes = [IsAuthenticatedPermission, CheckApiKeyAuth]
+    def get(self, request, tradeHash=None):
+        try:
+            # Vérifie si l'utilisateur est connecté
+            if not isAuthenticated(request.headers.get('Authorization').split()[1], request.headers.get('Signature')):
+                return Response({"status": "FAILED", "message": "Vous devez vous connecter"},status=status.HTTP_401_UNAUTHORIZED)
+            user = User.objects.get(pseudo=jwt.decode(
+                request.headers.get('Authorization').split()[1], os.environ.get('JWT_SECRET'), algorithms="HS256")['sub'])
+            trade = Trade.objects.get(tradeHash=tradeHash)
+            if trade.trader == user or trade.ad.user == user:
+                serializer = TransactionSerializer(trade)
+                return Response({'status': 'SUCCESSFUL', 'transaction': serializer.data}, status=status.HTTP_200_OK)
+        except:
+            return Response({'status': 'FAILED', 'message': 'Transaction inexistante'},status=status.HTTP_404_NOT_FOUND)
