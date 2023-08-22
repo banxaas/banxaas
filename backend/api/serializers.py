@@ -56,7 +56,7 @@ class PaymentMethodForConnSerializer(serializers.ModelSerializer):
 
 
 class UserForAdSerializer(serializers.ModelSerializer):
-    seniority = serializers.ReadOnlyField(source='get_seniority')
+    seniority = serializers.ReadOnlyField(source='get_seniority_for_ad')
 
     class Meta:
         model = User
