@@ -17,6 +17,7 @@ export class CustomerService {
   private getAdsUrl = environment.apiUrl + 'ads/';
   private tradeInitUrl = environment.apiUrl + 'trade/init/';
   private urlBitcoin = 'https://bitpay.com/rates/BTC/XOF';
+  private getTransactionsUrl = environment.apiUrl + 'transactions/';
   token: any
   signature: any
   httpOptions = {
@@ -85,5 +86,10 @@ export class CustomerService {
       .toPromise()
       .then(res => <Ticket[]>res.data)
       .then(data => { return data; });
+  }
+
+  // List des transactions d'un utilisateur
+  getTransactions(page: any): Observable<any> {
+    return this.http.get<any>(this.getTransactionsUrl + page + '/');
   }
 }

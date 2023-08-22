@@ -1,6 +1,6 @@
 
 export interface Customer {
-    
+
     // id?: number;
     quantityType?: string;
     quantityMin?:string;
@@ -20,4 +20,17 @@ export interface User {
 
     pseudo?: string
     seniority?: string
+}
+
+export interface Trade {
+  id?: number
+  status?: string
+  ad?: Customer
+  trader?: User
+  tradeHash?: string
+  walletAddress?: string
+  buyerWalletAdress?: string
+  startingDate?: string
+  txId?: string
+  transactionId?: string
 }
