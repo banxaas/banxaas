@@ -7,6 +7,7 @@ export const environment = {
   // URL GATEWAY
 
 
+
   // apiUrl: 'http://localhost:9000/',
   apiUrl: 'https://backend.banxaas.com/',
 
